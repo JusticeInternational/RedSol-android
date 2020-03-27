@@ -1,0 +1,181 @@
+<resources>
+    <string name="app_name">Redsol</string>
+    <!--CREDENTIALS-->
+    <string name="facebook_app_id">601808097052754</string>
+    <string name="fb_login_protocol_scheme">fb601808097052754</string>
+    <string name="map_key">AIzaSyBjP7ohjYVWINJKO5evwiKMeUFhhpRK5_Y</string>
+
+    <!--INIT-->
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_tools">Tools</string>
+    <string name="menu_share">Share</string>
+    <string name="menu_send">Send</string>
+
+    <!--NAV SIDE-->
+    <string name="my_profile">Mi perfil</string>
+    <string name="config">Configuración</string>
+    <string name="contact_us">Contáctanos</string>
+    <string name="suggest_resources">Sugerir recursos</string>
+
+    <!--NO DATA-->
+    <string name="progress">En Progreso!</string>
+    <string name="no_resourses">No hay recursos para mostrar</string>
+
+    <!--BOTTOM BAR-->
+    <string name="my_resourse">Mis recursos</string>
+    <string name="map">Mapa</string>
+    <string name="scan_qr">Scan QR</string>
+    <string name="search">Buscar</string>
+    <string name="users">Usuarios</string>
+    <string name="change_pass">Cambio de contraseña</string>
+
+    <!--SERVICES-->
+    <string name="info_services">Información servicios</string>
+    <string name="create_new_service">Crear nuevos servicios</string>
+    <string name="new_pass">Nueva contraseña</string>
+    <string name="min_request">Requisitos mínimos:</string>
+
+    <!--PASSWORD-->
+    <string name="eigth_character">Debe tener al menos 8 caracteres</string>
+    <string name="at_lest_one_number">Debe tener al menos 1 número</string>
+    <string name="at_lest_one_special_character">Debe tener al menos 1 caracter especial</string>
+    <string name="bad">Pésima</string>
+    <string name="good">Óptima</string>
+    <string name="password_strength_weak">Weak</string>
+    <string name="password_strength_medium">Medium</string>
+    <string name="password_strength_strong">Strong</string>
+    <string name="password_strength_very_strong">Very Strong</string>
+
+    <!--WELCOME-->
+    <string name="detail">Detalle</string>
+    <string name="results">Resultados</string>
+    <string name="welcome">Bienvenido a</string>
+    <string name="welcome_2">Bienvenido,</string>
+
+    <!--REGISTER AND LOGIN-->
+    <string name="please_complete_form">Por favor complete el formulario</string>
+    <string name="please_complete_fields">Por favor completa los campos para continuar con el registro</string>
+    <string name="intro_email_acount">Para reiniciar su contraseña, por favor introduzca el correo electrónico asociado a su cuenta</string>
+    <string name="register_later">Registrarme luego</string>
+    <string name="login">Iniciar sesión</string>
+    <string name="logout">Salir</string>
+    <string name="google">Google</string>
+    <string name="facebook">Facebook</string>
+    <string name="user">Usuario</string>
+    <string name="password">Contraseña</string>
+    <string name="register_me">Registrarme</string>
+    <string name="register">Registrate como nuevo usuario</string>
+    <string name="restore_pass">Reestablecer contraseña</string>
+    <string name="register_for_use_options">Puedes utilizar la mayoria de las opciones disponibles de la app</string>
+
+    <string name="email_example">example@correo.com</string>
+    <string name="ready">Listo</string>
+    <string name="has_read_and_accept">He leido y acepto los</string>
+    <string name="terms_conditions">Términos y condiciones</string>
+    <string name="understand_and_accept">Entiendo y acepto las</string>
+    <string name="policies">Politicas de privacidad</string>
+    <string name="we_send_email_code">Te hemos enviado un código a tu correo, debes introducirlo para confirmar la cuenta</string>
+    <string name="register_new_user">Registro nuevo usuario</string>
+    <string name="reset_pass">Reseteo de contraseña</string>
+
+    <string name="enter_valid_code">Introduzca un código válido</string>
+    <string name="accept_term_condition">Debe aceptar los términos y condiciones</string>
+    <string name="accept_privacy_policies">Debe aceptar las politicas de privacidad</string>
+    <string name="enter_valid_name">Introduzca un nombre válido</string>
+    <string name="enter_valid_email">Introduzca un correo válido</string>
+    <string name="enter_valid_pass">Introduzca una contraseña válida</string>
+
+    <!--ORGANIZATIONS-->
+    <string name="pending">Pendientes por usar</string>
+    <string name="offered_resourses">Recursos ofrecidos</string>
+    <string name="saved">Guardados</string>
+    <string name="write">Escribir...</string>
+    <string name="volunteering">Voluntariado</string>
+    <string name="used">Utilizados</string>
+    <string name="near_to">Cerca de</string>
+    <string name="next">Siguiente</string>
+    <string name="name">Nombre</string>
+    <string name="organization_name">Nombre de la organización</string>
+    <string name="from_red_solidaria_team">De parte del equipo de Red Solidaria nos gustaría conocer como ayudarte, puedes dejar aquí cualquier comentario, duda o sugerencia</string>
+    <string name="web_site">Página web</string>
+    <string name="email">Correo</string>
+    <string name="or">ó</string>
+
+
+    <!--DETAIL SERVICE-->
+    <string name="here">aquí</string>
+    <string name="location">Ubicación</string>
+    <string name="phone">Teléfono</string>
+    <string name="schedule">Horario</string>
+    <string name="description">Descripción</string>
+    <string name="service_plan">Plan de servicio</string>
+    <string name="change_plan">Cambiar de plan</string>
+    <string name="we_are">¿Quienes somos?</string>
+    <string name="send">Enviar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="interested">Interesados</string>
+    <string name="attend">Atendidos</string>
+    <string name="save">Guardar</string>
+    <string name="resource_saved">Se ha guardado este proveedor</string>
+    <string name="take">Adueñarse</string>
+    <string name="verify">Verificar</string>
+    <string name="evaluate">Evaluar</string>
+    <string name="donate">Donar</string>
+    <string name="be_volunteer_2">Ser voluntario</string>
+    <string name="contribute">Aportar</string>
+    <string name="continue_p">Continuar</string>
+    <string name="info_in_your_email">Información enviada a su correo electrónico</string>
+
+
+
+    <string name="loremipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
+    <string name="be_volunteer">¿Quieres ser voluntario? ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmo.</string>
+    <string name="to_donate">Donaciones:  ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmo.</string>
+    <string name="to_tell_experience">Háblanos sobre tu experiencia: ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmo</string>
+    <string name="to_help_to_verify">Ayúdanos a verificar:  ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmo</string>
+    <string name="to_get_profile">Adueñarse del perfil: ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmo</string>
+    <string name="to_contribute">¿Quieres contribuir?ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmo.</string>
+    <string name="desc_offer">Descripción de nuestra oferta de apoyo</string>
+    <string name="how_to_help">¿Cómo aportar a esta iniciativa?</string>
+    <string name="invalid_credential">Credenciales no validas</string>
+    <string name="give_us_your_opinion">Danos tu opinión</string>
+    <string name="give_opinion">Danos tu opinión</string>
+    <string name="rating_service">Califica los servicios ofrecidos</string>
+    <string name="to_participate">Para participar como voluntario debes dirigirte a la sede ubicada en:</string>
+    <string name="call_to_number">Llamar a los números:</string>
+
+    <!--CATEGORIES-->
+    <string name="resourses_categories">Categorias de nuestros recursos de apoyo</string>
+    <string name="category">Categoria</string>
+    <string name="validate_with_code">Validar con código ID</string>
+    <string name="to_scan">Para escanear el código de otro usuario colóquelo centrado en el recuadro a continuación</string>
+    <string name="general_desc">Descripción general</string>
+    <string name="find_resourses">Encuentra los recursos de apoyo disponibles en tu comunidad</string>
+    <string name="we_are_volunteer">Somos voluntarios</string>
+    <string name="near_services">Servicios cerca</string>
+    <string name="we_are_volunteer_desc">Si quieres ser voluntario, ubica la iniciativa de tu preferencia y ofrece tu apoyo a través de esta aplicación</string>
+    <string name="search_resourses">Busca los recursos de aoyo mas cercanos a ti o en una ciudad particular</string>
+    <string name="search_resourses_desc">La aplicación Red Solidaria te permite hacer búsquedas geolocalizadas. Podrás seleccionar los recursos de acuerdo a las categorias de los proveedores de servicios comunitarios: Agua y comida, refugio, salud, educación, trabajo, entre otros. Bienvenido, registrate ya!</string>
+    <string name="explore">Navega a través de los cientos de iniciativas de apoyo existentes en Red Solidaria, organizaciones de caridad, ONGs, lideres comunitarios, voluntarios. Registrate ya!</string>
+    <string name="capacity">Capacidad</string>
+
+    <!--OTHERS-->
+    <string name="info_send">Información enviada, la revisaremos en la brevedad  posible</string>
+    <string name="you_have_to_login">Debes iniciar sesión para utilizar esta función</string>
+    <string name="me">mi</string>
+    <string name="login_web">Ingresar a la página web:</string>
+    <string name="permission_rationale">Location permission is needed for core functionality</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

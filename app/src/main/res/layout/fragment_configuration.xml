@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorWhite"
+   >
+
+    <TextView
+        android:id="@+id/tvChangePass"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/colorBlack"
+        android:paddingVertical="10dp"
+        android:paddingHorizontal="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/change_pass"
+        />
+
+
+
+
+    <View
+        android:layout_marginHorizontal="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorGrey"/>
+
+</LinearLayout>

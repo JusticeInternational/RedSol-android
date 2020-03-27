@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/colorWhite"
+    android:minWidth="300dp"
+    android:orientation="vertical"
+    android:paddingTop="10dp"
+    android:paddingBottom="20dp">
+
+
+    <TextView
+        android:id="@+id/tvAlertMsg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="25dp"
+        android:layout_marginVertical="20dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/rating_service"
+        android:textAlignment="center"
+        android:textColor="@color/colorBlack" />
+
+    <RatingBar
+
+        android:id="@+id/showRatingBar"
+        style="?android:attr/ratingBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="30dp"
+        android:max="5"
+        android:numStars="5"
+        android:rating="0"
+        android:stepSize="1" />
+
+    <Button
+        android:id="@+id/btCont"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/bg_color_primary_round_corner"
+        android:minWidth="130dp"
+        android:text="@string/ready"
+        android:textAllCaps="false"
+        android:textColor="@color/colorWhite" />
+
+
+</LinearLayout>

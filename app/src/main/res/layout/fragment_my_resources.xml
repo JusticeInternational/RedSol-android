@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingBottom="57dp">
+
+    <androidx.core.widget.NestedScrollView
+
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/mScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <!-- app:layout_behavior="@string/appbar_scrolling_view_behavior"-->
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingBottom="20dp">
+
+            <TextView
+
+                style="@style/TextBodyBold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginVertical="20dp"
+                android:text="@string/pending"
+                android:textColor="@color/colorBlack"
+                android:textSize="16sp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvPending"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                />
+
+            <TextView
+                style="@style/TextBodyBold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginVertical="20dp"
+                android:text="@string/saved"
+                android:textColor="@color/colorBlack"
+                android:textSize="16sp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvSaved"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+
+                />
+
+            <TextView
+                style="@style/TextBodyBold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginVertical="20dp"
+                android:text="@string/volunteering"
+
+                android:textColor="@color/colorBlack"
+                android:textSize="16sp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvVolunteering"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+
+                />
+
+            <TextView
+                style="@style/TextBodyBold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginVertical="20dp"
+                android:text="@string/used"
+                android:textColor="@color/colorBlack"
+                android:textSize="16sp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvUsed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+
+                />
+
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <LinearLayout
+        android:id="@+id/lyEmpty"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/colorWhite"
+        android:gravity="center">
+
+        <ImageView
+            android:tint="@color/colorGrey"
+            android:src="@drawable/ic_resources"
+            android:layout_width="100dp"
+            android:layout_height="100dp" />
+
+        <TextView
+            android:textSize="16sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/no_resourses"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>

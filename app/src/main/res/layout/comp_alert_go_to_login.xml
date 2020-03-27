@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_color_white"
+    android:minWidth="300dp"
+    android:orientation="vertical"
+    android:paddingVertical="20dp"
+    >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+       android:layout_marginBottom="20dp"
+
+android:textSize="16sp"
+        android:text="@string/you_have_to_login"
+        android:textAlignment="center"
+        android:textColor="@color/colorBlack" />
+
+    <LinearLayout
+        android:gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+
+            android:id="@+id/btLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/bg_color_primary_round_corner"
+            android:minWidth="130dp"
+            android:text="@string/login"
+            android:textAllCaps="false"
+            android:textColor="@color/colorWhite" />
+
+        <Button
+
+            android:layout_marginLeft="10dp"
+            android:id="@+id/btCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/bg_border_line_primary_round_corner"
+            android:minWidth="130dp"
+            android:text="@string/cancel"
+            android:textAllCaps="false"
+            android:textColor="@color/colorPrimary" />
+
+    </LinearLayout>
+
+</LinearLayout>

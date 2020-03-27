@@ -1,0 +1,69 @@
+package com.cleteci.redsolidaria.di.component
+
+import com.cleteci.redsolidaria.di.module.FragmentModule
+import com.cleteci.redsolidaria.ui.fragments.advancedsearch.AdvancedSearchFragment
+import com.cleteci.redsolidaria.ui.fragments.basicsearch.BasicSearchFragment
+import com.cleteci.redsolidaria.ui.fragments.changePassword.ChangePassFragment
+import com.cleteci.redsolidaria.ui.fragments.configuration.ConfigurationFragment
+import com.cleteci.redsolidaria.ui.fragments.contactUs.ContactUsFragment
+import com.cleteci.redsolidaria.ui.fragments.createService.CreateServiceFragment
+import com.cleteci.redsolidaria.ui.fragments.infoService.InfoServiceFragment
+import com.cleteci.redsolidaria.ui.fragments.login.LoginFFragment
+import com.cleteci.redsolidaria.ui.fragments.map.MapFragment
+import com.cleteci.redsolidaria.ui.fragments.myProfile.MyProfileFragment
+import com.cleteci.redsolidaria.ui.fragments.myProfileProvider.MyProfileProviderFragment
+import com.cleteci.redsolidaria.ui.fragments.myResourses.MyResoursesFragment
+import com.cleteci.redsolidaria.ui.fragments.resourcesByCity.ResourcesByCityFragment
+import com.cleteci.redsolidaria.ui.fragments.resoursesOffered.ResoursesOfferedFragment
+import com.cleteci.redsolidaria.ui.fragments.scanCode.ScanCodeFragment
+import com.cleteci.redsolidaria.ui.fragments.servicedetail.ServiceDetailFragment
+import com.cleteci.redsolidaria.ui.fragments.suggestService.SuggestServiceFragment
+import com.cleteci.redsolidaria.ui.fragments.users.UsersFragment
+import com.cleteci.redsolidaria.ui.fragments.welcome.WelcomeFragment
+
+import dagger.Component
+
+
+@Component(modules = arrayOf(FragmentModule::class))
+interface FragmentComponent {
+
+    fun inject(basicSearchFragment: BasicSearchFragment)
+
+    fun inject(advancedSearchFragment: AdvancedSearchFragment)
+
+    fun inject(serviceDetailFragment: ServiceDetailFragment)
+
+    fun inject(resourcesByCityFragment: ResourcesByCityFragment)
+
+    fun inject(myResoursesFragment: MyResoursesFragment)
+
+    fun inject(mapFragment: MapFragment)
+
+    fun inject(suggestServiceFragment: SuggestServiceFragment)
+
+    fun inject(configurationFragment: ConfigurationFragment)
+
+    fun inject(contactUsFragment: ContactUsFragment)
+
+    fun inject(myProfileFragment: MyProfileFragment)
+
+    fun inject(welcomeFragment: WelcomeFragment)
+
+    fun inject(loginFFragment: LoginFFragment)
+
+    fun inject(usersFragment: UsersFragment)
+
+    fun inject(scanCodeFragment: ScanCodeFragment)
+
+    fun inject(resoursesOfferedFragment: ResoursesOfferedFragment)
+
+    fun inject(changePassFragment: ChangePassFragment)
+
+    fun inject(myProfileProviderFragment: MyProfileProviderFragment)
+
+    fun inject(createServiceFragment: CreateServiceFragment)
+
+    fun inject(infoServiceFragment: InfoServiceFragment)
+
+
+}

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/colorWhite"
+    android:minWidth="300dp"
+    android:orientation="vertical"
+    android:paddingTop="10dp"
+    android:paddingBottom="20dp">
+
+
+    <TextView
+
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="25dp"
+        android:layout_marginTop="20dp"
+
+        android:text="@string/to_participate"
+        android:textColor="@color/colorBlack" />
+
+
+    <TextView
+        android:id="@+id/tvAlertMsg"
+        style="@style/TextBodyBold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="25dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/colorGrey"
+        android:lines="2"
+        android:padding="5dp"
+        android:singleLine="false"
+        android:text="7021 Parker, Bogotá, diagonal a oficina de tránsito"
+        android:textColor="@color/colorBlack" />
+
+
+
+    <TextView
+
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="25dp"
+        android:layout_marginTop="10dp"
+
+        android:text="@string/call_to_number"
+        android:textColor="@color/colorBlack" />
+
+    <TextView
+
+        style="@style/TextBodyBold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="25dp"
+        android:layout_marginTop="10dp"
+        android:padding="5dp"
+        android:singleLine="false"
+        android:text="+57 300 8945574545"
+        android:textColor="@color/colorBlack" />
+
+
+
+    <TextView
+
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="25dp"
+        android:layout_marginTop="10dp"
+
+        android:text="@string/login_web"
+        android:textColor="@color/colorBlack" />
+
+    <TextView
+
+        style="@style/TextBodyBold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="25dp"
+        android:layout_marginTop="10dp"
+        android:padding="5dp"
+        android:singleLine="false"
+        android:text="www.justiceinternational.com"
+        android:textColor="@color/colorBlack" />
+
+    <Button
+        android:id="@+id/btCont"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/bg_color_primary_round_corner"
+        android:minWidth="130dp"
+        android:text="@string/continue_p"
+        android:textAllCaps="false"
+        android:textColor="@color/colorWhite" />
+
+
+</LinearLayout>

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "992648690518",
+    "firebase_url": "https://redsolidaria-90d7a.firebaseio.com",
+    "project_id": "redsolidaria-90d7a",
+    "storage_bucket": "redsolidaria-90d7a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:992648690518:android:698958ade0d0e85a42f4f7",
+        "android_client_info": {
+          "package_name": "com.cleteci.redsolidaria"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "992648690518-59432ivf5evss6gi86hteel47j749up4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cleteci.redsolidaria",
+            "certificate_hash": "6f15d9c18133d7953cc9a3620f6eaa6b77f69c77"
+          }
+        },
+        {
+          "client_id": "992648690518-7bm0js7i72n0aevj8nos5fb7pg96omb6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBjP7ohjYVWINJKO5evwiKMeUFhhpRK5_Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "992648690518-7bm0js7i72n0aevj8nos5fb7pg96omb6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
