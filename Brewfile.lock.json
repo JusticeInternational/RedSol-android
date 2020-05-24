@@ -1,0 +1,39 @@
+{
+  "entries": {
+    "brew": {
+      "kotlin": {
+        "version": "1.3.72",
+        "bottle": false
+      },
+      "gradle": {
+        "version": "6.4.1",
+        "bottle": false
+      }
+    },
+    "tap": {
+      "caskroom/cask": {
+        "revision": "2c505cde3e5306b56d07cd3978d2fa6024b3bd70"
+      }
+    },
+    "cask": {
+      "android-sdk": {
+        "version": "4333796",
+        "options": {
+          "full_name": "android-sdk"
+        }
+      }
+    }
+  },
+  "system": {
+    "macos": {
+      "catalina": {
+        "HOMEBREW_VERSION": "2.2.17",
+        "HOMEBREW_PREFIX": "/usr/local",
+        "Homebrew/homebrew-core": "67a1ea6f99f62eb4d17f3dbbea558e0bfa5feb8a",
+        "CLT": "11.0.33.16",
+        "Xcode": "11.5",
+        "macOS": "10.15.4"
+      }
+    }
+  }
+}
