@@ -26,3 +26,5 @@
     ```
 - Build 
   `gradle build`
+  or
+  `docker build -t redsol .`
