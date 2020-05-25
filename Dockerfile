@@ -40,4 +40,5 @@ RUN yes | sdkmanager --licenses && yes | sdkmanager --update
 COPY . /workspace
 WORKDIR /workspace
 
-RUN gradle build
+RUN bash -c 'source "/root/.sdkman/bin/sdkman-init.sh" && \
+            gradle build'
