@@ -1,3 +1,4 @@
+![Docker Image CI](https://github.com/JusticeInternational/RedSol-android/workflows/Docker%20Image%20CI/badge.svg?branch=master)
 # Introduction
 
 
