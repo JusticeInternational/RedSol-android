@@ -30,6 +30,7 @@ jobs:
         run: |
           jq --version
           cat $HOME/files.json|jq -r '.[]'
+#test comment
 #          cat $HOME/files.json
 #          cat $HOME/files_modified.json
 #          cat $HOME/files_added.json
