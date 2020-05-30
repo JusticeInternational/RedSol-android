@@ -19,7 +19,7 @@ jobs:
 #            return result.data[0].number;
       - name: Get result
         run: |
-          echo "${{ steps.pr.outputs.results }}"
+          echo "${{ steps.pr.outputs.result }}"
       - id: file_changes
         uses: trilom/file-changes-action@v1.2.3
         with:
