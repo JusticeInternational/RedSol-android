@@ -19,8 +19,7 @@ jobs:
 #            return result.data[0].number;
       - name: Get result
         run: |
-          echo "${{result}}"
-          echo "${{steps.pr.outputs.result}}"
+          echo "${{ steps.pr.outputs.results }}"
       - id: file_changes
         uses: trilom/file-changes-action@v1.2.3
         with:
@@ -30,7 +29,6 @@ jobs:
         run: |
           jq --version
           cat $HOME/files.json|jq -r '.[]'
-#test comment
 #          cat $HOME/files.json
 #          cat $HOME/files_modified.json
 #          cat $HOME/files_added.json
