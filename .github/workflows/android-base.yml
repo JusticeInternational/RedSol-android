@@ -9,16 +9,15 @@ jobs:
       - name: test
         run: |
           jq --version
-          jq $HOME/files.json .
           cat $HOME/files.json|jq -r '.[]'
-          cat $HOME/files.json
-          cat $HOME/files_modified.json
-          cat $HOME/files_added.json
-          cat $HOME/files_removed.json
-          echo '${{ steps.file_changes.outputs.files}}'
-          echo '${{ steps.file_changes.outputs.files_modified}}'
-          echo '${{ steps.file_changes.outputs.files_added}}'
-          echo '${{ steps.file_changes.outputs.files_removed}}'
+#          cat $HOME/files.json
+#          cat $HOME/files_modified.json
+#          cat $HOME/files_added.json
+#          cat $HOME/files_removed.json
+#          echo '${{ steps.file_changes.outputs.files}}'
+#          echo '${{ steps.file_changes.outputs.files_modified}}'
+#          echo '${{ steps.file_changes.outputs.files_added}}'
+#          echo '${{ steps.file_changes.outputs.files_removed}}'
 #    - name: Copy Repo Files
 #      uses: actions/checkout@master
 #
