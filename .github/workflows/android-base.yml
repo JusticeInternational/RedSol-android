@@ -15,7 +15,7 @@ jobs:
               repo: context.payload.repository.name,
               commit_sha: context.payload.head_commit.id
             })
-            return "1";
+            return context.payload.head_commit.id;
 #            return JSON.stringify(result.data);
 #            return result.data[0].number;
       - name: Get result
@@ -28,7 +28,6 @@ jobs:
           prNumber: ${{ steps.pr.outputs.result }}
       - name: test
         run: |
-          jq --version
           cat $HOME/files.json|jq -r '.[]'
 #          cat $HOME/files.json
 #          cat $HOME/files_modified.json
