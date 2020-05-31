@@ -22,21 +22,17 @@ jobs:
       - id: file_changes
         uses: trilom/file-changes-action@v1.2.3
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
           prNumber: ${{ steps.pr.outputs.result }}
-      - name: test
+      - name: Build Android Tools Image
+        id: build_android
         run: |
-          cat $HOME/files.json|jq -r '.[]'
-#          cat $HOME/files.json
-#          cat $HOME/files_modified.json
-#          cat $HOME/files_added.json
-#          cat $HOME/files_removed.json
-#          echo '${{ steps.file_changes.outputs.files}}'
-#          echo '${{ steps.file_changes.outputs.files_modified}}'
-#          echo '${{ steps.file_changes.outputs.files_added}}'
-#          echo '${{ steps.file_changes.outputs.files_removed}}'
-#    - name: Copy Repo Files
-#      uses: actions/checkout@master
+          for file in $( cat $HOME/files.json|jq -r '.[]' ); do
+            if [ "${file}" = "Dockerfile.android" ]; then
+              echo "Building ${file}"
+            fi
+          done
+
 #
 #     #This Action Emits 2 Variables, IMAGE_SHA_NAME and IMAGE_URL 
 #     #which you can reference in subsequent steps
