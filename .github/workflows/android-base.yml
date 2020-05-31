@@ -24,7 +24,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           result-encoding: string
           script: |
-            return JSON.stringfy(context.payload.repository);
+            return JSON.stringify(context.payload.repository);
       - name: Get result
         run: |
           echo "${{ steps.pr.outputs.result }}"
