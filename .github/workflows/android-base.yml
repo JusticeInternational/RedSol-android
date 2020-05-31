@@ -29,7 +29,7 @@ jobs:
               repo: context.payload.repository.name,
               commit_sha: context.payload.head_commit.id
             });
-            return JSON.stringify(result);
+            return JSON.stringify(result.data);
       - name: Get result
         run: |
           echo "${{ steps.pr.outputs.result }}"
