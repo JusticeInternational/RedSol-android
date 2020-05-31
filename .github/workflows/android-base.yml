@@ -28,9 +28,6 @@ jobs:
       - name: Get result
         run: |
           echo "${{ steps.pr.outputs.result }}"
-          echo "${{ context.payload.repository.owner.name }}"
-          echo "${{ context.payload.repository.name }}"
-          echo "${{ context.payload.repository.head_commit.id }}"
       - id: file_changes
         uses: trilom/file-changes-action@v1.2.3
         with:
