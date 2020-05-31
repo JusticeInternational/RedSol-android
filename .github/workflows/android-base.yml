@@ -27,6 +27,10 @@ jobs:
       - name: Build Android Tools Image
         id: build_android
         run: |
+          echo $HOME
+          ls -altr
+          env
+          pwd
           for file in $( cat $HOME/files.json|jq -r '.[]' ); do
             if [ "${file}" = "Dockerfile.android" ]; then
               echo "Building ${file}"
