@@ -24,7 +24,12 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           result-encoding: string
           script: |
-            return JSON.stringify(context.payload);
+            const result = await github.repos.listPullRequestsAssociatedWithCommit({
+              owner: context.payload.repository.owner.name,
+              repo: context.payload.repository.name,
+              commit_sha: context.payload.head_commit.id
+            });
+            return JSON.stringify(result);
       - name: Get result
         run: |
           echo "${{ steps.pr.outputs.result }}"
