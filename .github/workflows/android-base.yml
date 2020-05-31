@@ -1,45 +1,16 @@
 name: Publish Android Base Image
-on: [push]
+on: 
+  push:
+    paths:
+    - 'Dockerfile.android
 jobs:
   build:
     runs-on: ubuntu-latest 
     steps:
-      - uses: actions/github-script@v1.1.0
-        id: pr
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          result-encoding: string
-          script: |
-            const result = await github.repos.listPullRequestsAssociatedWithCommit({
-              owner: context.payload.repository.owner.name,
-              repo: context.payload.repository.name,
-              commit_sha: context.payload.head_commit.id
-            });
-            return result.data.length > 0 ? result.data[0].number  : context.payload.head_commit.id ;
-      - name: Get result
-        run: |
-          echo "${{ steps.pr.outputs.result }}"
-      - id: file_changes
-        uses: trilom/file-changes-action@v1.2.3
-        with:
-          githubToken: ${{ secrets.GITHUB_TOKEN }}
-          prNumber: ${{ steps.pr.outputs.result }}
       - uses: actions/checkout@v2
-      - name: Build Android Tools Image
-        id: build_android
-        run: |
-          for file in $( cat $HOME/files.json|jq -r '.[]' ); do
-            if [ "${file}" = "Dockerfile.android" ]; then
-              echo "Building ${file}"
-              docker build -t redsol-android-base -f "${file}" .
-              return $?
-            fi
-          done
-          return 1
 # This Action Emits 2 Variables, IMAGE_SHA_NAME and IMAGE_URL 
 # which you can reference in subsequent steps
       - name: Publish Docker Image to GPR
-        if: ${{ success() }}
         uses: machine-learning-apps/gpr-docker-publish@master
         id: docker
         with:
