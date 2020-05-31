@@ -24,22 +24,22 @@ jobs:
         with:
           githubToken: ${{ secrets.GITHUB_TOKEN }}
           prNumber: ${{ steps.pr.outputs.result }}
+      - uses: actions/checkout@v2
       - name: Build Android Tools Image
         id: build_android
         run: |
-          echo $HOME
-          ls -altr
-          env
-          pwd
           for file in $( cat $HOME/files.json|jq -r '.[]' ); do
             if [ "${file}" = "Dockerfile.android" ]; then
               echo "Building ${file}"
               docker build -t redsol-android-base -f "${file}" .
+              return $?
             fi
           done
+          return 1
 # This Action Emits 2 Variables, IMAGE_SHA_NAME and IMAGE_URL 
 # which you can reference in subsequent steps
       - name: Publish Docker Image to GPR
+        if: ${{ success() }}
         uses: machine-learning-apps/gpr-docker-publish@master
         id: docker
         with:
@@ -52,6 +52,7 @@ jobs:
 # This second step is illustrative and shows how to reference the 
 # output variables.  This is completely optional.
       - name: Show outputs of previous step
+        if: ${{ success() }}
         run: |
           echo "The name:tag of the Docker Image is: $VAR1"
           echo "The docker image is hosted at $VAR2"
