@@ -1,8 +1,8 @@
 name: Publish Android Base Image
-on: 
+on:
   push:
     paths:
-    - 'Dockerfile.android
+    - 'Dockerfile.android'
 jobs:
   build:
     runs-on: ubuntu-latest 
@@ -11,8 +11,8 @@ jobs:
 # This Action Emits 2 Variables, IMAGE_SHA_NAME and IMAGE_URL 
 # which you can reference in subsequent steps
       - name: Publish Docker Image to GPR
-        uses: machine-learning-apps/gpr-docker-publish@master
         id: docker
+        uses: machine-learning-apps/gpr-docker-publish@master
         with:
           IMAGE_NAME: 'redsol-android-base'
           TAG: 'redsol-android-base'
