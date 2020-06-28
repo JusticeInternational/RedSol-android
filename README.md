@@ -15,7 +15,7 @@
 - Install Homebrew
 - Update your tools with ; `brew update && brew bundle`
 - Install [Android SDK](https://developer.android.com/docs)
-- 
+- [Android Studio](https://developer.android.com/studio)
 ### Build The Project
 - Setup Android SDK 
     ```shell
