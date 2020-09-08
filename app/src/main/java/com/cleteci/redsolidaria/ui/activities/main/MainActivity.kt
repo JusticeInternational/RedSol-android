@@ -37,10 +37,16 @@ import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import com.apollographql.apollo.ApolloCall
+import com.apollographql.apollo.ApolloClient
+import com.apollographql.apollo.api.Response
+import com.apollographql.apollo.exception.ApolloException
 import com.cleteci.redsolidaria.BaseApp
+import com.cleteci.redsolidaria.LoginUserMutation
 import com.cleteci.redsolidaria.models.ResourseCategory
 import com.cleteci.redsolidaria.ui.activities.login.LoginActivity
 import com.cleteci.redsolidaria.ui.activities.splash.SplashActivity
@@ -61,6 +67,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
+import com.orhanobut.logger.AndroidLogAdapter
+import com.orhanobut.logger.Logger
 
 
 /**
@@ -109,7 +117,6 @@ class MainActivity : AppCompatActivity(), MainContract.View, NavigationView.OnNa
                 .transactionListener(this)
                 .rootFragmentListener(this, TABS.size)
                 .build()
-
 
             presenter.attach(this)
         } else {
@@ -166,7 +173,6 @@ class MainActivity : AppCompatActivity(), MainContract.View, NavigationView.OnNa
 
         lyLoginLogout!!.setOnClickListener {
 
-
             if (!BaseApp.prefs.login_later) {
                 signOut()
                 goToLogin()
@@ -175,7 +181,6 @@ class MainActivity : AppCompatActivity(), MainContract.View, NavigationView.OnNa
             } else {
                 goToLogin()
             }
-
 
         }
 

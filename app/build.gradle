@@ -6,6 +6,8 @@ apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'kotlin-kapt'
 
+apply plugin: 'com.apollographql.android'
+
 android {
     compileSdkVersion 29
     defaultConfig {
@@ -130,6 +132,13 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    // just for testing
+    implementation("com.apollographql.apollo:apollo-runtime:1.2.0")
+    compileOnly 'org.jetbrains:annotations:13.0'
+    testCompileOnly 'org.jetbrains:annotations:13.0'
+    implementation 'com.orhanobut:logger:2.2.0'
+
 }
 
 apply plugin: 'com.google.gms.google-services'
