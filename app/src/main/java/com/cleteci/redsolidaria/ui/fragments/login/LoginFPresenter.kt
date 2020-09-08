@@ -35,12 +35,14 @@ class LoginFPresenter : LoginFContract.Presenter {
     }
 
     override fun validateEmailPass(email: String, pass: String) {
+        var variable: String
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email.replace(" ","")).matches()) {
 
             view.errorEmailPass("Correo incorrecto")
         } else if (pass.length<1){
             view.errorEmailPass("Contraseña incorrecta")
         } else {
+            variable = ""
             val apolloClient = ApolloClient.builder().serverUrl("http://192.168.1.74:4000/graphql").build()
             apolloClient.mutate(
                 LoginUserMutation.builder().email(email).password(
@@ -48,12 +50,7 @@ class LoginFPresenter : LoginFContract.Presenter {
                 .build()
             ).enqueue(object: ApolloCall.Callback<LoginUserMutation.Data>() {
                 override fun onResponse(response: Response<LoginUserMutation.Data>) {
-                    val result = response.data()
-                    if(result == null) {
-                        Log.d("TAG", "hi there, I'm here")
-                    } else {
-                        view.validEmailPass()
-                    }
+                    variable = response.data().toString()
                 }
 
                 override fun onFailure(e: ApolloException) {
@@ -61,6 +58,11 @@ class LoginFPresenter : LoginFContract.Presenter {
                 }
 
             })
+            if(variable == "null") {
+                view.errorEmailPass("Error a millon")
+            } else {
+                view.validEmailPass()
+            }
         }
 
     }
