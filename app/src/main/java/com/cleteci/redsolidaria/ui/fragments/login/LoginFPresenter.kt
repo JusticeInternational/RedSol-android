@@ -1,15 +1,11 @@
 package com.cleteci.redsolidaria.ui.fragments.login
 
-import android.text.TextUtils
 import android.util.Log
 import com.apollographql.apollo.ApolloCall
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.Response
 import com.apollographql.apollo.exception.ApolloException
-import com.cleteci.redsolidaria.BaseApp
 import com.cleteci.redsolidaria.LoginUserMutation
-import com.orhanobut.logger.AndroidLogAdapter
-import com.orhanobut.logger.Logger
 import io.reactivex.disposables.CompositeDisposable
 
 /**
@@ -42,9 +38,7 @@ class LoginFPresenter : LoginFContract.Presenter {
             view.errorEmailPass("Contraseña incorrecta")
         } else {
             val apolloClient = ApolloClient.builder().serverUrl("http://192.168.1.74:4000/graphql").build()
-            apolloClient.mutate(
-                LoginUserMutation.builder().email(email).password(
-                pass)
+            apolloClient.mutate(LoginUserMutation.builder().email(email).password(pass)
                 .build()
             ).enqueue(object: ApolloCall.Callback<LoginUserMutation.Data>() {
                 override fun onResponse(response: Response<LoginUserMutation.Data>) {
@@ -59,6 +53,4 @@ class LoginFPresenter : LoginFContract.Presenter {
         }
 
     }
-
-
 }
