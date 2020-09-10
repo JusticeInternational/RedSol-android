@@ -37,16 +37,20 @@ class LoginFPresenter : LoginFContract.Presenter {
         } else if (pass.length<1){
             view.errorEmailPass("Contraseña incorrecta")
         } else {
-            val apolloClient = ApolloClient.builder().serverUrl("http://192.168.1.74:4000/graphql").build()
+            val apolloClient = ApolloClient.builder().serverUrl("http://138.68.1.17:4000/graphql").build()
             apolloClient.mutate(LoginUserMutation.builder().email(email).password(pass)
                 .build()
             ).enqueue(object: ApolloCall.Callback<LoginUserMutation.Data>() {
                 override fun onResponse(response: Response<LoginUserMutation.Data>) {
                     if(response.data() != null) {
                         view.validEmailPass()
+                    }else{
+                        Log.d("TAG", "paso")
+                        view.errorEmailPass("Inicio de sesión incorrecto")
                     }
                 }
                 override fun onFailure(e: ApolloException) {
+                    view.errorEmailPass("Error al iniciar sesión")
                     Log.d("TAG", "error")
                 }
             })
