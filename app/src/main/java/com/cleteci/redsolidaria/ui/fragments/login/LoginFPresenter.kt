@@ -5,7 +5,9 @@ import com.apollographql.apollo.ApolloCall
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.Response
 import com.apollographql.apollo.exception.ApolloException
+import com.cleteci.redsolidaria.BaseApp
 import com.cleteci.redsolidaria.LoginUserMutation
+import com.cleteci.redsolidaria.R
 import io.reactivex.disposables.CompositeDisposable
 
 /**
@@ -33,9 +35,9 @@ class LoginFPresenter : LoginFContract.Presenter {
     override fun validateEmailPass(email: String, pass: String) {
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email.replace(" ","")).matches()) {
 
-            view.errorEmailPass("Correo incorrecto")
+            view.errorEmailPass(BaseApp.instance?.getString(R.string.wrong_email))
         } else if (pass.length<1){
-            view.errorEmailPass("Contraseña incorrecta")
+            view.errorEmailPass(BaseApp.instance?.getString(R.string.wrong_pass))
         } else {
             val apolloClient = ApolloClient.builder().serverUrl("http://138.68.1.17:4000/graphql").build()
             apolloClient.mutate(LoginUserMutation.builder().email(email).password(pass)
@@ -45,12 +47,12 @@ class LoginFPresenter : LoginFContract.Presenter {
                     if(response.data() != null) {
                         view.validEmailPass()
                     }else{
-                        Log.d("TAG", "paso")
-                        view.errorEmailPass("Inicio de sesión incorrecto")
+
+                        view.errorEmailPass(BaseApp.instance?.getString(R.string.wrong_login))
                     }
                 }
                 override fun onFailure(e: ApolloException) {
-                    view.errorEmailPass("Error al iniciar sesión")
+                    view.errorEmailPass(BaseApp.instance?.getString(R.string.error_login))
                     Log.d("TAG", "error")
                 }
             })

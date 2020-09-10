@@ -138,6 +138,11 @@
     <string name="continue_p">Continuar</string>
     <string name="info_in_your_email">Información enviada a su correo electrónico</string>
 
+    <string name="wrong_pass">Contraseña incorrecta</string>
+    <string name="wrong_email">Correo incorrecto</string>
+    <string name="wrong_login">Inicio de sesión incorrecto</string>
+    <string name="error_login">Error al iniciar sesión</string>
+
 
 
     <string name="loremipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>

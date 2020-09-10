@@ -15,6 +15,7 @@ import com.facebook.appevents.AppEventsLogger
  */
 class BaseApp : Application() {
 
+
     lateinit var component: ApplicationComponent
 
     override fun onCreate() {
