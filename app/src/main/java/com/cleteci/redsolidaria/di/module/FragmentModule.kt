@@ -1,6 +1,6 @@
 package com.cleteci.redsolidaria.di.module
 
-import com.cleteci.redsolidaria.api.ApiServiceInterface
+
 import com.cleteci.redsolidaria.ui.fragments.advancedsearch.AdvancedSearchContract
 import com.cleteci.redsolidaria.ui.fragments.advancedsearch.AdvancedSearchPresenter
 import com.cleteci.redsolidaria.ui.fragments.basicsearch.BasicSearchContract
@@ -148,8 +148,5 @@ class FragmentModule {
     }
 
 
-    @Provides
-    fun provideApiService(): ApiServiceInterface {
-        return ApiServiceInterface.create()
-    }
+
 }
