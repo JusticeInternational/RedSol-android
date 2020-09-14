@@ -6,5 +6,6 @@ package com.cleteci.redsolidaria.util
 class Constants {
     companion object {
         const val BASE_URL = "http://138.68.1.17:4000/graphql"
+        //const val BASE_URL = "http://192.168.1.74:4000/graphql"
     }
 }

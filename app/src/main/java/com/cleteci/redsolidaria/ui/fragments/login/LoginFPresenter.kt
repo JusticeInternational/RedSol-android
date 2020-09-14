@@ -35,20 +35,17 @@ class LoginFPresenter : LoginFContract.Presenter {
     override fun validateEmailPass(email: String, pass: String) {
         var email=email.replace(" ","") //delete empty spaces
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-
             view.errorEmailPass(BaseApp.instance.getString(R.string.wrong_email))
         } else if (pass.length<1){
             view.errorEmailPass(BaseApp.instance.getString(R.string.wrong_pass))
         } else {
-
             BaseApp.apolloClient.mutate(LoginUserMutation.builder().email(email).password(pass)
                 .build()
             ).enqueue(object: ApolloCall.Callback<LoginUserMutation.Data>() {
                 override fun onResponse(response: Response<LoginUserMutation.Data>) {
                     if(response.data() != null) {
                         view.validEmailPass()
-                    }else{
-
+                    } else {
                         view.errorEmailPass(BaseApp.instance.getString(R.string.wrong_login))
                     }
                 }
