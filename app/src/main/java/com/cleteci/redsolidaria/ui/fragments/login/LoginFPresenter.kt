@@ -44,6 +44,9 @@ class LoginFPresenter : LoginFContract.Presenter {
             ).enqueue(object: ApolloCall.Callback<LoginUserMutation.Data>() {
                 override fun onResponse(response: Response<LoginUserMutation.Data>) {
                     if(response.data() != null) {
+                        if(email == "admin@example.org"){
+                            BaseApp.prefs.is_provider_service = true
+                        }
                         view.validEmailPass()
                     } else {
                         view.errorEmailPass(BaseApp.instance.getString(R.string.wrong_login))

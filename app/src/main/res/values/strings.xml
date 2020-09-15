@@ -142,6 +142,7 @@
     <string name="wrong_email">Correo incorrecto</string>
     <string name="wrong_login">Inicio de sesión incorrecto</string>
     <string name="error_login">Error al iniciar sesión</string>
+    <string name="error_server">Ups! Ocurrió un error.</string>
 
 
 

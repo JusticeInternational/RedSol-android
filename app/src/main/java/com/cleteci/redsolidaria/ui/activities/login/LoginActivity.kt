@@ -233,11 +233,6 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
         BaseApp.prefs.user_saved = "USER CUSTOM"
         user.replace(" ", "");
 
-        if (user.equals("hola@gmail.com") || user.equals("hola@gmail.com ")) {//simulating if it is service provider mail
-            BaseApp.prefs.is_provider_service = true
-        } else {
-            BaseApp.prefs.is_provider_service = false
-        }
         openMainActivity()
     }
 

@@ -36,7 +36,7 @@ class ResetPasswordPresenter : ResetPasswordContract.Presenter {
     override fun validateRegister(email: String) {
 
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email.replace(" ", "")).matches()) {
-            view.showError("Introduzca un correo válido")
+            view.showError(BaseApp.instance.getString(R.string.wrong_email))
         } else {
             BaseApp.apolloClient.mutate(
                 ResetPasswordMutation.builder().email(email)
@@ -48,14 +48,10 @@ class ResetPasswordPresenter : ResetPasswordContract.Presenter {
                     }
                 }
                 override fun onFailure(e: ApolloException) {
-                    //view.errorEmailPass(BaseApp.instance.getString(R.string.error_login))
+                    view.showError(BaseApp.instance.getString(R.string.error_server))
                     Log.d("TAG", "error")
                 }
             })
-            //view.askCode()
-
         }
     }
-
-
 }
