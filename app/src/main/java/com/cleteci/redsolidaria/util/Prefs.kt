@@ -9,6 +9,7 @@ class Prefs(context: Context) {
     val LOGIN_LATER = "shared_login_later"
     val USER_SAVED = "shared_user_saved"
     val TYPE_USER = "shared_user_type"
+    val TOKEN = "token"
 
     val prefs: SharedPreferences = context.getSharedPreferences(PREFS_NAME, 0)
 
@@ -30,6 +31,10 @@ class Prefs(context: Context) {
     var user_saved: String?
         get() = prefs.getString(USER_SAVED, null)
         set(value) = prefs.edit().putString(USER_SAVED, value).apply()
+
+    var token: String?
+        get() = prefs.getString(TOKEN, null)
+        set(value) = prefs.edit().putString(TOKEN, value).apply()
 
     fun logout() {
         login_later = false
