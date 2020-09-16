@@ -8,8 +8,11 @@ import com.apollographql.apollo.exception.ApolloException
 import com.cleteci.redsolidaria.BaseApp
 import com.cleteci.redsolidaria.LoginUserMutation
 import com.cleteci.redsolidaria.R
+import com.cleteci.redsolidaria.models.Login
+import com.google.gson.Gson
 
 import io.reactivex.disposables.CompositeDisposable
+import java.util.*
 
 /**
  * Created by ogulcan on 07/02/2018.
@@ -44,6 +47,10 @@ class LoginFPresenter : LoginFContract.Presenter {
             ).enqueue(object: ApolloCall.Callback<LoginUserMutation.Data>() {
                 override fun onResponse(response: Response<LoginUserMutation.Data>) {
                     if(response.data() != null) {
+                        var gson = Gson()
+                        var login = Login("")
+                        var t = response.data().toString()
+                        login = gson.fromJson(t, Login::class.java)
                         if(email == "admin@example.org"){
                             BaseApp.prefs.is_provider_service = true
                         }
