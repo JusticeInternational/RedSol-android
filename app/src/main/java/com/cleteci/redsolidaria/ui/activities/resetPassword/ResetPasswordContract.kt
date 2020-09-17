@@ -23,6 +23,5 @@ class ResetPasswordContract {
 
         fun validateRegister(email: String)
 
-
     }
 }

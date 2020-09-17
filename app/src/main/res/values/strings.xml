@@ -86,7 +86,7 @@
     <string name="terms_conditions">Términos y condiciones</string>
     <string name="understand_and_accept">Entiendo y acepto las</string>
     <string name="policies">Politicas de privacidad</string>
-    <string name="we_send_email_code">Te hemos enviado un código a tu correo, debes introducirlo para confirmar la cuenta</string>
+    <string name="welcome_success">Bienvenido, ya puedes iniciar sesión</string>
     <string name="register_new_user">Registro nuevo usuario</string>
     <string name="reset_pass">Reseteo de contraseña</string>
 
@@ -94,6 +94,7 @@
     <string name="accept_term_condition">Debe aceptar los términos y condiciones</string>
     <string name="accept_privacy_policies">Debe aceptar las politicas de privacidad</string>
     <string name="enter_valid_name">Introduzca un nombre válido</string>
+    <string name="enter_valid_last_name">Introduzca un apellido válido</string>
     <string name="enter_valid_email">Introduzca un correo válido</string>
     <string name="enter_valid_pass">Introduzca una contraseña válida</string>
 
@@ -107,6 +108,7 @@
     <string name="near_to">Cerca de</string>
     <string name="next">Siguiente</string>
     <string name="name">Nombre</string>
+    <string name="lastName">Apellido</string>
     <string name="organization_name">Nombre de la organización</string>
     <string name="from_red_solidaria_team">De parte del equipo de Red Solidaria nos gustaría conocer como ayudarte, puedes dejar aquí cualquier comentario, duda o sugerencia</string>
     <string name="web_site">Página web</string>
@@ -140,6 +142,7 @@
 
     <string name="wrong_pass">Contraseña incorrecta</string>
     <string name="wrong_email">Correo incorrecto</string>
+    <string name="email_exists">Error, email ya registrado</string>
     <string name="wrong_login">Inicio de sesión incorrecto</string>
     <string name="error_login">Error al iniciar sesión</string>
     <string name="error_server">Ups! Ocurrió un error.</string>

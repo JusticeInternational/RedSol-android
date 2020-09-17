@@ -18,33 +18,11 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
-import android.util.Log
-import android.view.Gravity
 import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import androidx.appcompat.widget.Toolbar
-import androidx.fragment.app.Fragment
-import com.cleteci.redsolidaria.BaseApp
 import com.cleteci.redsolidaria.ui.activities.login.LoginActivity
-import com.cleteci.redsolidaria.ui.activities.main.MainActivity
-import com.cleteci.redsolidaria.ui.fragments.login.LoginFFragment
-import com.cleteci.redsolidaria.ui.fragments.welcome.WelcomeFragment
-import com.facebook.*
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.tasks.Task
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.GoogleAuthProvider
-
-import com.facebook.login.LoginManager
-import com.facebook.login.LoginResult
-import com.github.glomadrian.codeinputlib.CodeInput
-import com.google.firebase.auth.FacebookAuthProvider
-import java.util.*
 
 
 /**
@@ -56,6 +34,8 @@ class RegisterActivity : AppCompatActivity(), RegisterContract.View {
     var mScrollView: ScrollView? = null
 
     var etName: EditText? = null
+
+    var etLastName: EditText? = null
 
     var etEmail: EditText? = null
 
@@ -70,8 +50,6 @@ class RegisterActivity : AppCompatActivity(), RegisterContract.View {
     var lyVerify: RelativeLayout? = null
 
     var btLogin: Button? = null
-
-    var codeInput: CodeInput? = null
 
 
     @Inject
@@ -112,6 +90,8 @@ class RegisterActivity : AppCompatActivity(), RegisterContract.View {
 
         etName = findViewById(R.id.etName)
 
+        etLastName = findViewById(R.id.etLastName)
+
         etEmail = findViewById(R.id.etEmail)
 
         etPass = findViewById(R.id.etPass)
@@ -126,32 +106,29 @@ class RegisterActivity : AppCompatActivity(), RegisterContract.View {
 
         btLogin = findViewById(R.id.btLogin)
 
-        codeInput = findViewById(R.id.codeInput)
-
         btSend?.setOnClickListener {
 
             presenter.validateRegister(
                 cbTerms!!.isChecked,
                 cbPolicies!!.isChecked,
                 etName!!.text.toString(),
+                etLastName!!.text.toString(),
                 etEmail!!.text.toString(),
                 etPass!!.text.toString()
             )
-
         }
+
         btLogin?.setOnClickListener {
-
-            presenter.validatecode(Arrays.toString(codeInput?.code))
-
+            presenter.receiveUser()
         }
-
-
     }
 
     override fun askCode() {
-        mScrollView?.visibility = View.GONE
+        runOnUiThread(Runnable {
+            mScrollView?.visibility = View.GONE
 
-        lyVerify?.visibility = View.VISIBLE
+            lyVerify?.visibility = View.VISIBLE
+        })
     }
 
     override fun goToLogin() {
@@ -173,12 +150,9 @@ class RegisterActivity : AppCompatActivity(), RegisterContract.View {
         toast.show()
     }
 
-
     override fun attachBaseContext(newBase: Context) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase))
     }
-
-
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Handle presses on the action bar menu items
@@ -187,9 +161,7 @@ class RegisterActivity : AppCompatActivity(), RegisterContract.View {
                 finish();
                 return true
             }
-
         }
         return super.onOptionsItemSelected(item)
     }
-
 }
