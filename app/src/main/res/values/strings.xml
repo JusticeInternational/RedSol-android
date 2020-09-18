@@ -87,6 +87,7 @@
     <string name="understand_and_accept">Entiendo y acepto las</string>
     <string name="policies">Politicas de privacidad</string>
     <string name="welcome_success">Bienvenido, ya puedes iniciar sesión</string>
+    <string name="failed_register">Error, el email ya existe. Puede intentar con otro email, o reestablecer la contraseña</string>
     <string name="register_new_user">Registro nuevo usuario</string>
     <string name="reset_pass">Reseteo de contraseña</string>
 
@@ -138,6 +139,7 @@
     <string name="be_volunteer_2">Ser voluntario</string>
     <string name="contribute">Aportar</string>
     <string name="continue_p">Continuar</string>
+    <string name="try_again">Intentar de nuevo</string>
     <string name="info_in_your_email">Información enviada a su correo electrónico</string>
 
     <string name="wrong_pass">Contraseña incorrecta</string>

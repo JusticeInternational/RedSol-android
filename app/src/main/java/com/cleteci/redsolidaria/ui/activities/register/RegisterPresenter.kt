@@ -52,10 +52,10 @@ class RegisterPresenter : RegisterContract.Presenter {
                     .build()
             ).enqueue(object: ApolloCall.Callback<RegisterUserMutation.Data>() {
                 override fun onResponse(response: Response<RegisterUserMutation.Data>) {
-                    if(response.data() != null) {
+                    if(response.data()?.CreateUser() != null) {
                         view.askCode()
                     } else {
-                        view.showError(BaseApp.instance.getString(R.string.email_exists))
+                        view.emailExists()
                     }
                 }
                 override fun onFailure(e: ApolloException) {
@@ -63,7 +63,6 @@ class RegisterPresenter : RegisterContract.Presenter {
                     Log.d("TAG", "error")
                 }
             })
-            //view.askCode()
         }
     }
 
@@ -71,5 +70,7 @@ class RegisterPresenter : RegisterContract.Presenter {
         view.goToLogin()
     }
 
-
+    override fun goToRegister() {
+        view.tryAgain()
+    }
 }

@@ -12,7 +12,11 @@ class RegisterContract {
 
         fun askCode()
 
+        fun emailExists()
+
         fun goToLogin()
+
+        fun tryAgain()
 
         fun showError(msg:String)
 
@@ -23,6 +27,8 @@ class RegisterContract {
         fun validateRegister(term:Boolean, policies:Boolean, name: String, lastName: String, email: String, pass:String)
 
         fun receiveUser()
+
+        fun goToRegister()
 
     }
 }

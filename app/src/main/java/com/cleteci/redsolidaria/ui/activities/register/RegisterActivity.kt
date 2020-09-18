@@ -49,7 +49,11 @@ class RegisterActivity : AppCompatActivity(), RegisterContract.View {
 
     var lyVerify: RelativeLayout? = null
 
+    var lyError: RelativeLayout? = null
+
     var btLogin: Button? = null
+
+    var btTryAgain: Button? = null
 
 
     @Inject
@@ -104,7 +108,11 @@ class RegisterActivity : AppCompatActivity(), RegisterContract.View {
 
         lyVerify = findViewById(R.id.lyVerify)
 
+        lyError = findViewById(R.id.lyError)
+
         btLogin = findViewById(R.id.btLogin)
+
+        btTryAgain = findViewById(R.id.btTryAgain)
 
         btSend?.setOnClickListener {
 
@@ -121,6 +129,10 @@ class RegisterActivity : AppCompatActivity(), RegisterContract.View {
         btLogin?.setOnClickListener {
             presenter.receiveUser()
         }
+
+        btTryAgain?.setOnClickListener {
+            presenter.goToRegister()
+        }
     }
 
     override fun askCode() {
@@ -131,8 +143,24 @@ class RegisterActivity : AppCompatActivity(), RegisterContract.View {
         })
     }
 
+    override fun emailExists() {
+        runOnUiThread(Runnable {
+            mScrollView?.visibility = View.GONE
+
+            lyError?.visibility = View.VISIBLE
+        })
+    }
+
     override fun goToLogin() {
         val intent = Intent(this, LoginActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+
+        finish()
+    }
+
+    override fun tryAgain() {
+        val intent = Intent(this, RegisterActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
 

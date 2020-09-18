@@ -147,9 +147,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:layout_centerVertical="true"
-                        android:background="@android:color/transparent"
-
-                        />
+                        android:background="@android:color/transparent" />
 
                 </FrameLayout>
 
@@ -319,6 +317,58 @@
 
         <Button
             android:id="@+id/btLogin"
+
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="40dp"
+            android:background="@drawable/bg_color_primary_round_corner"
+            android:minWidth="130dp"
+            android:text="@string/continue_p"
+            android:textAllCaps="false"
+            android:textColor="@color/colorWhite" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/lyError"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingHorizontal="20dp"
+        android:paddingTop="60dp"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_centerInParent="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/ic_clock"
+                android:layout_width="150dp"
+                android:layout_height="150dp" />
+
+            <TextView
+                android:id="@+id/labelError"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="50dp"
+                android:text="@string/failed_register"
+                android:textAlignment="center"
+                android:textColor="@color/colorBlack"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+
+        <Button
+            android:id="@+id/btTryAgain"
 
             android:layout_width="wrap_content"
 
