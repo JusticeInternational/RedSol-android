@@ -350,7 +350,7 @@
 
             <ImageView
                 android:layout_gravity="center_horizontal"
-                android:src="@drawable/ic_clock"
+                android:src="@drawable/ic_emergency"
                 android:layout_width="150dp"
                 android:layout_height="150dp" />
 
@@ -379,7 +379,7 @@
             android:layout_marginBottom="40dp"
             android:background="@drawable/bg_color_primary_round_corner"
             android:minWidth="130dp"
-            android:text="@string/continue_p"
+            android:text="@string/try_again"
             android:textAllCaps="false"
             android:textColor="@color/colorWhite" />
 
