@@ -87,6 +87,7 @@ class AdvancedSearchFragment : BaseFragment(), AdvancedSearchContract.View,
         lyContainer = rootView?.findViewById(R.id.lyContainer);
         searchView = rootView?.findViewById(R.id.searchView);
         searchView!!.setIconified(false)
+        lyLocation?.visibility = View.GONE
         var imm: InputMethodManager = context!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         if (imm != null) {
             imm.showSoftInput(view, 0)
