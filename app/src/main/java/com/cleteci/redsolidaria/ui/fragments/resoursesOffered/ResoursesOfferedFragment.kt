@@ -1,22 +1,17 @@
 package com.cleteci.redsolidaria.ui.fragments.resoursesOffered
 
 
-import android.app.Dialog
 import android.os.Bundle
 import android.view.*
-import android.widget.Button
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.cleteci.redsolidaria.BaseApp
 
 import com.cleteci.redsolidaria.R
 
 import com.cleteci.redsolidaria.di.component.DaggerFragmentComponent
 import com.cleteci.redsolidaria.di.module.FragmentModule
-import com.cleteci.redsolidaria.models.Resourse
-import com.cleteci.redsolidaria.models.ResourseCategory
+import com.cleteci.redsolidaria.models.ResourceCategory
 import com.cleteci.redsolidaria.ui.activities.main.MainActivity
-import com.cleteci.redsolidaria.ui.adapters.ResourseAdapter
 import com.cleteci.redsolidaria.ui.adapters.ResourseCategoryAdapter
 import com.cleteci.redsolidaria.ui.base.BaseFragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -30,7 +25,7 @@ class ResoursesOfferedFragment : BaseFragment(), ResoursesOfferedContract.View,
     var rvResourses: RecyclerView? = null
     var mAdapter: ResourseCategoryAdapter? = null
     var fab: FloatingActionButton? = null
-    private val listResourses = ArrayList<ResourseCategory>()
+    private val listResourses = ArrayList<ResourceCategory>()
 
 
     @Inject
@@ -96,7 +91,7 @@ class ResoursesOfferedFragment : BaseFragment(), ResoursesOfferedContract.View,
         //presenter.loadMessage()
     }
 
-    override fun loadDataSuccess(pending: List<ResourseCategory>) {
+    override fun loadDataSuccess(pending: List<ResourceCategory>) {
         listResourses.clear()
         listResourses.addAll(pending)
         mAdapter?.notifyDataSetChanged()

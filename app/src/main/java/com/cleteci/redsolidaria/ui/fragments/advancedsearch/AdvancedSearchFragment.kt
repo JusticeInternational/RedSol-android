@@ -11,19 +11,15 @@ import android.location.Address
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.widget.SearchView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -31,19 +27,13 @@ import com.cleteci.redsolidaria.R
 
 import com.cleteci.redsolidaria.di.component.DaggerFragmentComponent
 import com.cleteci.redsolidaria.di.module.FragmentModule
-import com.cleteci.redsolidaria.models.ResourseCategory
-import com.cleteci.redsolidaria.ui.activities.main.MainActivity
+import com.cleteci.redsolidaria.models.ResourceCategory
 import com.cleteci.redsolidaria.ui.adapters.ResourseCategoryAdapter
 import com.cleteci.redsolidaria.ui.base.BaseFragment
-import com.cleteci.redsolidaria.ui.fragments.basicsearch.BasicSearchFragment.Companion.TAG
 import com.cleteci.redsolidaria.ui.fragments.resourcesByCity.ResourcesByCityFragment
-import com.google.android.gms.common.ConnectionResult
-import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import com.google.android.gms.maps.model.LatLng
 import com.schibstedspain.leku.*
-import com.schibstedspain.leku.locale.SearchZoneRect
 import javax.inject.Inject
 
 
@@ -59,7 +49,7 @@ class AdvancedSearchFragment : BaseFragment(), AdvancedSearchContract.View,
     var tvMyLocation: TextView? = null
     var searchView: SearchView? = null
     var mAdapter: ResourseCategoryAdapter? = null
-    private val listCategory = ArrayList<ResourseCategory>()
+    private val listCategory = ArrayList<ResourceCategory>()
 
     @Inject
     lateinit var presenter: AdvancedSearchContract.Presenter
@@ -87,7 +77,6 @@ class AdvancedSearchFragment : BaseFragment(), AdvancedSearchContract.View,
         lyContainer = rootView?.findViewById(R.id.lyContainer);
         searchView = rootView?.findViewById(R.id.searchView);
         searchView!!.setIconified(false)
-        lyLocation?.visibility = View.GONE
         var imm: InputMethodManager = context!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         if (imm != null) {
             imm.showSoftInput(view, 0)
@@ -128,6 +117,7 @@ class AdvancedSearchFragment : BaseFragment(), AdvancedSearchContract.View,
 
             startActivityForResult(locationPickerIntent, MAP_BUTTON_REQUEST_CODE)
         }
+        lyLocation?.visibility = View.GONE
         mListRecyclerView?.setLayoutManager(LinearLayoutManager(getActivity()))
         mAdapter = ResourseCategoryAdapter(activity?.applicationContext, listCategory, this, 2)
         mListRecyclerView?.setAdapter(mAdapter)
@@ -185,7 +175,7 @@ class AdvancedSearchFragment : BaseFragment(), AdvancedSearchContract.View,
         }
     }
 
-    override fun loadDataSuccess(list: List<ResourseCategory>) {
+    override fun loadDataSuccess(list: List<ResourceCategory>) {
         listCategory.clear()
         listCategory.addAll(list)
         //Log.d("sasasa", "sassasasasa2");

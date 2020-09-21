@@ -1,7 +1,6 @@
 package com.cleteci.redsolidaria.ui.fragments.resourcesByCity
 
 import com.cleteci.redsolidaria.models.Resourse
-import com.cleteci.redsolidaria.models.ResourseCategory
 import com.cleteci.redsolidaria.ui.base.BaseContract
 
 /**

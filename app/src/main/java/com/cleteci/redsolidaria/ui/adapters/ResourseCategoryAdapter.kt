@@ -11,11 +11,11 @@ import androidx.fragment.app.Fragment
 
 import androidx.recyclerview.widget.RecyclerView
 import com.cleteci.redsolidaria.R
-import com.cleteci.redsolidaria.models.ResourseCategory
+import com.cleteci.redsolidaria.models.ResourceCategory
 
 class ResourseCategoryAdapter
     (
-    private val context: Context?, private val list: MutableList<ResourseCategory>,
+    private val context: Context?, private val list: MutableList<ResourceCategory>,
     fragment: Fragment, typeInfl:Int
 ) : RecyclerView.Adapter<ResourseCategoryAdapter.ListViewHolder>() {
 
@@ -75,7 +75,7 @@ class ResourseCategoryAdapter
         val title = itemView.findViewById<TextView>(R.id.tvName)
         val body = itemView.findViewById<ImageView>(R.id.imageview)
 
-        fun bind(item: ResourseCategory) {
+        fun bind(item: ResourceCategory) {
             // title = item.post
             // body etc.
         }

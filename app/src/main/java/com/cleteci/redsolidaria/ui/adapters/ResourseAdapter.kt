@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.cleteci.redsolidaria.R
 import com.cleteci.redsolidaria.models.Resourse
-import com.cleteci.redsolidaria.models.ResourseCategory
 
 class ResourseAdapter(
     private val context: Context?, private val list: MutableList<Resourse>,

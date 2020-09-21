@@ -2,21 +2,16 @@ package com.cleteci.redsolidaria.ui.fragments.basicsearch
 
 
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.RelativeLayout
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.ListAdapter
 
 import com.cleteci.redsolidaria.R
 
 import com.cleteci.redsolidaria.di.component.DaggerFragmentComponent
 import com.cleteci.redsolidaria.di.module.FragmentModule
-import com.cleteci.redsolidaria.models.ResourseCategory
+import com.cleteci.redsolidaria.models.ResourceCategory
 import javax.inject.Inject
 import androidx.recyclerview.widget.RecyclerView
 import com.cleteci.redsolidaria.ui.activities.main.MainActivity
@@ -30,7 +25,7 @@ class BasicSearchFragment : BaseFragment() , BasicSearchContract.View , Resourse
 
     var mListRecyclerView: RecyclerView? = null
     var mAdapter:ResourseCategoryAdapter? = null
-    private val listCategory= ArrayList<ResourseCategory>()
+    private val listCategory= ArrayList<ResourceCategory>()
 
     @Inject lateinit var presenter: BasicSearchContract.Presenter
 
@@ -103,7 +98,7 @@ class BasicSearchFragment : BaseFragment() , BasicSearchContract.View , Resourse
         presenter.loadData()
     }
 
-    override fun loadDataSuccess(list: List<ResourseCategory>) {
+    override fun loadDataSuccess(list: List<ResourceCategory>) {
         listCategory.clear()
         listCategory.addAll(list)
         mAdapter?.notifyDataSetChanged()

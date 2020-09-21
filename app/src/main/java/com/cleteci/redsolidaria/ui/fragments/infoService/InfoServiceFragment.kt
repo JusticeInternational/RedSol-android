@@ -9,14 +9,13 @@ import android.widget.TextView
 import com.cleteci.redsolidaria.R
 import com.cleteci.redsolidaria.di.component.DaggerFragmentComponent
 import com.cleteci.redsolidaria.di.module.FragmentModule
-import com.cleteci.redsolidaria.models.ResourseCategory
+import com.cleteci.redsolidaria.models.ResourceCategory
 import com.cleteci.redsolidaria.ui.activities.main.MainActivity
 import com.cleteci.redsolidaria.ui.base.BaseFragment
-import com.google.gson.Gson
 import javax.inject.Inject
 
 class InfoServiceFragment : BaseFragment() , InfoServiceContract.View  {
-    var catService:ResourseCategory?=null
+    var catService:ResourceCategory?=null
     var tvName:TextView?=null
     var ivService:ImageView?=null
 
@@ -25,7 +24,7 @@ class InfoServiceFragment : BaseFragment() , InfoServiceContract.View  {
 
     private lateinit var rootView: View
 
-    fun newInstance(catService1:ResourseCategory): InfoServiceFragment {
+    fun newInstance(catService1:ResourceCategory): InfoServiceFragment {
         var frag: InfoServiceFragment= InfoServiceFragment()
         var args = Bundle()
         args.putSerializable("category", catService1)
@@ -38,7 +37,7 @@ class InfoServiceFragment : BaseFragment() , InfoServiceContract.View  {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (arguments != null) {
-             catService = arguments?.getSerializable("category") as ResourseCategory
+             catService = arguments?.getSerializable("category") as ResourceCategory
 
         }
         injectDependency()

@@ -3,9 +3,7 @@ package com.cleteci.redsolidaria.ui.fragments.servicedetail
 
 import android.app.Dialog
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.widget.Toast
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -13,13 +11,12 @@ import com.cleteci.redsolidaria.R
 
 import com.cleteci.redsolidaria.di.component.DaggerFragmentComponent
 import com.cleteci.redsolidaria.di.module.FragmentModule
-import com.cleteci.redsolidaria.models.ResourseCategory
+import com.cleteci.redsolidaria.models.ResourceCategory
 
 import com.cleteci.redsolidaria.ui.adapters.ResourseCategoryAdapter
 import javax.inject.Inject
 import android.widget.TextView
 import android.text.Spannable
-import android.icu.lang.UProperty.INT_START
 import android.text.SpannableStringBuilder
 import android.view.*
 import android.widget.Button
@@ -27,7 +24,6 @@ import android.widget.RatingBar
 import com.cleteci.redsolidaria.BaseApp
 import android.view.MotionEvent
 import com.cleteci.redsolidaria.ui.activities.main.MainActivity
-import android.opengl.ETC1.getWidth
 import android.view.View.OnTouchListener
 import com.cleteci.redsolidaria.ui.base.BaseFragment
 
@@ -37,7 +33,7 @@ class ServiceDetailFragment : BaseFragment(), ServiceDetailContract.View, Resour
 
     var mListRecyclerView: RecyclerView? = null
     var mAdapter: ResourseCategoryAdapter? = null
-    private var listCategory = ArrayList<ResourseCategory>()
+    private var listCategory = ArrayList<ResourceCategory>()
     var btSave: Button? = null
     var btVolunteer: Button? = null
     var btContribution: Button? = null

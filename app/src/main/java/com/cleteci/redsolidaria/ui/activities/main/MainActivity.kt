@@ -31,23 +31,14 @@ import uk.co.chrisjenx.calligraphy.CalligraphyConfig
 
 import javax.inject.Inject
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper
-import androidx.core.app.ComponentActivity.ExtraData
-import androidx.core.content.ContextCompat.getSystemService
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import com.apollographql.apollo.ApolloCall
-import com.apollographql.apollo.ApolloClient
-import com.apollographql.apollo.api.Response
-import com.apollographql.apollo.exception.ApolloException
 import com.cleteci.redsolidaria.BaseApp
-import com.cleteci.redsolidaria.LoginUserMutation
-import com.cleteci.redsolidaria.models.ResourseCategory
+import com.cleteci.redsolidaria.models.ResourceCategory
 import com.cleteci.redsolidaria.ui.activities.login.LoginActivity
 import com.cleteci.redsolidaria.ui.activities.splash.SplashActivity
 import com.cleteci.redsolidaria.ui.customUIComponents.FragNavController
@@ -67,8 +58,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
-import com.orhanobut.logger.AndroidLogAdapter
-import com.orhanobut.logger.Logger
 
 
 /**
@@ -318,7 +307,7 @@ class MainActivity : AppCompatActivity(), MainContract.View, NavigationView.OnNa
             .commit()
     }
 
-    fun openInfoServiceFragment(category: ResourseCategory) {
+    fun openInfoServiceFragment(category: ResourceCategory) {
         supportFragmentManager.beginTransaction()
             .addToBackStack(null)
             .replace(R.id.container1, InfoServiceFragment().newInstance(category), InfoServiceFragment.TAG)
