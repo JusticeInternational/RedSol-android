@@ -2,6 +2,7 @@ package com.cleteci.redsolidaria.ui.fragments.basicsearch
 
 import android.R.attr.name
 import android.content.res.Resources
+import android.util.Base64
 import android.util.Log
 import com.apollographql.apollo.ApolloCall
 import com.apollographql.apollo.api.Response
@@ -10,7 +11,10 @@ import com.cleteci.redsolidaria.BaseApp
 import com.cleteci.redsolidaria.LoadUsedCategoriesQuery
 import com.cleteci.redsolidaria.R
 import com.cleteci.redsolidaria.models.ResourceCategory
+import com.cleteci.redsolidaria.models.User
+import com.google.gson.Gson
 import io.reactivex.disposables.CompositeDisposable
+import java.nio.charset.Charset
 
 
 /**
@@ -35,30 +39,34 @@ class BasicSearchPresenter: BasicSearchContract.Presenter {
         view.init() // as default
     }
 
-    override fun loadData() {
+    private fun deserializeResponse(list: List<LoadUsedCategoriesQuery.UsedCategory>?): ArrayList<ResourceCategory> {
         val arrayList = ArrayList<ResourceCategory>()
+        for (serviceCategory in list!!) {
+            val resources: Resources = BaseApp?.instance.resources
+            val resourceId: Int = resources.getIdentifier(
+                serviceCategory.icon(), "drawable",
+                BaseApp?.instance.packageName)
+            arrayList.add(
+                ResourceCategory(
+                    serviceCategory.id(),
+                    serviceCategory.name(),
+                    resourceId
+                )
+            )//Adding object in arraylist
+        }
+        return arrayList
+    }
+
+    override fun loadData() {
         BaseApp.apolloClient.query(
             LoadUsedCategoriesQuery.builder().build()
         ).enqueue(object : ApolloCall.Callback<LoadUsedCategoriesQuery.Data>() {
             override fun onResponse(response: Response<LoadUsedCategoriesQuery.Data>) {
                 if (response.data() != null) {
-                    for (serviceCategory in response.data()?.usedCategories()!!) {
-                        val resources: Resources = BaseApp?.instance.resources
-                        val resourceId: Int = resources.getIdentifier(
-                            serviceCategory.icon(), "drawable",
-                            BaseApp?.instance.packageName)
-                        arrayList.add(
-                            ResourceCategory(
-                                serviceCategory.id(),
-                                serviceCategory.name(),
-                                resourceId
-                            )
-                        )//Adding object in arraylist
-                    }
+                    var arrayList = deserializeResponse(response.data()?.usedCategories())
                     view.loadDataSuccess(arrayList)
                 }
             }
-
             override fun onFailure(e: ApolloException) {
                 Log.d("TAG", "error")
             }
