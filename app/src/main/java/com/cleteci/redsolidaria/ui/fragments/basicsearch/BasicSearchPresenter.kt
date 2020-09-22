@@ -51,6 +51,7 @@ class BasicSearchPresenter: BasicSearchContract.Presenter {
                             )
                         )//Adding object in arraylist
                     }
+                    view.loadDataSuccess(arrayList)
                 }
             }
 
@@ -58,8 +59,6 @@ class BasicSearchPresenter: BasicSearchContract.Presenter {
                 Log.d("TAG", "error")
             }
         })
-
-        view.loadDataSuccess(arrayList)
     }
 
 

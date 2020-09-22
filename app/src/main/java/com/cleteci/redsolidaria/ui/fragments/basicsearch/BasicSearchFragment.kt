@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 
 import com.cleteci.redsolidaria.R
@@ -99,9 +100,11 @@ class BasicSearchFragment : BaseFragment() , BasicSearchContract.View , Resourse
     }
 
     override fun loadDataSuccess(list: List<ResourceCategory>) {
-        listCategory.clear()
-        listCategory.addAll(list)
-        mAdapter?.notifyDataSetChanged()
+        activity?.runOnUiThread(Runnable {
+            listCategory.clear()
+            listCategory.addAll(list)
+            mAdapter?.notifyDataSetChanged()
+        })
     }
 
     override fun itemDetail(postId: Int) {
