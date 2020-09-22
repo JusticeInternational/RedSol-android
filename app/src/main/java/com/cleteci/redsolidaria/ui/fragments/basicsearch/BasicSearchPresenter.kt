@@ -43,11 +43,15 @@ class BasicSearchPresenter: BasicSearchContract.Presenter {
             override fun onResponse(response: Response<LoadUsedCategoriesQuery.Data>) {
                 if (response.data() != null) {
                     for (serviceCategory in response.data()?.usedCategories()!!) {
+                        val resources: Resources = BaseApp?.instance.resources
+                        val resourceId: Int = resources.getIdentifier(
+                            serviceCategory.icon(), "drawable",
+                            BaseApp?.instance.packageName)
                         arrayList.add(
                             ResourceCategory(
                                 serviceCategory.id(),
                                 serviceCategory.name(),
-                                R.drawable.ic_education
+                                resourceId
                             )
                         )//Adding object in arraylist
                     }

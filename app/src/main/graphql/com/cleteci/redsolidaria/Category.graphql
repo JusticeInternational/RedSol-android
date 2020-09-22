@@ -1,5 +1,5 @@
 query loadUsedCategories {
-    usedCategories {
+    usedCategories(orderBy: name_asc) {
         id
         name
         icon
