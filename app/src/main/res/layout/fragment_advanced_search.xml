@@ -1,7 +1,6 @@
 <LinearLayout
 
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
 
@@ -76,7 +75,7 @@
             android:layout_marginVertical="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/results"
+            android:text="@string/select_category"
             android:textColor="@color/colorBlack"/>
 
         <androidx.recyclerview.widget.RecyclerView

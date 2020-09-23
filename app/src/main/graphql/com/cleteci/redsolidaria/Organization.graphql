@@ -1,0 +1,12 @@
+query getOrganizationsByCategory($id: ID) {
+    ServiceCategory(id: $id) {
+        name
+        organizations(orderBy: ranking_desc) {
+            id
+            name
+            hourHand
+            ranking
+        }
+    }
+}
+

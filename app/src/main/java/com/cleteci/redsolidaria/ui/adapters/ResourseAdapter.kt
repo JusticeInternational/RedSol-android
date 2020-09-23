@@ -1,19 +1,21 @@
 package com.cleteci.redsolidaria.ui.adapters
 
+import java.lang.CharSequence
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.RatingBar
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.cleteci.redsolidaria.R
-import com.cleteci.redsolidaria.models.Resourse
+import com.cleteci.redsolidaria.models.Resource
 
 class ResourseAdapter(
-    private val context: Context?, private val list: MutableList<Resourse>,
+    private val context: Context?, private val list: MutableList<Resource>,
     fragment: Fragment, typeInfl: Int
 ) : RecyclerView.Adapter<ResourseAdapter.ListViewHolder>() {
 
@@ -33,9 +35,11 @@ class ResourseAdapter(
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
         var post = list[position]
 
-        holder!!.title?.setText(post.name)
+        holder!!.title?.text = post.name
         holder!!.body?.setImageResource(post.photo)
-        holder!!.tvCategory?.setText(post.cate)
+        holder!!.tvCategory?.text = post.cate
+        holder!!.tvHourHand?.text = post.hourHand
+        holder!!.rbGeneral?.rating = post.ranking.toFloat()
 
         holder.layout?.setOnClickListener {
             listener.clickDetailResource(post.id.toString()!!)
@@ -66,9 +70,11 @@ class ResourseAdapter(
         var layout = itemView.findViewById<RelativeLayout>(R.id.parentr)
         val title: TextView? = itemView.findViewById<TextView>(R.id.tvName)
         val tvCategory: TextView? = itemView.findViewById<TextView>(R.id.tvCategory)
+        val tvHourHand: TextView? = itemView.findViewById<TextView>(R.id.tvHourHand)
+        val rbGeneral: RatingBar? = itemView.findViewById<RatingBar>(R.id.rbGeneral)
         val body: ImageView? = itemView.findViewById<ImageView>(R.id.imageview)
 
-        fun bind(item: Resourse) {
+        fun bind(item: Resource) {
 
         }
     }

@@ -5,7 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import android.widget.LinearLayout
+import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.GridLayoutManager
 
 import com.cleteci.redsolidaria.R
@@ -18,7 +19,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.cleteci.redsolidaria.ui.activities.main.MainActivity
 import com.cleteci.redsolidaria.ui.adapters.ResourseCategoryAdapter
 import com.cleteci.redsolidaria.ui.base.BaseFragment
-import com.cleteci.redsolidaria.ui.fragments.advancedsearch.AdvancedSearchFragment
 import com.cleteci.redsolidaria.ui.fragments.resourcesByCity.ResourcesByCityFragment
 
 
@@ -26,6 +26,8 @@ class BasicSearchFragment : BaseFragment() , BasicSearchContract.View , Resourse
 
     var mListRecyclerView: RecyclerView? = null
     var mAdapter:ResourseCategoryAdapter? = null
+    var searchView: SearchView? = null
+    var lyContainer: LinearLayout? = null
     private val listCategory= ArrayList<ResourceCategory>()
 
     @Inject lateinit var presenter: BasicSearchContract.Presenter
@@ -53,11 +55,31 @@ class BasicSearchFragment : BaseFragment() , BasicSearchContract.View , Resourse
         // only create and set a new adapter if there isn't already one
         //if (mAdapter == null) {
         mAdapter = ResourseCategoryAdapter(activity?.applicationContext, listCategory, this, 1)
-        mListRecyclerView?.setAdapter(mAdapter);
+        mListRecyclerView?.adapter = mAdapter;
+        searchView = rootView?.findViewById(R.id.searchView);
+        searchView!!.isIconified = false
 
-        activity!!.supportFragmentManager.beginTransaction()
-            .replace(R.id.advancedContainer, AdvancedSearchFragment().newInstance())
-            .commit()
+        searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                setSearchParameter()
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                cleanLayout()
+                return false
+            }
+        })
+
+        searchView?.setOnCloseListener {
+            searchView?.setQuery("", false)
+            false
+        }
+
+        searchView?.clearFocus(); // close the keyboard on load
+
+        lyContainer = rootView?.findViewById(R.id.lyContainer);
+        lyContainer?.visibility = View.GONE
 
         return rootView
     }
@@ -82,7 +104,19 @@ class BasicSearchFragment : BaseFragment() , BasicSearchContract.View , Resourse
         (activity as MainActivity).setTextToolbar(getText(R.string.search).toString(),activity!!.resources.getColor(R.color.colorWhite))
     }
 
+    fun setSearchParameter() {
+        val query = searchView?.query.toString()
+        if (query != null && query.isNotEmpty()) {
+            lyContainer?.visibility = View.VISIBLE
+        }
+    }
 
+    fun cleanLayout() {
+        val query = searchView?.query.toString()
+        if (query.isNullOrEmpty()) {
+            lyContainer?.visibility = View.GONE
+        }
+    }
 
     private fun injectDependency() {
         val aboutComponent = DaggerFragmentComponent.builder()

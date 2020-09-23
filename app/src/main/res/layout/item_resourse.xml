@@ -46,7 +46,6 @@
             android:maxLines="1"
             android:padding="3dp"
             android:singleLine="true"
-            android:text="Justice International"
             android:textColor="@color/colorBlack"
             android:textStyle="bold" />
 
@@ -61,7 +60,7 @@
             android:max="5"
             android:numStars="5"
             android:progressTint="@color/sunYellow"
-            android:rating="4"
+            android:rating="0"
             android:stepSize="0.1"
 
             android:transformPivotX="0dp"
@@ -76,9 +75,9 @@
         android:orientation="horizontal">
 
         <TextView
-
+            android:id="@+id/tvCategory"
             android:layout_width="wrap_content"
-android:gravity="center_vertical"
+            android:gravity="center_vertical"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="8dp"
@@ -88,7 +87,6 @@ android:gravity="center_vertical"
             android:maxLines="1"
             android:padding="3dp"
             android:singleLine="true"
-            android:text="Salud"
             android:textColor="@color/colorBlack"
             />
 
@@ -118,7 +116,7 @@ android:gravity="center_vertical"
             />
 
         <TextView
-
+            android:id="@+id/tvHourHand"
             android:layout_width="wrap_content"
             android:gravity="center_vertical"
             android:layout_height="wrap_content"
@@ -130,7 +128,6 @@ android:gravity="center_vertical"
             android:maxLines="1"
             android:padding="3dp"
             android:singleLine="true"
-            android:text="8:00 am a 5:00pm"
             android:textColor="@color/colorBlack"
             />
 

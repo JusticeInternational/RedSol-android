@@ -1,6 +1,6 @@
 package com.cleteci.redsolidaria.ui.fragments.resourcesByCity
 
-import com.cleteci.redsolidaria.models.Resourse
+import com.cleteci.redsolidaria.models.Resource
 import com.cleteci.redsolidaria.ui.base.BaseContract
 
 /**
@@ -11,7 +11,7 @@ class ResourcesByCityContract {
     interface View: BaseContract.View {
         fun init()
 
-        fun loadDataSuccess(list: List<Resourse>)
+        fun loadDataSuccess(list: List<Resource>)
     }
 
     interface Presenter: BaseContract.Presenter<ResourcesByCityContract.View> {

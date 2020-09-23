@@ -1,20 +1,14 @@
 package com.cleteci.redsolidaria.ui.fragments.basicsearch
 
-import android.R.attr.name
 import android.content.res.Resources
-import android.util.Base64
 import android.util.Log
 import com.apollographql.apollo.ApolloCall
 import com.apollographql.apollo.api.Response
 import com.apollographql.apollo.exception.ApolloException
 import com.cleteci.redsolidaria.BaseApp
 import com.cleteci.redsolidaria.LoadUsedCategoriesQuery
-import com.cleteci.redsolidaria.R
 import com.cleteci.redsolidaria.models.ResourceCategory
-import com.cleteci.redsolidaria.models.User
-import com.google.gson.Gson
 import io.reactivex.disposables.CompositeDisposable
-import java.nio.charset.Charset
 
 
 /**
@@ -72,6 +66,4 @@ class BasicSearchPresenter: BasicSearchContract.Presenter {
             }
         })
     }
-
-
 }

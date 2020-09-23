@@ -117,7 +117,6 @@ class AdvancedSearchFragment : BaseFragment(), AdvancedSearchContract.View,
 
             startActivityForResult(locationPickerIntent, MAP_BUTTON_REQUEST_CODE)
         }
-        lyLocation?.visibility = View.GONE
         mListRecyclerView?.setLayoutManager(LinearLayoutManager(getActivity()))
         mAdapter = ResourseCategoryAdapter(activity?.applicationContext, listCategory, this, 2)
         mListRecyclerView?.setAdapter(mAdapter)
@@ -176,14 +175,11 @@ class AdvancedSearchFragment : BaseFragment(), AdvancedSearchContract.View,
     }
 
     override fun loadDataSuccess(list: List<ResourceCategory>) {
-        listCategory.clear()
-        listCategory.addAll(list)
-        //Log.d("sasasa", "sassasasasa2");
-        mAdapter?.notifyDataSetChanged()
-
-        //}
-
-
+        activity?.runOnUiThread(Runnable {
+            listCategory.clear()
+            listCategory.addAll(list)
+            mAdapter?.notifyDataSetChanged()
+        })
     }
 
     /**

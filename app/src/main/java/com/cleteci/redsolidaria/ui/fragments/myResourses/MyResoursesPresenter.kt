@@ -1,7 +1,7 @@
 package com.cleteci.redsolidaria.ui.fragments.myResourses
 
 import com.cleteci.redsolidaria.R
-import com.cleteci.redsolidaria.models.Resourse
+import com.cleteci.redsolidaria.models.Resource
 import io.reactivex.disposables.CompositeDisposable
 
 /**
@@ -27,11 +27,11 @@ class MyResoursesPresenter: MyResoursesContract.Presenter {
     }
 
     override fun getData() {
-        val arrayList = ArrayList<Resourse>()//Creating an empty arraylist
-        val tipo1 = Resourse(1,"Justice International","Salud",  R.drawable.ic_emergency)//Creating an empty arraylist
+        val arrayList = ArrayList<Resource>()//Creating an empty arraylist
+        val tipo1 = Resource("1","Justice International",  hourHand = "3:00 a 4:00", ranking = "1", cate = "Salud", photo = R.drawable.ic_emergency)//Creating an empty arraylist
         arrayList.add(tipo1)//Adding object in arraylist
 
-        val tipo2 = Resourse(2, "Justice International","Educación",  R.drawable.ic_education)//Creating an empty arraylist
+        val tipo2 = Resource("2", "Justice International",  hourHand = "3:00 a 4:00", ranking = "3", cate = "Educacion", photo = R.drawable.ic_education)//Creating an empty arraylist
         arrayList.add(tipo2)//Adding object in arraylist
 
 

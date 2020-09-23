@@ -1,7 +1,13 @@
 package com.cleteci.redsolidaria.ui.fragments.resourcesByCity
 
+import android.util.Log
+import com.apollographql.apollo.ApolloCall
+import com.apollographql.apollo.api.Response
+import com.apollographql.apollo.exception.ApolloException
+import com.cleteci.redsolidaria.BaseApp
+import com.cleteci.redsolidaria.GetOrganizationsByCategoryQuery
 import com.cleteci.redsolidaria.R
-import com.cleteci.redsolidaria.models.Resourse
+import com.cleteci.redsolidaria.models.Resource
 import io.reactivex.disposables.CompositeDisposable
 
 /**
@@ -25,44 +31,43 @@ class ResourcesByCityPresenter: ResourcesByCityContract.Presenter {
         view.init() // as default
     }
 
+    private fun deserializeResponse(list: List<GetOrganizationsByCategoryQuery.ServiceCategory>?): ArrayList<Resource> {
+        val arrayList = ArrayList<Resource>()
+        var sCategory = list?.get(0)
+        if (sCategory != null) {
+            for (organization in sCategory.organizations()!!) {
+                arrayList.add(
+                    Resource(
+                        id = organization.id(),
+                        name = organization.name().toString(),
+                        hourHand = organization.hourHand().toString(),
+                        ranking = organization.ranking().toString(),
+                        photo = R.drawable.ic_sun2,
+                        cate = sCategory.name()
+                    )
+                )//Adding object in arraylist
+            }
+        }
+
+        return arrayList
+    }
+
     override fun loadData() {
 
-        //view.loadDataSuccess()
-        val arrayList = ArrayList<Resourse>()//Creating an empty arraylist
-        val tipo1 = Resourse(1, "Justice International","Salud",  R.drawable.ic_sun2)//Creating an empty arraylist
-        arrayList.add(tipo1)//Adding object in arraylist
-
-        val tipo2 = Resourse(2, "Justice International","Salud",  R.drawable.ic_sun2)//Creating an empty arraylist
-        arrayList.add(tipo2)//Adding object in arraylist
-
-        val tipo3 = Resourse(3, "Justice International","Salud",  R.drawable.ic_sun2)//Creating an empty arraylist
-        arrayList.add(tipo3)//Adding object in arraylist
-
-        val tipo4 = Resourse(4, "Justice International","Salud",  R.drawable.ic_sun2)//Creating an empty arraylist
-        arrayList.add(tipo4)//Adding object in arraylistval tipo2 =
-
-        val tipo5 = Resourse(5, "Justice International","Salud",  R.drawable.ic_sun2)//Creating an empty arraylist
-        arrayList.add(tipo5)//Adding object in arra
-
-        val tipo6 = Resourse(6, "Justice International","Salud",  R.drawable.ic_sun2)//Creating an empty arraylist
-        arrayList.add(tipo6)//Adding object in arraylist
-
-        val tipo7 = Resourse(7, "Justice International","Salud",  R.drawable.ic_sun2)//Creating an empty arraylist
-        arrayList.add(tipo7)//Adding object in arraylist
-
-        val tipo8 = Resourse(8, "Justice International","Salud",  R.drawable.ic_sun2)//Creating an empty arraylist
-        arrayList.add(tipo8)//Adding object in arraylist
-
-        val tipo9 = Resourse(9, "Justice International","Salud",  R.drawable.ic_sun2)//Creating an empty arraylist
-        arrayList.add(tipo9)//Adding object in arraylist
-
-        val tipo10 = Resourse(10, "Justice International","Salud",  R.drawable.ic_sun2)//Creating an empty arraylist
-        arrayList.add(tipo10)//Adding object in arraylist
-
-
-
-
-        view.loadDataSuccess(arrayList)
+        BaseApp.apolloClient.query(
+            GetOrganizationsByCategoryQuery.builder().id("sc1")
+                .build()
+        ).enqueue(object : ApolloCall.Callback<GetOrganizationsByCategoryQuery.Data>() {
+            override fun onResponse(response: Response<GetOrganizationsByCategoryQuery.Data>) {
+                if (response.data() != null) {
+                    var arrayList = deserializeResponse(response.data()?.ServiceCategory())
+                    view.loadDataSuccess(arrayList)
+                }
+            }
+            override fun onFailure(e: ApolloException) {
+                Log.d("TAG", "error")
+            }
+        })
     }
 
 

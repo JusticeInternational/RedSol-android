@@ -16,7 +16,7 @@ import com.cleteci.redsolidaria.R
 
 import com.cleteci.redsolidaria.di.component.DaggerFragmentComponent
 import com.cleteci.redsolidaria.di.module.FragmentModule
-import com.cleteci.redsolidaria.models.Resourse
+import com.cleteci.redsolidaria.models.Resource
 import com.cleteci.redsolidaria.ui.activities.main.MainActivity
 import com.cleteci.redsolidaria.ui.adapters.ResourseAdapter
 import com.cleteci.redsolidaria.ui.base.BaseFragment
@@ -33,19 +33,19 @@ class MyResoursesFragment : BaseFragment(), MyResoursesContract.View, ResourseAd
 
     var rvPending: RecyclerView? = null
     var mAdapterPending: ResourseAdapter? = null
-    private val listPending = ArrayList<Resourse>()
+    private val listPending = ArrayList<Resource>()
 
     var rvSaved: RecyclerView? = null
     var mAdapterSaved: ResourseAdapter? = null
-    private val listSaved = ArrayList<Resourse>()
+    private val listSaved = ArrayList<Resource>()
 
     var rvVolunteering: RecyclerView? = null
     var mAdapterVolunteering: ResourseAdapter? = null
-    private val listVolunteering = ArrayList<Resourse>()
+    private val listVolunteering = ArrayList<Resource>()
 
     var rvUsed: RecyclerView? = null
     var mAdapterUsed: ResourseAdapter? = null
-    private val listUsed = ArrayList<Resourse>()
+    private val listUsed = ArrayList<Resource>()
 
 
     @Inject
@@ -130,10 +130,10 @@ class MyResoursesFragment : BaseFragment(), MyResoursesContract.View, ResourseAd
     }
 
     override fun loadDataSuccess(
-        pending: List<Resourse>,
-        saved: List<Resourse>,
-        volunteer: List<Resourse>,
-        used: List<Resourse>
+        pending: List<Resource>,
+        saved: List<Resource>,
+        volunteer: List<Resource>,
+        used: List<Resource>
     ) {
         listPending.clear()
         listPending.addAll(pending)
