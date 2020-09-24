@@ -19,7 +19,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.cleteci.redsolidaria.ui.activities.main.MainActivity
 import com.cleteci.redsolidaria.ui.adapters.ResourseCategoryAdapter
 import com.cleteci.redsolidaria.ui.base.BaseFragment
-import com.cleteci.redsolidaria.ui.fragments.resourcesByCity.ResourcesByCityFragment
+import com.cleteci.redsolidaria.ui.fragments.resourcesResult.ResourcesResultFragment
 
 
 class BasicSearchFragment : BaseFragment() , BasicSearchContract.View , ResourseCategoryAdapter.onItemClickListener {
@@ -145,7 +145,7 @@ class BasicSearchFragment : BaseFragment() , BasicSearchContract.View , Resourse
 
         activity!!.supportFragmentManager.beginTransaction()
             .addToBackStack(null)
-            .replace(R.id.container1, ResourcesByCityFragment().newInstance(), ResourcesByCityFragment.TAG)
+            .replace(R.id.container1, ResourcesResultFragment().newInstance(this.listCategory[postId].id), ResourcesResultFragment.TAG)
             .commit()
 
     }

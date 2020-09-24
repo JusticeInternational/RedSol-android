@@ -1,4 +1,4 @@
-package com.cleteci.redsolidaria.ui.fragments.resourcesByCity
+package com.cleteci.redsolidaria.ui.fragments.resourcesResult
 
 import android.util.Log
 import com.apollographql.apollo.ApolloCall
@@ -13,10 +13,10 @@ import io.reactivex.disposables.CompositeDisposable
 /**
  * Created by ogulcan on 07/02/2018.
  */
-class ResourcesByCityPresenter: ResourcesByCityContract.Presenter {
+class ResourcesResultPresenter: ResourcesResultContract.Presenter {
 
     private val subscriptions = CompositeDisposable()
-    private lateinit var view: ResourcesByCityContract.View
+    private lateinit var view: ResourcesResultContract.View
 
     override fun subscribe() {
 
@@ -26,7 +26,7 @@ class ResourcesByCityPresenter: ResourcesByCityContract.Presenter {
         subscriptions.clear()
     }
 
-    override fun attach(view: ResourcesByCityContract.View) {
+    override fun attach(view: ResourcesResultContract.View) {
         this.view = view
         view.init() // as default
     }
@@ -43,7 +43,8 @@ class ResourcesByCityPresenter: ResourcesByCityContract.Presenter {
                         hourHand = organization.hourHand().toString(),
                         ranking = organization.ranking().toString(),
                         photo = R.drawable.ic_sun2,
-                        cate = sCategory.name()
+                        cate = sCategory.name(),
+                        location = organization.location()?.name().toString()
                     )
                 )//Adding object in arraylist
             }
@@ -52,10 +53,10 @@ class ResourcesByCityPresenter: ResourcesByCityContract.Presenter {
         return arrayList
     }
 
-    override fun loadData() {
+    override fun loadData(id: String) {
 
         BaseApp.apolloClient.query(
-            GetOrganizationsByCategoryQuery.builder().id("sc1")
+            GetOrganizationsByCategoryQuery.builder().id(id)
                 .build()
         ).enqueue(object : ApolloCall.Callback<GetOrganizationsByCategoryQuery.Data>() {
             override fun onResponse(response: Response<GetOrganizationsByCategoryQuery.Data>) {

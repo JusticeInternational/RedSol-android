@@ -37,7 +37,7 @@ class ResourseAdapter(
 
         holder!!.title?.text = post.name
         holder!!.body?.setImageResource(post.photo)
-        holder!!.tvCategory?.text = post.cate
+        holder!!.tvLocation?.text = post.location
         holder!!.tvHourHand?.text = post.hourHand
         holder!!.rbGeneral?.rating = post.ranking.toFloat()
 
@@ -69,7 +69,7 @@ class ResourseAdapter(
     class ListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var layout = itemView.findViewById<RelativeLayout>(R.id.parentr)
         val title: TextView? = itemView.findViewById<TextView>(R.id.tvName)
-        val tvCategory: TextView? = itemView.findViewById<TextView>(R.id.tvCategory)
+        val tvLocation: TextView? = itemView.findViewById<TextView>(R.id.tvLocation)
         val tvHourHand: TextView? = itemView.findViewById<TextView>(R.id.tvHourHand)
         val rbGeneral: RatingBar? = itemView.findViewById<RatingBar>(R.id.rbGeneral)
         val body: ImageView? = itemView.findViewById<ImageView>(R.id.imageview)

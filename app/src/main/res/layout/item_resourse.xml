@@ -75,7 +75,7 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/tvCategory"
+            android:id="@+id/tvLocation"
             android:layout_width="wrap_content"
             android:gravity="center_vertical"
             android:layout_height="wrap_content"
@@ -87,31 +87,6 @@
             android:maxLines="1"
             android:padding="3dp"
             android:singleLine="true"
-            android:textColor="@color/colorBlack"
-            />
-
-
-        <ImageView
-            android:layout_marginLeft="15dp"
-            android:src="@drawable/ic_walker"
-            android:layout_gravity="center_vertical"
-            android:layout_width="18dp"
-            android:layout_height="18dp" />
-
-        <TextView
-
-            android:layout_width="wrap_content"
-            android:gravity="center_vertical"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-
-            android:layout_marginRight="8dp"
-            android:layout_marginBottom="5dp"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:padding="3dp"
-            android:singleLine="true"
-            android:text="5Km"
             android:textColor="@color/colorBlack"
             />
 
@@ -121,7 +96,7 @@
             android:gravity="center_vertical"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="8dp"
+            android:layout_marginLeft="20dp"
             android:layout_marginRight="8dp"
             android:layout_marginBottom="5dp"
             android:ellipsize="end"

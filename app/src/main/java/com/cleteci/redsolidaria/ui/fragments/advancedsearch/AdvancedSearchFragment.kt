@@ -30,7 +30,7 @@ import com.cleteci.redsolidaria.di.module.FragmentModule
 import com.cleteci.redsolidaria.models.ResourceCategory
 import com.cleteci.redsolidaria.ui.adapters.ResourseCategoryAdapter
 import com.cleteci.redsolidaria.ui.base.BaseFragment
-import com.cleteci.redsolidaria.ui.fragments.resourcesByCity.ResourcesByCityFragment
+import com.cleteci.redsolidaria.ui.fragments.resourcesResult.ResourcesResultFragment
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.schibstedspain.leku.*
@@ -287,7 +287,7 @@ class AdvancedSearchFragment : BaseFragment(), AdvancedSearchContract.View,
         activity!!.supportFragmentManager.beginTransaction()
             .addToBackStack(null)
             // .setCustomAnimations(AnimType.FADE.getAnimPair().first, AnimType.FADE.getAnimPair().second)
-            .replace(R.id.container1, ResourcesByCityFragment().newInstance(), ResourcesByCityFragment.TAG)
+            .replace(R.id.container1, ResourcesResultFragment().newInstance("asdf"), ResourcesResultFragment.TAG)
             .commit()
     }
 

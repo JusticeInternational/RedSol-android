@@ -6,6 +6,9 @@ query getOrganizationsByCategory($id: ID) {
             name
             hourHand
             ranking
+            location {
+                name
+            }
         }
     }
 }
