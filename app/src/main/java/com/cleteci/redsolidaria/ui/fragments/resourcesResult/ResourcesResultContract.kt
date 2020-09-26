@@ -16,6 +16,6 @@ class ResourcesResultContract {
 
     interface Presenter: BaseContract.Presenter<ResourcesResultContract.View> {
         //fun onDrawerOptionAboutClick()
-        fun loadData(id: String)
+        fun loadData(id: String, keyWord: String)
     }
 }

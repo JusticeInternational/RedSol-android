@@ -287,7 +287,7 @@ class AdvancedSearchFragment : BaseFragment(), AdvancedSearchContract.View,
         activity!!.supportFragmentManager.beginTransaction()
             .addToBackStack(null)
             // .setCustomAnimations(AnimType.FADE.getAnimPair().first, AnimType.FADE.getAnimPair().second)
-            .replace(R.id.container1, ResourcesResultFragment().newInstance("asdf"), ResourcesResultFragment.TAG)
+            .replace(R.id.container1, ResourcesResultFragment().newInstance(this.listCategory[postId], "asdf"), ResourcesResultFragment.TAG)
             .commit()
     }
 

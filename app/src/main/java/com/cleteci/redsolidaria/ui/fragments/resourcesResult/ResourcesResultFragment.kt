@@ -12,6 +12,7 @@ import com.cleteci.redsolidaria.R
 import com.cleteci.redsolidaria.di.component.DaggerFragmentComponent
 import com.cleteci.redsolidaria.di.module.FragmentModule
 import com.cleteci.redsolidaria.models.Resource
+import com.cleteci.redsolidaria.models.ResourceCategory
 import com.cleteci.redsolidaria.ui.activities.main.MainActivity
 import com.cleteci.redsolidaria.ui.adapters.ResourseAdapter
 import com.cleteci.redsolidaria.ui.base.BaseFragment
@@ -25,8 +26,10 @@ class ResourcesResultFragment : BaseFragment(), ResourcesResultContract.View,
 
     var mListRecyclerView: RecyclerView? = null
     var mAdapter: ResourseAdapter? = null
-    lateinit var selectedItem: String
-    var searchResult: TextView? = null
+    private lateinit var selectedItem: String
+    private lateinit var keyWord: String
+    private lateinit var sCategoryName: String
+    private var searchResult: TextView? = null
     private val listCategory = ArrayList<Resource>()
 
     @Inject
@@ -34,10 +37,12 @@ class ResourcesResultFragment : BaseFragment(), ResourcesResultContract.View,
 
     private lateinit var rootView: View
 
-    fun newInstance(id: String): ResourcesResultFragment {
+    fun newInstance(sc: ResourceCategory, key: String): ResourcesResultFragment {
         val fragment = ResourcesResultFragment()
         val args = Bundle()
-        args.putString("id", id)
+        args.putString("id", sc.id)
+        args.putString("name", sc.name)
+        args.putString("keyWord", key)
         fragment.arguments = args
         return fragment
     }
@@ -46,6 +51,8 @@ class ResourcesResultFragment : BaseFragment(), ResourcesResultContract.View,
         super.onCreate(savedInstanceState)
         if (arguments != null) {
             selectedItem = arguments!!.getString("id")
+            keyWord = arguments!!.getString(("keyWord"))
+            sCategoryName = arguments!!.getString(("name"))
         }
         injectDependency()
     }
@@ -73,7 +80,7 @@ class ResourcesResultFragment : BaseFragment(), ResourcesResultContract.View,
         super.onViewCreated(view, savedInstanceState)
         presenter.attach(this)
         presenter.subscribe()
-        presenter.loadData(selectedItem)
+        presenter.loadData(selectedItem, keyWord)
 
         initView()
     }
@@ -115,7 +122,7 @@ class ResourcesResultFragment : BaseFragment(), ResourcesResultContract.View,
             listCategory.addAll(list)
             searchResult?.text = java.lang.String.format(
                 activity!!.resources.getString(R.string.search_results),
-                list[0].cate
+                sCategoryName
             )
             mAdapter?.notifyDataSetChanged()
         })

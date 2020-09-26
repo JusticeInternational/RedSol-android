@@ -28,6 +28,7 @@ class BasicSearchFragment : BaseFragment() , BasicSearchContract.View , Resourse
     var mAdapter:ResourseCategoryAdapter? = null
     var searchView: SearchView? = null
     var lyContainer: LinearLayout? = null
+    private var keyWord: String = ""
     private val listCategory= ArrayList<ResourceCategory>()
 
     @Inject lateinit var presenter: BasicSearchContract.Presenter
@@ -107,6 +108,7 @@ class BasicSearchFragment : BaseFragment() , BasicSearchContract.View , Resourse
     fun setSearchParameter() {
         val query = searchView?.query.toString()
         if (query != null && query.isNotEmpty()) {
+            this.keyWord = query
             lyContainer?.visibility = View.VISIBLE
         }
     }
@@ -114,7 +116,10 @@ class BasicSearchFragment : BaseFragment() , BasicSearchContract.View , Resourse
     fun cleanLayout() {
         val query = searchView?.query.toString()
         if (query.isNullOrEmpty()) {
+            this.keyWord = ""
             lyContainer?.visibility = View.GONE
+        } else {
+            this.keyWord = query
         }
     }
 
@@ -145,7 +150,7 @@ class BasicSearchFragment : BaseFragment() , BasicSearchContract.View , Resourse
 
         activity!!.supportFragmentManager.beginTransaction()
             .addToBackStack(null)
-            .replace(R.id.container1, ResourcesResultFragment().newInstance(this.listCategory[postId].id), ResourcesResultFragment.TAG)
+            .replace(R.id.container1, ResourcesResultFragment().newInstance(this.listCategory[postId], keyWord), ResourcesResultFragment.TAG)
             .commit()
 
     }

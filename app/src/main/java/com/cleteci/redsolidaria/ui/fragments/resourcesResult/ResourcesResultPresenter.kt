@@ -31,11 +31,11 @@ class ResourcesResultPresenter: ResourcesResultContract.Presenter {
         view.init() // as default
     }
 
-    private fun deserializeResponse(list: List<GetOrganizationsByCategoryQuery.ServiceCategory>?): ArrayList<Resource> {
+    private fun deserializeResponse(list: List<GetOrganizationsByCategoryQuery.ByIdOrOrgKeyWord>?): ArrayList<Resource> {
         val arrayList = ArrayList<Resource>()
-        var sCategory = list?.get(0)
+        var sCategory = list
         if (sCategory != null) {
-            for (organization in sCategory.organizations()!!) {
+            for (organization in sCategory!!) {
                 arrayList.add(
                     Resource(
                         id = organization.id(),
@@ -43,7 +43,7 @@ class ResourcesResultPresenter: ResourcesResultContract.Presenter {
                         hourHand = organization.hourHand().toString(),
                         ranking = organization.ranking().toString(),
                         photo = R.drawable.ic_sun2,
-                        cate = sCategory.name(),
+                        cate = "Testing",
                         location = organization.location()?.name().toString()
                     )
                 )//Adding object in arraylist
@@ -53,15 +53,15 @@ class ResourcesResultPresenter: ResourcesResultContract.Presenter {
         return arrayList
     }
 
-    override fun loadData(id: String) {
+    override fun loadData(id: String, keyWord: String) {
 
         BaseApp.apolloClient.query(
-            GetOrganizationsByCategoryQuery.builder().id(id)
+            GetOrganizationsByCategoryQuery.builder().id(id).keyWord(keyWord)
                 .build()
         ).enqueue(object : ApolloCall.Callback<GetOrganizationsByCategoryQuery.Data>() {
             override fun onResponse(response: Response<GetOrganizationsByCategoryQuery.Data>) {
                 if (response.data() != null) {
-                    var arrayList = deserializeResponse(response.data()?.ServiceCategory())
+                    var arrayList = deserializeResponse(response.data()?.byIdOrOrgKeyWord())
                     view.loadDataSuccess(arrayList)
                 }
             }
