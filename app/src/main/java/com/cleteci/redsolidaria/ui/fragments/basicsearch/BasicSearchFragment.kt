@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.GridLayoutManager
 
@@ -27,7 +28,7 @@ class BasicSearchFragment : BaseFragment() , BasicSearchContract.View , Resourse
     var mListRecyclerView: RecyclerView? = null
     var mAdapter:ResourseCategoryAdapter? = null
     var searchView: SearchView? = null
-    var lyContainer: LinearLayout? = null
+    var tvResult: TextView? = null
     private var keyWord: String = ""
     private val listCategory= ArrayList<ResourceCategory>()
 
@@ -79,8 +80,8 @@ class BasicSearchFragment : BaseFragment() , BasicSearchContract.View , Resourse
 
         searchView?.clearFocus(); // close the keyboard on load
 
-        lyContainer = rootView?.findViewById(R.id.lyContainer);
-        lyContainer?.visibility = View.GONE
+        tvResult = rootView?.findViewById(R.id.tvResult);
+        tvResult?.visibility = View.GONE
 
         return rootView
     }
@@ -109,7 +110,7 @@ class BasicSearchFragment : BaseFragment() , BasicSearchContract.View , Resourse
         val query = searchView?.query.toString()
         if (query != null && query.isNotEmpty()) {
             this.keyWord = query
-            lyContainer?.visibility = View.VISIBLE
+            tvResult?.visibility = View.VISIBLE
         }
     }
 
@@ -117,7 +118,7 @@ class BasicSearchFragment : BaseFragment() , BasicSearchContract.View , Resourse
         val query = searchView?.query.toString()
         if (query.isNullOrEmpty()) {
             this.keyWord = ""
-            lyContainer?.visibility = View.GONE
+            tvResult?.visibility = View.GONE
         } else {
             this.keyWord = query
         }
