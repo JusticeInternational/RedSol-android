@@ -9,9 +9,11 @@ class ChangePassContract {
 
     interface View: BaseContract.View {
         fun init()
+        fun errorPass(mdg:String)
     }
 
     interface Presenter: BaseContract.Presenter<ChangePassContract.View> {
         //fun onDrawerOptionAboutClick()
+        fun verifyData(newPass:String)
     }
 }

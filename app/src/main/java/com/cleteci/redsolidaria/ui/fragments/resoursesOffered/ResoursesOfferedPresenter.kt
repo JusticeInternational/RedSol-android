@@ -28,11 +28,11 @@ class ResoursesOfferedPresenter : ResoursesOfferedContract.Presenter {
 
     override fun getData() {
         val arrayList = ArrayList<ResourceCategory>()//Creating an empty arraylist
-        val tipo1 = ResourceCategory("1", "Salud",  R.drawable.ic_emergency)//Creating an empty arraylist
+        val tipo1 = ResourceCategory("1", "Salud",  "asdf", R.drawable.ic_emergency)//Creating an empty arraylist
         arrayList.add(tipo1)//Adding object in arraylist
 
         val tipo2 =
-            ResourceCategory("2", "Educación",  R.drawable.ic_education)//Creating an empty arraylist
+            ResourceCategory("2", "Educación",  "asdf", R.drawable.ic_education)//Creating an empty arraylist
         arrayList.add(tipo2)//Adding object in arraylist
 
         view.loadDataSuccess(arrayList)

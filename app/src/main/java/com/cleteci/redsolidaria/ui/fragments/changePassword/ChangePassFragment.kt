@@ -19,6 +19,8 @@ import com.cleteci.redsolidaria.ui.base.BaseFragment
 import javax.inject.Inject
 import com.ybs.passwordstrengthmeter.PasswordStrength
 import android.widget.TextView
+import android.widget.Toast
+import com.cleteci.redsolidaria.ui.activities.login.LoginActivity
 import com.google.android.material.textfield.TextInputEditText
 
 
@@ -26,6 +28,7 @@ class ChangePassFragment : BaseFragment() , ChangePassContract.View , TextWatche
 
     var progressBar:ProgressBar?=null
     var etPass : TextInputEditText?=null
+    var btSave: Button? = null
 
     @Inject lateinit var presenter: ChangePassContract.Presenter
 
@@ -45,9 +48,15 @@ class ChangePassFragment : BaseFragment() , ChangePassContract.View , TextWatche
         savedInstanceState: Bundle?
     ): View? {
         rootView = inflater.inflate(R.layout.fragment_change_pass, container, false)
-         progressBar =rootView. findViewById(R.id.progressBar)
+        progressBar =rootView. findViewById(R.id.progressBar)
         etPass =rootView. findViewById(R.id.etPass)
         etPass?.addTextChangedListener(this);
+        btSave = rootView.findViewById(R.id.btSave)
+        btSave!!.setOnClickListener {
+
+            presenter.verifyData(etPass!!.text.toString())
+
+        }
         return rootView
     }
 
@@ -86,6 +95,10 @@ class ChangePassFragment : BaseFragment() , ChangePassContract.View , TextWatche
     }
     override fun init() {
 
+    }
+
+    override fun errorPass(mdg: String) {
+        Toast.makeText(activity, mdg, Toast.LENGTH_SHORT).show()
     }
 
     private fun initView() {

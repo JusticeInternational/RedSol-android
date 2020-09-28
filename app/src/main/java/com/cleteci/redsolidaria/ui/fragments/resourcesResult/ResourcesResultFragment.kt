@@ -1,13 +1,16 @@
 package com.cleteci.redsolidaria.ui.fragments.resourcesResult
 
 
+import android.content.res.Resources
+import android.media.Image
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import android.widget.ImageView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.cleteci.redsolidaria.BaseApp
 import com.cleteci.redsolidaria.R
 import com.cleteci.redsolidaria.di.component.DaggerFragmentComponent
 import com.cleteci.redsolidaria.di.module.FragmentModule
@@ -26,10 +29,10 @@ class ResourcesResultFragment : BaseFragment(), ResourcesResultContract.View,
 
     var mListRecyclerView: RecyclerView? = null
     var mAdapter: ResourseAdapter? = null
+    private var imageView: ImageView? = null
     private lateinit var selectedItem: String
     private lateinit var keyWord: String
     private lateinit var sCategoryName: String
-    private var searchResult: TextView? = null
     private val listCategory = ArrayList<Resource>()
 
     @Inject
@@ -41,7 +44,7 @@ class ResourcesResultFragment : BaseFragment(), ResourcesResultContract.View,
         val fragment = ResourcesResultFragment()
         val args = Bundle()
         args.putString("id", sc.id)
-        args.putString("name", sc.name)
+        args.putString("icon", sc.icon)
         args.putString("keyWord", key)
         fragment.arguments = args
         return fragment
@@ -52,7 +55,7 @@ class ResourcesResultFragment : BaseFragment(), ResourcesResultContract.View,
         if (arguments != null) {
             selectedItem = arguments!!.getString("id")
             keyWord = arguments!!.getString(("keyWord"))
-            sCategoryName = arguments!!.getString(("name"))
+            sCategoryName = arguments!!.getString(("icon"))
         }
         injectDependency()
     }
@@ -70,8 +73,7 @@ class ResourcesResultFragment : BaseFragment(), ResourcesResultContract.View,
         //if (mAdapter == null) {
         mAdapter = ResourseAdapter(activity?.applicationContext, listCategory, this, 1)
         mListRecyclerView?.adapter = mAdapter;
-
-        searchResult = rootView?.findViewById((R.id.searchResult))
+        imageView = rootView?.findViewById<ImageView>(R.id.imageView);
 
         return rootView
     }
@@ -81,7 +83,11 @@ class ResourcesResultFragment : BaseFragment(), ResourcesResultContract.View,
         presenter.attach(this)
         presenter.subscribe()
         presenter.loadData(selectedItem, keyWord)
-
+        val resources: Resources = BaseApp?.instance.resources
+        val resourceId: Int = resources.getIdentifier(
+            sCategoryName, "drawable",
+            BaseApp?.instance.packageName)
+        imageView?.setImageResource(resourceId)
         initView()
     }
 
@@ -120,10 +126,7 @@ class ResourcesResultFragment : BaseFragment(), ResourcesResultContract.View,
         activity?.runOnUiThread(Runnable {
             listCategory.clear()
             listCategory.addAll(list)
-            searchResult?.text = java.lang.String.format(
-                activity!!.resources.getString(R.string.search_results),
-                sCategoryName
-            )
+
             mAdapter?.notifyDataSetChanged()
         })
     }

@@ -47,7 +47,7 @@ class LoginFPresenter : LoginFContract.Presenter {
         var email=email.replace(" ", "") //delete empty spaces
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             view.errorEmailPass(BaseApp.instance.getString(R.string.wrong_email))
-        } else if (pass.length<1){
+        } else if (pass.isEmpty()){
             view.errorEmailPass(BaseApp.instance.getString(R.string.wrong_pass))
         } else {
             BaseApp.apolloClient.mutate(
@@ -72,6 +72,5 @@ class LoginFPresenter : LoginFContract.Presenter {
                 }
             })
         }
-
     }
 }
