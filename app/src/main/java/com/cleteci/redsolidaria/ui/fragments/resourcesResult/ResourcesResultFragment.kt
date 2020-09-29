@@ -2,12 +2,14 @@ package com.cleteci.redsolidaria.ui.fragments.resourcesResult
 
 
 import android.content.res.Resources
-import android.media.Image
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.RelativeLayout
+import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.cleteci.redsolidaria.BaseApp
@@ -33,6 +35,7 @@ class ResourcesResultFragment : BaseFragment(), ResourcesResultContract.View,
     private lateinit var selectedItem: String
     private lateinit var keyWord: String
     private lateinit var sCategoryName: String
+    var tvResult: TextView? = null
     private val listCategory = ArrayList<Resource>()
 
     @Inject
@@ -67,13 +70,18 @@ class ResourcesResultFragment : BaseFragment(), ResourcesResultContract.View,
         rootView = inflater.inflate(R.layout.fragment_resourses_result, container, false)
 
         mListRecyclerView = rootView?.findViewById(R.id.rvResourses);
-        mListRecyclerView?.setLayoutManager(LinearLayoutManager(getActivity()));
+        mListRecyclerView?.layoutManager = LinearLayoutManager(activity);
 
         // only create and set a new adapter if there isn't already one
         //if (mAdapter == null) {
         mAdapter = ResourseAdapter(activity?.applicationContext, listCategory, this, 1)
         mListRecyclerView?.adapter = mAdapter;
         imageView = rootView?.findViewById<ImageView>(R.id.imageView);
+
+        tvResult = rootView?.findViewById(R.id.tvResult);
+        tvResult?.visibility = View.GONE
+
+        mListRecyclerView?.visibility = View.GONE
 
         return rootView
     }
@@ -126,6 +134,11 @@ class ResourcesResultFragment : BaseFragment(), ResourcesResultContract.View,
         activity?.runOnUiThread(Runnable {
             listCategory.clear()
             listCategory.addAll(list)
+            if(listCategory.isEmpty()) {
+                tvResult?.visibility = View.VISIBLE
+            } else {
+                mListRecyclerView?.visibility = View.VISIBLE
+            }
 
             mAdapter?.notifyDataSetChanged()
         })
