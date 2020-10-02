@@ -230,7 +230,6 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
     fun loginEmailPass(user: String) {
 
         BaseApp.prefs.login_later = false
-        BaseApp.prefs.user_saved = "USER CUSTOM"
         user.replace(" ", "");
 
         openMainActivity()

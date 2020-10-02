@@ -59,6 +59,7 @@ class LoginFPresenter : LoginFContract.Presenter {
                         var token = response.data()?.login().toString()
                         val user = getUser(token)
                         BaseApp.prefs.is_provider_service = user.role == "admin"
+                        BaseApp.prefs.user_saved = user.id
                         BaseApp.prefs.token = token
                         view.validEmailPass()
                     } else {

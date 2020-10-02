@@ -10,3 +10,38 @@ query getOrganizationsByCategory($id: ID, $keyWord: String) {
     }
 }
 
+query getOrganizationServices($id: ID) {
+    User(id: $id) {
+        ownerOf {
+            services {
+                name
+                id
+                serviceCategory {
+                    name
+                    id
+                    icon
+                }
+            }
+        }
+    }
+}
+
+query getOrganizationInfo($id: ID) {
+    User(id: $id) {
+        ownerOf {
+            id
+            name
+            phone
+            webPage
+            description
+            servicesDesc
+            location {
+                name
+            }
+            plan {
+                name
+            }
+        }
+    }
+}
+

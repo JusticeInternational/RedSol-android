@@ -32,6 +32,7 @@
     <!--NO DATA-->
     <string name="progress">En Progreso!</string>
     <string name="no_resourses">No hay recursos para mostrar</string>
+    <string name="missing_data">Por favor complete el formulario</string>
 
     <!--BOTTOM BAR-->
     <string name="my_resourse">Mis recursos</string>
@@ -126,8 +127,11 @@
     <string name="phone">Teléfono</string>
     <string name="schedule">Horario</string>
     <string name="description">Descripción</string>
+    <string name="services_desc">Descripción de Servicios</string>
+    <string name="about_us">Acerca de la Organización</string>
     <string name="service_plan">Plan de servicio</string>
     <string name="change_plan">Cambiar de plan</string>
+    <string name="change_plan_inf">Para cambiar el plan, agregue servicios detallados</string>
     <string name="we_are">¿Quienes somos?</string>
     <string name="send">Enviar</string>
     <string name="cancel">Cancelar</string>

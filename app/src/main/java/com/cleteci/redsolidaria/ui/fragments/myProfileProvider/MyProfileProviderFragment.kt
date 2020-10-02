@@ -15,13 +15,13 @@ import android.widget.*
 import androidx.core.app.ActivityCompat
 
 import com.cleteci.redsolidaria.R
-
 import com.cleteci.redsolidaria.di.component.DaggerFragmentComponent
 import com.cleteci.redsolidaria.di.module.FragmentModule
+import com.cleteci.redsolidaria.models.Organization
 import com.cleteci.redsolidaria.ui.activities.main.MainActivity
 import com.cleteci.redsolidaria.ui.base.BaseFragment
-import com.cleteci.redsolidaria.ui.fragments.suggestService.SuggestServiceFragment
 import com.schibstedspain.leku.*
+import kotlinx.android.synthetic.main.fragment_my_profile_provider.*
 import javax.inject.Inject
 
 
@@ -31,10 +31,13 @@ class MyProfileProviderFragment : BaseFragment(), MyProfileProviderContract.View
     var btCancel: Button? = null
     var etName: EditText? = null
     var etLocation: EditText? = null
+    var etPhone: EditText? = null
     var etWeb: EditText? = null
     var etDesc: EditText? = null
+    var etAboutUs: EditText? = null
     var ivChangeImage: ImageView? = null
     var tvChangePlan: TextView? = null
+    var tvPlan: TextView? = null
     var ivImageProfile: ImageView? = null
 
 
@@ -59,9 +62,10 @@ class MyProfileProviderFragment : BaseFragment(), MyProfileProviderContract.View
         rootView = inflater.inflate(R.layout.fragment_my_profile_provider, container, false)
 
         tvChangePlan = rootView?.findViewById(R.id.tvChangePlan)
+        tvPlan = rootView?.findViewById(R.id.tvPlan)
 
         tvChangePlan?.setOnClickListener {
-            Toast.makeText(activity!!, getString(R.string.progress), Toast.LENGTH_SHORT).show()
+            Toast.makeText(activity!!, getString(R.string.change_plan_inf), Toast.LENGTH_LONG).show()
         }
 
         ivChangeImage = rootView?.findViewById(R.id.ivChangeImage)
@@ -87,7 +91,6 @@ class MyProfileProviderFragment : BaseFragment(), MyProfileProviderContract.View
 
         }
 
-
         ivImageProfile = rootView?.findViewById(R.id.ivImageProfile)
 
         btCancel = rootView?.findViewById(R.id.btCancel)
@@ -96,10 +99,12 @@ class MyProfileProviderFragment : BaseFragment(), MyProfileProviderContract.View
             (activity as MainActivity).onBackPressed()
         }
 
-        etName = rootView?.findViewById(R.id.etName);
+        etName = rootView?.findViewById<EditText>(R.id.etName);
         etLocation = rootView?.findViewById(R.id.etLocation);
         etWeb = rootView?.findViewById(R.id.etWeb);
+        etPhone = rootView?.findViewById(R.id.etPhone);
         etDesc = rootView?.findViewById(R.id.etDesc);
+        etAboutUs = rootView?.findViewById(R.id.etAboutUs);
 
         btSend = rootView?.findViewById(R.id.btSend);
 
@@ -117,13 +122,12 @@ class MyProfileProviderFragment : BaseFragment(), MyProfileProviderContract.View
 
         btSend!!.setOnClickListener {
 
-            if (!etName!!.text.isEmpty() && !etLocation!!.text.isEmpty() && !etWeb!!.text.isEmpty() && !etDesc!!.text.isEmpty()) {
+            if (etName!!.text.isNotEmpty() && etLocation!!.text.isNotEmpty() && etWeb!!.text.isNotEmpty() && etDesc!!.text.isNotEmpty()) {
                 showDialog()
             } else {
-                Toast.makeText(context, "Por favor complete el formulario", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, getString(R.string.missing_data), Toast.LENGTH_LONG).show()
             }
         }
-
 
         return rootView
     }
@@ -161,7 +165,19 @@ class MyProfileProviderFragment : BaseFragment(), MyProfileProviderContract.View
     }
 
     private fun initView() {
-        //presenter.loadMessage()
+        presenter.loadData()
+    }
+
+    override fun loadDataSuccess(org: Organization) {
+        activity?.runOnUiThread(Runnable {
+            etName?.setText(org.name)
+            etWeb?.setText(org.webPage)
+            etLocation?.setText(org.location)
+            etPhone?.setText(org.phone)
+            etAboutUs?.setText(org.aboutUs)
+            etDesc?.setText(org.servicesDesc)
+            tvPlan?.text = org.plan
+        })
     }
 
     private fun showDialog() {

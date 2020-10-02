@@ -92,9 +92,11 @@ class ResoursesOfferedFragment : BaseFragment(), ResoursesOfferedContract.View,
     }
 
     override fun loadDataSuccess(pending: List<ResourceCategory>) {
-        listResourses.clear()
-        listResourses.addAll(pending)
-        mAdapter?.notifyDataSetChanged()
+        activity?.runOnUiThread(Runnable {
+            listResourses.clear()
+            listResourses.addAll(pending)
+            mAdapter?.notifyDataSetChanged()
+        })
     }
 
     override fun itemDetail(postId: Int) {
