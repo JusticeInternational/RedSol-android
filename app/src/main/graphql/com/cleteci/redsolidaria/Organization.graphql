@@ -45,3 +45,9 @@ query getOrganizationInfo($id: ID) {
     }
 }
 
+mutation updateOrganization($id: ID!, $name: String, $webPage: String, $phone: String, $aboutUs: String, $servDesc: String) {
+    UpdateOrganization(id: $id, name: $name, webPage: $webPage, phone: $phone, description: $aboutUs, servicesDesc: $servDesc) {
+        name
+    }
+}
+
