@@ -190,7 +190,7 @@
     <string name="capacity">Capacidad</string>
 
     <!--OTHERS-->
-    <string name="info_send">Organización actualizada satisfactoriamente</string>
+    <string name="info_send">Información actualizada satisfactoriamente</string>
     <string name="you_have_to_login">Debes iniciar sesión para utilizar esta función</string>
     <string name="me">mi</string>
     <string name="login_web">Ingresar a la página web:</string>
