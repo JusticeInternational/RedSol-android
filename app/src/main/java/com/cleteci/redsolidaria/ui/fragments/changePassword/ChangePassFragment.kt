@@ -101,6 +101,12 @@ class ChangePassFragment : BaseFragment() , ChangePassContract.View , TextWatche
         Toast.makeText(activity, mdg, Toast.LENGTH_SHORT).show()
     }
 
+    override fun saved() {
+        activity?.runOnUiThread(Runnable {
+            showDialog()
+        })
+    }
+
     private fun initView() {
         //presenter.loadMessage()
     }
@@ -125,20 +131,14 @@ class ChangePassFragment : BaseFragment() , ChangePassContract.View , TextWatche
             WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN
         )
         dialog.setCancelable(false)
-        dialog.setContentView(R.layout.comp_alert_go_to_login)
+        dialog.setContentView(R.layout.comp_alert_succes_suggest_resource)
+        // val body = dialog .findViewById(R.id.body) as TextView
 
-        val yesBtn = dialog.findViewById(R.id.btLogin) as Button
-
-        val btCancel = dialog.findViewById(R.id.btCancel) as Button
+        val yesBtn = dialog.findViewById(R.id.btCont) as Button
 
         yesBtn.setOnClickListener {
-            (activity as MainActivity).goToLogin()
             dialog.dismiss()
-        }
-
-        btCancel.setOnClickListener {
-            activity?.onBackPressed()
-            dialog.dismiss()
+            (activity as MainActivity).onBackPressed()
         }
 
         dialog.show()

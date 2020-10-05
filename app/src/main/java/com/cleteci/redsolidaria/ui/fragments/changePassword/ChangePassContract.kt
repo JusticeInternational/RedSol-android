@@ -10,6 +10,8 @@ class ChangePassContract {
     interface View: BaseContract.View {
         fun init()
         fun errorPass(mdg:String)
+        fun saved()
+
     }
 
     interface Presenter: BaseContract.Presenter<ChangePassContract.View> {

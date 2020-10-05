@@ -122,8 +122,9 @@ class MyProfileProviderFragment : BaseFragment(), MyProfileProviderContract.View
 
         btSend!!.setOnClickListener {
 
-            if (etName!!.text.isNotEmpty() && etLocation!!.text.isNotEmpty() && etWeb!!.text.isNotEmpty() && etDesc!!.text.isNotEmpty()) {
-                showDialog()
+            if (etName!!.text.isNotEmpty() && etWeb!!.text.isNotEmpty() && etLocation!!.text.isNotEmpty() &&
+                etPhone!!.text.isNotEmpty() && etDesc!!.text.isNotEmpty() && etAboutUs!!.text.isNotEmpty()) {
+                updateOrganization()
             } else {
                 Toast.makeText(context, getString(R.string.missing_data), Toast.LENGTH_LONG).show()
             }
@@ -168,6 +169,11 @@ class MyProfileProviderFragment : BaseFragment(), MyProfileProviderContract.View
         presenter.loadData()
     }
 
+    private fun updateOrganization() {
+        presenter.updateOrg(etName!!.text.toString(), etWeb!!.text.toString(),
+            etPhone!!.text.toString(), etAboutUs!!.text.toString(), etDesc!!.text.toString())
+    }
+
     override fun loadDataSuccess(org: Organization) {
         activity?.runOnUiThread(Runnable {
             etName?.setText(org.name)
@@ -177,6 +183,12 @@ class MyProfileProviderFragment : BaseFragment(), MyProfileProviderContract.View
             etAboutUs?.setText(org.aboutUs)
             etDesc?.setText(org.servicesDesc)
             tvPlan?.text = org.plan
+        })
+    }
+
+    override fun savedSuccess() {
+        activity?.runOnUiThread(Runnable {
+            showDialog()
         })
     }
 

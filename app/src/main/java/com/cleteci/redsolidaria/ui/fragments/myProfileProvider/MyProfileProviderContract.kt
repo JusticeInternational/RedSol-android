@@ -12,10 +12,12 @@ class MyProfileProviderContract {
     interface View: BaseContract.View {
         fun init()
         fun loadDataSuccess(org: Organization)
+        fun savedSuccess()
     }
 
     interface Presenter: BaseContract.Presenter<MyProfileProviderContract.View> {
         //fun onDrawerOptionAboutClick()
         fun loadData()
+        fun updateOrg(name: String, webPage: String, phone: String, aboutUs: String, servDesc: String)
     }
 }

@@ -34,18 +34,17 @@ class ChangePassPresenter: ChangePassContract.Presenter {
     }
 
     override fun verifyData(newPass: String) {
-        var t : RequestHeaders = RequestHeaders.builder().build()
-        t.toBuilder().addHeader("Authorization",BaseApp.prefs.token.toString())
         if (newPass.isEmpty()){
             view.errorPass(BaseApp.instance.getString(R.string.wrong_pass))
         } else {
             BaseApp.apolloClient.mutate(
-                ChangePasswordMutation.builder().password(newPass)
+                ChangePasswordMutation.builder().password(newPass).token(BaseApp.prefs.token.toString())
                     .build()
-            ).requestHeaders(t).enqueue(object : ApolloCall.Callback<ChangePasswordMutation.Data>() {
+            ).enqueue(object : ApolloCall.Callback<ChangePasswordMutation.Data>() {
                 override fun onResponse(response: Response<ChangePasswordMutation.Data>) {
                     if (response.data() != null) {
-
+                        BaseApp.prefs.token = response.data()?.changeUserPassword()
+                        view.saved()
                     } else {
                         //view.errorEmailPass(BaseApp.instance.getString(R.string.wrong_login))
                     }
@@ -58,5 +57,4 @@ class ChangePassPresenter: ChangePassContract.Presenter {
             })
         }
     }
-
 }

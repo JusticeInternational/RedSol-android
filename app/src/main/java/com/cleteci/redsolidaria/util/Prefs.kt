@@ -8,6 +8,7 @@ class Prefs(context: Context) {
     val SHARED_NAME = "shared_first_time"
     val LOGIN_LATER = "shared_login_later"
     val USER_SAVED = "shared_user_saved"
+    val CURRENT_ORG = "shared_current_org"
     val TYPE_USER = "shared_user_type"
     val TOKEN = "token"
 
@@ -31,6 +32,10 @@ class Prefs(context: Context) {
     var user_saved: String?
         get() = prefs.getString(USER_SAVED, null)
         set(value) = prefs.edit().putString(USER_SAVED, value).apply()
+
+    var current_org: String?
+        get() = prefs.getString(CURRENT_ORG, null)
+        set(value) = prefs.edit().putString(CURRENT_ORG, value).apply()
 
     var token: String?
         get() = prefs.getString(TOKEN, null)
