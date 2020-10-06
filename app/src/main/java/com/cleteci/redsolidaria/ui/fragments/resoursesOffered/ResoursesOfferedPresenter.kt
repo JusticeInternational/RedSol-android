@@ -78,7 +78,7 @@ class ResoursesOfferedPresenter : ResoursesOfferedContract.Presenter {
                     Resource(
                         service.id(), "Servicio genérico",
                         "", "", serviceCategory.id(),
-                        "", resourceId, ""
+                        "", resourceId, service.description()
                     )
 
                 )
@@ -102,7 +102,7 @@ class ResoursesOfferedPresenter : ResoursesOfferedContract.Presenter {
                 arrayList.add(
                     Resource(service.id(),service.name()!!,
                 "","",serviceCategory.id(),
-                "", resourceId, "")
+                "", resourceId, service.description())
 
                 )
             }

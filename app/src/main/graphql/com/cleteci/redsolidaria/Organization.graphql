@@ -32,7 +32,7 @@ query getOrganizationServicesAndCategories($id: ID) {
             services {
                 name
                 id
-                
+                description
                 serviceCategory {
                     name
                     id

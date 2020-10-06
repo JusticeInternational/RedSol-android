@@ -3,6 +3,9 @@ package com.cleteci.redsolidaria.ui.fragments.resoursesOffered
 
 import android.os.Bundle
 import android.view.*
+import android.view.View.GONE
+import android.view.View.VISIBLE
+import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -27,7 +30,10 @@ import com.google.gson.Gson
 class ResoursesOfferedFragment : BaseFragment(), ResoursesOfferedContract.View,
     ResourseCategoryAdapter.onItemClickListener, ResourseAdapter.onItemClickListener {
 
-    var isFromScan=false;
+    var isFromScan=false
+
+    var tvLabelResourses: TextView? = null
+    var tvLabelCategories: TextView? = null
 
     var rvResourses: RecyclerView? = null
     var rvResoursesGeneric: RecyclerView? = null
@@ -69,9 +75,13 @@ class ResoursesOfferedFragment : BaseFragment(), ResoursesOfferedContract.View,
         savedInstanceState: Bundle?
     ): View? {
         rootView = inflater.inflate(R.layout.fragment_resourses_offered, container, false)
+
         rvMyCategories = rootView.findViewById(R.id.rvMyCategories)
         rvResourses=rootView.findViewById(R.id.rvResourses)
         rvResoursesGeneric=rootView.findViewById(R.id.rvResoursesGeneric)
+         tvLabelResourses=rootView.findViewById(R.id.tvLabelResourses)
+         tvLabelCategories=rootView.findViewById(R.id.tvLabelCategories)
+        showLabels()
         fab=rootView.findViewById(R.id.fab)
         fab?.setOnClickListener{
             (activity as MainActivity).openCreateServiceFragment()
@@ -96,6 +106,8 @@ class ResoursesOfferedFragment : BaseFragment(), ResoursesOfferedContract.View,
         genericResoursesAdapter = ResourseAdapter(
             activity?.applicationContext, listGenericResourses, this, 3
         )
+
+
 
         rvMyCategories?.setAdapter(mAdapter)
         rvResourses?.setAdapter(resoursesAdapter)
@@ -142,10 +154,27 @@ class ResoursesOfferedFragment : BaseFragment(), ResoursesOfferedContract.View,
             listResourses.addAll(services)
             resoursesAdapter?.notifyDataSetChanged()
 
+
+            showLabels()
+
             listGenericResourses.clear()
             listGenericResourses.addAll(genericServices)
             genericResoursesAdapter?.notifyDataSetChanged()
         })
+    }
+
+    fun showLabels(){
+        if (listResourses.size==0){
+            tvLabelResourses?.visibility=GONE
+        }else{
+            tvLabelResourses?.visibility= VISIBLE
+        }
+
+        if (listCategories.size==0){
+            tvLabelCategories?.visibility=GONE
+        }else{
+            tvLabelCategories?.visibility= VISIBLE
+        }
     }
 
     override fun itemDetail(postId: Int) {

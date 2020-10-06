@@ -41,6 +41,16 @@ class ResourseAdapter(
         holder!!.tvHourHand?.text = post.hourHand
         holder!!.rbGeneral?.rating = post.ranking.toFloat()
 
+        if (post.description!=null && post.description?.length!!>0){
+            holder.tvDescription?.visibility= View.VISIBLE
+            holder.tvDescription?.setText(post.description)
+
+        }else{
+
+            holder.tvDescription?.visibility= View.GONE
+
+        }
+
         if (position==itemCount-1){
             holder.viewLine?.visibility= View.GONE
         }else{
@@ -82,6 +92,8 @@ class ResourseAdapter(
         val rbGeneral: RatingBar? = itemView.findViewById<RatingBar>(R.id.rbGeneral)
         val body: ImageView? = itemView.findViewById<ImageView>(R.id.imageview)
         val viewLine = itemView.findViewById<View>(R.id.viewLine)
+        val tvDescription = itemView.findViewById<TextView>(R.id.tvDescription)
+
 
         fun bind(item: Resource) {
 
