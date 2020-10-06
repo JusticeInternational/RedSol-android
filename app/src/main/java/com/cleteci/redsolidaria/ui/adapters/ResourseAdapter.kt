@@ -16,15 +16,15 @@ import com.cleteci.redsolidaria.models.Resource
 
 class ResourseAdapter(
     private val context: Context?, private val list: MutableList<Resource>,
-    fragment: Fragment, typeInfl: Int
+    fragment: onItemClickListener, typeInfl: Int
 ) : RecyclerView.Adapter<ResourseAdapter.ListViewHolder>() {
 
-    private val listener: ResourseAdapter.onItemClickListener
+    private val listener: onItemClickListener
     private val inflaterLayType: Int
 
     init {
-        this.listener = fragment as ResourseAdapter.onItemClickListener
-        this.inflaterLayType = typeInfl as Int
+        this.listener = fragment
+        this.inflaterLayType = typeInfl
 
     }
 
@@ -41,8 +41,14 @@ class ResourseAdapter(
         holder!!.tvHourHand?.text = post.hourHand
         holder!!.rbGeneral?.rating = post.ranking.toFloat()
 
+        if (position==itemCount-1){
+            holder.viewLine?.visibility= View.GONE
+        }else{
+            holder.viewLine?.visibility= View.VISIBLE
+        }
+
         holder.layout?.setOnClickListener {
-            listener.clickDetailResource(post.id.toString()!!)
+            listener.clickDetailResource(post.id!!)
         }
     }
 
@@ -53,8 +59,10 @@ class ResourseAdapter(
         if (inflaterLayType == 1) {
             itemView = LayoutInflater.from(context).inflate(R.layout.item_resourse, parent, false)
 
-        } else  {
+        } else if (inflaterLayType == 3)  {
 
+            itemView = LayoutInflater.from(context).inflate(R.layout.item_my_resourse_provider, parent, false)
+        }else{
             itemView = LayoutInflater.from(context).inflate(R.layout.item_my_resourse, parent, false)
         }
 
@@ -73,6 +81,7 @@ class ResourseAdapter(
         val tvHourHand: TextView? = itemView.findViewById<TextView>(R.id.tvHourHand)
         val rbGeneral: RatingBar? = itemView.findViewById<RatingBar>(R.id.rbGeneral)
         val body: ImageView? = itemView.findViewById<ImageView>(R.id.imageview)
+        val viewLine = itemView.findViewById<View>(R.id.viewLine)
 
         fun bind(item: Resource) {
 

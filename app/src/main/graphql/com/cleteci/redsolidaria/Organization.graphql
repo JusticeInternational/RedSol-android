@@ -26,6 +26,31 @@ query getOrganizationServices($id: ID) {
     }
 }
 
+query getOrganizationServicesAndCategories($id: ID) {
+    User(id: $id) {
+        ownerOf {
+            services {
+                name
+                id
+                
+                serviceCategory {
+                    name
+                    id
+                    icon
+                    description
+                }
+            }
+
+            serviceCategories {
+                name
+                id
+                icon
+                description
+            }
+        }
+    }
+}
+
 query getOrganizationInfo($id: ID) {
     User(id: $id) {
         ownerOf {

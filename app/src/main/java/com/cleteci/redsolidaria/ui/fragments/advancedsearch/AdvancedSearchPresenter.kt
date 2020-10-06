@@ -44,7 +44,7 @@ class AdvancedSearchPresenter: AdvancedSearchContract.Presenter {
                     serviceCategory.id(),
                     serviceCategory.name(),
                     serviceCategory.icon(),
-                    resourceId
+                    resourceId, ""
                 )
             )//Adding object in arraylist
         }

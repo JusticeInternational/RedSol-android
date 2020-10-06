@@ -45,7 +45,7 @@ class BasicSearchPresenter: BasicSearchContract.Presenter {
                     serviceCategory.id(),
                     serviceCategory.name(),
                     serviceCategory.icon(),
-                    resourceId
+                    resourceId, ""
                 )
             )//Adding object in arraylist
         }

@@ -3,6 +3,8 @@ package com.cleteci.redsolidaria.ui.adapters
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RelativeLayout
@@ -40,6 +42,22 @@ class ResourseCategoryAdapter
 
         holder!!.title!!.setText(post.name)
         holder.body!!.setImageResource(post.photo)
+        if (post.description!=null && post.description?.length!!>0){
+            holder.tvDescription?.visibility= VISIBLE
+            holder.tvDescription?.setText(post.description)
+
+        }else{
+
+            holder.tvDescription?.visibility= GONE
+
+        }
+
+
+        if (position==itemCount-1){
+            holder.viewLine?.visibility=GONE
+        }else{
+            holder.viewLine?.visibility= VISIBLE
+        }
 
         holder.layout!!.setOnClickListener {
             listener.itemDetail(position)
@@ -74,6 +92,11 @@ class ResourseCategoryAdapter
         var layout = itemView.findViewById<RelativeLayout>(R.id.parentr)
         val title = itemView.findViewById<TextView>(R.id.tvName)
         val body = itemView.findViewById<ImageView>(R.id.imageview)
+        val viewLine = itemView.findViewById<View>(R.id.viewLine)
+        val tvDescription = itemView.findViewById<TextView>(R.id.tvDescription)
+
+
+
 
         fun bind(item: ResourceCategory) {
             // title = item.post

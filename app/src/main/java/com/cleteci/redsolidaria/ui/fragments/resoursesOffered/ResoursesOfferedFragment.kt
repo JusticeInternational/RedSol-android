@@ -3,6 +3,7 @@ package com.cleteci.redsolidaria.ui.fragments.resoursesOffered
 
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -10,22 +11,35 @@ import com.cleteci.redsolidaria.R
 
 import com.cleteci.redsolidaria.di.component.DaggerFragmentComponent
 import com.cleteci.redsolidaria.di.module.FragmentModule
+import com.cleteci.redsolidaria.models.Resource
 import com.cleteci.redsolidaria.models.ResourceCategory
 import com.cleteci.redsolidaria.ui.activities.main.MainActivity
+import com.cleteci.redsolidaria.ui.adapters.ResourseAdapter
 import com.cleteci.redsolidaria.ui.adapters.ResourseCategoryAdapter
 import com.cleteci.redsolidaria.ui.base.BaseFragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import javax.inject.Inject
+import com.google.gson.Gson
+
+
 
 
 class ResoursesOfferedFragment : BaseFragment(), ResoursesOfferedContract.View,
-    ResourseCategoryAdapter.onItemClickListener {
+    ResourseCategoryAdapter.onItemClickListener, ResourseAdapter.onItemClickListener {
 
+    var isFromScan=false;
 
     var rvResourses: RecyclerView? = null
+    var rvResoursesGeneric: RecyclerView? = null
+    var rvMyCategories: RecyclerView? = null
     var mAdapter: ResourseCategoryAdapter? = null
+    var resoursesAdapter: ResourseAdapter? = null
+    var genericResoursesAdapter: ResourseAdapter? = null
+    
     var fab: FloatingActionButton? = null
-    private val listResourses = ArrayList<ResourceCategory>()
+    private val listCategories = ArrayList<ResourceCategory>()
+    private val listResourses = ArrayList<Resource>()
+    private val listGenericResourses = ArrayList<Resource>()
 
 
     @Inject
@@ -33,12 +47,20 @@ class ResoursesOfferedFragment : BaseFragment(), ResoursesOfferedContract.View,
 
     private lateinit var rootView: View
 
-    fun newInstance(): ResoursesOfferedFragment {
-        return ResoursesOfferedFragment()
+    fun newInstance(isFromScan: Boolean): ResoursesOfferedFragment {
+        val fragment = ResoursesOfferedFragment()
+        val args = Bundle()
+        args.putBoolean("isScan", isFromScan)
+        fragment.setArguments(args)
+        return fragment
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (arguments != null) {
+             isFromScan = arguments!!.getBoolean("isScan")
+
+        }
         injectDependency()
     }
 
@@ -47,18 +69,37 @@ class ResoursesOfferedFragment : BaseFragment(), ResoursesOfferedContract.View,
         savedInstanceState: Bundle?
     ): View? {
         rootView = inflater.inflate(R.layout.fragment_resourses_offered, container, false)
-        rvResourses = rootView.findViewById(R.id.rvResourses)
+        rvMyCategories = rootView.findViewById(R.id.rvMyCategories)
+        rvResourses=rootView.findViewById(R.id.rvResourses)
+        rvResoursesGeneric=rootView.findViewById(R.id.rvResoursesGeneric)
         fab=rootView.findViewById(R.id.fab)
         fab?.setOnClickListener{
             (activity as MainActivity).openCreateServiceFragment()
         }
+        rvMyCategories?.setLayoutManager(
+            LinearLayoutManager(getActivity())
+        )
         rvResourses?.setLayoutManager(
             LinearLayoutManager(getActivity())
         )
-        mAdapter = ResourseCategoryAdapter(
-            activity?.applicationContext, listResourses, this, 4
+        rvResoursesGeneric?.setLayoutManager(
+            LinearLayoutManager(getActivity())
         )
-        rvResourses?.setAdapter(mAdapter)
+        mAdapter = ResourseCategoryAdapter(
+            activity?.applicationContext, listCategories, this, 4
+        )
+
+        resoursesAdapter = ResourseAdapter(
+            activity?.applicationContext, listResourses, this, 3
+        )
+
+        genericResoursesAdapter = ResourseAdapter(
+            activity?.applicationContext, listGenericResourses, this, 3
+        )
+
+        rvMyCategories?.setAdapter(mAdapter)
+        rvResourses?.setAdapter(resoursesAdapter)
+        rvResoursesGeneric?.setAdapter(genericResoursesAdapter)
         return rootView
     }
 
@@ -91,17 +132,34 @@ class ResoursesOfferedFragment : BaseFragment(), ResoursesOfferedContract.View,
         //presenter.loadMessage()
     }
 
-    override fun loadDataSuccess(pending: List<ResourceCategory>) {
+    override fun loadDataSuccess(pending: List<ResourceCategory>, services:  List<Resource>, genericServices:  List<Resource>) {
         activity?.runOnUiThread(Runnable {
-            listResourses.clear()
-            listResourses.addAll(pending)
+            listCategories.clear()
+            listCategories.addAll(pending)
             mAdapter?.notifyDataSetChanged()
+
+            listResourses.clear()
+            listResourses.addAll(services)
+            resoursesAdapter?.notifyDataSetChanged()
+
+            listGenericResourses.clear()
+            listGenericResourses.addAll(genericServices)
+            genericResoursesAdapter?.notifyDataSetChanged()
         })
     }
 
     override fun itemDetail(postId: Int) {
-        (activity as MainActivity).openInfoServiceFragment(listResourses.get(postId))
+        (activity as MainActivity).openInfoServiceFragment(listCategories.get(postId))
     }
+
+    override fun clickDetailResource(postId: String) {
+
+        Toast.makeText(activity, "Definir acción para recursos", Toast.LENGTH_SHORT ).show()
+
+     //   (activity as MainActivity).openInfoServiceFragment(listResourses.get(0).)
+
+    }
+
 
     companion object {
         val TAG: String = "ResoursesProviderFragment"
