@@ -44,7 +44,7 @@ class ResourcesResultPresenter: ResourcesResultContract.Presenter {
                         ranking = organization.ranking().toString(),
                         photo = R.drawable.ic_sun2,
                         cate = "Testing",
-                        location = organization.location()?.name().toString()
+                        location = organization.location()?.name().toString(),description =""
                     )
                 )//Adding object in arraylist
             }

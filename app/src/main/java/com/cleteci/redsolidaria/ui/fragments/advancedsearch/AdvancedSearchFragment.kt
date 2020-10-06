@@ -40,6 +40,7 @@ import javax.inject.Inject
 class AdvancedSearchFragment : BaseFragment(), AdvancedSearchContract.View,
     ResourseCategoryAdapter.onItemClickListener {
 
+
     private var mFusedLocationClient: FusedLocationProviderClient? = null
     protected var mLastLocation: Location? = null
     var mListRecyclerView: RecyclerView? = null
@@ -118,7 +119,7 @@ class AdvancedSearchFragment : BaseFragment(), AdvancedSearchContract.View,
             startActivityForResult(locationPickerIntent, MAP_BUTTON_REQUEST_CODE)
         }
         mListRecyclerView?.setLayoutManager(LinearLayoutManager(getActivity()))
-        mAdapter = ResourseCategoryAdapter(activity?.applicationContext, listCategory, this, 2)
+        mAdapter = ResourseCategoryAdapter(activity?.applicationContext, listCategory, this, 2,  false)
         mListRecyclerView?.setAdapter(mAdapter)
         return rootView
     }
@@ -289,6 +290,11 @@ class AdvancedSearchFragment : BaseFragment(), AdvancedSearchContract.View,
             // .setCustomAnimations(AnimType.FADE.getAnimPair().first, AnimType.FADE.getAnimPair().second)
             .replace(R.id.container1, ResourcesResultFragment().newInstance(this.listCategory[postId], "asdf"), ResourcesResultFragment.TAG)
             .commit()
+    }
+
+    override fun clickScanCategory(postId: String) {
+
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

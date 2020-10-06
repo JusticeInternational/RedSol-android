@@ -25,6 +25,8 @@ class MainContract {
 
         fun showScanFragment()
 
+        fun showScanListFragment()
+
         fun showResoursesProviderFragment()
     }
 

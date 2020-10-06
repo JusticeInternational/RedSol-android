@@ -28,15 +28,15 @@ class MapPresenter: MapContract.Presenter {
     override fun loadData() {
 
         val arrayList = ArrayList<ResourceCategory>()//Creating an empty arraylist
-        val tipo1 = ResourceCategory("1","Salud", "asdf", R.drawable.ic_emergency)//Creating an empty arraylist
+        val tipo1 = ResourceCategory("1","Salud", "asdf", R.drawable.ic_emergency, "")//Creating an empty arraylist
         arrayList.add(tipo1)//Adding object in arraylist
-        val tipo2 = ResourceCategory("2","Educacion", "asdf", R.drawable.ic_education)//Creating an empty arraylist
+        val tipo2 = ResourceCategory("2","Educacion", "asdf", R.drawable.ic_education, "")//Creating an empty arraylist
         arrayList.add(tipo2)//Adding object in arraylist
-        val tipo3 = ResourceCategory("3","Trabajo", "asdf", R.drawable.ic_job)//Creating an empty arraylist
+        val tipo3 = ResourceCategory("3","Trabajo", "asdf", R.drawable.ic_job, "")//Creating an empty arraylist
         arrayList.add(tipo3)//Adding object in arraylist
-        val tipo4 = ResourceCategory("4","Transporte", "asdf", R.drawable.ic_transp)//Creating an empty arraylist
+        val tipo4 = ResourceCategory("4","Transporte", "asdf", R.drawable.ic_transp, "")//Creating an empty arraylist
         arrayList.add(tipo4)//Adding object in arraylist
-        val tipo6 = ResourceCategory("6","Asesoria", "asdf", R.drawable.ic_justice)//Creating an empty arraylist
+        val tipo6 = ResourceCategory("6","Asesoria", "asdf", R.drawable.ic_justice, "")//Creating an empty arraylist
         arrayList.add(tipo6)//Adding object in arraylist
 
         view.loadDataSuccess(arrayList)

@@ -16,15 +16,17 @@ import com.cleteci.redsolidaria.models.Resource
 
 class ResourseAdapter(
     private val context: Context?, private val list: MutableList<Resource>,
-    fragment: Fragment, typeInfl: Int
+    fragment: onItemClickListener, typeInfl: Int, isFromScan:Boolean
 ) : RecyclerView.Adapter<ResourseAdapter.ListViewHolder>() {
 
-    private val listener: ResourseAdapter.onItemClickListener
+    private val listener: onItemClickListener
     private val inflaterLayType: Int
+    private val isScan: Boolean
 
     init {
-        this.listener = fragment as ResourseAdapter.onItemClickListener
-        this.inflaterLayType = typeInfl as Int
+        this.listener = fragment
+        this.inflaterLayType = typeInfl
+        this.isScan=isFromScan
 
     }
 
@@ -41,8 +43,35 @@ class ResourseAdapter(
         holder!!.tvHourHand?.text = post.hourHand
         holder!!.rbGeneral?.rating = post.ranking.toFloat()
 
+        if (post.description!=null && post.description?.length!!>0){
+            holder.tvDescription?.visibility= View.VISIBLE
+            holder.tvDescription?.setText(post.description)
+
+        }else{
+
+            holder.tvDescription?.visibility= View.GONE
+
+        }
+
+        if (this.isScan){
+
+            holder.ivArrow?.setImageResource(R.drawable.ic_scan)
+
+        }else{
+
+            holder.ivArrow?.setImageResource(R.drawable.ic_right)
+
+        }
+
+
+        if (position==itemCount-1){
+            holder.viewLine?.visibility= View.GONE
+        }else{
+            holder.viewLine?.visibility= View.VISIBLE
+        }
+
         holder.layout?.setOnClickListener {
-            listener.clickDetailResource(post.id.toString()!!)
+            listener.clickDetailResource(post.id!!)
         }
     }
 
@@ -53,8 +82,10 @@ class ResourseAdapter(
         if (inflaterLayType == 1) {
             itemView = LayoutInflater.from(context).inflate(R.layout.item_resourse, parent, false)
 
-        } else  {
+        } else if (inflaterLayType == 3)  {
 
+            itemView = LayoutInflater.from(context).inflate(R.layout.item_my_resourse_provider, parent, false)
+        }else{
             itemView = LayoutInflater.from(context).inflate(R.layout.item_my_resourse, parent, false)
         }
 
@@ -73,6 +104,10 @@ class ResourseAdapter(
         val tvHourHand: TextView? = itemView.findViewById<TextView>(R.id.tvHourHand)
         val rbGeneral: RatingBar? = itemView.findViewById<RatingBar>(R.id.rbGeneral)
         val body: ImageView? = itemView.findViewById<ImageView>(R.id.imageview)
+        val viewLine = itemView.findViewById<View>(R.id.viewLine)
+        val tvDescription = itemView.findViewById<TextView>(R.id.tvDescription)
+        val ivArrow = itemView.findViewById<ImageView>(R.id.ivArrow)
+
 
         fun bind(item: Resource) {
 
@@ -80,6 +115,8 @@ class ResourseAdapter(
     }
 
     interface onItemClickListener {
+
+        fun clickScanresourse(postId: String)
 
         fun clickDetailResource(postId: String)
     }

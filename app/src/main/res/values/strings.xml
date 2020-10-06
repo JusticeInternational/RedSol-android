@@ -35,7 +35,10 @@
     <string name="missing_data">Por favor complete el formulario</string>
 
     <!--BOTTOM BAR-->
+    <string name="my_categories">Mis categorias</string>
     <string name="my_resourse">Mis recursos</string>
+    <string name="count_resourses">Contabilizar recursos</string>
+    <string name="my_resourse_detailed">Mis recursos detallados</string>
     <string name="map">Mapa</string>
     <string name="scan_qr">Scan QR</string>
     <string name="search">Buscar</string>

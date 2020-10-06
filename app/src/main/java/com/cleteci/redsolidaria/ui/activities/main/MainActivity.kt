@@ -278,10 +278,19 @@ class MainActivity : AppCompatActivity(), MainContract.View, NavigationView.OnNa
             .commit()
     }
 
+    override fun showScanListFragment() {
+        supportFragmentManager.beginTransaction()
+            .addToBackStack(null)
+            .replace(R.id.container1, ResoursesOfferedFragment().newInstance(true), ResoursesOfferedFragment.TAG)
+            .commit()
+    }
+
+
+
     override fun showResoursesProviderFragment() {
         supportFragmentManager.beginTransaction()
             .addToBackStack(null)
-            .replace(R.id.container1, ResoursesOfferedFragment().newInstance(), ResoursesOfferedFragment.TAG)
+            .replace(R.id.container1, ResoursesOfferedFragment().newInstance(false), ResoursesOfferedFragment.TAG)
             .commit()
 
     }

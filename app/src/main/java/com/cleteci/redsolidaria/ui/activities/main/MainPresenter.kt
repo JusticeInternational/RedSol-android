@@ -58,7 +58,7 @@ class MainPresenter: MainContract.Presenter {
     }
 
     override fun onNavScanOption() {
-        view.showScanFragment()
+        view.showScanListFragment()
     }
 
     override fun onNavResoursesProviderOption() {
