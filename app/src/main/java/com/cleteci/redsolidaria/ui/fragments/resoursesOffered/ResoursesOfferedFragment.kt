@@ -25,12 +25,11 @@ import javax.inject.Inject
 import com.google.gson.Gson
 
 
-
-
 class ResoursesOfferedFragment : BaseFragment(), ResoursesOfferedContract.View,
     ResourseCategoryAdapter.onItemClickListener, ResourseAdapter.onItemClickListener {
 
-    var isFromScan=false
+
+    var isFromScan = false
 
     var tvLabelResourses: TextView? = null
     var tvLabelCategories: TextView? = null
@@ -41,7 +40,7 @@ class ResoursesOfferedFragment : BaseFragment(), ResoursesOfferedContract.View,
     var mAdapter: ResourseCategoryAdapter? = null
     var resoursesAdapter: ResourseAdapter? = null
     var genericResoursesAdapter: ResourseAdapter? = null
-    
+
     var fab: FloatingActionButton? = null
     private val listCategories = ArrayList<ResourceCategory>()
     private val listResourses = ArrayList<Resource>()
@@ -64,7 +63,7 @@ class ResoursesOfferedFragment : BaseFragment(), ResoursesOfferedContract.View,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (arguments != null) {
-             isFromScan = arguments!!.getBoolean("isScan")
+            isFromScan = arguments!!.getBoolean("isScan")
 
         }
         injectDependency()
@@ -77,13 +76,13 @@ class ResoursesOfferedFragment : BaseFragment(), ResoursesOfferedContract.View,
         rootView = inflater.inflate(R.layout.fragment_resourses_offered, container, false)
 
         rvMyCategories = rootView.findViewById(R.id.rvMyCategories)
-        rvResourses=rootView.findViewById(R.id.rvResourses)
-        rvResoursesGeneric=rootView.findViewById(R.id.rvResoursesGeneric)
-         tvLabelResourses=rootView.findViewById(R.id.tvLabelResourses)
-         tvLabelCategories=rootView.findViewById(R.id.tvLabelCategories)
+        rvResourses = rootView.findViewById(R.id.rvResourses)
+        rvResoursesGeneric = rootView.findViewById(R.id.rvResoursesGeneric)
+        tvLabelResourses = rootView.findViewById(R.id.tvLabelResourses)
+        tvLabelCategories = rootView.findViewById(R.id.tvLabelCategories)
         showLabels()
-        fab=rootView.findViewById(R.id.fab)
-        fab?.setOnClickListener{
+        fab = rootView.findViewById(R.id.fab)
+        fab?.setOnClickListener {
             (activity as MainActivity).openCreateServiceFragment()
         }
         rvMyCategories?.setLayoutManager(
@@ -96,15 +95,15 @@ class ResoursesOfferedFragment : BaseFragment(), ResoursesOfferedContract.View,
             LinearLayoutManager(getActivity())
         )
         mAdapter = ResourseCategoryAdapter(
-            activity?.applicationContext, listCategories, this, 4
+            activity?.applicationContext, listCategories, this, 4, isFromScan
         )
 
         resoursesAdapter = ResourseAdapter(
-            activity?.applicationContext, listResourses, this, 3
+            activity?.applicationContext, listResourses, this, 3, isFromScan
         )
 
         genericResoursesAdapter = ResourseAdapter(
-            activity?.applicationContext, listGenericResourses, this, 3
+            activity?.applicationContext, listGenericResourses, this, 3, isFromScan
         )
 
 
@@ -144,7 +143,11 @@ class ResoursesOfferedFragment : BaseFragment(), ResoursesOfferedContract.View,
         //presenter.loadMessage()
     }
 
-    override fun loadDataSuccess(pending: List<ResourceCategory>, services:  List<Resource>, genericServices:  List<Resource>) {
+    override fun loadDataSuccess(
+        pending: List<ResourceCategory>,
+        services: List<Resource>,
+        genericServices: List<Resource>
+    ) {
         activity?.runOnUiThread(Runnable {
             listCategories.clear()
             listCategories.addAll(pending)
@@ -163,29 +166,47 @@ class ResoursesOfferedFragment : BaseFragment(), ResoursesOfferedContract.View,
         })
     }
 
-    fun showLabels(){
-        if (listResourses.size==0){
-            tvLabelResourses?.visibility=GONE
-        }else{
-            tvLabelResourses?.visibility= VISIBLE
+    fun showLabels() {
+        if (listResourses.size == 0) {
+            tvLabelResourses?.visibility = GONE
+        } else {
+            tvLabelResourses?.visibility = VISIBLE
         }
 
-        if (listCategories.size==0){
-            tvLabelCategories?.visibility=GONE
-        }else{
-            tvLabelCategories?.visibility= VISIBLE
+        if (listCategories.size == 0) {
+            tvLabelCategories?.visibility = GONE
+        } else {
+            tvLabelCategories?.visibility = VISIBLE
         }
     }
 
     override fun itemDetail(postId: Int) {
-        (activity as MainActivity).openInfoServiceFragment(listCategories.get(postId))
+        if (!isFromScan) {
+            (activity as MainActivity).openInfoServiceFragment(listCategories.get(postId))
+        } else {
+            (activity as MainActivity).showScanFragment()
+        }
     }
 
     override fun clickDetailResource(postId: String) {
 
-        Toast.makeText(activity, "Definir acción para recursos", Toast.LENGTH_SHORT ).show()
+        if (!isFromScan) {
+            Toast.makeText(activity, "Definir acción para recursos", Toast.LENGTH_SHORT).show()
+        } else {
+            (activity as MainActivity).showScanFragment()
+        }
 
-     //   (activity as MainActivity).openInfoServiceFragment(listResourses.get(0).)
+
+
+        //   (activity as MainActivity).openInfoServiceFragment(listResourses.get(0).)
+
+    }
+
+    override fun clickScanresourse(postId: String) {
+
+    }
+
+    override fun clickScanCategory(postId: String) {
 
     }
 
@@ -196,10 +217,21 @@ class ResoursesOfferedFragment : BaseFragment(), ResoursesOfferedContract.View,
 
     override fun onResume() {
         super.onResume()
-        (activity as MainActivity).setTextToolbar(
-            getText(R.string.my_resourse).toString(),
-            activity!!.resources.getColor(R.color.colorWhite)
-        )
+
+        if (!isFromScan) {
+            (activity as MainActivity).setTextToolbar(
+                getText(R.string.my_resourse).toString(),
+                activity!!.resources.getColor(R.color.colorWhite)
+            )
+        } else {
+            (activity as MainActivity).setTextToolbar(
+                getText(R.string.count_resourses).toString(),
+                activity!!.resources.getColor(R.color.colorWhite)
+            )
+        }
+
+
+
 
     }
 

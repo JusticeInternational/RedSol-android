@@ -27,6 +27,7 @@ import javax.inject.Inject
 class MyResoursesFragment : BaseFragment(), MyResoursesContract.View, ResourseAdapter.onItemClickListener {
 
 
+
     var mScrollView: NestedScrollView? = null
 
     var lyEmpty: LinearLayout? = null
@@ -74,22 +75,22 @@ class MyResoursesFragment : BaseFragment(), MyResoursesContract.View, ResourseAd
 
         rvPending = rootView?.findViewById(R.id.rvPending)
         rvPending?.setLayoutManager(LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false))
-        mAdapterPending = ResourseAdapter(activity?.applicationContext, listPending, this, 2)
+        mAdapterPending = ResourseAdapter(activity?.applicationContext, listPending, this, 2,  false)
         rvPending?.setAdapter(mAdapterPending)
 
         rvSaved = rootView?.findViewById(R.id.rvSaved)
         rvSaved?.setLayoutManager(LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false))
-        mAdapterSaved = ResourseAdapter(activity?.applicationContext, listSaved, this, 2)
+        mAdapterSaved = ResourseAdapter(activity?.applicationContext, listSaved, this, 2,  false)
         rvSaved?.setAdapter(mAdapterSaved)
 
         rvVolunteering = rootView?.findViewById(R.id.rvVolunteering)
         rvVolunteering?.setLayoutManager(LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false))
-        mAdapterVolunteering = ResourseAdapter(activity?.applicationContext, listVolunteering, this, 2)
+        mAdapterVolunteering = ResourseAdapter(activity?.applicationContext, listVolunteering, this, 2,  false)
         rvVolunteering?.setAdapter(mAdapterVolunteering)
 
         rvUsed = rootView?.findViewById(R.id.rvUsed)
         rvUsed?.setLayoutManager(LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false))
-        mAdapterUsed = ResourseAdapter(activity?.applicationContext, listUsed, this, 2)
+        mAdapterUsed = ResourseAdapter(activity?.applicationContext, listUsed, this, 2,  false)
         rvUsed?.setAdapter(mAdapterUsed)
 
         return rootView
@@ -154,6 +155,11 @@ class MyResoursesFragment : BaseFragment(), MyResoursesContract.View, ResourseAd
 
     override fun clickDetailResource(postId: String) {
         ( activity as MainActivity).openServiceDetailFragment()
+    }
+
+    override fun clickScanresourse(postId: String) {
+
+
     }
 
     override fun onResume() {

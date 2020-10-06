@@ -43,6 +43,8 @@ import com.cleteci.redsolidaria.ui.base.BaseFragment
 
 class MapFragment : BaseFragment(), MapContract.View, OnMapReadyCallback, ResourseCategoryAdapter.onItemClickListener,
     GoogleMap.OnInfoWindowClickListener {
+
+
     var mListRecyclerView: RecyclerView? = null
     var mAdapter: ResourseCategoryAdapter? = null
     private val listCategory = ArrayList<ResourceCategory>()
@@ -80,7 +82,7 @@ class MapFragment : BaseFragment(), MapContract.View, OnMapReadyCallback, Resour
 
         // only create and set a new adapter if there isn't already one
 
-        mAdapter = ResourseCategoryAdapter(activity?.applicationContext, listCategory, this, 3)
+        mAdapter = ResourseCategoryAdapter(activity?.applicationContext, listCategory, this, 3,  false)
         mListRecyclerView?.setAdapter(mAdapter);
 
         MapsInitializer.initialize(activity)
@@ -286,6 +288,10 @@ class MapFragment : BaseFragment(), MapContract.View, OnMapReadyCallback, Resour
         listCategory.clear()
         listCategory.addAll(list)
         mAdapter?.notifyDataSetChanged()
+
+    }
+
+    override fun clickScanCategory(postId: String) {
 
     }
 

@@ -31,6 +31,7 @@ import com.cleteci.redsolidaria.ui.base.BaseFragment
 class ServiceDetailFragment : BaseFragment(), ServiceDetailContract.View, ResourseCategoryAdapter.onItemClickListener {
 
 
+
     var mListRecyclerView: RecyclerView? = null
     var mAdapter: ResourseCategoryAdapter? = null
     private var listCategory = ArrayList<ResourceCategory>()
@@ -69,7 +70,7 @@ class ServiceDetailFragment : BaseFragment(), ServiceDetailContract.View, Resour
 
         listCategory=presenter.getData()
 
-        mAdapter = ResourseCategoryAdapter(activity?.applicationContext, listCategory, this, 3)
+        mAdapter = ResourseCategoryAdapter(activity?.applicationContext, listCategory, this, 3, false)
         mListRecyclerView?.setAdapter(mAdapter);
 
         val str = SpannableStringBuilder(getString(R.string.be_volunteer))
@@ -374,6 +375,10 @@ class ServiceDetailFragment : BaseFragment(), ServiceDetailContract.View, Resour
     }
 
     override fun itemDetail(postId: Int) {
+
+    }
+
+    override fun clickScanCategory(postId: String) {
 
     }
 

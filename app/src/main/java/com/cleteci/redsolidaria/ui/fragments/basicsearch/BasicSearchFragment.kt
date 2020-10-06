@@ -25,6 +25,7 @@ import com.cleteci.redsolidaria.ui.fragments.resourcesResult.ResourcesResultFrag
 
 class BasicSearchFragment : BaseFragment() , BasicSearchContract.View , ResourseCategoryAdapter.onItemClickListener {
 
+
     var mListRecyclerView: RecyclerView? = null
     var mAdapter:ResourseCategoryAdapter? = null
     var searchView: SearchView? = null
@@ -56,7 +57,7 @@ class BasicSearchFragment : BaseFragment() , BasicSearchContract.View , Resourse
 
         // only create and set a new adapter if there isn't already one
         //if (mAdapter == null) {
-        mAdapter = ResourseCategoryAdapter(activity?.applicationContext, listCategory, this, 1)
+        mAdapter = ResourseCategoryAdapter(activity?.applicationContext, listCategory, this, 1,  false)
         mListRecyclerView?.adapter = mAdapter;
         searchView = rootView?.findViewById(R.id.searchView);
         searchView!!.isIconified = false
@@ -153,6 +154,11 @@ class BasicSearchFragment : BaseFragment() , BasicSearchContract.View , Resourse
             .addToBackStack(null)
             .replace(R.id.container1, ResourcesResultFragment().newInstance(this.listCategory[postId], keyWord), ResourcesResultFragment.TAG)
             .commit()
+
+    }
+
+    override fun clickScanCategory(postId: String) {
+
 
     }
 

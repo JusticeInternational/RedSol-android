@@ -18,17 +18,21 @@ import com.cleteci.redsolidaria.models.ResourceCategory
 class ResourseCategoryAdapter
     (
     private val context: Context?, private val list: MutableList<ResourceCategory>,
-    fragment: Fragment, typeInfl:Int
+    fragment: Fragment, typeInfl:Int, isFromScan:Boolean
 ) : RecyclerView.Adapter<ResourseCategoryAdapter.ListViewHolder>() {
 
     private val listener: ResourseCategoryAdapter.onItemClickListener
 
     private val inflaterLayType: Int
 
+    private val isScan: Boolean
+
     init {
         this.listener = fragment as ResourseCategoryAdapter.onItemClickListener
 
         this.inflaterLayType = typeInfl as Int
+
+        this.isScan=isFromScan
     }
 
 
@@ -49,6 +53,16 @@ class ResourseCategoryAdapter
         }else{
 
             holder.tvDescription?.visibility= GONE
+
+        }
+
+        if (this.isScan){
+
+            holder.ivArrow?.setImageResource(R.drawable.ic_scan)
+
+        }else{
+
+            holder.ivArrow?.setImageResource(R.drawable.ic_right)
 
         }
 
@@ -94,6 +108,8 @@ class ResourseCategoryAdapter
         val body = itemView.findViewById<ImageView>(R.id.imageview)
         val viewLine = itemView.findViewById<View>(R.id.viewLine)
         val tvDescription = itemView.findViewById<TextView>(R.id.tvDescription)
+        val ivArrow = itemView.findViewById<ImageView>(R.id.ivArrow)
+
 
 
 
@@ -105,6 +121,8 @@ class ResourseCategoryAdapter
     }
 
     interface onItemClickListener {
+
+        fun clickScanCategory(postId: String)
 
         fun itemDetail(postId: Int)
     }

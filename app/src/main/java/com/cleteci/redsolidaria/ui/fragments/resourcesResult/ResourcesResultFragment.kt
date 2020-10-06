@@ -29,6 +29,7 @@ class ResourcesResultFragment : BaseFragment(), ResourcesResultContract.View,
     ResourseAdapter.onItemClickListener {
 
 
+
     var mListRecyclerView: RecyclerView? = null
     var mAdapter: ResourseAdapter? = null
     private var imageView: ImageView? = null
@@ -74,7 +75,7 @@ class ResourcesResultFragment : BaseFragment(), ResourcesResultContract.View,
 
         // only create and set a new adapter if there isn't already one
         //if (mAdapter == null) {
-        mAdapter = ResourseAdapter(activity?.applicationContext, listCategory, this, 1)
+        mAdapter = ResourseAdapter(activity?.applicationContext, listCategory, this, 1, false)
         mListRecyclerView?.adapter = mAdapter;
         imageView = rootView?.findViewById<ImageView>(R.id.imageView);
 
@@ -154,6 +155,10 @@ class ResourcesResultFragment : BaseFragment(), ResourcesResultContract.View,
                 ServiceDetailFragment.TAG
             )
             .commit()
+
+    }
+
+    override fun clickScanresourse(postId: String) {
 
     }
 
