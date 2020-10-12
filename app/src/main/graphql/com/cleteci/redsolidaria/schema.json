@@ -1292,6 +1292,16 @@
                 "defaultValue": null
               },
               {
+                "name": "isGeneral",
+                "description": "",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
+                  "ofType": null
+                },
+                "defaultValue": null
+              },
+              {
                 "name": "first",
                 "description": "",
                 "type": {
@@ -7717,6 +7727,26 @@
             "defaultValue": null
           },
           {
+            "name": "isGeneral",
+            "description": "",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Boolean",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "isGeneral_not",
+            "description": "",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Boolean",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
             "name": "organization",
             "description": "",
             "type": {
@@ -10000,6 +10030,18 @@
             "deprecationReason": null
           },
           {
+            "name": "isGeneral_asc",
+            "description": "",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "isGeneral_desc",
+            "description": "",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "createdAt_asc",
             "description": "",
             "isDeprecated": false,
@@ -10078,6 +10120,18 @@
             "type": {
               "kind": "SCALAR",
               "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "isGeneral",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Boolean",
               "ofType": null
             },
             "isDeprecated": false,
