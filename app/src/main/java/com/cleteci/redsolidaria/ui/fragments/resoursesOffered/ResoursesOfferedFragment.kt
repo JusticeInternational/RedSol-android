@@ -191,7 +191,7 @@ class ResoursesOfferedFragment : BaseFragment(), ResoursesOfferedContract.View,
         if (!isFromScan) {
             (activity as MainActivity).openInfoServiceFragment(listCategories.get(postId))
         } else {
-            (activity as MainActivity).showScanFragment()
+            (activity as MainActivity).showScanFragment(null, listCategories.get(postId).id)
         }
     }
 
@@ -200,12 +200,8 @@ class ResoursesOfferedFragment : BaseFragment(), ResoursesOfferedContract.View,
         if (!isFromScan) {
             Toast.makeText(activity, "Definir acción para recursos", Toast.LENGTH_SHORT).show()
         } else {
-            (activity as MainActivity).showScanFragment()
+            (activity as MainActivity).showScanFragment(postId, null)
         }
-
-
-
-        //   (activity as MainActivity).openInfoServiceFragment(listResourses.get(0).)
 
     }
 

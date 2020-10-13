@@ -271,10 +271,10 @@ class MainActivity : AppCompatActivity(), MainContract.View, NavigationView.OnNa
             .commit()
     }
 
-    override fun showScanFragment() {
+    override fun showScanFragment(serviceID: String?, catId: String?) {
         supportFragmentManager.beginTransaction()
             .addToBackStack(null)
-            .replace(R.id.container1, ScanCodeFragment().newInstance(), ScanCodeFragment.TAG)
+            .replace(R.id.container1, ScanCodeFragment().newInstance(serviceID, catId), ScanCodeFragment.TAG)
             .commit()
     }
 

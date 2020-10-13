@@ -9,9 +9,13 @@ class ScanCodeContract {
 
     interface View: BaseContract.View {
         fun init()
+        fun showErrorMsg(msg: String)
+        fun showSuccessMsg(msg: String)
+
     }
 
     interface Presenter: BaseContract.Presenter<ScanCodeContract.View> {
-        //fun onDrawerOptionAboutClick()
+        fun countService(userid: String, serviceid:String)
+        fun countCategory(userid: String, categoriyid:String)
     }
 }

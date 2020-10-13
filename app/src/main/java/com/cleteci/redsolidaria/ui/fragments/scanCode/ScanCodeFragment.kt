@@ -3,10 +3,9 @@ package com.cleteci.redsolidaria.ui.fragments.scanCode
 
 import android.app.Dialog
 import android.os.Bundle
+import android.util.Log
 import android.view.*
-import android.widget.Button
-import android.widget.RelativeLayout
-import android.widget.Toast
+import android.widget.*
 import com.cleteci.redsolidaria.BaseApp
 
 import com.cleteci.redsolidaria.R
@@ -24,6 +23,8 @@ import javax.inject.Inject
 
 class ScanCodeFragment : BaseFragment(), ScanCodeContract.View {
 
+    var serviceID: String? = null
+    var catID: String? = null
     var capture: CaptureManager? = null
     var barcodeScannerView: DecoratedBarcodeView? = null
     var beepManager: BeepManager? = null
@@ -39,12 +40,24 @@ class ScanCodeFragment : BaseFragment(), ScanCodeContract.View {
 
     private lateinit var rootView: View
 
-    fun newInstance(): ScanCodeFragment {
+    fun newInstance(serviceID: String?, catId: String?): ScanCodeFragment {
+
+        val fragment = ScanCodeFragment()
+        val args = Bundle()
+        args.putString("serviceID", serviceID)
+        args.putString("catID", catId)
+        fragment.setArguments(args)
+        return fragment
         return ScanCodeFragment()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (arguments != null) {
+            serviceID = arguments!!.getString("serviceID")
+            catID = arguments!!.getString("catID")
+
+        }
         injectDependency()
     }
 
@@ -78,7 +91,12 @@ class ScanCodeFragment : BaseFragment(), ScanCodeContract.View {
 
                 beepManager?.playBeepSoundAndVibrate()
 
-                Toast.makeText(activity, getString(R.string.progress), Toast.LENGTH_SHORT).show()
+                if (serviceID!=null) {
+
+                    presenter.countService(result.text, serviceID!!)
+                } else{
+                    presenter.countCategory(result.text, catID!!)
+                }
 
             }
 
@@ -151,6 +169,49 @@ class ScanCodeFragment : BaseFragment(), ScanCodeContract.View {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         capture?.onSaveInstanceState(outState)
+    }
+
+    override fun showErrorMsg(msg: String) {
+
+        activity?.runOnUiThread(Runnable {
+            showAlert (R.drawable.ic_error, msg)
+        })
+
+
+
+    }
+
+    override fun showSuccessMsg(msg: String) {
+
+        activity?.runOnUiThread(Runnable {
+            showAlert (R.drawable.ic_check_green, msg)
+        })
+
+    }
+
+    fun showAlert (icon:Int, msg: String){
+        val dialog = Dialog(activity!!)
+        dialog .requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.window!!.setLayout(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN)
+        dialog .setCancelable(false)
+        dialog .setContentView(R.layout.comp_alert_succes_suggest_resource)
+
+        val ivIcon = dialog .findViewById(R.id.ivIcon) as ImageView
+
+        val tvAlertMsg = dialog .findViewById(R.id.tvAlertMsg) as TextView
+
+        ivIcon.setImageResource(icon)
+
+        tvAlertMsg.text=msg
+
+        val yesBtn = dialog .findViewById(R.id.btCont) as Button
+
+        yesBtn.setOnClickListener {
+            dialog .dismiss()
+            (activity as MainActivity).onBackPressed()
+        }
+
+        dialog .show()
     }
 
 }

@@ -1,11 +1,17 @@
 package com.cleteci.redsolidaria.ui.fragments.scanCode
 
+import android.util.Log
+import com.apollographql.apollo.ApolloCall
+import com.apollographql.apollo.api.Response
+import com.apollographql.apollo.exception.ApolloException
+import com.cleteci.redsolidaria.*
 import io.reactivex.disposables.CompositeDisposable
 
 /**
  * Created by ogulcan on 07/02/2018.
  */
-class ScanCodePresenter: ScanCodeContract.Presenter {
+class ScanCodePresenter : ScanCodeContract.Presenter {
+
 
     private val subscriptions = CompositeDisposable()
     private lateinit var view: ScanCodeContract.View
@@ -21,6 +27,59 @@ class ScanCodePresenter: ScanCodeContract.Presenter {
     override fun attach(view: ScanCodeContract.View) {
         this.view = view
         view.init() // as default
+    }
+
+    override fun countService(userid: String, serviceid: String) {
+
+        BaseApp.apolloClient.mutate(
+            ProvideAtentionMutation.builder()
+                .orgID(BaseApp.prefs.user_saved.toString())
+                .serviceID(serviceid)
+                .userID(userid)
+                .build()
+        ).enqueue(object : ApolloCall.Callback<ProvideAtentionMutation.Data>() {
+            override fun onResponse(response: Response<ProvideAtentionMutation.Data>) {
+
+                if (response.data() != null && response.data()?.provideAtentionService() != null && response.data()?.provideAtentionService()!!) {
+                    Log.d("TAGI", "--" + response.data()?.provideAtentionService())
+                    view.showSuccessMsg(BaseApp.instance.getString(R.string.posted_service))
+                } else {
+                    view.showErrorMsg(BaseApp.instance.getString(R.string.invalid_user))
+                }
+            }
+
+            override fun onFailure(e: ApolloException) {
+                view.showSuccessMsg(BaseApp.instance.getString(R.string.error_posted_service))
+            }
+        })
+
+    }
+
+    override fun countCategory(userid: String, categoriyid: String) {
+
+        BaseApp.apolloClient.mutate(
+            ProvideAtentionCategoryMutation.builder()
+                .orgID(BaseApp.prefs.user_saved.toString())
+                .categoryID(categoriyid)
+                .userID(userid)
+                .build()
+        ).enqueue(object : ApolloCall.Callback<ProvideAtentionCategoryMutation.Data>() {
+            override fun onResponse(response: Response<ProvideAtentionCategoryMutation.Data>) {
+                // Log.d("TAGI", "--"+response.data()?.provideAtentionCategory())
+                if (response.data() != null && response.data()?.provideAtentionCategory() != null && response.data()?.provideAtentionCategory()!!) {
+
+                    view.showSuccessMsg(BaseApp.instance.getString(R.string.posted_category))
+                } else {
+                    view.showErrorMsg(BaseApp.instance.getString(R.string.invalid_user))
+                }
+            }
+
+            override fun onFailure(e: ApolloException) {
+                view.showSuccessMsg(BaseApp.instance.getString(R.string.error_posted_category))
+            }
+        })
+
+
     }
 
 

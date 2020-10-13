@@ -38,6 +38,13 @@
     <string name="my_categories">Mis categorias</string>
     <string name="my_resourse">Mis recursos</string>
     <string name="count_resourses">Contabilizar recursos</string>
+
+    <string name="posted_category">Servicio contabilizado</string>
+    <string name="error_posted_category">Error al contabilizar categoria</string>
+
+    <string name="posted_service">Servicio contabilizado</string>
+    <string name="error_posted_service">Error al contabilizar servicio</string>
+    <string name="invalid_user">Usuario no valido</string>
     <string name="my_resourse_detailed">Mis recursos detallados</string>
     <string name="map">Mapa</string>
     <string name="scan_qr">Scan QR</string>
