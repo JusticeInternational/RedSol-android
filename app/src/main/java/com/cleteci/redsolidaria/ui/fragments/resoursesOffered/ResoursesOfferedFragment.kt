@@ -81,9 +81,16 @@ class ResoursesOfferedFragment : BaseFragment(), ResoursesOfferedContract.View,
         tvLabelResourses = rootView.findViewById(R.id.tvLabelResourses)
         tvLabelCategories = rootView.findViewById(R.id.tvLabelCategories)
         showLabels()
+
         fab = rootView.findViewById(R.id.fab)
+        if (!isFromScan){
         fab?.setOnClickListener {
             (activity as MainActivity).openCreateServiceFragment()
+        }
+            fab?.visibility= VISIBLE
+
+        }else{
+            fab?.visibility= GONE
         }
         rvMyCategories?.setLayoutManager(
             LinearLayoutManager(getActivity())

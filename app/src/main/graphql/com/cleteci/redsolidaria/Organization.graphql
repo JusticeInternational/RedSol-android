@@ -33,6 +33,7 @@ query getOrganizationServicesAndCategories($id: ID) {
                 name
                 id
                 description
+                isGeneral
                 serviceCategory {
                     name
                     id
