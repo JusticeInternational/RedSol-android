@@ -2,6 +2,7 @@ package com.cleteci.redsolidaria.ui.fragments.myProfile
 
 
 import android.app.Dialog
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
@@ -16,6 +17,7 @@ import com.cleteci.redsolidaria.di.component.DaggerFragmentComponent
 import com.cleteci.redsolidaria.di.module.FragmentModule
 import com.cleteci.redsolidaria.ui.activities.main.MainActivity
 import com.cleteci.redsolidaria.ui.base.BaseFragment
+import kotlinx.android.synthetic.main.comp_alert_succes_suggest_resource.*
 import javax.inject.Inject
 
 
@@ -46,6 +48,9 @@ class MyProfileFragment : BaseFragment() , MyProfileContract.View  {
         ivQR = rootView.findViewById(R.id.ivQR)
 
         tvQR = rootView.findViewById(R.id.tvQR)
+
+
+
         return rootView
     }
 
@@ -75,7 +80,8 @@ class MyProfileFragment : BaseFragment() , MyProfileContract.View  {
     }
 
     private fun initView() {
-        //presenter.loadMessage()
+        tvQR?.text="ID "+BaseApp.prefs.user_saved.toString()
+        presenter.getQR()
     }
 
     companion object {
@@ -127,5 +133,11 @@ class MyProfileFragment : BaseFragment() , MyProfileContract.View  {
         dialog.show()
 
     }
+
+    override fun showQR(bitmap: Bitmap) {
+
+        ivQR?.setImageBitmap(bitmap)
+    }
+
 
 }

@@ -30,10 +30,10 @@ class ScanCodePresenter : ScanCodeContract.Presenter {
     }
 
     override fun countService(userid: String, serviceid: String) {
-
+        Log.d("TAGI", "--"+userid+"--"+serviceid+"--"+BaseApp.prefs.current_org.toString())
         BaseApp.apolloClient.mutate(
             ProvideAtentionMutation.builder()
-                .orgID(BaseApp.prefs.user_saved.toString())
+                .orgID(BaseApp.prefs.current_org.toString())
                 .serviceID(serviceid)
                 .userID(userid)
                 .build()
@@ -41,7 +41,7 @@ class ScanCodePresenter : ScanCodeContract.Presenter {
             override fun onResponse(response: Response<ProvideAtentionMutation.Data>) {
 
                 if (response.data() != null && response.data()?.provideAtentionService() != null && response.data()?.provideAtentionService()!!) {
-                    Log.d("TAGI", "--" + response.data()?.provideAtentionService())
+
                     view.showSuccessMsg(BaseApp.instance.getString(R.string.posted_service))
                 } else {
                     view.showErrorMsg(BaseApp.instance.getString(R.string.invalid_user))
@@ -57,15 +57,17 @@ class ScanCodePresenter : ScanCodeContract.Presenter {
 
     override fun countCategory(userid: String, categoriyid: String) {
 
+        Log.d("TAGI", "--"+userid+"--"+categoriyid+"--"+BaseApp.prefs.current_org.toString())
+
         BaseApp.apolloClient.mutate(
             ProvideAtentionCategoryMutation.builder()
-                .orgID(BaseApp.prefs.user_saved.toString())
+                .orgID(BaseApp.prefs.current_org.toString())
                 .categoryID(categoriyid)
                 .userID(userid)
                 .build()
         ).enqueue(object : ApolloCall.Callback<ProvideAtentionCategoryMutation.Data>() {
             override fun onResponse(response: Response<ProvideAtentionCategoryMutation.Data>) {
-                // Log.d("TAGI", "--"+response.data()?.provideAtentionCategory())
+
                 if (response.data() != null && response.data()?.provideAtentionCategory() != null && response.data()?.provideAtentionCategory()!!) {
 
                     view.showSuccessMsg(BaseApp.instance.getString(R.string.posted_category))

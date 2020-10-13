@@ -39,7 +39,7 @@
     <string name="my_resourse">Mis recursos</string>
     <string name="count_resourses">Contabilizar recursos</string>
 
-    <string name="posted_category">Servicio contabilizado</string>
+    <string name="posted_category">Categoria contabilizada</string>
     <string name="error_posted_category">Error al contabilizar categoria</string>
 
     <string name="posted_service">Servicio contabilizado</string>

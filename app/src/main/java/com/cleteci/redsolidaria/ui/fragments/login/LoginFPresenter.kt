@@ -6,6 +6,7 @@ import com.apollographql.apollo.ApolloCall
 import com.apollographql.apollo.api.Response
 import com.apollographql.apollo.exception.ApolloException
 import com.cleteci.redsolidaria.BaseApp
+import com.cleteci.redsolidaria.GetOrganizationInfoQuery
 import com.cleteci.redsolidaria.LoginUserMutation
 import com.cleteci.redsolidaria.R
 import com.cleteci.redsolidaria.models.User
@@ -61,7 +62,13 @@ class LoginFPresenter : LoginFContract.Presenter {
                         BaseApp.prefs.is_provider_service = user.role == "admin"
                         BaseApp.prefs.user_saved = user.id
                         BaseApp.prefs.token = token
-                        view.validEmailPass()
+
+                        if (user.role == "admin"){
+                            getInfoOrganization ()
+                        }else{
+                            view.validEmailPass()
+                        }
+
                     } else {
                         view.errorEmailPass(BaseApp.instance.getString(R.string.wrong_login))
                     }
@@ -73,5 +80,24 @@ class LoginFPresenter : LoginFContract.Presenter {
                 }
             })
         }
+    }
+
+    fun getInfoOrganization (){
+
+        BaseApp.apolloClient.query(
+            GetOrganizationInfoQuery.builder().id(BaseApp.prefs.user_saved.toString()).build()
+        ).enqueue(object : ApolloCall.Callback<GetOrganizationInfoQuery.Data>() {
+            override fun onResponse(response: Response<GetOrganizationInfoQuery.Data>) {
+                if (response.data() != null) {
+
+                    BaseApp.prefs.current_org = response.data()?.User()?.get(0)?.ownerOf()?.id()
+                    view.validEmailPass()
+                }
+            }
+            override fun onFailure(e: ApolloException) {
+                view.errorEmailPass(BaseApp.instance.getString(R.string.error_login))
+            }
+        })
+
     }
 }

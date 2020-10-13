@@ -89,6 +89,7 @@ class ScanCodeFragment : BaseFragment(), ScanCodeContract.View {
         callback = object : BarcodeCallback {
             override fun barcodeResult(result: BarcodeResult) {
 
+
                 beepManager?.playBeepSoundAndVibrate()
 
                 if (serviceID!=null) {
