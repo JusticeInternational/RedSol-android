@@ -92,12 +92,7 @@ class ScanCodeFragment : BaseFragment(), ScanCodeContract.View {
 
                 beepManager?.playBeepSoundAndVibrate()
 
-                if (serviceID!=null) {
-
-                    presenter.countService(result.text, serviceID!!)
-                } else{
-                    presenter.countCategory(result.text, catID!!)
-                }
+                alertConfirmation(result.text)
 
             }
 
@@ -213,6 +208,52 @@ class ScanCodeFragment : BaseFragment(), ScanCodeContract.View {
         }
 
         dialog .show()
+    }
+
+    fun alertConfirmation(msg:String){
+
+        val dialog = Dialog(activity!!)
+        dialog .requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.window!!.setLayout(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN)
+        dialog .setCancelable(false)
+        dialog .setContentView(R.layout.comp_alert_scan)
+
+        val yesBtn = dialog .findViewById(R.id.btCont) as Button
+
+        val btCancel = dialog .findViewById(R.id.btCancel) as Button
+
+        btCancel.setOnClickListener {
+            dialog .dismiss()
+            (activity as MainActivity).onBackPressed()
+        }
+
+        val tvAlertMsg = dialog .findViewById(R.id.tvAlertMsg) as TextView
+
+        if (serviceID!=null) {
+            tvAlertMsg.text=getString(R.string.service_count_question)
+            yesBtn.setOnClickListener {
+                dialog .dismiss()
+                presenter.countService(msg, serviceID!!)
+            }
+
+        } else{
+            tvAlertMsg.text=getString(R.string.category_count_question)
+            yesBtn.setOnClickListener {
+                dialog .dismiss()
+                presenter.countCategory(msg, catID!!)
+            }
+
+        }
+
+
+
+        dialog .show()
+
+
+
+
+
+
     }
 
 }

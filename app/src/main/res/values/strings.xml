@@ -42,6 +42,9 @@
     <string name="posted_category">Categoria contabilizada</string>
     <string name="error_posted_category">Error al contabilizar categoria</string>
 
+    <string name="service_count_question">¿Desea contabilizar este servicio?</string>
+    <string name="category_count_question">¿Desea contabilizar esta categoria?</string>
+
     <string name="posted_service">Servicio contabilizado</string>
     <string name="error_posted_service">Error al contabilizar servicio</string>
     <string name="invalid_user">Usuario no valido</string>
@@ -156,6 +159,7 @@
     <string name="be_volunteer_2">Ser voluntario</string>
     <string name="contribute">Aportar</string>
     <string name="continue_p">Continuar</string>
+    <string name="accept">Aceptar</string>
     <string name="try_again">Intentar de nuevo</string>
     <string name="info_in_your_email">Información enviada a su correo electrónico</string>
 
