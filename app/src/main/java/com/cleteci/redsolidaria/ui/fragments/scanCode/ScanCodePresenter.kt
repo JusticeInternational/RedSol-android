@@ -30,17 +30,19 @@ class ScanCodePresenter : ScanCodeContract.Presenter {
     }
 
     override fun countService(userid: String, serviceid: String) {
-        Log.d("TAGI", "--"+userid+"--"+serviceid+"--"+BaseApp.prefs.current_org.toString())
-        BaseApp.apolloClient.mutate(
-            ProvideAtentionMutation.builder()
-                .orgID(BaseApp.prefs.current_org.toString())
-                .serviceID(serviceid)
-                .userID(userid)
-                .build()
-        ).enqueue(object : ApolloCall.Callback<ProvideAtentionMutation.Data>() {
-            override fun onResponse(response: Response<ProvideAtentionMutation.Data>) {
 
-                if (response.data() != null && response.data()?.provideAtentionService() != null && response.data()?.provideAtentionService()!!) {
+        Log.d("TAGI", "---"+userid+"---"+serviceid+"---"+BaseApp.prefs.current_org.toString())
+
+        BaseApp.apolloClient.mutate(
+            ProvideAtentionServiceMutation.builder()
+                .orgID(BaseApp.prefs.current_org.toString())
+                .userID(userid)
+                .serviceID(serviceid)
+                .build()
+        ).enqueue(object : ApolloCall.Callback<ProvideAtentionServiceMutation.Data>() {
+            override fun onResponse(response: Response<ProvideAtentionServiceMutation.Data>) {
+
+                if (response.data() != null && response.data()?.provideAtentionService() != null ) {
 
                     view.showSuccessMsg(BaseApp.instance.getString(R.string.posted_service))
                 } else {
@@ -49,15 +51,14 @@ class ScanCodePresenter : ScanCodeContract.Presenter {
             }
 
             override fun onFailure(e: ApolloException) {
-                view.showSuccessMsg(BaseApp.instance.getString(R.string.error_posted_service))
+                Log.d("TAGI", "---"+e.message)
+                view.showErrorMsg(BaseApp.instance.getString(R.string.error_posted_service))
             }
         })
 
     }
 
     override fun countCategory(userid: String, categoriyid: String) {
-
-        Log.d("TAGI", "--"+userid+"--"+categoriyid+"--"+BaseApp.prefs.current_org.toString())
 
         BaseApp.apolloClient.mutate(
             ProvideAtentionCategoryMutation.builder()
@@ -68,7 +69,7 @@ class ScanCodePresenter : ScanCodeContract.Presenter {
         ).enqueue(object : ApolloCall.Callback<ProvideAtentionCategoryMutation.Data>() {
             override fun onResponse(response: Response<ProvideAtentionCategoryMutation.Data>) {
 
-                if (response.data() != null && response.data()?.provideAtentionCategory() != null && response.data()?.provideAtentionCategory()!!) {
+                if (response.data() != null && response.data()?.provideAtentionCategory() != null ) {
 
                     view.showSuccessMsg(BaseApp.instance.getString(R.string.posted_category))
                 } else {
@@ -77,7 +78,8 @@ class ScanCodePresenter : ScanCodeContract.Presenter {
             }
 
             override fun onFailure(e: ApolloException) {
-                view.showSuccessMsg(BaseApp.instance.getString(R.string.error_posted_category))
+                Log.d("TAGI", "---"+e.message)
+                view.showErrorMsg(BaseApp.instance.getString(R.string.error_posted_category))
             }
         })
 

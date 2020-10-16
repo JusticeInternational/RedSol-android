@@ -26,13 +26,27 @@ query getOrganizationServices($id: ID) {
     }
 }
 
-mutation provideAtention($orgID:ID!, $userID: String,  $ServiceID:String) {
-    provideAtentionService(orgID: $orgID, userID: $userID, ServiceID: $ServiceID )
+mutation provideAtentionService($orgID:ID!, $userID: ID!,  $ServiceID:ID!) {
+    provideAtentionService(orgID: $orgID, userID: $userID, ServiceID: $ServiceID ){
+     id
+     createdAt
+     updatedAt
+     recipient{
+      name
+     }
+    }
 }
 
 
-mutation provideAtentionCategory($orgID:ID!, $userID: String,  $categoryID:String) {
-    provideAtentionCategory(orgID: $orgID, userID: $userID, categoryID: $categoryID )
+mutation provideAtentionCategory($orgID:ID!, $userID: ID!,  $categoryID:ID!) {
+    provideAtentionCategory(orgID: $orgID, userID: $userID, categoryID: $categoryID ){
+     id
+     createdAt
+     updatedAt
+     recipient{
+      name
+     }
+    }
 }
 
 
