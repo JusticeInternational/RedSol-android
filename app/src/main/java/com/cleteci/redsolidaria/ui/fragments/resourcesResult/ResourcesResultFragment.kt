@@ -145,7 +145,7 @@ class ResourcesResultFragment : BaseFragment(), ResourcesResultContract.View,
         })
     }
 
-    override fun clickDetailResource(postId: String) {
+    override fun clickDetailResource(postId: String,name: String, isGeneric:Boolean) {
 
         activity!!.supportFragmentManager.beginTransaction()
             .addToBackStack(null)

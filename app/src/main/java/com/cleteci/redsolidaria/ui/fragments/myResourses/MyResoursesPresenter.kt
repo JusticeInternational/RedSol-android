@@ -28,10 +28,10 @@ class MyResoursesPresenter: MyResoursesContract.Presenter {
 
     override fun getData() {
         val arrayList = ArrayList<Resource>()//Creating an empty arraylist
-        val tipo1 = Resource("1","Justice International",  hourHand = "3:00 a 4:00", ranking = "1", cate = "Salud", location = "Colombia", photo = R.drawable.ic_emergency,description = "")//Creating an empty arraylist
+        val tipo1 = Resource("1","Justice International",  hourHand = "3:00 a 4:00", ranking = "1", cate = "Salud", location = "Colombia", photo = R.drawable.ic_emergency,description = "",isGeneric =  false)//Creating an empty arraylist
         arrayList.add(tipo1)//Adding object in arraylist
 
-        val tipo2 = Resource("2", "Justice International",  hourHand = "3:00 a 4:00", ranking = "3", cate = "Educacion", location = "Portugal", photo = R.drawable.ic_education,description ="")//Creating an empty arraylist
+        val tipo2 = Resource("2", "Justice International",  hourHand = "3:00 a 4:00", ranking = "3", cate = "Educacion", location = "Portugal", photo = R.drawable.ic_education,description ="",isGeneric =  false)//Creating an empty arraylist
         arrayList.add(tipo2)//Adding object in arraylist
 
 

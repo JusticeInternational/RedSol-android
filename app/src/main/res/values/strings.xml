@@ -39,13 +39,18 @@
     <string name="my_resourse">Mis recursos</string>
     <string name="count_resourses">Contabilizar recursos</string>
 
-    <string name="posted_category">Categoria contabilizada</string>
+    <string name="posted_category">Categoria contabilizada con el usuario %1$s</string>
     <string name="error_posted_category">Error al contabilizar categoria</string>
+
+
+    <string name="count_question_1">Usted está solicitando contabilizar para la categoría o servicio genérico: %1$s? , le recomendamos contabilizar recursos en servicios detallados, si no los ha definido puede definirlos en "Mis Recursos". Si aún así desea continuar esta contabilización por favor seleccione "Aceptar"</string>
+
+    <string name="count_question_2">Usted está solicitando contabilizar para el servicio %1$s? ¿Está seguro que es el recurso que desea escanear?</string>
 
     <string name="service_count_question">¿Desea contabilizar este servicio?</string>
     <string name="category_count_question">¿Desea contabilizar esta categoria?</string>
 
-    <string name="posted_service">Servicio contabilizado</string>
+    <string name="posted_service">Servicio contabilizado con el usuario %1$s</string>
     <string name="error_posted_service">Error al contabilizar servicio</string>
     <string name="invalid_user">Usuario no valido</string>
     <string name="my_resourse_detailed">Mis recursos detallados</string>

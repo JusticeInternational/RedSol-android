@@ -191,16 +191,16 @@ class ResoursesOfferedFragment : BaseFragment(), ResoursesOfferedContract.View,
         if (!isFromScan) {
             (activity as MainActivity).openInfoServiceFragment(listCategories.get(postId))
         } else {
-            (activity as MainActivity).showScanFragment(null, listCategories.get(postId).id)
+            (activity as MainActivity).showScanFragment(null, listCategories.get(postId).id,listCategories.get(postId).name, true )
         }
     }
 
-    override fun clickDetailResource(postId: String) {
+    override fun clickDetailResource(postId: String, name: String, isGeneric:Boolean) {
 
         if (!isFromScan) {
             Toast.makeText(activity, "Definir acción para recursos", Toast.LENGTH_SHORT).show()
         } else {
-            (activity as MainActivity).showScanFragment(postId, null)
+            (activity as MainActivity).showScanFragment(postId, null, name, isGeneric)
         }
 
     }

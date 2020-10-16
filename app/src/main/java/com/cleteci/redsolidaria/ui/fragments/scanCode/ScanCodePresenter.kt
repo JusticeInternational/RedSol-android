@@ -31,8 +31,6 @@ class ScanCodePresenter : ScanCodeContract.Presenter {
 
     override fun countService(userid: String, serviceid: String) {
 
-        Log.d("TAGI", "---"+userid+"---"+serviceid+"---"+BaseApp.prefs.current_org.toString())
-
         BaseApp.apolloClient.mutate(
             ProvideAtentionServiceMutation.builder()
                 .orgID(BaseApp.prefs.current_org.toString())
@@ -43,15 +41,16 @@ class ScanCodePresenter : ScanCodeContract.Presenter {
             override fun onResponse(response: Response<ProvideAtentionServiceMutation.Data>) {
 
                 if (response.data() != null && response.data()?.provideAtentionService() != null ) {
+                    var name= response.data()?.provideAtentionService()!!.recipient()!!.name()
 
-                    view.showSuccessMsg(BaseApp.instance.getString(R.string.posted_service))
+                    view.showSuccessMsg( String.format(BaseApp.instance.getResources().getString(R.string.posted_service),name ))
                 } else {
                     view.showErrorMsg(BaseApp.instance.getString(R.string.invalid_user))
                 }
             }
 
             override fun onFailure(e: ApolloException) {
-                Log.d("TAGI", "---"+e.message)
+
                 view.showErrorMsg(BaseApp.instance.getString(R.string.error_posted_service))
             }
         })
@@ -70,15 +69,17 @@ class ScanCodePresenter : ScanCodeContract.Presenter {
             override fun onResponse(response: Response<ProvideAtentionCategoryMutation.Data>) {
 
                 if (response.data() != null && response.data()?.provideAtentionCategory() != null ) {
+                    var name= response.data()?.provideAtentionCategory()!!.recipient()!!.name()
 
-                    view.showSuccessMsg(BaseApp.instance.getString(R.string.posted_category))
+                    view.showSuccessMsg( String.format(BaseApp.instance.getResources().getString(R.string.posted_category),name ))
+
                 } else {
                     view.showErrorMsg(BaseApp.instance.getString(R.string.invalid_user))
                 }
             }
 
             override fun onFailure(e: ApolloException) {
-                Log.d("TAGI", "---"+e.message)
+
                 view.showErrorMsg(BaseApp.instance.getString(R.string.error_posted_category))
             }
         })

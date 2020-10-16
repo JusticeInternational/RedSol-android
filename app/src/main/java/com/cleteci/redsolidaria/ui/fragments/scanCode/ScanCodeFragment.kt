@@ -25,6 +25,8 @@ class ScanCodeFragment : BaseFragment(), ScanCodeContract.View {
 
     var serviceID: String? = null
     var catID: String? = null
+    var name: String? = null
+    var isGeneric: Boolean = false
     var capture: CaptureManager? = null
     var barcodeScannerView: DecoratedBarcodeView? = null
     var beepManager: BeepManager? = null
@@ -40,12 +42,14 @@ class ScanCodeFragment : BaseFragment(), ScanCodeContract.View {
 
     private lateinit var rootView: View
 
-    fun newInstance(serviceID: String?, catId: String?): ScanCodeFragment {
+    fun newInstance(serviceID: String?, catId: String?, name: String?, isGeneric: Boolean): ScanCodeFragment {
 
         val fragment = ScanCodeFragment()
         val args = Bundle()
         args.putString("serviceID", serviceID)
         args.putString("catID", catId)
+        args.putString("name", name)
+        args.putBoolean("isGeneric", isGeneric)
         fragment.setArguments(args)
         return fragment
         return ScanCodeFragment()
@@ -56,6 +60,8 @@ class ScanCodeFragment : BaseFragment(), ScanCodeContract.View {
         if (arguments != null) {
             serviceID = arguments!!.getString("serviceID")
             catID = arguments!!.getString("catID")
+            name = arguments!!.getString("name")
+            isGeneric = arguments!!.getBoolean("isGeneric")
 
         }
         injectDependency()
@@ -222,6 +228,8 @@ class ScanCodeFragment : BaseFragment(), ScanCodeContract.View {
 
         val btCancel = dialog .findViewById(R.id.btCancel) as Button
 
+
+
         btCancel.setOnClickListener {
             dialog .dismiss()
             (activity as MainActivity).onBackPressed()
@@ -229,15 +237,23 @@ class ScanCodeFragment : BaseFragment(), ScanCodeContract.View {
 
         val tvAlertMsg = dialog .findViewById(R.id.tvAlertMsg) as TextView
 
+        if (isGeneric){
+            tvAlertMsg.text=String.format(BaseApp.instance.getResources().getString(R.string.count_question_1),name )
+        }else{
+            tvAlertMsg.text=String.format(BaseApp.instance.getResources().getString(R.string.count_question_2),name )
+        }
+
         if (serviceID!=null) {
-            tvAlertMsg.text=getString(R.string.service_count_question)
+
+
+           // tvAlertMsg.text=getString(R.string.service_count_question)
             yesBtn.setOnClickListener {
                 dialog .dismiss()
                 presenter.countService(msg, serviceID!!)
             }
 
         } else{
-            tvAlertMsg.text=getString(R.string.category_count_question)
+           // tvAlertMsg.text=getString(R.string.category_count_question)
             yesBtn.setOnClickListener {
                 dialog .dismiss()
                 presenter.countCategory(msg, catID!!)

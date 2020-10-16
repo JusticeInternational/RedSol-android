@@ -153,7 +153,7 @@ class MyResoursesFragment : BaseFragment(), MyResoursesContract.View, ResourseAd
         mAdapterVolunteering?.notifyDataSetChanged()
     }
 
-    override fun clickDetailResource(postId: String) {
+    override fun clickDetailResource(postId: String,name: String, isGeneric:Boolean) {
         ( activity as MainActivity).openServiceDetailFragment()
     }
 
