@@ -26,8 +26,8 @@ query getOrganizationServices($id: ID) {
     }
 }
 
-mutation provideAtentionService($orgID:ID!, $userID: ID!,  $ServiceID:ID!) {
-    provideAtentionService(orgID: $orgID, userID: $userID, ServiceID: $ServiceID ){
+mutation provideAtentionService($orgID:ID!, $userID: ID!,  $serviceID:ID!) {
+    provideAtentionService(orgID: $orgID, userID: $userID, serviceID: $serviceID ){
      id
      createdAt
      updatedAt
