@@ -1,12 +1,10 @@
 package com.cleteci.redsolidaria.ui.activities.main
 
+import android.app.Dialog
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -34,6 +32,8 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper
 
 import android.content.Context
 import android.content.Intent
+import android.view.*
+import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -272,10 +272,63 @@ class MainActivity : AppCompatActivity(), MainContract.View, NavigationView.OnNa
     }
 
     override fun showScanFragment(serviceID: String?, catId: String?, name: String?, isGeneric: Boolean) {
-        supportFragmentManager.beginTransaction()
-            .addToBackStack(null)
-            .replace(R.id.container1, ScanCodeFragment().newInstance(serviceID, catId,name, isGeneric), ScanCodeFragment.TAG)
-            .commit()
+
+        alertConfirmation(isGeneric,name, serviceID, catId)
+
+    }
+
+    fun alertConfirmation(isGeneric:Boolean,name:String?, serviceID:String?, catID:String? ){
+
+        val dialog = Dialog(this)
+        dialog .requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.window!!.setLayout(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN)
+        dialog .setCancelable(false)
+        dialog .setContentView(R.layout.comp_alert_scan)
+
+        val yesBtn = dialog .findViewById(R.id.btCont) as Button
+
+        val btCancel = dialog .findViewById(R.id.btCancel) as Button
+
+
+
+        btCancel.setOnClickListener {
+            dialog .dismiss()
+            //(activity as MainActivity).onBackPressed()
+        }
+
+        val tvAlertMsg = dialog .findViewById(R.id.tvAlertMsg) as TextView
+
+        if (isGeneric){
+            tvAlertMsg.text=String.format(BaseApp.instance.getResources().getString(R.string.count_question_1),name )
+        }else{
+            tvAlertMsg.text=String.format(BaseApp.instance.getResources().getString(R.string.count_question_2),name )
+        }
+
+       // if (serviceID!=null) {
+
+
+
+            yesBtn.setOnClickListener {
+                dialog .dismiss()
+
+                supportFragmentManager.beginTransaction()
+                    .addToBackStack(null)
+                    .replace(R.id.container1, ScanCodeFragment().newInstance(serviceID, catID,name, isGeneric), ScanCodeFragment.TAG)
+                    .commit()
+                //  presenter.countService(msg, serviceID!!)
+            }
+
+       /* } else{
+
+            yesBtn.setOnClickListener {
+                dialog .dismiss()
+               // presenter.countCategory(msg, catID!!)
+            }
+
+        }*/
+
+        dialog .show()
+
     }
 
     override fun showScanListFragment() {
@@ -452,7 +505,7 @@ class MainActivity : AppCompatActivity(), MainContract.View, NavigationView.OnNa
             when (index) {
 
                 FragNavController.TAB1 -> return ResoursesOfferedFragment()
-                FragNavController.TAB2 -> return ScanCodeFragment()
+                FragNavController.TAB2 -> return ResoursesOfferedFragment()
                 FragNavController.TAB3 -> return UsersFragment()
 
             }
