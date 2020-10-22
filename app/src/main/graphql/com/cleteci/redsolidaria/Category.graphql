@@ -5,3 +5,7 @@ query loadUsedCategories {
         icon
     }
 }
+
+query loadTotalServedCategory($id: ID, $orgID: ID) {
+    totalAtentionCategory(id: $id, orgID: $orgID)
+}

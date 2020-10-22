@@ -9,6 +9,7 @@ import android.widget.TextView
 import com.cleteci.redsolidaria.R
 import com.cleteci.redsolidaria.di.component.DaggerFragmentComponent
 import com.cleteci.redsolidaria.di.module.FragmentModule
+import com.cleteci.redsolidaria.models.Organization
 import com.cleteci.redsolidaria.models.ResourceCategory
 import com.cleteci.redsolidaria.ui.activities.main.MainActivity
 import com.cleteci.redsolidaria.ui.base.BaseFragment
@@ -17,6 +18,7 @@ import javax.inject.Inject
 class InfoServiceFragment : BaseFragment() , InfoServiceContract.View  {
     var catService:ResourceCategory?=null
     var tvName:TextView?=null
+    var totalServed:TextView?=null
     var ivService:ImageView?=null
 
     @Inject
@@ -38,7 +40,6 @@ class InfoServiceFragment : BaseFragment() , InfoServiceContract.View  {
         super.onCreate(savedInstanceState)
         if (arguments != null) {
              catService = arguments?.getSerializable("category") as ResourceCategory
-
         }
         injectDependency()
     }
@@ -53,7 +54,7 @@ class InfoServiceFragment : BaseFragment() , InfoServiceContract.View  {
 
         tvName=rootView.findViewById(R.id.tvName)
 
-
+        totalServed=rootView.findViewById(R.id.totalServed)
 
         return rootView
     }
@@ -84,11 +85,15 @@ class InfoServiceFragment : BaseFragment() , InfoServiceContract.View  {
     }
 
     private fun initView() {
-        //presenter.loadMessage()
+        presenter.loadData(catService!!.id)
+    }
 
-        ivService?.setImageResource(catService!!.photo)
-
-        tvName?.setText(catService!!.name)
+    override fun loadDataSuccess(total: Int) {
+        activity?.runOnUiThread(Runnable {
+            ivService?.setImageResource(catService!!.photo)
+            tvName?.setText(catService!!.name)
+            totalServed?.setText(total.toString())
+        })
     }
 
     companion object {
