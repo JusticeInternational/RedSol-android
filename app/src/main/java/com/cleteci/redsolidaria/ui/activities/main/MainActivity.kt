@@ -51,6 +51,7 @@ import com.cleteci.redsolidaria.ui.fragments.myProfileProvider.MyProfileProvider
 import com.cleteci.redsolidaria.ui.fragments.resoursesOffered.ResoursesOfferedFragment
 import com.cleteci.redsolidaria.ui.fragments.scanCode.ScanCodeFragment
 import com.cleteci.redsolidaria.ui.fragments.servicedetail.ServiceDetailFragment
+import com.cleteci.redsolidaria.ui.fragments.users.AttendersFragment
 import com.cleteci.redsolidaria.ui.fragments.users.UsersFragment
 
 import com.facebook.login.LoginManager
@@ -59,6 +60,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
+import java.util.*
 
 
 /**
@@ -367,6 +369,20 @@ class MainActivity : AppCompatActivity(), MainContract.View, NavigationView.OnNa
         supportFragmentManager.beginTransaction()
             .addToBackStack(null)
             .replace(R.id.container1, CreateServiceFragment().newInstance(), CreateServiceFragment.TAG)
+            .commit()
+    }
+
+    fun openAttendFragment(service:Resource) {
+        supportFragmentManager.beginTransaction()
+            .addToBackStack(null)
+            .replace(R.id.container1, AttendersFragment().newInstance(service), CreateServiceFragment.TAG)
+            .commit()
+    }
+
+    fun openAttendFragment(category:ResourceCategory) {
+        supportFragmentManager.beginTransaction()
+            .addToBackStack(null)
+            .replace(R.id.container1, AttendersFragment().newInstance(category), CreateServiceFragment.TAG)
             .commit()
     }
 

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import com.cleteci.redsolidaria.R
@@ -15,12 +16,14 @@ import com.cleteci.redsolidaria.ui.activities.main.MainActivity
 import com.cleteci.redsolidaria.ui.base.BaseFragment
 import javax.inject.Inject
 
-class InfoServiceFragment : BaseFragment() , InfoServiceContract.View  {
-    var catService:ResourceCategory?=null
-    var service:Resource?=null
-    var tvName:TextView?=null
-    var totalServed:TextView?=null
-    var ivService:ImageView?=null
+class InfoServiceFragment : BaseFragment(), InfoServiceContract.View {
+    var catService: ResourceCategory? = null
+    var service: Resource? = null
+    var tvName: TextView? = null
+    var totalServed: TextView? = null
+    var ivService: ImageView? = null
+    var btAttend: Button? = null
+
 
     @Inject
     lateinit var presenter: InfoServiceContract.Presenter
@@ -30,7 +33,7 @@ class InfoServiceFragment : BaseFragment() , InfoServiceContract.View  {
     fun newInstance(catService1: ResourceCategory?, service: Resource?): InfoServiceFragment {
         var frag: InfoServiceFragment = InfoServiceFragment()
         var args = Bundle()
-        if(catService1 != null) {
+        if (catService1 != null) {
             args.putSerializable("category", catService1)
         } else {
             args.putSerializable("service", service)
@@ -43,7 +46,7 @@ class InfoServiceFragment : BaseFragment() , InfoServiceContract.View  {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (arguments != null && arguments?.getSerializable("category") != null) {
-             catService = arguments?.getSerializable("category") as ResourceCategory
+            catService = arguments?.getSerializable("category") as ResourceCategory
         } else {
             service = arguments?.getSerializable("service") as Resource
         }
@@ -56,11 +59,22 @@ class InfoServiceFragment : BaseFragment() , InfoServiceContract.View  {
     ): View? {
         rootView = inflater.inflate(R.layout.fragment_info_service, container, false)
 
-        ivService=rootView.findViewById(R.id.ivService)
+        ivService = rootView.findViewById(R.id.ivService)
 
-        tvName=rootView.findViewById(R.id.tvName)
+        tvName = rootView.findViewById(R.id.tvName)
 
-        totalServed=rootView.findViewById(R.id.totalServed)
+        totalServed = rootView.findViewById(R.id.totalServed)
+
+        btAttend = rootView.findViewById(R.id.btAttend)
+
+        btAttend?.setOnClickListener {
+            if (service!=null) {
+                (activity as MainActivity).openAttendFragment(service!!)
+            } else {
+                (activity as MainActivity).openAttendFragment(catService!!)
+            }
+
+        }
 
         return rootView
     }
@@ -88,7 +102,7 @@ class InfoServiceFragment : BaseFragment() , InfoServiceContract.View  {
     override fun init() {}
 
     private fun initView() {
-        if(catService != null) {
+        if (catService != null) {
             ivService?.setImageResource(catService!!.photo)
             tvName?.text = catService!!.name
             presenter.loadCategoryData(catService!!.id)
@@ -111,7 +125,10 @@ class InfoServiceFragment : BaseFragment() , InfoServiceContract.View  {
 
     override fun onResume() {
         super.onResume()
-        (activity as MainActivity).setTextToolbar(getText(R.string.info_services).toString(),activity!!.resources.getColor(R.color.colorWhite))
+        (activity as MainActivity).setTextToolbar(
+            getText(R.string.info_services).toString(),
+            activity!!.resources.getColor(R.color.colorWhite)
+        )
 
     }
 }
