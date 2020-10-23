@@ -14,6 +14,7 @@ class InfoServiceContract {
 
     interface Presenter: BaseContract.Presenter<InfoServiceContract.View> {
         //fun onDrawerOptionAboutClick()
-        fun loadData(id:String)
+        fun loadCategoryData(id:String)
+        fun loadServiceData(id:String)
     }
 }
