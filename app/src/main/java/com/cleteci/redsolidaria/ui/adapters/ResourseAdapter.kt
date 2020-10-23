@@ -71,7 +71,7 @@ class ResourseAdapter(
         }
 
         holder.layout?.setOnClickListener {
-            listener.clickDetailResource(post.id!!, post.name, post.isGeneric)
+            listener.clickDetailResource(position!!, post.name, post.isGeneric)
         }
     }
 
@@ -115,12 +115,7 @@ class ResourseAdapter(
     }
 
     interface onItemClickListener {
-
         fun clickScanresourse(postId: String)
-
-        fun clickDetailResource(postId: String,name: String, isGeneric:Boolean)
-
-
+        fun clickDetailResource(postId: Int,name: String, isGeneric:Boolean)
     }
-
 }

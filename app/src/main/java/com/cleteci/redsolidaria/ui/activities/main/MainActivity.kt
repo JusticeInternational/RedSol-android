@@ -38,6 +38,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.cleteci.redsolidaria.BaseApp
+import com.cleteci.redsolidaria.models.Resource
 import com.cleteci.redsolidaria.models.ResourceCategory
 import com.cleteci.redsolidaria.ui.activities.login.LoginActivity
 import com.cleteci.redsolidaria.ui.activities.splash.SplashActivity
@@ -369,11 +370,18 @@ class MainActivity : AppCompatActivity(), MainContract.View, NavigationView.OnNa
             .commit()
     }
 
-    fun openInfoServiceFragment(category: ResourceCategory) {
-        supportFragmentManager.beginTransaction()
-            .addToBackStack(null)
-            .replace(R.id.container1, InfoServiceFragment().newInstance(category), InfoServiceFragment.TAG)
-            .commit()
+    fun openInfoFragment(category: ResourceCategory?, service: Resource?) {
+        if(category != null) {
+            supportFragmentManager.beginTransaction()
+                .addToBackStack(null)
+                .replace(R.id.container1, InfoServiceFragment().newInstance(category, null), InfoServiceFragment.TAG)
+                .commit()
+        } else {
+            supportFragmentManager.beginTransaction()
+                .addToBackStack(null)
+                .replace(R.id.container1, InfoServiceFragment().newInstance(null, service), InfoServiceFragment.TAG)
+                .commit()
+        }
     }
 
     fun showChangePassFragment() {

@@ -6,7 +6,6 @@ import android.view.*
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -22,7 +21,6 @@ import com.cleteci.redsolidaria.ui.adapters.ResourseCategoryAdapter
 import com.cleteci.redsolidaria.ui.base.BaseFragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import javax.inject.Inject
-import com.google.gson.Gson
 
 
 class ResoursesOfferedFragment : BaseFragment(), ResoursesOfferedContract.View,
@@ -189,18 +187,21 @@ class ResoursesOfferedFragment : BaseFragment(), ResoursesOfferedContract.View,
 
     override fun itemDetail(postId: Int) {
         if (!isFromScan) {
-            (activity as MainActivity).openInfoServiceFragment(listCategories.get(postId))
+            (activity as MainActivity).openInfoFragment(listCategories.get(postId), null)
         } else {
             (activity as MainActivity).showScanFragment(null, listCategories.get(postId).id,listCategories.get(postId).name, true )
         }
     }
 
-    override fun clickDetailResource(postId: String, name: String, isGeneric:Boolean) {
-
+    override fun clickDetailResource(postId: Int, name: String, isGeneric:Boolean) {
         if (!isFromScan) {
-            Toast.makeText(activity, "Definir acción para recursos", Toast.LENGTH_SHORT).show()
+            if(!isGeneric) {
+                (activity as MainActivity).openInfoFragment(null, listResourses.get(postId))
+            } else {
+                (activity as MainActivity).openInfoFragment(null, listGenericResourses.get(postId))
+            }
         } else {
-            (activity as MainActivity).showScanFragment(postId, null, name, isGeneric)
+            (activity as MainActivity).showScanFragment(listResourses.get(postId).id, null, name, isGeneric)
         }
 
     }

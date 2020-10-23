@@ -9,6 +9,7 @@ import android.widget.TextView
 import com.cleteci.redsolidaria.R
 import com.cleteci.redsolidaria.di.component.DaggerFragmentComponent
 import com.cleteci.redsolidaria.di.module.FragmentModule
+import com.cleteci.redsolidaria.models.Resource
 import com.cleteci.redsolidaria.models.ResourceCategory
 import com.cleteci.redsolidaria.ui.activities.main.MainActivity
 import com.cleteci.redsolidaria.ui.base.BaseFragment
@@ -16,7 +17,9 @@ import javax.inject.Inject
 
 class InfoServiceFragment : BaseFragment() , InfoServiceContract.View  {
     var catService:ResourceCategory?=null
+    var service:Resource?=null
     var tvName:TextView?=null
+    var totalServed:TextView?=null
     var ivService:ImageView?=null
 
     @Inject
@@ -24,21 +27,25 @@ class InfoServiceFragment : BaseFragment() , InfoServiceContract.View  {
 
     private lateinit var rootView: View
 
-    fun newInstance(catService1:ResourceCategory): InfoServiceFragment {
-        var frag: InfoServiceFragment= InfoServiceFragment()
+    fun newInstance(catService1: ResourceCategory?, service: Resource?): InfoServiceFragment {
+        var frag: InfoServiceFragment = InfoServiceFragment()
         var args = Bundle()
-        args.putSerializable("category", catService1)
+        if(catService1 != null) {
+            args.putSerializable("category", catService1)
+        } else {
+            args.putSerializable("service", service)
+        }
         frag.setArguments(args)
 
-        //catService=catService1
         return frag
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (arguments != null) {
+        if (arguments != null && arguments?.getSerializable("category") != null) {
              catService = arguments?.getSerializable("category") as ResourceCategory
-
+        } else {
+            service = arguments?.getSerializable("service") as Resource
         }
         injectDependency()
     }
@@ -53,7 +60,7 @@ class InfoServiceFragment : BaseFragment() , InfoServiceContract.View  {
 
         tvName=rootView.findViewById(R.id.tvName)
 
-
+        totalServed=rootView.findViewById(R.id.totalServed)
 
         return rootView
     }
@@ -70,8 +77,6 @@ class InfoServiceFragment : BaseFragment() , InfoServiceContract.View  {
         presenter.unsubscribe()
     }
 
-
-
     private fun injectDependency() {
         val aboutComponent = DaggerFragmentComponent.builder()
             .fragmentModule(FragmentModule())
@@ -79,16 +84,25 @@ class InfoServiceFragment : BaseFragment() , InfoServiceContract.View  {
 
         aboutComponent.inject(this)
     }
-    override fun init() {
 
-    }
+    override fun init() {}
 
     private fun initView() {
-        //presenter.loadMessage()
+        if(catService != null) {
+            ivService?.setImageResource(catService!!.photo)
+            tvName?.text = catService!!.name
+            presenter.loadCategoryData(catService!!.id)
+        } else {
+            ivService?.setImageResource(service!!.photo)
+            tvName?.text = service!!.name
+            presenter.loadServiceData(service!!.id)
+        }
+    }
 
-        ivService?.setImageResource(catService!!.photo)
-
-        tvName?.setText(catService!!.name)
+    override fun loadDataSuccess(total: Int) {
+        activity?.runOnUiThread(Runnable {
+            totalServed?.text = total.toString()
+        })
     }
 
     companion object {
@@ -100,7 +114,4 @@ class InfoServiceFragment : BaseFragment() , InfoServiceContract.View  {
         (activity as MainActivity).setTextToolbar(getText(R.string.info_services).toString(),activity!!.resources.getColor(R.color.colorWhite))
 
     }
-
-
-
 }
