@@ -35,6 +35,8 @@ class ScanCodeFragment : BaseFragment(), ScanCodeContract.View {
     var callback: BarcodeCallback? = null
 
     var btSend: Button? = null
+    var zxing_status_view: TextView? = null
+
 
 
     @Inject
@@ -74,6 +76,7 @@ class ScanCodeFragment : BaseFragment(), ScanCodeContract.View {
         rootView = inflater.inflate(R.layout.fragment_scan_code, container, false)
 
         btSend = rootView?.findViewById(R.id.btSend);
+        zxing_status_view=rootView?.findViewById(R.id.zxing_status_view);
 
         btSend?.setOnClickListener {
             Toast.makeText(activity!!, getString(R.string.progress), Toast.LENGTH_SHORT).show()
@@ -99,19 +102,19 @@ class ScanCodeFragment : BaseFragment(), ScanCodeContract.View {
                 beepManager?.playBeepSoundAndVibrate()
 
 
-                 if (serviceID!=null) {
+                if (serviceID != null) {
 
 
-                      presenter.countService(result.text, serviceID!!)
+                    presenter.countService(result.text, serviceID!!)
 
 
-                 } else{
+                } else {
 
 
-                         presenter.countCategory(result.text, catID!!)
+                    presenter.countCategory(result.text, catID!!)
 
 
-                 }
+                }
 
             }
 
@@ -120,11 +123,20 @@ class ScanCodeFragment : BaseFragment(), ScanCodeContract.View {
             }
         }
 
+        settingDecode()
 
-        barcodeScannerView?.decodeSingle(callback)
-
-        capture = CaptureManager(activity, barcodeScannerView)
         return rootView
+    }
+
+    fun settingDecode() {
+
+        activity?.runOnUiThread(Runnable {
+            barcodeScannerView?.decodeSingle(callback)
+
+            capture = CaptureManager(activity, barcodeScannerView)
+        })
+
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -163,10 +175,35 @@ class ScanCodeFragment : BaseFragment(), ScanCodeContract.View {
     override fun onResume() {
         super.onResume()
         capture?.onResume()
+        var title: String = ""
+        var pronoun: String = ""
+        var offered: String = ""
+        if (serviceID != null) {
+            pronoun=getString(R.string.the_2)
+            offered=getString(R.string.offered_2)
+            if (isGeneric) {
+                title =  ""+name?.toLowerCase()
+
+            } else {
+                title =  getString(R.string.service).toLowerCase() + " " + name
+
+            }
+
+        } else {
+            pronoun=getString(R.string.the_1)
+            offered=getString(R.string.offered_1)
+
+
+            title =  getString(R.string.category).toLowerCase() + " " + name
+        }
+
+        zxing_status_view?.text=String.format(BaseApp.instance.getResources().getString(R.string.to_scan),pronoun,title,offered )
+
         (activity as MainActivity).setTextToolbar(
-            getText(R.string.scan_qr).toString(),
+            getText(R.string.scan_qr).toString() + " "+title,
             activity!!.resources.getColor(R.color.colorWhite)
         )
+
 
     }
 
@@ -189,9 +226,8 @@ class ScanCodeFragment : BaseFragment(), ScanCodeContract.View {
     override fun showErrorMsg(msg: String) {
 
         activity?.runOnUiThread(Runnable {
-            showAlert (R.drawable.ic_error, msg)
+            showAlert(R.drawable.ic_error, msg)
         })
-
 
 
     }
@@ -199,36 +235,39 @@ class ScanCodeFragment : BaseFragment(), ScanCodeContract.View {
     override fun showSuccessMsg(msg: String) {
 
         activity?.runOnUiThread(Runnable {
-            showAlert (R.drawable.ic_check_green, msg)
+            showAlert(R.drawable.ic_check_green, msg)
         })
 
     }
 
-    fun showAlert (icon:Int, msg: String){
+    fun showAlert(icon: Int, msg: String) {
         val dialog = Dialog(activity!!)
-        dialog .requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.window!!.setLayout(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN)
-        dialog .setCancelable(false)
-        dialog .setContentView(R.layout.comp_alert_succes_suggest_resource)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.window!!.setLayout(
+            WindowManager.LayoutParams.FLAG_FULLSCREEN,
+            WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN
+        )
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.comp_alert_succes_suggest_resource)
 
-        val ivIcon = dialog .findViewById(R.id.ivIcon) as ImageView
+        val ivIcon = dialog.findViewById(R.id.ivIcon) as ImageView
 
-        val tvAlertMsg = dialog .findViewById(R.id.tvAlertMsg) as TextView
+        val tvAlertMsg = dialog.findViewById(R.id.tvAlertMsg) as TextView
 
         ivIcon.setImageResource(icon)
 
-        tvAlertMsg.text=msg
+        tvAlertMsg.text = msg
 
-        val yesBtn = dialog .findViewById(R.id.btCont) as Button
+        val yesBtn = dialog.findViewById(R.id.btCont) as Button
 
         yesBtn.setOnClickListener {
-            dialog .dismiss()
-            (activity as MainActivity).onBackPressed()
+            dialog.dismiss()
+            settingDecode()
+
         }
 
-        dialog .show()
+        dialog.show()
     }
-
 
 
 }

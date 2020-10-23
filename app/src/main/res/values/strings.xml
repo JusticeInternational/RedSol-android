@@ -48,7 +48,17 @@
     <string name="count_question_2">Usted está solicitando contabilizar para el servicio %1$s? ¿Está seguro que es el recurso que desea escanear?</string>
 
     <string name="service_count_question">¿Desea contabilizar este servicio?</string>
+    <string name="service">Servicio</string>
+
     <string name="category_count_question">¿Desea contabilizar esta categoria?</string>
+
+    <string name="the_1">la</string>
+
+    <string name="the_2">el</string>
+
+    <string name="offered_1">ofrecida</string>
+
+    <string name="offered_2">ofrecido</string>
 
     <string name="posted_service">Servicio contabilizado con el usuario %1$s</string>
     <string name="error_posted_service">Error al contabilizar servicio</string>
@@ -197,7 +207,7 @@
     <string name="resourses_categories">Categorias de nuestros recursos de apoyo</string>
     <string name="category">Categoria</string>
     <string name="validate_with_code">Validar con código ID</string>
-    <string name="to_scan">Para escanear el código de otro usuario colóquelo centrado en el recuadro a continuación</string>
+    <string name="to_scan">Para contabilizar el código de otro usuario a %1$s %2$s %3$s por usted, deberá escanear el código QR del usuario colocándolo centrado en el recuadro a continuación</string>
     <string name="general_desc">Descripción general</string>
     <string name="find_resourses">Encuentra los recursos de apoyo disponibles en tu comunidad</string>
     <string name="we_are_volunteer">Somos voluntarios</string>
