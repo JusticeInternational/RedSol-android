@@ -11,24 +11,48 @@ import com.cleteci.redsolidaria.R
 
 import com.cleteci.redsolidaria.di.component.DaggerFragmentComponent
 import com.cleteci.redsolidaria.di.module.FragmentModule
+import com.cleteci.redsolidaria.models.Resource
+import com.cleteci.redsolidaria.models.ResourceCategory
 import com.cleteci.redsolidaria.ui.activities.main.MainActivity
 import com.cleteci.redsolidaria.ui.base.BaseFragment
+import com.cleteci.redsolidaria.ui.fragments.resoursesOffered.ResoursesOfferedFragment
 import javax.inject.Inject
 
 
-class UsersFragment : BaseFragment() , UsersContract.View  {
+class AttendersFragment : BaseFragment() , UsersContract.View  {
 
 
     @Inject lateinit var presenter: UsersContract.Presenter
-
+    var catService: ResourceCategory? = null
+    var service: Resource? = null
     private lateinit var rootView: View
 
-    fun newInstance(): UsersFragment {
-        return UsersFragment()
+    fun newInstance(service: Resource): AttendersFragment {
+
+        val fragment = AttendersFragment()
+        val args = Bundle()
+        args.putSerializable("service", service)
+        fragment.setArguments(args)
+        return fragment
+
     }
+
+    fun newInstance(category: ResourceCategory): AttendersFragment {
+        val fragment = AttendersFragment()
+        val args = Bundle()
+        args.putSerializable("category", category)
+        fragment.setArguments(args)
+        return fragment
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (arguments != null && arguments?.getSerializable("category") != null) {
+            catService = arguments?.getSerializable("category") as ResourceCategory
+        } else {
+            service = arguments?.getSerializable("service") as Resource
+        }
         injectDependency()
     }
 
@@ -68,7 +92,7 @@ class UsersFragment : BaseFragment() , UsersContract.View  {
     }
 
     companion object {
-        val TAG: String = "UsersFragment"
+        val TAG: String = "AttendersFragment"
     }
 
     override fun onResume() {

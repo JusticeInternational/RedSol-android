@@ -5,7 +5,7 @@ import io.reactivex.disposables.CompositeDisposable
 /**
  * Created by ogulcan on 07/02/2018.
  */
-class UsersPresenter: UsersContract.Presenter {
+class AttendersPresenter: UsersContract.Presenter {
 
     private val subscriptions = CompositeDisposable()
     private lateinit var view: UsersContract.View
