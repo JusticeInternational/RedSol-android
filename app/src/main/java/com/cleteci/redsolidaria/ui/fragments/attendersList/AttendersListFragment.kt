@@ -1,34 +1,51 @@
 package com.cleteci.redsolidaria.ui.fragments.users
 
 
-import android.app.Dialog
 import android.os.Bundle
 import android.view.*
-import android.widget.Button
-import com.cleteci.redsolidaria.BaseApp
 
 import com.cleteci.redsolidaria.R
 
 import com.cleteci.redsolidaria.di.component.DaggerFragmentComponent
 import com.cleteci.redsolidaria.di.module.FragmentModule
+import com.cleteci.redsolidaria.models.Resource
+import com.cleteci.redsolidaria.models.ResourceCategory
 import com.cleteci.redsolidaria.ui.activities.main.MainActivity
 import com.cleteci.redsolidaria.ui.base.BaseFragment
 import javax.inject.Inject
 
 
-class attendersListFragment : BaseFragment() , UsersContract.View  {
+class AttendersListFragment : BaseFragment(), AttendersListContract.View {
+    var catService: ResourceCategory? = null
+    var service: Resource? = null
+    var type: Int? = null
 
-
-    @Inject lateinit var presenter: UsersContract.Presenter
+    @Inject
+    lateinit var presenter: AttendersListContract.Presenter
 
     private lateinit var rootView: View
 
-    fun newInstance(): attendersListFragment {
-        return attendersListFragment()
+    fun newInstance(type: Int, serviceId: Resource?, catId: ResourceCategory?): AttendersListFragment {
+
+        val fragment = AttendersListFragment()
+        val args = Bundle()
+        args.putInt("type", type)
+        args.putSerializable("service", serviceId)
+        args.putSerializable("cat", catId)
+        fragment.setArguments(args)
+        return fragment
+
+        //return AttendersListFragment()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (arguments != null) {
+            type = arguments!!.getInt("type")
+            service = arguments!!.getSerializable("service") as Resource
+            catService = arguments!!.getSerializable("cat") as ResourceCategory
+
+        }
         injectDependency()
     }
 
@@ -37,6 +54,7 @@ class attendersListFragment : BaseFragment() , UsersContract.View  {
         savedInstanceState: Bundle?
     ): View? {
         rootView = inflater.inflate(R.layout.fragment_attenders_list, container, false)
+
         return rootView
     }
 
@@ -45,6 +63,7 @@ class attendersListFragment : BaseFragment() , UsersContract.View  {
         presenter.attach(this)
         presenter.subscribe()
         initView()
+
     }
 
     override fun onDestroyView() {
@@ -59,24 +78,32 @@ class attendersListFragment : BaseFragment() , UsersContract.View  {
 
         aboutComponent.inject(this)
     }
+
     override fun init() {
 
     }
 
     private fun initView() {
-        //presenter.loadMessage()
+        if (service!=null) {
+            presenter.loadDataService( service!!.id, type!!)
+        } else {
+            presenter.loadDataCategory( catService!!.id, type!!)
+        }
+
     }
 
     companion object {
-        val TAG: String = "attendersListFragment"
+        val TAG: String = "AttendersListFragment"
     }
 
     override fun onResume() {
         super.onResume()
-        (activity as MainActivity).setTextToolbar(getText(R.string.users).toString(),activity!!.resources.getColor(R.color.colorWhite))
+        (activity as MainActivity).setTextToolbar(
+            getText(R.string.users).toString(),
+            activity!!.resources.getColor(R.color.colorWhite)
+        )
 
     }
-
 
 
 }

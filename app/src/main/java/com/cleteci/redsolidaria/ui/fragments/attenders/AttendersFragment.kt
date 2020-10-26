@@ -1,15 +1,12 @@
 package com.cleteci.redsolidaria.ui.fragments.users
 
 
-import android.app.Dialog
 import android.os.Bundle
 import android.view.*
-import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.viewpager.widget.ViewPager
-import com.cleteci.redsolidaria.BaseApp
 
 import com.cleteci.redsolidaria.R
 
@@ -19,15 +16,14 @@ import com.cleteci.redsolidaria.models.Resource
 import com.cleteci.redsolidaria.models.ResourceCategory
 import com.cleteci.redsolidaria.ui.activities.main.MainActivity
 import com.cleteci.redsolidaria.ui.base.BaseFragment
-import com.cleteci.redsolidaria.ui.fragments.resoursesOffered.ResoursesOfferedFragment
 import com.google.android.material.tabs.TabLayout
 import javax.inject.Inject
 
 
-class AttendersFragment : BaseFragment() , UsersContract.View  {
+class AttendersFragment : BaseFragment() , AttendersContract.View  {
 
 
-    @Inject lateinit var presenter: UsersContract.Presenter
+    @Inject lateinit var presenter: AttendersContract.Presenter
      var mSectionsPagerAdapter:SectionsPagerAdapter? = null
     var catService: ResourceCategory? = null
     var service: Resource? = null
@@ -69,7 +65,7 @@ class AttendersFragment : BaseFragment() , UsersContract.View  {
         savedInstanceState: Bundle?
     ): View? {
         rootView = inflater.inflate(R.layout.fragment_attenders, container, false)
-        mSectionsPagerAdapter = SectionsPagerAdapter(childFragmentManager)
+        mSectionsPagerAdapter = SectionsPagerAdapter(childFragmentManager,  catService, service)
         tabs=rootView.findViewById(R.id.tabs)
         mViewPager=rootView.findViewById(R.id.container)
         tabs?.setupWithViewPager(mViewPager)
@@ -115,12 +111,14 @@ class AttendersFragment : BaseFragment() , UsersContract.View  {
     }
 
 
-    class SectionsPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
-
+    class SectionsPagerAdapter(fm: FragmentManager, catService: ResourceCategory?,service: Resource? ) : FragmentPagerAdapter(fm) {
+        var catService:ResourceCategory?=catService
+        var service:Resource?=service
         override fun getItem(position: Int): Fragment {
             when (position) {
-                0 -> return ResoursesOfferedFragment()
-                else -> return ResoursesOfferedFragment()
+
+                0 -> return  AttendersListFragment().newInstance(1, service, catService)
+                else -> return AttendersListFragment().newInstance(2, service, catService)
 
             }
 

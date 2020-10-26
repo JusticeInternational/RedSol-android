@@ -5,13 +5,14 @@ import com.cleteci.redsolidaria.ui.base.BaseContract
 /**
  * Created by ogulcan on 07/02/2018.
  */
-class attendersListContract {
+class AttendersListContract {
 
     interface View: BaseContract.View {
         fun init()
     }
 
-    interface Presenter: BaseContract.Presenter<UsersContract.View> {
-        //fun onDrawerOptionAboutClick()
+    interface Presenter: BaseContract.Presenter<AttendersListContract.View> {
+        fun loadDataService(serviceId:String, type:Int)
+        fun loadDataCategory(categoryId:String, type:Int)
     }
 }

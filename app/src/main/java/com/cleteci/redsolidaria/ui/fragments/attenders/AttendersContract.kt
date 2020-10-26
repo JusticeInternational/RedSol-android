@@ -11,7 +11,7 @@ class AttendersContract {
         fun init()
     }
 
-    interface Presenter: BaseContract.Presenter<UsersContract.View> {
+    interface Presenter: BaseContract.Presenter<AttendersContract.View> {
         //fun onDrawerOptionAboutClick()
     }
 }

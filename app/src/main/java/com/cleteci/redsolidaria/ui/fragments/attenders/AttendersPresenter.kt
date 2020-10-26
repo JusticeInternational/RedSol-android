@@ -5,10 +5,10 @@ import io.reactivex.disposables.CompositeDisposable
 /**
  * Created by ogulcan on 07/02/2018.
  */
-class AttendersPresenter: UsersContract.Presenter {
+class AttendersPresenter: AttendersContract.Presenter {
 
     private val subscriptions = CompositeDisposable()
-    private lateinit var view: UsersContract.View
+    private lateinit var view: AttendersContract.View
 
     override fun subscribe() {
 
@@ -18,7 +18,7 @@ class AttendersPresenter: UsersContract.Presenter {
         subscriptions.clear()
     }
 
-    override fun attach(view: UsersContract.View) {
+    override fun attach(view: AttendersContract.View) {
         this.view = view
         view.init() // as default
     }

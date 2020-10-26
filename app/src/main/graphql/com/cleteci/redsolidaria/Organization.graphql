@@ -49,6 +49,18 @@ mutation provideAtentionCategory($orgID:ID!, $userID: ID!,  $categoryID:ID!) {
     }
 }
 
+query getServedBeneficiariesService($id: ID, $orgID:ID!) {
+    servedBeneficiariesService(id:$id, orgID: $orgID) {
+        name
+    }
+}
+
+query getServedBeneficiariesCategory($id: ID, $orgID:ID!) {
+    servedBeneficiariesCategory(id:$id, orgID: $orgID) {
+        name
+    }
+}
+
 
 query getOrganizationServicesAndCategories($id: ID) {
     User(id: $id) {
