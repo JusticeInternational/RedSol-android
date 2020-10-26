@@ -3,6 +3,8 @@ package com.cleteci.redsolidaria.ui.fragments.users
 
 import android.os.Bundle
 import android.view.*
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 import com.cleteci.redsolidaria.R
 
@@ -10,15 +12,25 @@ import com.cleteci.redsolidaria.di.component.DaggerFragmentComponent
 import com.cleteci.redsolidaria.di.module.FragmentModule
 import com.cleteci.redsolidaria.models.Resource
 import com.cleteci.redsolidaria.models.ResourceCategory
+import com.cleteci.redsolidaria.models.User
 import com.cleteci.redsolidaria.ui.activities.main.MainActivity
+import com.cleteci.redsolidaria.ui.adapters.ResourseAdapter
+import com.cleteci.redsolidaria.ui.adapters.ResourseCategoryAdapter
+import com.cleteci.redsolidaria.ui.adapters.UserAdapter
 import com.cleteci.redsolidaria.ui.base.BaseFragment
 import javax.inject.Inject
 
 
 class AttendersListFragment : BaseFragment(), AttendersListContract.View {
+
+
     var catService: ResourceCategory? = null
     var service: Resource? = null
     var type: Int? = null
+
+    var rvUsers: RecyclerView? = null
+    private val listUsers = ArrayList<User>()
+    var usersAdapter: UserAdapter? = null
 
     @Inject
     lateinit var presenter: AttendersListContract.Presenter
@@ -42,8 +54,11 @@ class AttendersListFragment : BaseFragment(), AttendersListContract.View {
         super.onCreate(savedInstanceState)
         if (arguments != null) {
             type = arguments!!.getInt("type")
-            service = arguments!!.getSerializable("service") as Resource
-            catService = arguments!!.getSerializable("cat") as ResourceCategory
+            if ( arguments!!.getSerializable("service")!=null) {
+                service = arguments!!.getSerializable("service") as Resource
+            } else {
+                catService = arguments!!.getSerializable("cat") as ResourceCategory
+            }
 
         }
         injectDependency()
@@ -54,6 +69,18 @@ class AttendersListFragment : BaseFragment(), AttendersListContract.View {
         savedInstanceState: Bundle?
     ): View? {
         rootView = inflater.inflate(R.layout.fragment_attenders_list, container, false)
+
+        rvUsers = rootView.findViewById(R.id.rvAttenders)
+
+        rvUsers?.setLayoutManager(
+            LinearLayoutManager(getActivity())
+        )
+
+        usersAdapter = UserAdapter(
+            activity?.applicationContext, listUsers
+        )
+
+        rvUsers?.setAdapter(usersAdapter)
 
         return rootView
     }
@@ -84,11 +111,21 @@ class AttendersListFragment : BaseFragment(), AttendersListContract.View {
     }
 
     private fun initView() {
-        if (service!=null) {
-            presenter.loadDataService( service!!.id, type!!)
+        if (service != null) {
+            presenter.loadDataService(service!!.id, type!!)
         } else {
-            presenter.loadDataCategory( catService!!.id, type!!)
+            presenter.loadDataCategory(catService!!.id, type!!)
         }
+
+    }
+
+    override fun showUsers(users: List<User>) {
+
+        activity?.runOnUiThread(Runnable {
+            listUsers.clear()
+            listUsers.addAll(users)
+            usersAdapter?.notifyDataSetChanged()
+        })
 
     }
 

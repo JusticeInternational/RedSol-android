@@ -2,6 +2,7 @@ package com.cleteci.redsolidaria.ui.fragments.users
 
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -68,6 +69,8 @@ class AttendersFragment : BaseFragment() , AttendersContract.View  {
         mSectionsPagerAdapter = SectionsPagerAdapter(childFragmentManager,  catService, service)
         tabs=rootView.findViewById(R.id.tabs)
         mViewPager=rootView.findViewById(R.id.container)
+        mViewPager?.setCurrentItem(2, true)
+        mViewPager?.setAdapter(mSectionsPagerAdapter)
         tabs?.setupWithViewPager(mViewPager)
         tabs?.setTabsFromPagerAdapter(mSectionsPagerAdapter)
         return rootView
@@ -112,13 +115,18 @@ class AttendersFragment : BaseFragment() , AttendersContract.View  {
 
 
     class SectionsPagerAdapter(fm: FragmentManager, catService: ResourceCategory?,service: Resource? ) : FragmentPagerAdapter(fm) {
-        var catService:ResourceCategory?=catService
-        var service:Resource?=service
+       /* var catService:ResourceCategory?=catService
+        var service:Resource?=service*/
+
+        var frag1=AttendersListFragment().newInstance(1, service, catService)
+        var frag2=AttendersListFragment().newInstance(2, service, catService)
+
         override fun getItem(position: Int): Fragment {
+            Log.d("TAGI", "--"+position)
             when (position) {
 
-                0 -> return  AttendersListFragment().newInstance(1, service, catService)
-                else -> return AttendersListFragment().newInstance(2, service, catService)
+                0 -> return  frag1
+                else -> return frag2
 
             }
 
