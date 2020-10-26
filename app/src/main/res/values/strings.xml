@@ -68,6 +68,8 @@
     <string name="scan_qr">Scan QR</string>
     <string name="search">Buscar</string>
     <string name="users">Usuarios</string>
+
+    <string name="attenders">Usuarios atendidos</string>
     <string name="change_pass">Cambio de contraseña</string>
 
     <!--SERVICES-->

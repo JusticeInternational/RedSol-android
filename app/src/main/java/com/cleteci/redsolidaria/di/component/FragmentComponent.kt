@@ -20,6 +20,7 @@ import com.cleteci.redsolidaria.ui.fragments.servicedetail.ServiceDetailFragment
 import com.cleteci.redsolidaria.ui.fragments.suggestService.SuggestServiceFragment
 import com.cleteci.redsolidaria.ui.fragments.users.AttendersFragment
 import com.cleteci.redsolidaria.ui.fragments.users.UsersFragment
+import com.cleteci.redsolidaria.ui.fragments.users.attendersListFragment
 import com.cleteci.redsolidaria.ui.fragments.welcome.WelcomeFragment
 
 import dagger.Component
@@ -67,6 +68,9 @@ interface FragmentComponent {
     fun inject(infoServiceFragment: InfoServiceFragment)
 
     fun inject(attendersFragment: AttendersFragment)
+
+    fun inject(attendersListFragment: attendersListFragment)
+
 
 
 }

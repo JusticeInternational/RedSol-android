@@ -16,15 +16,15 @@ import com.cleteci.redsolidaria.ui.base.BaseFragment
 import javax.inject.Inject
 
 
-class UsersFragment : BaseFragment() , UsersContract.View  {
+class attendersListFragment : BaseFragment() , UsersContract.View  {
 
 
     @Inject lateinit var presenter: UsersContract.Presenter
 
     private lateinit var rootView: View
 
-    fun newInstance(): UsersFragment {
-        return UsersFragment()
+    fun newInstance(): attendersListFragment {
+        return attendersListFragment()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,7 +36,7 @@ class UsersFragment : BaseFragment() , UsersContract.View  {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        rootView = inflater.inflate(R.layout.fragment_users, container, false)
+        rootView = inflater.inflate(R.layout.fragment_attenders_list, container, false)
         return rootView
     }
 
@@ -68,7 +68,7 @@ class UsersFragment : BaseFragment() , UsersContract.View  {
     }
 
     companion object {
-        val TAG: String = "UsersFragment"
+        val TAG: String = "attendersListFragment"
     }
 
     override fun onResume() {
