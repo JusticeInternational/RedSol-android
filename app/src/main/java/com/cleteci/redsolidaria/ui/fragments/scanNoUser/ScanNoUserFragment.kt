@@ -19,10 +19,7 @@ import javax.inject.Inject
 class ScanNoUserFragment : BaseFragment(), ScanNoUserContract.View {
     var catService: ResourceCategory? = null
     var service: Resource? = null
-    var tvName: TextView? = null
-    var totalServed: TextView? = null
-    var ivService: ImageView? = null
-    var btAttend: Button? = null
+
 
 
     @Inject
@@ -30,14 +27,14 @@ class ScanNoUserFragment : BaseFragment(), ScanNoUserContract.View {
 
     private lateinit var rootView: View
 
-    fun newInstance(catService1: ResourceCategory?, service: Resource?): ScanNoUserFragment {
+    fun newInstance(): ScanNoUserFragment {
         var frag: ScanNoUserFragment = ScanNoUserFragment()
         var args = Bundle()
-        if (catService1 != null) {
+      /*  if (catService1 != null) {
             args.putSerializable("category", catService1)
         } else {
             args.putSerializable("service", service)
-        }
+        }*/
         frag.setArguments(args)
 
         return frag
@@ -45,11 +42,11 @@ class ScanNoUserFragment : BaseFragment(), ScanNoUserContract.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (arguments != null && arguments?.getSerializable("category") != null) {
+       /* if (arguments != null && arguments?.getSerializable("category") != null) {
             catService = arguments?.getSerializable("category") as ResourceCategory
         } else {
             service = arguments?.getSerializable("service") as Resource
-        }
+        }*/
         injectDependency()
     }
 
@@ -57,24 +54,9 @@ class ScanNoUserFragment : BaseFragment(), ScanNoUserContract.View {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        rootView = inflater.inflate(R.layout.fragment_info_service, container, false)
+        rootView = inflater.inflate(R.layout.fragment_scan_no_user, container, false)
 
-        ivService = rootView.findViewById(R.id.ivService)
 
-        tvName = rootView.findViewById(R.id.tvName)
-
-        totalServed = rootView.findViewById(R.id.totalServed)
-
-        btAttend = rootView.findViewById(R.id.btAttend)
-
-        btAttend?.setOnClickListener {
-            if (service!=null) {
-                (activity as MainActivity).openAttendFragment(service!!)
-            } else {
-                (activity as MainActivity).openAttendFragment(catService!!)
-            }
-
-        }
 
         return rootView
     }
@@ -102,21 +84,11 @@ class ScanNoUserFragment : BaseFragment(), ScanNoUserContract.View {
     override fun init() {}
 
     private fun initView() {
-        if (catService != null) {
-            ivService?.setImageResource(catService!!.photo)
-            tvName?.text = catService!!.name
-            presenter.loadCategoryData(catService!!.id)
-        } else {
-            ivService?.setImageResource(service!!.photo)
-            tvName?.text = service!!.name
-            presenter.loadServiceData(service!!.id)
-        }
+
     }
 
     override fun loadDataSuccess(total: Int) {
-        activity?.runOnUiThread(Runnable {
-            totalServed?.text = total.toString()
-        })
+
     }
 
     companion object {
@@ -126,7 +98,7 @@ class ScanNoUserFragment : BaseFragment(), ScanNoUserContract.View {
     override fun onResume() {
         super.onResume()
         (activity as MainActivity).setTextToolbar(
-            getText(R.string.info_services).toString(),
+            getText(R.string.count_attention).toString(),
             activity!!.resources.getColor(R.color.colorWhite)
         )
 

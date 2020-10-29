@@ -157,6 +157,10 @@ class MyResoursesFragment : BaseFragment(), MyResoursesContract.View, ResourseAd
         (activity as MainActivity).openServiceDetailFragment()
     }
 
+    override fun scanNoUserResource(postId: Int, name: String, isGeneric: Boolean) {
+
+    }
+
     override fun clickScanresourse(postId: String) { }
 
     override fun onResume() {

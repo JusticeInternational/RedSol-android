@@ -15,6 +15,8 @@ import com.cleteci.redsolidaria.ui.fragments.createService.CreateServiceContract
 import com.cleteci.redsolidaria.ui.fragments.createService.CreateServicePresenter
 import com.cleteci.redsolidaria.ui.fragments.infoService.InfoServiceContract
 import com.cleteci.redsolidaria.ui.fragments.infoService.InfoServicePresenter
+import com.cleteci.redsolidaria.ui.fragments.infoService.ScanNoUserContract
+import com.cleteci.redsolidaria.ui.fragments.infoService.ScanNoUserPresenter
 import com.cleteci.redsolidaria.ui.fragments.login.LoginFContract
 import com.cleteci.redsolidaria.ui.fragments.login.LoginFPresenter
 import com.cleteci.redsolidaria.ui.fragments.map.MapContract
@@ -155,6 +157,12 @@ class FragmentModule {
     fun provideAttendersListContractPresenter(): AttendersListContract.Presenter {
         return AttendersListPresenter()
     }
+
+    @Provides
+    fun provideScanNoUserContractPresenter(): ScanNoUserContract.Presenter {
+        return ScanNoUserPresenter()
+    }
+
 
 
 

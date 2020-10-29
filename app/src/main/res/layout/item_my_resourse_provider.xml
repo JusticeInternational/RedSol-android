@@ -81,6 +81,15 @@
         android:layout_marginRight="25dp"
         android:src="@drawable/ic_right" />
 
+    <ImageView
+            android:id="@+id/ivNoUser"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+           android:layout_marginRight="20dp"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/ivArrow"
+            android:src="@drawable/no_user" />
+
     <View
             android:id="@+id/viewLine"
         android:layout_marginHorizontal="20dp"

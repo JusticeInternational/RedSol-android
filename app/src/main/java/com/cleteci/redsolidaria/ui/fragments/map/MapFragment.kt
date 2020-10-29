@@ -45,6 +45,7 @@ class MapFragment : BaseFragment(), MapContract.View, OnMapReadyCallback, Resour
     GoogleMap.OnInfoWindowClickListener {
 
 
+
     var mListRecyclerView: RecyclerView? = null
     var mAdapter: ResourseCategoryAdapter? = null
     private val listCategory = ArrayList<ResourceCategory>()
@@ -292,6 +293,9 @@ class MapFragment : BaseFragment(), MapContract.View, OnMapReadyCallback, Resour
     }
 
     override fun clickScanCategory(postId: String) {
+
+    }
+    override fun scanNoUserCategory(position: Int) {
 
     }
 

@@ -4,6 +4,8 @@ import java.lang.CharSequence
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RatingBar
@@ -54,25 +56,31 @@ class ResourseAdapter(
         }
 
         if (this.isScan){
-
+            holder.ivNoUser?.visibility=VISIBLE
             holder.ivArrow?.setImageResource(R.drawable.ic_scan)
 
-        }else{
 
+        }else{
+            holder.ivNoUser?.visibility= GONE
             holder.ivArrow?.setImageResource(R.drawable.ic_right)
 
         }
 
-
-        if (position==itemCount-1){
-            holder.viewLine?.visibility= View.GONE
-        }else{
-            holder.viewLine?.visibility= View.VISIBLE
-        }
-
-        holder.layout?.setOnClickListener {
+        holder.ivArrow?.setOnClickListener {
             listener.clickDetailResource(position!!, post.name, post.isGeneric)
         }
+
+        holder.ivNoUser?.setOnClickListener {
+            listener.scanNoUserResource(position!!, post.name, post.isGeneric)
+        }
+
+        if (position==itemCount-1){
+            holder.viewLine?.visibility= GONE
+        }else{
+            holder.viewLine?.visibility= VISIBLE
+        }
+
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
@@ -108,6 +116,8 @@ class ResourseAdapter(
         val tvDescription = itemView.findViewById<TextView>(R.id.tvDescription)
         val ivArrow = itemView.findViewById<ImageView>(R.id.ivArrow)
 
+        val ivNoUser = itemView.findViewById<ImageView>(R.id.ivNoUser)
+
 
         fun bind(item: Resource) {
 
@@ -117,5 +127,6 @@ class ResourseAdapter(
     interface onItemClickListener {
         fun clickScanresourse(postId: String)
         fun clickDetailResource(postId: Int,name: String, isGeneric:Boolean)
+        fun scanNoUserResource(postId: Int,name: String, isGeneric:Boolean)
     }
 }

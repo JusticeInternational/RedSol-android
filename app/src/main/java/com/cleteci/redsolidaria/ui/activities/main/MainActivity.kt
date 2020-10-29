@@ -47,6 +47,7 @@ import com.cleteci.redsolidaria.ui.customUIComponents.FragmentHistory
 import com.cleteci.redsolidaria.ui.fragments.changePassword.ChangePassFragment
 import com.cleteci.redsolidaria.ui.fragments.createService.CreateServiceFragment
 import com.cleteci.redsolidaria.ui.fragments.infoService.InfoServiceFragment
+import com.cleteci.redsolidaria.ui.fragments.infoService.ScanNoUserFragment
 import com.cleteci.redsolidaria.ui.fragments.myProfileProvider.MyProfileProviderFragment
 import com.cleteci.redsolidaria.ui.fragments.resoursesOffered.ResoursesOfferedFragment
 import com.cleteci.redsolidaria.ui.fragments.scanCode.ScanCodeFragment
@@ -369,6 +370,13 @@ class MainActivity : AppCompatActivity(), MainContract.View, NavigationView.OnNa
         supportFragmentManager.beginTransaction()
             .addToBackStack(null)
             .replace(R.id.container1, CreateServiceFragment().newInstance(), CreateServiceFragment.TAG)
+            .commit()
+    }
+
+    fun openScanNoUserFragment() {
+        supportFragmentManager.beginTransaction()
+            .addToBackStack(null)
+            .replace(R.id.container1, ScanNoUserFragment().newInstance(), ScanNoUserFragment.TAG)
             .commit()
     }
 

@@ -105,13 +105,13 @@ class ScanCodeFragment : BaseFragment(), ScanCodeContract.View {
                 if (serviceID != null) {
 
 
-                    presenter.countService(result.text, serviceID!!)
+                    presenter.countService(result.text, serviceID!!,name!!, isGeneric)
 
 
                 } else {
 
 
-                    presenter.countCategory(result.text, catID!!)
+                    presenter.countCategory(result.text, catID!!,name!!)
 
 
                 }

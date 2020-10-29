@@ -8,6 +8,7 @@ import com.cleteci.redsolidaria.ui.fragments.configuration.ConfigurationFragment
 import com.cleteci.redsolidaria.ui.fragments.contactUs.ContactUsFragment
 import com.cleteci.redsolidaria.ui.fragments.createService.CreateServiceFragment
 import com.cleteci.redsolidaria.ui.fragments.infoService.InfoServiceFragment
+import com.cleteci.redsolidaria.ui.fragments.infoService.ScanNoUserFragment
 import com.cleteci.redsolidaria.ui.fragments.login.LoginFFragment
 import com.cleteci.redsolidaria.ui.fragments.map.MapFragment
 import com.cleteci.redsolidaria.ui.fragments.myProfile.MyProfileFragment
@@ -70,6 +71,8 @@ interface FragmentComponent {
     fun inject(attendersFragment: AttendersFragment)
 
     fun inject(attendersListFragment: AttendersListFragment)
+
+    fun inject(scanNoUserFragment: ScanNoUserFragment)
 
 
 

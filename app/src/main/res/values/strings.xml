@@ -39,7 +39,8 @@
     <string name="my_resourse">Mis recursos</string>
     <string name="count_resourses">Contabilizar recursos</string>
 
-    <string name="posted_category">Categoria contabilizada con el usuario %1$s</string>
+    <string name="posted_category">El usuario %1$s ha sido atendido para un servicio
+        no detallado de la categoría %2$s</string>
     <string name="error_posted_category">Error al contabilizar categoria</string>
 
 
@@ -60,7 +61,8 @@
 
     <string name="offered_2">ofrecido</string>
 
-    <string name="posted_service">Servicio contabilizado con el usuario %1$s</string>
+    <string name="posted_service_2">El usuario %1$s ha sido atendido para un servicio genérico no categorizado</string>
+    <string name="posted_service">El usuario %1$s ha sido atendido para el servicio %2$s </string>
     <string name="error_posted_service">Error al contabilizar servicio</string>
     <string name="invalid_user">Usuario no valido</string>
     <string name="my_resourse_detailed">Mis recursos detallados</string>
@@ -74,6 +76,7 @@
 
     <!--SERVICES-->
     <string name="info_services">Información servicios</string>
+    <string name="count_attention">Contabilizar atención</string>
     <string name="create_new_service">Crear nuevos servicios</string>
     <string name="new_pass">Nueva contraseña</string>
     <string name="min_request">Requisitos mínimos:</string>
