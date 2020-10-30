@@ -45,7 +45,7 @@ class ScanNoUserPresenter: ScanNoUserContract.Presenter {
         nameCat: String?
     ) {
 
-        //var flat=true
+        var email2:String?=null
 
         if (name==null || name.isEmpty()){
             //    flat=false
@@ -59,17 +59,20 @@ class ScanNoUserPresenter: ScanNoUserContract.Presenter {
             return
         }
 
+        email2=email?.trim()
 
-
-        if (email!=null && !email.isEmpty() && !email.isValidEmail() ){
+        if (email2!=null && !email2.isEmpty() && !email2.isValidEmail() ){
             Toast.makeText(BaseApp.instance, BaseApp.instance.getString(R.string.invalid_email), Toast.LENGTH_SHORT).show()
             return
         }
 
-        if (email!=null && !email.isEmpty() && !email.isValidPhone() ){
+
+
+
+        /*if (email!=null && !email.isEmpty() && !email.isValidPhone() ){
             Toast.makeText(BaseApp.instance, BaseApp.instance.getString(R.string.invalid_phone), Toast.LENGTH_SHORT).show()
             return
-        }
+        }*/
 
 
         atentionUnregisteredCategory(
@@ -82,7 +85,7 @@ class ScanNoUserPresenter: ScanNoUserContract.Presenter {
             country,
             age,
             phone,
-            email,
+            email2,
             otherInfo,
             nameCat
 
@@ -105,6 +108,8 @@ class ScanNoUserPresenter: ScanNoUserContract.Presenter {
         isGeneric: Boolean
     ) {
 
+        var email2:String?=null
+
        //var flat=true
 
         if (name==null || name.isEmpty()){
@@ -120,11 +125,13 @@ class ScanNoUserPresenter: ScanNoUserContract.Presenter {
         }
 
 
-
-        if (email!=null && !email.isEmpty() && !email.isValidEmail() ){
+        email2=email?.trim()
+        if (email2!=null && !email2.isEmpty() && !email2.isValidEmail() ){
             Toast.makeText(BaseApp.instance, BaseApp.instance.getString(R.string.invalid_email), Toast.LENGTH_SHORT).show()
             return
         }
+
+
 
        /* if (email!=null && !email.isEmpty() && !email.isValidPhone() ){
             Toast.makeText(BaseApp.instance, BaseApp.instance.getString(R.string.invalid_phone), Toast.LENGTH_SHORT).show()
@@ -142,7 +149,7 @@ class ScanNoUserPresenter: ScanNoUserContract.Presenter {
             country,
             age,
             phone,
-            email,
+             email2,
             otherInfo,
             nameService,
             isGeneric
@@ -240,7 +247,7 @@ class ScanNoUserPresenter: ScanNoUserContract.Presenter {
                     if (isGeneric){
                         view.loadDataSuccess( String.format(BaseApp.instance.getResources().getString(R.string.posted_service_2),name ))
                     }else{
-                        view.loadDataError( String.format(BaseApp.instance.getResources().getString(R.string.posted_service),name, nameService ))
+                        view.loadDataSuccess( String.format(BaseApp.instance.getResources().getString(R.string.posted_service),name, nameService ))
                     }
 
                 } else {
