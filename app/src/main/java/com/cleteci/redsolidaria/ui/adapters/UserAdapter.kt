@@ -31,8 +31,8 @@ class UserAdapter(
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
         var post = list[position]
 
-        holder!!.title?.text = post.name
-
+        holder!!.title?.text = post.name+ " "+post.lastname
+        holder!!.tvEmail?.text=post.email
 
 
         if (position==itemCount-1){
@@ -62,6 +62,8 @@ class UserAdapter(
     class ListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var layout = itemView.findViewById<RelativeLayout>(R.id.parentr)
         val title: TextView? = itemView.findViewById<TextView>(R.id.tvName)
+        val tvEmail: TextView? = itemView.findViewById<TextView>(R.id.tvEmail)
+
 
         val viewLine = itemView.findViewById<View>(R.id.viewLine)
 

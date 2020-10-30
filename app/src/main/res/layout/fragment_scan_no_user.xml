@@ -354,7 +354,6 @@ android:background="@color/colorWhite"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="15dp"
                         android:background="@drawable/bg_border_line_primary"
-
                         android:text="@string/cancel"
                         android:textColor="@color/colorPrimary" />
 

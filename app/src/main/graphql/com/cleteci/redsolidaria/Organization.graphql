@@ -52,12 +52,31 @@ mutation provideAtentionCategory($orgID:ID!, $userID: ID!,  $categoryID:ID!) {
 query getServedBeneficiariesService($id: ID, $orgID:ID!) {
     servedBeneficiariesService(id:$id, orgID: $orgID) {
         name
+        email
     }
 }
 
 query getServedBeneficiariesCategory($id: ID, $orgID:ID!) {
     servedBeneficiariesCategory(id:$id, orgID: $orgID) {
         name
+        email
+    }
+}
+
+
+query getServedUnregisteredService($id: ID, $orgID:ID!) {
+    servedUnregisteredService(id:$id, orgID: $orgID) {
+        name
+        lastName
+        email
+    }
+}
+
+query getServedUnregisteredCategory($id: ID, $orgID:ID!) {
+    servedUnregisteredCategory(id:$id, orgID: $orgID) {
+        name
+        lastName
+        email
     }
 }
 

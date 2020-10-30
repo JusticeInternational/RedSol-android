@@ -17,5 +17,7 @@ class AttendersListContract {
     interface Presenter: BaseContract.Presenter<AttendersListContract.View> {
         fun loadDataService(serviceId:String, type:Int)
         fun loadDataCategory(categoryId:String, type:Int)
+
+
     }
 }
