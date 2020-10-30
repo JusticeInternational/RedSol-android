@@ -76,7 +76,9 @@
 
     <!--SERVICES-->
     <string name="info_services">Información servicios</string>
-    <string name="count_attention">Contabilizar atención</string>
+    <string name="count_attention">Contabilizar atención (no usuarios)</string>
+    <string name="count_attention_msg">Introduzca la información de la persona que está recibiendo la atención y que no dispone de código QR</string>
+
     <string name="create_new_service">Crear nuevos servicios</string>
     <string name="new_pass">Nueva contraseña</string>
     <string name="min_request">Requisitos mínimos:</string>
@@ -146,12 +148,29 @@
     <string name="near_to">Cerca de</string>
     <string name="next">Siguiente</string>
     <string name="name">Nombre</string>
+    <string name="dni">Documento de identificación</string>
+    <string name="origin_county">País de origen</string>
     <string name="lastName">Apellido</string>
     <string name="organization_name">Nombre de la organización</string>
     <string name="from_red_solidaria_team">De parte del equipo de Red Solidaria nos gustaría conocer como ayudarte, puedes dejar aquí cualquier comentario, duda o sugerencia</string>
     <string name="web_site">Página web</string>
     <string name="email">Correo</string>
+    <string name="sex">Género</string>
+    <string name="age">Edad</string>
     <string name="or">ó</string>
+
+    <string-array name="countries">
+        <item>Venezuela</item>
+        <item>Colombia</item>
+        <item>Argentina</item>
+        <item>Chile</item>
+        <item>Perú</item>
+        <item>Ecuador</item>
+
+
+    </string-array>
+
+    <string name="random_prompt">Seleccione</string>
 
 
     <!--DETAIL SERVICE-->
@@ -159,6 +178,7 @@
     <string name="location">Ubicación</string>
     <string name="phone">Teléfono</string>
     <string name="schedule">Horario</string>
+    <string name="aditional_info">Información adicional</string>
     <string name="description">Descripción</string>
     <string name="services_desc">Descripción de Servicios</string>
     <string name="about_us">Acerca de la Organización</string>
@@ -167,6 +187,7 @@
     <string name="change_plan_inf">Para cambiar el plan, agregue servicios detallados</string>
     <string name="we_are">¿Quienes somos?</string>
     <string name="send">Enviar</string>
+    <string name="register_count">Registrar y contar</string>
     <string name="cancel">Cancelar</string>
     <string name="interested">Interesados</string>
     <string name="attend">Atendidos</string>
