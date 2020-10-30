@@ -135,10 +135,7 @@ class AttendersListFragment : BaseFragment(), AttendersListContract.View {
 
     override fun onResume() {
         super.onResume()
-        (activity as MainActivity).setTextToolbar(
-            getText(R.string.users).toString(),
-            activity!!.resources.getColor(R.color.colorWhite)
-        )
+        (activity as MainActivity).setTextToolbar(getText(R.string.attenders).toString(),activity!!.resources.getColor(R.color.colorWhite))
 
     }
 
