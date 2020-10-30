@@ -208,11 +208,11 @@ class ResoursesOfferedFragment : BaseFragment(), ResoursesOfferedContract.View,
     }
 
     override fun scanNoUserCategory(position: Int) {
-        (activity as MainActivity).openScanNoUserFragment()
+        (activity as MainActivity).openScanNoUserFragment(null, listCategories[position].id, listCategories[position].name, false)
     }
 
-    override fun scanNoUserResource(postId: Int, name: String, isGeneric: Boolean) {
-        (activity as MainActivity).openScanNoUserFragment()
+    override fun scanNoUserResource(postId: String, name: String, isGeneric: Boolean) {
+        (activity as MainActivity).openScanNoUserFragment(postId, null, name, isGeneric)
 
     }
 

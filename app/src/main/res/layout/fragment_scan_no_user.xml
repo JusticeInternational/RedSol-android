@@ -34,7 +34,7 @@ android:background="@color/colorWhite"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="10dp"
-                    android:text="@string/name"
+                    android:text="@string/name_2"
                     android:textColor="@color/colorBlack"
                     android:textSize="14sp"
                     android:textStyle="bold"/>
@@ -65,7 +65,7 @@ android:background="@color/colorWhite"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="10dp"
-                    android:text="@string/lastName"
+                    android:text="@string/lastName_2"
                     android:textColor="@color/colorBlack"
                     android:textSize="14sp"
                     android:textStyle="bold"/>
@@ -329,6 +329,16 @@ android:background="@color/colorWhite"
                 />
 
             </FrameLayout>
+
+            <TextView
+                    style="@style/TextBodyBold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="10dp"
+                    android:text="@string/required_fields"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="14sp"
+                    android:textStyle="bold"/>
 
             <LinearLayout
                     android:layout_marginBottom="30dp"

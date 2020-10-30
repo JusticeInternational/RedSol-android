@@ -71,7 +71,7 @@ class ResourseAdapter(
         }
 
         holder.ivNoUser?.setOnClickListener {
-            listener.scanNoUserResource(position!!, post.name, post.isGeneric)
+            listener.scanNoUserResource(post.id, post.name, post.isGeneric)
         }
 
         if (position==itemCount-1){
@@ -127,6 +127,6 @@ class ResourseAdapter(
     interface onItemClickListener {
         fun clickScanresourse(postId: String)
         fun clickDetailResource(postId: Int,name: String, isGeneric:Boolean)
-        fun scanNoUserResource(postId: Int,name: String, isGeneric:Boolean)
+        fun scanNoUserResource(postId: String,name: String, isGeneric:Boolean)
     }
 }

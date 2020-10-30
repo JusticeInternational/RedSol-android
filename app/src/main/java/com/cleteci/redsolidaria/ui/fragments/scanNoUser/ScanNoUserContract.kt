@@ -9,12 +9,21 @@ class ScanNoUserContract {
 
     interface View: BaseContract.View {
         fun init()
-        fun loadDataSuccess(total: Int)
+        fun loadDataSuccess(msg: String)
+        fun loadDataError(msg: String)
     }
 
     interface Presenter: BaseContract.Presenter<ScanNoUserContract.View> {
         //fun onDrawerOptionAboutClick()
-        fun loadCategoryData(id:String)
-        fun loadServiceData(id:String)
+       fun atentionUnregisteredCategory(orgID:String, categoryID:String, name: String, lastName: String, identification: String?, gender: Int?, country: String?, age: Int?, phone: String?, email: String?, otherInfo: String?,  nameCat:String?)
+
+        fun atentionUnregisteredService(orgID:String, serviceID:String, name: String, lastName: String, identification: String?, gender: Int?, country: String?, age: Int?, phone: String?, email: String?, otherInfo: String?, nameService:String?,
+                                        isGeneric:Boolean)
+
+
+        fun validateAtentionUnregisteredCategory(orgID:String, categoryID:String, name: String?, lastName: String?, identification: String?, gender: Int?, country: String?, age: Int?, phone: String?, email: String?, otherInfo: String?,  nameCat:String?)
+
+        fun validateAtentionUnregisteredService(orgID:String, serviceID:String, name: String?, lastName: String?, identification: String?, gender: Int?, country: String?, age: Int?, phone: String?, email: String?, otherInfo: String?, nameService:String?,
+                                        isGeneric:Boolean)
     }
 }

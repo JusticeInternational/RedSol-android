@@ -39,9 +39,7 @@
     <string name="my_resourse">Mis recursos</string>
     <string name="count_resourses">Contabilizar recursos</string>
 
-    <string name="posted_category">El usuario %1$s ha sido atendido para un servicio
-        no detallado de la categoría %2$s</string>
-    <string name="error_posted_category">Error al contabilizar categoria</string>
+
 
 
     <string name="count_question_1">Usted está solicitando contabilizar para la categoría o servicio genérico: %1$s? , le recomendamos contabilizar recursos en servicios detallados, si no los ha definido puede definirlos en "Mis Recursos". Si aún así desea continuar esta contabilización por favor seleccione "Aceptar"</string>
@@ -61,9 +59,20 @@
 
     <string name="offered_2">ofrecido</string>
 
+
+    <string name="posted_category">El usuario %1$s ha sido atendido para un servicio
+        no detallado de la categoría %2$s</string>
+    <string name="error_posted_category">Error al contabilizar categoria</string>
+
     <string name="posted_service_2">El usuario %1$s ha sido atendido para un servicio genérico no categorizado</string>
     <string name="posted_service">El usuario %1$s ha sido atendido para el servicio %2$s </string>
     <string name="error_posted_service">Error al contabilizar servicio</string>
+
+
+    <string name="invalid_name">Agregue un nombre válido</string>
+    <string name="invalid_lastname">Agregue un apellido válido</string>
+    <string name="invalid_email">Agregue un email válido</string>
+    <string name="invalid_phone">Agregue un teléfono válido</string>
     <string name="invalid_user">Usuario no valido</string>
     <string name="my_resourse_detailed">Mis recursos detallados</string>
     <string name="map">Mapa</string>
@@ -104,6 +113,7 @@
     <string name="welcome_2">Bienvenido,</string>
 
     <!--REGISTER AND LOGIN-->
+    <string name="required_fields">*Campos  obligatorios</string>
     <string name="please_complete_form">Por favor complete el formulario</string>
     <string name="please_complete_fields">Por favor completa los campos para continuar con el registro</string>
     <string name="intro_email_acount">Para reiniciar su contraseña, por favor introduzca el correo electrónico asociado a su cuenta</string>
@@ -148,9 +158,11 @@
     <string name="near_to">Cerca de</string>
     <string name="next">Siguiente</string>
     <string name="name">Nombre</string>
+    <string name="name_2">Nombre*</string>
     <string name="dni">Documento de identificación</string>
     <string name="origin_county">País de origen</string>
     <string name="lastName">Apellido</string>
+    <string name="lastName_2">Apellido*</string>
     <string name="organization_name">Nombre de la organización</string>
     <string name="from_red_solidaria_team">De parte del equipo de Red Solidaria nos gustaría conocer como ayudarte, puedes dejar aquí cualquier comentario, duda o sugerencia</string>
     <string name="web_site">Página web</string>
@@ -162,11 +174,9 @@
     <string-array name="countries">
         <item>Venezuela</item>
         <item>Colombia</item>
-        <item>Argentina</item>
-        <item>Chile</item>
-        <item>Perú</item>
-        <item>Ecuador</item>
-
+        <item>EEUU</item>
+        <item>Brasil</item>
+        <item>Otro</item>
 
     </string-array>
 
