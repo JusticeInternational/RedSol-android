@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.viewpager.widget.ViewPager
+import com.cleteci.redsolidaria.BaseApp
 
 import com.cleteci.redsolidaria.R
 
@@ -66,13 +67,17 @@ class AttendersFragment : BaseFragment() , AttendersContract.View  {
         savedInstanceState: Bundle?
     ): View? {
         rootView = inflater.inflate(R.layout.fragment_attenders, container, false)
-        mSectionsPagerAdapter = SectionsPagerAdapter(childFragmentManager,  catService, service)
+
         tabs=rootView.findViewById(R.id.tabs)
         mViewPager=rootView.findViewById(R.id.container)
+
+        mSectionsPagerAdapter = SectionsPagerAdapter(childFragmentManager,  catService, service)
         mViewPager?.setCurrentItem(2, true)
         mViewPager?.setAdapter(mSectionsPagerAdapter)
         tabs?.setupWithViewPager(mViewPager)
         tabs?.setTabsFromPagerAdapter(mSectionsPagerAdapter)
+
+
         return rootView
     }
 
@@ -103,8 +108,25 @@ class AttendersFragment : BaseFragment() , AttendersContract.View  {
         //presenter.loadMessage()
     }
 
+    fun updateTabA(text: Int) {
+        countA=text
+
+
+        tabs?.getTabAt(0)?.setText( getString(R.string.registered)+ "("+countA+")")
+
+    }
+
+    fun updateTabB(text: Int) {
+
+        countB=text
+        tabs?.getTabAt(1)?.setText( getString(R.string.not_registered)+ "("+countB+")")
+
+    }
+
     companion object {
         val TAG: String = "AttendersFragment"
+        var countA:Int=0
+        var countB:Int=0
     }
 
     override fun onResume() {
@@ -122,7 +144,7 @@ class AttendersFragment : BaseFragment() , AttendersContract.View  {
         var frag2=AttendersListFragment().newInstance(2, service, catService)
 
         override fun getItem(position: Int): Fragment {
-            Log.d("TAGI", "--"+position)
+
             when (position) {
 
                 0 -> return  frag1
@@ -139,8 +161,8 @@ class AttendersFragment : BaseFragment() , AttendersContract.View  {
 
         override fun getPageTitle(position: Int): CharSequence? {
             when (position) {
-                0 -> return "Registrados"
-                1 -> return "No registrados"
+                0 -> return  BaseApp.instance.getString(R.string.registered)+ "("+countA+")"
+                1 -> return  BaseApp.instance.getString(R.string.registered)+ "("+countB+")"
             }
             return null
         }

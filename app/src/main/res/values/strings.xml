@@ -214,6 +214,9 @@
     <string name="try_again">Intentar de nuevo</string>
     <string name="info_in_your_email">Información enviada a su correo electrónico</string>
 
+    <string name="registered">Registrados</string>
+    <string name="not_registered">No registrados</string>
+
     <string name="wrong_pass">Contraseña inválida</string>
     <string name="wrong_email">Correo inválido</string>
     <string name="email_exists">Error, email ya registrado</string>

@@ -54,7 +54,7 @@ class AttendersListFragment : BaseFragment(), AttendersListContract.View {
         super.onCreate(savedInstanceState)
         if (arguments != null) {
             type = arguments!!.getInt("type")
-            if ( arguments!!.getSerializable("service")!=null) {
+            if (arguments!!.getSerializable("service") != null) {
                 service = arguments!!.getSerializable("service") as Resource
             } else {
                 catService = arguments!!.getSerializable("cat") as ResourceCategory
@@ -125,6 +125,18 @@ class AttendersListFragment : BaseFragment(), AttendersListContract.View {
             listUsers.clear()
             listUsers.addAll(users)
             usersAdapter?.notifyDataSetChanged()
+            val parentFrag = getParentFragment() as AttendersFragment
+            if (type==1) {
+               // AttendersFragment.countA =
+                parentFrag.updateTabA(listUsers.size)
+            } else {
+                //AttendersFragment.countB= listUsers.size
+                parentFrag.updateTabB(listUsers.size)
+            }
+
+
+
+
         })
 
     }
@@ -135,7 +147,10 @@ class AttendersListFragment : BaseFragment(), AttendersListContract.View {
 
     override fun onResume() {
         super.onResume()
-        (activity as MainActivity).setTextToolbar(getText(R.string.attenders).toString(),activity!!.resources.getColor(R.color.colorWhite))
+        (activity as MainActivity).setTextToolbar(
+            getText(R.string.attenders).toString(),
+            activity!!.resources.getColor(R.color.colorWhite)
+        )
 
     }
 
