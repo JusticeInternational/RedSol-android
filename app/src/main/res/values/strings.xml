@@ -32,9 +32,28 @@
     <!--NO DATA-->
     <string name="progress">En Progreso!</string>
     <string name="no_resourses">No hay recursos para mostrar</string>
+    <string name="missing_data">Por favor complete el formulario</string>
 
     <!--BOTTOM BAR-->
+    <string name="my_categories">Mis categorias</string>
     <string name="my_resourse">Mis recursos</string>
+    <string name="count_resourses">Contabilizar recursos</string>
+
+    <string name="posted_category">Categoria contabilizada con el usuario %1$s</string>
+    <string name="error_posted_category">Error al contabilizar categoria</string>
+
+
+    <string name="count_question_1">Usted está solicitando contabilizar para la categoría o servicio genérico: %1$s? , le recomendamos contabilizar recursos en servicios detallados, si no los ha definido puede definirlos en "Mis Recursos". Si aún así desea continuar esta contabilización por favor seleccione "Aceptar"</string>
+
+    <string name="count_question_2">Usted está solicitando contabilizar para el servicio %1$s? ¿Está seguro que es el recurso que desea escanear?</string>
+
+    <string name="service_count_question">¿Desea contabilizar este servicio?</string>
+    <string name="category_count_question">¿Desea contabilizar esta categoria?</string>
+
+    <string name="posted_service">Servicio contabilizado con el usuario %1$s</string>
+    <string name="error_posted_service">Error al contabilizar servicio</string>
+    <string name="invalid_user">Usuario no valido</string>
+    <string name="my_resourse_detailed">Mis recursos detallados</string>
     <string name="map">Mapa</string>
     <string name="scan_qr">Scan QR</string>
     <string name="search">Buscar</string>
@@ -61,6 +80,9 @@
     <!--WELCOME-->
     <string name="detail">Detalle</string>
     <string name="results">Resultados</string>
+    <string name="search_results">Resultados de la búsqueda</string>
+    <string name="select_category">Ahora, seleccione una categoría</string>
+    <string name="empty_list">No hay resultados con los criterios ingresados.</string>
     <string name="welcome">Bienvenido a</string>
     <string name="welcome_2">Bienvenido,</string>
 
@@ -86,7 +108,8 @@
     <string name="terms_conditions">Términos y condiciones</string>
     <string name="understand_and_accept">Entiendo y acepto las</string>
     <string name="policies">Politicas de privacidad</string>
-    <string name="we_send_email_code">Te hemos enviado un código a tu correo, debes introducirlo para confirmar la cuenta</string>
+    <string name="welcome_success">Bienvenido, ya puedes iniciar sesión</string>
+    <string name="failed_register">Error, el email ya existe. Puede intentar con otro email, o reestablecer la contraseña</string>
     <string name="register_new_user">Registro nuevo usuario</string>
     <string name="reset_pass">Reseteo de contraseña</string>
 
@@ -94,6 +117,7 @@
     <string name="accept_term_condition">Debe aceptar los términos y condiciones</string>
     <string name="accept_privacy_policies">Debe aceptar las politicas de privacidad</string>
     <string name="enter_valid_name">Introduzca un nombre válido</string>
+    <string name="enter_valid_last_name">Introduzca un apellido válido</string>
     <string name="enter_valid_email">Introduzca un correo válido</string>
     <string name="enter_valid_pass">Introduzca una contraseña válida</string>
 
@@ -107,6 +131,7 @@
     <string name="near_to">Cerca de</string>
     <string name="next">Siguiente</string>
     <string name="name">Nombre</string>
+    <string name="lastName">Apellido</string>
     <string name="organization_name">Nombre de la organización</string>
     <string name="from_red_solidaria_team">De parte del equipo de Red Solidaria nos gustaría conocer como ayudarte, puedes dejar aquí cualquier comentario, duda o sugerencia</string>
     <string name="web_site">Página web</string>
@@ -120,8 +145,11 @@
     <string name="phone">Teléfono</string>
     <string name="schedule">Horario</string>
     <string name="description">Descripción</string>
+    <string name="services_desc">Descripción de Servicios</string>
+    <string name="about_us">Acerca de la Organización</string>
     <string name="service_plan">Plan de servicio</string>
     <string name="change_plan">Cambiar de plan</string>
+    <string name="change_plan_inf">Para cambiar el plan, agregue servicios detallados</string>
     <string name="we_are">¿Quienes somos?</string>
     <string name="send">Enviar</string>
     <string name="cancel">Cancelar</string>
@@ -136,7 +164,16 @@
     <string name="be_volunteer_2">Ser voluntario</string>
     <string name="contribute">Aportar</string>
     <string name="continue_p">Continuar</string>
+    <string name="accept">Aceptar</string>
+    <string name="try_again">Intentar de nuevo</string>
     <string name="info_in_your_email">Información enviada a su correo electrónico</string>
+
+    <string name="wrong_pass">Contraseña inválida</string>
+    <string name="wrong_email">Correo inválido</string>
+    <string name="email_exists">Error, email ya registrado</string>
+    <string name="wrong_login">Inicio de sesión incorrecto</string>
+    <string name="error_login">Error al iniciar sesión</string>
+    <string name="error_server">Ups! Ocurrió un error.</string>
 
 
 
@@ -172,7 +209,7 @@
     <string name="capacity">Capacidad</string>
 
     <!--OTHERS-->
-    <string name="info_send">Información enviada, la revisaremos en la brevedad  posible</string>
+    <string name="info_send">Información actualizada satisfactoriamente</string>
     <string name="you_have_to_login">Debes iniciar sesión para utilizar esta función</string>
     <string name="me">mi</string>
     <string name="login_web">Ingresar a la página web:</string>

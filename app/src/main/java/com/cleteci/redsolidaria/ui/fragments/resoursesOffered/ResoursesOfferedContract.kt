@@ -1,7 +1,7 @@
 package com.cleteci.redsolidaria.ui.fragments.resoursesOffered
 
-import com.cleteci.redsolidaria.models.Resourse
-import com.cleteci.redsolidaria.models.ResourseCategory
+import com.cleteci.redsolidaria.models.Resource
+import com.cleteci.redsolidaria.models.ResourceCategory
 import com.cleteci.redsolidaria.ui.base.BaseContract
 
 /**
@@ -11,7 +11,7 @@ class ResoursesOfferedContract {
 
     interface View: BaseContract.View {
         fun init()
-        fun loadDataSuccess(pending: List<ResourseCategory>)
+        fun loadDataSuccess(pending: List<ResourceCategory>, services:  List<Resource>, genericServices:  List<Resource>)
     }
 
     interface Presenter: BaseContract.Presenter<ResoursesOfferedContract.View> {

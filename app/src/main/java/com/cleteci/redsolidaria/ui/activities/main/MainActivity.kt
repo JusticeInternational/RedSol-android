@@ -1,12 +1,10 @@
 package com.cleteci.redsolidaria.ui.activities.main
 
+import android.app.Dialog
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -31,17 +29,17 @@ import uk.co.chrisjenx.calligraphy.CalligraphyConfig
 
 import javax.inject.Inject
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper
-import androidx.core.app.ComponentActivity.ExtraData
-import androidx.core.content.ContextCompat.getSystemService
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 
 import android.content.Context
 import android.content.Intent
+import android.view.*
+import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.cleteci.redsolidaria.BaseApp
-import com.cleteci.redsolidaria.models.ResourseCategory
+import com.cleteci.redsolidaria.models.Resource
+import com.cleteci.redsolidaria.models.ResourceCategory
 import com.cleteci.redsolidaria.ui.activities.login.LoginActivity
 import com.cleteci.redsolidaria.ui.activities.splash.SplashActivity
 import com.cleteci.redsolidaria.ui.customUIComponents.FragNavController
@@ -110,7 +108,6 @@ class MainActivity : AppCompatActivity(), MainContract.View, NavigationView.OnNa
                 .rootFragmentListener(this, TABS.size)
                 .build()
 
-
             presenter.attach(this)
         } else {
 
@@ -166,7 +163,6 @@ class MainActivity : AppCompatActivity(), MainContract.View, NavigationView.OnNa
 
         lyLoginLogout!!.setOnClickListener {
 
-
             if (!BaseApp.prefs.login_later) {
                 signOut()
                 goToLogin()
@@ -175,7 +171,6 @@ class MainActivity : AppCompatActivity(), MainContract.View, NavigationView.OnNa
             } else {
                 goToLogin()
             }
-
 
         }
 
@@ -277,17 +272,79 @@ class MainActivity : AppCompatActivity(), MainContract.View, NavigationView.OnNa
             .commit()
     }
 
-    override fun showScanFragment() {
+    override fun showScanFragment(serviceID: String?, catId: String?, name: String?, isGeneric: Boolean) {
+
+        alertConfirmation(isGeneric,name, serviceID, catId)
+
+    }
+
+    fun alertConfirmation(isGeneric:Boolean,name:String?, serviceID:String?, catID:String? ){
+
+        val dialog = Dialog(this)
+        dialog .requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.window!!.setLayout(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN)
+        dialog .setCancelable(false)
+        dialog .setContentView(R.layout.comp_alert_scan)
+
+        val yesBtn = dialog .findViewById(R.id.btCont) as Button
+
+        val btCancel = dialog .findViewById(R.id.btCancel) as Button
+
+
+
+        btCancel.setOnClickListener {
+            dialog .dismiss()
+            //(activity as MainActivity).onBackPressed()
+        }
+
+        val tvAlertMsg = dialog .findViewById(R.id.tvAlertMsg) as TextView
+
+        if (isGeneric){
+            tvAlertMsg.text=String.format(BaseApp.instance.getResources().getString(R.string.count_question_1),name )
+        }else{
+            tvAlertMsg.text=String.format(BaseApp.instance.getResources().getString(R.string.count_question_2),name )
+        }
+
+       // if (serviceID!=null) {
+
+
+
+            yesBtn.setOnClickListener {
+                dialog .dismiss()
+
+                supportFragmentManager.beginTransaction()
+                    .addToBackStack(null)
+                    .replace(R.id.container1, ScanCodeFragment().newInstance(serviceID, catID,name, isGeneric), ScanCodeFragment.TAG)
+                    .commit()
+                //  presenter.countService(msg, serviceID!!)
+            }
+
+       /* } else{
+
+            yesBtn.setOnClickListener {
+                dialog .dismiss()
+               // presenter.countCategory(msg, catID!!)
+            }
+
+        }*/
+
+        dialog .show()
+
+    }
+
+    override fun showScanListFragment() {
         supportFragmentManager.beginTransaction()
             .addToBackStack(null)
-            .replace(R.id.container1, ScanCodeFragment().newInstance(), ScanCodeFragment.TAG)
+            .replace(R.id.container1, ResoursesOfferedFragment().newInstance(true), ResoursesOfferedFragment.TAG)
             .commit()
     }
+
+
 
     override fun showResoursesProviderFragment() {
         supportFragmentManager.beginTransaction()
             .addToBackStack(null)
-            .replace(R.id.container1, ResoursesOfferedFragment().newInstance(), ResoursesOfferedFragment.TAG)
+            .replace(R.id.container1, ResoursesOfferedFragment().newInstance(false), ResoursesOfferedFragment.TAG)
             .commit()
 
     }
@@ -313,11 +370,18 @@ class MainActivity : AppCompatActivity(), MainContract.View, NavigationView.OnNa
             .commit()
     }
 
-    fun openInfoServiceFragment(category: ResourseCategory) {
-        supportFragmentManager.beginTransaction()
-            .addToBackStack(null)
-            .replace(R.id.container1, InfoServiceFragment().newInstance(category), InfoServiceFragment.TAG)
-            .commit()
+    fun openInfoFragment(category: ResourceCategory?, service: Resource?) {
+        if(category != null) {
+            supportFragmentManager.beginTransaction()
+                .addToBackStack(null)
+                .replace(R.id.container1, InfoServiceFragment().newInstance(category, null), InfoServiceFragment.TAG)
+                .commit()
+        } else {
+            supportFragmentManager.beginTransaction()
+                .addToBackStack(null)
+                .replace(R.id.container1, InfoServiceFragment().newInstance(null, service), InfoServiceFragment.TAG)
+                .commit()
+        }
     }
 
     fun showChangePassFragment() {
@@ -449,7 +513,7 @@ class MainActivity : AppCompatActivity(), MainContract.View, NavigationView.OnNa
             when (index) {
 
                 FragNavController.TAB1 -> return ResoursesOfferedFragment()
-                FragNavController.TAB2 -> return ScanCodeFragment()
+                FragNavController.TAB2 -> return ResoursesOfferedFragment()
                 FragNavController.TAB3 -> return UsersFragment()
 
             }

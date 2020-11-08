@@ -36,7 +36,6 @@
         <TextView
             android:id="@+id/tvName"
             android:layout_width="wrap_content"
-
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="8dp"
@@ -46,7 +45,6 @@
             android:maxLines="1"
             android:padding="3dp"
             android:singleLine="true"
-            android:text="Justice International"
             android:textColor="@color/colorBlack"
             android:textStyle="bold" />
 
@@ -61,7 +59,7 @@
             android:max="5"
             android:numStars="5"
             android:progressTint="@color/sunYellow"
-            android:rating="4"
+            android:rating="0"
             android:stepSize="0.1"
 
             android:transformPivotX="0dp"
@@ -76,49 +74,7 @@
         android:orientation="horizontal">
 
         <TextView
-
-            android:layout_width="wrap_content"
-android:gravity="center_vertical"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginBottom="5dp"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:padding="3dp"
-            android:singleLine="true"
-            android:text="Salud"
-            android:textColor="@color/colorBlack"
-            />
-
-
-        <ImageView
-            android:layout_marginLeft="15dp"
-            android:src="@drawable/ic_walker"
-            android:layout_gravity="center_vertical"
-            android:layout_width="18dp"
-            android:layout_height="18dp" />
-
-        <TextView
-
-            android:layout_width="wrap_content"
-            android:gravity="center_vertical"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-
-            android:layout_marginRight="8dp"
-            android:layout_marginBottom="5dp"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:padding="3dp"
-            android:singleLine="true"
-            android:text="5Km"
-            android:textColor="@color/colorBlack"
-            />
-
-        <TextView
-
+            android:id="@+id/tvLocation"
             android:layout_width="wrap_content"
             android:gravity="center_vertical"
             android:layout_height="wrap_content"
@@ -130,7 +86,22 @@ android:gravity="center_vertical"
             android:maxLines="1"
             android:padding="3dp"
             android:singleLine="true"
-            android:text="8:00 am a 5:00pm"
+            android:textColor="@color/colorBlack"
+            />
+
+        <TextView
+            android:id="@+id/tvHourHand"
+            android:layout_width="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="5dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:padding="3dp"
+            android:singleLine="true"
             android:textColor="@color/colorBlack"
             />
 

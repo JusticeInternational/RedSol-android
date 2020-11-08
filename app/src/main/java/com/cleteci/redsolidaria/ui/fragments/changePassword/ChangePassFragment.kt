@@ -19,6 +19,8 @@ import com.cleteci.redsolidaria.ui.base.BaseFragment
 import javax.inject.Inject
 import com.ybs.passwordstrengthmeter.PasswordStrength
 import android.widget.TextView
+import android.widget.Toast
+import com.cleteci.redsolidaria.ui.activities.login.LoginActivity
 import com.google.android.material.textfield.TextInputEditText
 
 
@@ -26,6 +28,7 @@ class ChangePassFragment : BaseFragment() , ChangePassContract.View , TextWatche
 
     var progressBar:ProgressBar?=null
     var etPass : TextInputEditText?=null
+    var btSave: Button? = null
 
     @Inject lateinit var presenter: ChangePassContract.Presenter
 
@@ -45,9 +48,15 @@ class ChangePassFragment : BaseFragment() , ChangePassContract.View , TextWatche
         savedInstanceState: Bundle?
     ): View? {
         rootView = inflater.inflate(R.layout.fragment_change_pass, container, false)
-         progressBar =rootView. findViewById(R.id.progressBar)
+        progressBar =rootView. findViewById(R.id.progressBar)
         etPass =rootView. findViewById(R.id.etPass)
         etPass?.addTextChangedListener(this);
+        btSave = rootView.findViewById(R.id.btSave)
+        btSave!!.setOnClickListener {
+
+            presenter.verifyData(etPass!!.text.toString())
+
+        }
         return rootView
     }
 
@@ -88,6 +97,16 @@ class ChangePassFragment : BaseFragment() , ChangePassContract.View , TextWatche
 
     }
 
+    override fun errorPass(mdg: String) {
+        Toast.makeText(activity, mdg, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun saved() {
+        activity?.runOnUiThread(Runnable {
+            showDialog()
+        })
+    }
+
     private fun initView() {
         //presenter.loadMessage()
     }
@@ -112,20 +131,14 @@ class ChangePassFragment : BaseFragment() , ChangePassContract.View , TextWatche
             WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN
         )
         dialog.setCancelable(false)
-        dialog.setContentView(R.layout.comp_alert_go_to_login)
+        dialog.setContentView(R.layout.comp_alert_succes_suggest_resource)
+        // val body = dialog .findViewById(R.id.body) as TextView
 
-        val yesBtn = dialog.findViewById(R.id.btLogin) as Button
-
-        val btCancel = dialog.findViewById(R.id.btCancel) as Button
+        val yesBtn = dialog.findViewById(R.id.btCont) as Button
 
         yesBtn.setOnClickListener {
-            (activity as MainActivity).goToLogin()
             dialog.dismiss()
-        }
-
-        btCancel.setOnClickListener {
-            activity?.onBackPressed()
-            dialog.dismiss()
+            (activity as MainActivity).onBackPressed()
         }
 
         dialog.show()

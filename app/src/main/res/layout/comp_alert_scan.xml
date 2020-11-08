@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:background="@color/colorWhite"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:minWidth="300dp"
+              android:paddingTop="50dp"
+              android:paddingBottom="20dp"
+>
+
+    <ImageView
+            android:visibility="gone"
+            android:id="@+id/ivIcon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/ic_check_green"/>
+
+    <TextView
+            android:id="@+id/tvAlertMsg"
+            android:layout_marginBottom="20dp"
+            android:textColor="@color/colorBlack"
+            android:text="@string/info_send"
+            android:textAlignment="center"
+            android:layout_marginHorizontal="25dp"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    <LinearLayout
+            android:layout_marginBottom="20dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <Button
+                android:id="@+id/btCancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/bg_border_line_primary_round_corner"
+                android:minWidth="130dp"
+                android:text="@string/cancel"
+                android:textAllCaps="false"
+                android:textColor="@color/colorPrimary"
+        android:layout_marginRight="5dp"/>
+        <Button
+                android:layout_marginLeft="5dp"
+                android:id="@+id/btCont"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/bg_color_primary_round_corner"
+                android:minWidth="130dp"
+                android:text="@string/accept"
+                android:textAllCaps="false"
+                android:textColor="@color/colorWhite" />
+
+    </LinearLayout>
+
+
+
+
+
+</LinearLayout>

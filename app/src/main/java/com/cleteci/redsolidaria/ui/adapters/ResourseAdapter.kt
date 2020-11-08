@@ -1,29 +1,32 @@
 package com.cleteci.redsolidaria.ui.adapters
 
+import java.lang.CharSequence
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.RatingBar
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.cleteci.redsolidaria.R
-import com.cleteci.redsolidaria.models.Resourse
-import com.cleteci.redsolidaria.models.ResourseCategory
+import com.cleteci.redsolidaria.models.Resource
 
 class ResourseAdapter(
-    private val context: Context?, private val list: MutableList<Resourse>,
-    fragment: Fragment, typeInfl: Int
+    private val context: Context?, private val list: MutableList<Resource>,
+    fragment: onItemClickListener, typeInfl: Int, isFromScan:Boolean
 ) : RecyclerView.Adapter<ResourseAdapter.ListViewHolder>() {
 
-    private val listener: ResourseAdapter.onItemClickListener
+    private val listener: onItemClickListener
     private val inflaterLayType: Int
+    private val isScan: Boolean
 
     init {
-        this.listener = fragment as ResourseAdapter.onItemClickListener
-        this.inflaterLayType = typeInfl as Int
+        this.listener = fragment
+        this.inflaterLayType = typeInfl
+        this.isScan=isFromScan
 
     }
 
@@ -34,12 +37,41 @@ class ResourseAdapter(
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
         var post = list[position]
 
-        holder!!.title?.setText(post.name)
+        holder!!.title?.text = post.name
         holder!!.body?.setImageResource(post.photo)
-        holder!!.tvCategory?.setText(post.cate)
+        holder!!.tvLocation?.text = post.location
+        holder!!.tvHourHand?.text = post.hourHand
+        holder!!.rbGeneral?.rating = post.ranking.toFloat()
+
+        if (post.description!=null && post.description?.length!!>0){
+            holder.tvDescription?.visibility= View.VISIBLE
+            holder.tvDescription?.setText(post.description)
+
+        }else{
+
+            holder.tvDescription?.visibility= View.GONE
+
+        }
+
+        if (this.isScan){
+
+            holder.ivArrow?.setImageResource(R.drawable.ic_scan)
+
+        }else{
+
+            holder.ivArrow?.setImageResource(R.drawable.ic_right)
+
+        }
+
+
+        if (position==itemCount-1){
+            holder.viewLine?.visibility= View.GONE
+        }else{
+            holder.viewLine?.visibility= View.VISIBLE
+        }
 
         holder.layout?.setOnClickListener {
-            listener.clickDetailResource(post.id.toString()!!)
+            listener.clickDetailResource(position!!, post.name, post.isGeneric)
         }
     }
 
@@ -50,8 +82,10 @@ class ResourseAdapter(
         if (inflaterLayType == 1) {
             itemView = LayoutInflater.from(context).inflate(R.layout.item_resourse, parent, false)
 
-        } else  {
+        } else if (inflaterLayType == 3)  {
 
+            itemView = LayoutInflater.from(context).inflate(R.layout.item_my_resourse_provider, parent, false)
+        }else{
             itemView = LayoutInflater.from(context).inflate(R.layout.item_my_resourse, parent, false)
         }
 
@@ -66,17 +100,22 @@ class ResourseAdapter(
     class ListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var layout = itemView.findViewById<RelativeLayout>(R.id.parentr)
         val title: TextView? = itemView.findViewById<TextView>(R.id.tvName)
-        val tvCategory: TextView? = itemView.findViewById<TextView>(R.id.tvCategory)
+        val tvLocation: TextView? = itemView.findViewById<TextView>(R.id.tvLocation)
+        val tvHourHand: TextView? = itemView.findViewById<TextView>(R.id.tvHourHand)
+        val rbGeneral: RatingBar? = itemView.findViewById<RatingBar>(R.id.rbGeneral)
         val body: ImageView? = itemView.findViewById<ImageView>(R.id.imageview)
+        val viewLine = itemView.findViewById<View>(R.id.viewLine)
+        val tvDescription = itemView.findViewById<TextView>(R.id.tvDescription)
+        val ivArrow = itemView.findViewById<ImageView>(R.id.ivArrow)
 
-        fun bind(item: Resourse) {
+
+        fun bind(item: Resource) {
 
         }
     }
 
     interface onItemClickListener {
-
-        fun clickDetailResource(postId: String)
+        fun clickScanresourse(postId: String)
+        fun clickDetailResource(postId: Int,name: String, isGeneric:Boolean)
     }
-
 }

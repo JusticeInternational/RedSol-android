@@ -1,0 +1,103 @@
+query getOrganizationsByCategory($id: ID, $keyWord: String) {
+    byIdOrOrgKeyWord(id:$id, keyWord:$keyWord, orderBy: ranking_desc){
+        id
+        name
+        hourHand
+        ranking
+        location {
+            name
+        }
+    }
+}
+
+query getOrganizationServices($id: ID) {
+    User(id: $id) {
+        ownerOf {
+            services {
+                name
+                id
+                serviceCategory {
+                    name
+                    id
+                    icon
+                }
+            }
+        }
+    }
+}
+
+mutation provideAtentionService($orgID:ID!, $userID: ID!,  $serviceID:ID!) {
+    provideAtentionService(orgID: $orgID, userID: $userID, serviceID: $serviceID ){
+     id
+     createdAt
+     updatedAt
+     recipient{
+      name
+     }
+    }
+}
+
+
+mutation provideAtentionCategory($orgID:ID!, $userID: ID!,  $categoryID:ID!) {
+    provideAtentionCategory(orgID: $orgID, userID: $userID, categoryID: $categoryID ){
+     id
+     createdAt
+     updatedAt
+     recipient{
+      name
+     }
+    }
+}
+
+
+query getOrganizationServicesAndCategories($id: ID) {
+    User(id: $id) {
+        ownerOf {
+            services {
+                name
+                id
+                description
+                isGeneral
+                serviceCategory {
+                    name
+                    id
+                    icon
+                    description
+                }
+            }
+
+            serviceCategories {
+                name
+                id
+                icon
+                description
+            }
+        }
+    }
+}
+
+query getOrganizationInfo($id: ID) {
+    User(id: $id) {
+        ownerOf {
+            id
+            name
+            phone
+            webPage
+            description
+            servicesDesc
+            location {
+                name
+            }
+            plan {
+                name
+            }
+        }
+    }
+}
+
+mutation updateOrganization($id: ID!, $name: String, $webPage: String, $phone: String, $aboutUs: String, $servDesc: String) {
+    UpdateOrganization(id: $id, name: $name, webPage: $webPage, phone: $phone, description: $aboutUs, servicesDesc: $servDesc) {
+        name
+    }
+}
+

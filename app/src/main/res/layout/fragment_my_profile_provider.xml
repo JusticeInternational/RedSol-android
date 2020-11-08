@@ -58,13 +58,12 @@
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-android:paddingHorizontal="5dp"
+                android:paddingHorizontal="5dp"
                 android:layout_centerVertical="true"
                 android:layout_marginTop="5dp"
                 android:background="@drawable/bg_border_line_grey">
 
                 <EditText
-android:text="Justice International"
                     android:id="@+id/etName"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
@@ -95,7 +94,6 @@ android:text="Justice International"
                 android:background="@drawable/bg_border_line_grey">
 
                 <EditText
-android:text="www.justice.com"
                     android:paddingHorizontal="5dp"
                     android:id="@+id/etWeb"
                     android:layout_width="match_parent"
@@ -117,17 +115,14 @@ android:text="www.justice.com"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
-
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
                 android:layout_centerVertical="true"
                 android:layout_marginTop="5dp"
                 android:background="@drawable/bg_border_line_grey">
 
                 <EditText
-                    android:text="Carrera 1 Bogota #57"
                     android:id="@+id/etLocation"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
@@ -163,13 +158,42 @@ android:text="www.justice.com"
                 android:background="@drawable/bg_border_line_grey">
 
                 <EditText
-                    android:id="@+id/etphome"
+                    android:id="@+id/etPhone"
                     android:paddingHorizontal="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_centerVertical="true"
                     android:background="@android:color/transparent"
-                    android:text="+57 12357895"
+                    />
+
+            </FrameLayout>
+
+            <TextView
+                style="@style/TextBodyBold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="10dp"
+                android:text="@string/about_us"
+                android:textColor="@color/colorBlack"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/bg_border_line_grey">
+
+                <EditText
+                    android:gravity="top"
+                    android:paddingHorizontal="5dp"
+                    android:id="@+id/etAboutUs"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_centerVertical="true"
+                    android:background="@android:color/transparent"
 
                     />
 
@@ -180,7 +204,7 @@ android:text="www.justice.com"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="10dp"
-                android:text="@string/description"
+                android:text="@string/services_desc"
                 android:textColor="@color/colorBlack"
                 android:textSize="14sp"
                 android:textStyle="bold" />
@@ -189,7 +213,6 @@ android:text="www.justice.com"
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
                 android:layout_centerVertical="true"
                 android:layout_marginTop="5dp"
                 android:background="@drawable/bg_border_line_grey">
@@ -197,7 +220,6 @@ android:text="www.justice.com"
                 <EditText
                     android:gravity="top"
                     android:paddingHorizontal="5dp"
-android:text="Ayuda en el camino"
                     android:id="@+id/etDesc"
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
@@ -219,12 +241,11 @@ android:text="Ayuda en el camino"
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/tvPlan"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_grey_round_corner"
                 android:paddingVertical="5dp"
-                android:text="Default Entry Plan"
-
                 android:textAlignment="center"
                 android:textColor="@color/colorBlack"
                 android:textSize="14sp" />

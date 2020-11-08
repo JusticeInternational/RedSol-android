@@ -13,7 +13,7 @@ import com.cleteci.redsolidaria.ui.fragments.map.MapFragment
 import com.cleteci.redsolidaria.ui.fragments.myProfile.MyProfileFragment
 import com.cleteci.redsolidaria.ui.fragments.myProfileProvider.MyProfileProviderFragment
 import com.cleteci.redsolidaria.ui.fragments.myResourses.MyResoursesFragment
-import com.cleteci.redsolidaria.ui.fragments.resourcesByCity.ResourcesByCityFragment
+import com.cleteci.redsolidaria.ui.fragments.resourcesResult.ResourcesResultFragment
 import com.cleteci.redsolidaria.ui.fragments.resoursesOffered.ResoursesOfferedFragment
 import com.cleteci.redsolidaria.ui.fragments.scanCode.ScanCodeFragment
 import com.cleteci.redsolidaria.ui.fragments.servicedetail.ServiceDetailFragment
@@ -33,7 +33,7 @@ interface FragmentComponent {
 
     fun inject(serviceDetailFragment: ServiceDetailFragment)
 
-    fun inject(resourcesByCityFragment: ResourcesByCityFragment)
+    fun inject(resourcesResultFragment: ResourcesResultFragment)
 
     fun inject(myResoursesFragment: MyResoursesFragment)
 

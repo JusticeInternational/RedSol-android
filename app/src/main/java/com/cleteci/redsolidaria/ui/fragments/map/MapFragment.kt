@@ -2,7 +2,6 @@ package com.cleteci.redsolidaria.ui.fragments.map
 
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,13 +13,10 @@ import com.cleteci.redsolidaria.R
 
 import com.cleteci.redsolidaria.di.component.DaggerFragmentComponent
 import com.cleteci.redsolidaria.di.module.FragmentModule
-import com.cleteci.redsolidaria.models.Resourse
-import com.cleteci.redsolidaria.models.ResourseCategory
+import com.cleteci.redsolidaria.models.ResourceCategory
 import com.cleteci.redsolidaria.ui.activities.main.MainActivity
-import com.cleteci.redsolidaria.ui.adapters.ResourseAdapter
 import com.cleteci.redsolidaria.ui.adapters.ResourseCategoryAdapter
 import com.cleteci.redsolidaria.ui.fragments.advancedsearch.AdvancedSearchFragment
-import com.cleteci.redsolidaria.ui.fragments.resourcesByCity.ResourcesByCityContract
 
 import com.cleteci.redsolidaria.ui.fragments.servicedetail.ServiceDetailFragment
 import com.google.android.gms.common.ConnectionResult
@@ -33,8 +29,6 @@ import com.cleteci.redsolidaria.ui.components.CustomInfoWindowGoogleMap
 import com.google.android.gms.maps.CameraUpdateFactory
 
 import android.widget.TextView
-import android.content.Context.LAYOUT_INFLATER_SERVICE
-import androidx.core.content.ContextCompat.getSystemService
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -42,20 +36,18 @@ import android.app.Activity
 import android.graphics.Canvas
 import android.util.DisplayMetrics
 
-import androidx.annotation.DrawableRes
 import com.google.android.gms.maps.model.*
-import android.R.layout
-import android.util.Log
-import android.view.WindowManager
 import android.widget.ImageView
 import com.cleteci.redsolidaria.ui.base.BaseFragment
 
 
 class MapFragment : BaseFragment(), MapContract.View, OnMapReadyCallback, ResourseCategoryAdapter.onItemClickListener,
     GoogleMap.OnInfoWindowClickListener {
+
+
     var mListRecyclerView: RecyclerView? = null
     var mAdapter: ResourseCategoryAdapter? = null
-    private val listCategory = ArrayList<ResourseCategory>()
+    private val listCategory = ArrayList<ResourceCategory>()
     private lateinit var mMap: GoogleMap
     var mapView: MapView? = null
 
@@ -90,7 +82,7 @@ class MapFragment : BaseFragment(), MapContract.View, OnMapReadyCallback, Resour
 
         // only create and set a new adapter if there isn't already one
 
-        mAdapter = ResourseCategoryAdapter(activity?.applicationContext, listCategory, this, 3)
+        mAdapter = ResourseCategoryAdapter(activity?.applicationContext, listCategory, this, 3,  false)
         mListRecyclerView?.setAdapter(mAdapter);
 
         MapsInitializer.initialize(activity)
@@ -292,10 +284,14 @@ class MapFragment : BaseFragment(), MapContract.View, OnMapReadyCallback, Resour
 
     }
 
-    override fun loadDataSuccess(list: List<ResourseCategory>) {
+    override fun loadDataSuccess(list: List<ResourceCategory>) {
         listCategory.clear()
         listCategory.addAll(list)
         mAdapter?.notifyDataSetChanged()
+
+    }
+
+    override fun clickScanCategory(postId: String) {
 
     }
 

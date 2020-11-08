@@ -1,6 +1,6 @@
 package com.cleteci.redsolidaria.di.module
 
-import com.cleteci.redsolidaria.api.ApiServiceInterface
+
 import com.cleteci.redsolidaria.ui.fragments.advancedsearch.AdvancedSearchContract
 import com.cleteci.redsolidaria.ui.fragments.advancedsearch.AdvancedSearchPresenter
 import com.cleteci.redsolidaria.ui.fragments.basicsearch.BasicSearchContract
@@ -25,8 +25,8 @@ import com.cleteci.redsolidaria.ui.fragments.myProfileProvider.MyProfileProvider
 import com.cleteci.redsolidaria.ui.fragments.myProfileProvider.MyProfileProviderPresenter
 import com.cleteci.redsolidaria.ui.fragments.myResourses.MyResoursesContract
 import com.cleteci.redsolidaria.ui.fragments.myResourses.MyResoursesPresenter
-import com.cleteci.redsolidaria.ui.fragments.resourcesByCity.ResourcesByCityContract
-import com.cleteci.redsolidaria.ui.fragments.resourcesByCity.ResourcesByCityPresenter
+import com.cleteci.redsolidaria.ui.fragments.resourcesResult.ResourcesResultContract
+import com.cleteci.redsolidaria.ui.fragments.resourcesResult.ResourcesResultPresenter
 import com.cleteci.redsolidaria.ui.fragments.resoursesOffered.ResoursesOfferedContract
 import com.cleteci.redsolidaria.ui.fragments.resoursesOffered.ResoursesOfferedPresenter
 import com.cleteci.redsolidaria.ui.fragments.scanCode.ScanCodeContract
@@ -61,8 +61,8 @@ class FragmentModule {
     }
 
     @Provides
-    fun provideResourseByCityPresenter(): ResourcesByCityContract.Presenter {
-        return ResourcesByCityPresenter()
+    fun provideResourseByCityPresenter(): ResourcesResultContract.Presenter {
+        return ResourcesResultPresenter()
     }
 
     @Provides
@@ -148,8 +148,5 @@ class FragmentModule {
     }
 
 
-    @Provides
-    fun provideApiService(): ApiServiceInterface {
-        return ApiServiceInterface.create()
-    }
+
 }

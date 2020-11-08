@@ -2,35 +2,36 @@ package com.cleteci.redsolidaria.ui.fragments.basicsearch
 
 
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.RelativeLayout
+import android.widget.LinearLayout
+import android.widget.TextView
+import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.ListAdapter
 
 import com.cleteci.redsolidaria.R
 
 import com.cleteci.redsolidaria.di.component.DaggerFragmentComponent
 import com.cleteci.redsolidaria.di.module.FragmentModule
-import com.cleteci.redsolidaria.models.ResourseCategory
+import com.cleteci.redsolidaria.models.ResourceCategory
 import javax.inject.Inject
 import androidx.recyclerview.widget.RecyclerView
 import com.cleteci.redsolidaria.ui.activities.main.MainActivity
 import com.cleteci.redsolidaria.ui.adapters.ResourseCategoryAdapter
 import com.cleteci.redsolidaria.ui.base.BaseFragment
-import com.cleteci.redsolidaria.ui.fragments.advancedsearch.AdvancedSearchFragment
-import com.cleteci.redsolidaria.ui.fragments.resourcesByCity.ResourcesByCityFragment
+import com.cleteci.redsolidaria.ui.fragments.resourcesResult.ResourcesResultFragment
 
 
 class BasicSearchFragment : BaseFragment() , BasicSearchContract.View , ResourseCategoryAdapter.onItemClickListener {
 
+
     var mListRecyclerView: RecyclerView? = null
     var mAdapter:ResourseCategoryAdapter? = null
-    private val listCategory= ArrayList<ResourseCategory>()
+    var searchView: SearchView? = null
+    var tvResult: TextView? = null
+    private var keyWord: String = ""
+    private val listCategory= ArrayList<ResourceCategory>()
 
     @Inject lateinit var presenter: BasicSearchContract.Presenter
 
@@ -56,12 +57,32 @@ class BasicSearchFragment : BaseFragment() , BasicSearchContract.View , Resourse
 
         // only create and set a new adapter if there isn't already one
         //if (mAdapter == null) {
-        mAdapter = ResourseCategoryAdapter(activity?.applicationContext, listCategory, this, 1)
-        mListRecyclerView?.setAdapter(mAdapter);
+        mAdapter = ResourseCategoryAdapter(activity?.applicationContext, listCategory, this, 1,  false)
+        mListRecyclerView?.adapter = mAdapter;
+        searchView = rootView?.findViewById(R.id.searchView);
+        searchView!!.isIconified = false
 
-        activity!!.supportFragmentManager.beginTransaction()
-            .replace(R.id.advancedContainer, AdvancedSearchFragment().newInstance())
-            .commit()
+        searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                setSearchParameter()
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                cleanLayout()
+                return false
+            }
+        })
+
+        searchView?.setOnCloseListener {
+            searchView?.setQuery("", false)
+            false
+        }
+
+        searchView?.clearFocus(); // close the keyboard on load
+
+        tvResult = rootView?.findViewById(R.id.tvResult);
+        tvResult?.visibility = View.GONE
 
         return rootView
     }
@@ -86,7 +107,23 @@ class BasicSearchFragment : BaseFragment() , BasicSearchContract.View , Resourse
         (activity as MainActivity).setTextToolbar(getText(R.string.search).toString(),activity!!.resources.getColor(R.color.colorWhite))
     }
 
+    fun setSearchParameter() {
+        val query = searchView?.query.toString()
+        if (query != null && query.isNotEmpty()) {
+            this.keyWord = query
+            tvResult?.visibility = View.VISIBLE
+        }
+    }
 
+    fun cleanLayout() {
+        val query = searchView?.query.toString()
+        if (query.isNullOrEmpty()) {
+            this.keyWord = ""
+            tvResult?.visibility = View.GONE
+        } else {
+            this.keyWord = query
+        }
+    }
 
     private fun injectDependency() {
         val aboutComponent = DaggerFragmentComponent.builder()
@@ -103,18 +140,25 @@ class BasicSearchFragment : BaseFragment() , BasicSearchContract.View , Resourse
         presenter.loadData()
     }
 
-    override fun loadDataSuccess(list: List<ResourseCategory>) {
-        listCategory.clear()
-        listCategory.addAll(list)
-        mAdapter?.notifyDataSetChanged()
+    override fun loadDataSuccess(list: List<ResourceCategory>) {
+        activity?.runOnUiThread(Runnable {
+            listCategory.clear()
+            listCategory.addAll(list)
+            mAdapter?.notifyDataSetChanged()
+        })
     }
 
     override fun itemDetail(postId: Int) {
 
         activity!!.supportFragmentManager.beginTransaction()
             .addToBackStack(null)
-            .replace(R.id.container1, ResourcesByCityFragment().newInstance(), ResourcesByCityFragment.TAG)
+            .replace(R.id.container1, ResourcesResultFragment().newInstance(this.listCategory[postId], keyWord), ResourcesResultFragment.TAG)
             .commit()
+
+    }
+
+    override fun clickScanCategory(postId: String) {
+
 
     }
 

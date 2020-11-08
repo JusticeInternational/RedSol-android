@@ -9,9 +9,12 @@ class InfoServiceContract {
 
     interface View: BaseContract.View {
         fun init()
+        fun loadDataSuccess(total: Int)
     }
 
     interface Presenter: BaseContract.Presenter<InfoServiceContract.View> {
         //fun onDrawerOptionAboutClick()
+        fun loadCategoryData(id:String)
+        fun loadServiceData(id:String)
     }
 }

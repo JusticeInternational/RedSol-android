@@ -10,9 +10,13 @@ class RegisterContract {
     interface View : BaseContract.View {
         fun init()
 
-        fun  askCode()
+        fun askCode()
+
+        fun emailExists()
 
         fun goToLogin()
+
+        fun tryAgain()
 
         fun showError(msg:String)
 
@@ -20,10 +24,11 @@ class RegisterContract {
 
     interface Presenter : BaseContract.Presenter<RegisterContract.View> {
 
-        fun validateRegister(term:Boolean, policies:Boolean, name: String, email: String, pass:String)
+        fun validateRegister(term:Boolean, policies:Boolean, name: String, lastName: String, email: String, pass:String)
 
-        fun validatecode(code: String)
+        fun receiveUser()
 
+        fun goToRegister()
 
     }
 }

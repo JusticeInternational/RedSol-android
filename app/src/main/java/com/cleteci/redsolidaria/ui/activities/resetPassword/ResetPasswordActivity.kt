@@ -116,9 +116,11 @@ class ResetPasswordActivity : AppCompatActivity(), ResetPasswordContract.View {
     }
 
     override fun askCode() {
-        lyEmail?.visibility = View.GONE
+        runOnUiThread(Runnable {
+            lyEmail?.visibility = View.GONE
 
-        lyVerify?.visibility = View.VISIBLE
+            lyVerify?.visibility = View.VISIBLE
+        })
     }
 
     override fun goToLogin() {

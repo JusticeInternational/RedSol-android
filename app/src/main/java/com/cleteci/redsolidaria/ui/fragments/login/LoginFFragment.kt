@@ -17,6 +17,9 @@ import com.cleteci.redsolidaria.ui.base.BaseFragment
 
 import javax.inject.Inject
 
+
+
+
 class LoginFFragment : BaseFragment(), LoginFContract.View {
 
 
@@ -128,7 +131,11 @@ class LoginFFragment : BaseFragment(), LoginFContract.View {
     }
 
     override fun errorEmailPass(mdg: String) {
-        Toast.makeText(activity, mdg, Toast.LENGTH_SHORT).show()
+        //Toast.makeText(activity, mdg, Toast.LENGTH_SHORT).show()
+        activity?.runOnUiThread(Runnable {
+            Toast.makeText(activity, mdg, Toast.LENGTH_SHORT).show()
+        })
+
     }
 
     companion object {

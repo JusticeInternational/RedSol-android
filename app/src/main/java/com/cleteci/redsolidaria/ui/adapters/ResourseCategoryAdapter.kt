@@ -3,6 +3,8 @@ package com.cleteci.redsolidaria.ui.adapters
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RelativeLayout
@@ -11,22 +13,26 @@ import androidx.fragment.app.Fragment
 
 import androidx.recyclerview.widget.RecyclerView
 import com.cleteci.redsolidaria.R
-import com.cleteci.redsolidaria.models.ResourseCategory
+import com.cleteci.redsolidaria.models.ResourceCategory
 
 class ResourseCategoryAdapter
     (
-    private val context: Context?, private val list: MutableList<ResourseCategory>,
-    fragment: Fragment, typeInfl:Int
+    private val context: Context?, private val list: MutableList<ResourceCategory>,
+    fragment: Fragment, typeInfl:Int, isFromScan:Boolean
 ) : RecyclerView.Adapter<ResourseCategoryAdapter.ListViewHolder>() {
 
     private val listener: ResourseCategoryAdapter.onItemClickListener
 
     private val inflaterLayType: Int
 
+    private val isScan: Boolean
+
     init {
         this.listener = fragment as ResourseCategoryAdapter.onItemClickListener
 
         this.inflaterLayType = typeInfl as Int
+
+        this.isScan=isFromScan
     }
 
 
@@ -40,6 +46,32 @@ class ResourseCategoryAdapter
 
         holder!!.title!!.setText(post.name)
         holder.body!!.setImageResource(post.photo)
+        if (post.description!=null && post.description?.length!!>0){
+            holder.tvDescription?.visibility= VISIBLE
+            holder.tvDescription?.setText(post.description)
+
+        }else{
+
+            holder.tvDescription?.visibility= GONE
+
+        }
+
+        if (this.isScan){
+
+            holder.ivArrow?.setImageResource(R.drawable.ic_scan)
+
+        }else{
+
+            holder.ivArrow?.setImageResource(R.drawable.ic_right)
+
+        }
+
+
+        if (position==itemCount-1){
+            holder.viewLine?.visibility=GONE
+        }else{
+            holder.viewLine?.visibility= VISIBLE
+        }
 
         holder.layout!!.setOnClickListener {
             listener.itemDetail(position)
@@ -74,14 +106,23 @@ class ResourseCategoryAdapter
         var layout = itemView.findViewById<RelativeLayout>(R.id.parentr)
         val title = itemView.findViewById<TextView>(R.id.tvName)
         val body = itemView.findViewById<ImageView>(R.id.imageview)
+        val viewLine = itemView.findViewById<View>(R.id.viewLine)
+        val tvDescription = itemView.findViewById<TextView>(R.id.tvDescription)
+        val ivArrow = itemView.findViewById<ImageView>(R.id.ivArrow)
 
-        fun bind(item: ResourseCategory) {
+
+
+
+
+        fun bind(item: ResourceCategory) {
             // title = item.post
             // body etc.
         }
     }
 
     interface onItemClickListener {
+
+        fun clickScanCategory(postId: String)
 
         fun itemDetail(postId: Int)
     }

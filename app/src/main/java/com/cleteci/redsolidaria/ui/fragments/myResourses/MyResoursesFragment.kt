@@ -16,7 +16,7 @@ import com.cleteci.redsolidaria.R
 
 import com.cleteci.redsolidaria.di.component.DaggerFragmentComponent
 import com.cleteci.redsolidaria.di.module.FragmentModule
-import com.cleteci.redsolidaria.models.Resourse
+import com.cleteci.redsolidaria.models.Resource
 import com.cleteci.redsolidaria.ui.activities.main.MainActivity
 import com.cleteci.redsolidaria.ui.adapters.ResourseAdapter
 import com.cleteci.redsolidaria.ui.base.BaseFragment
@@ -27,25 +27,26 @@ import javax.inject.Inject
 class MyResoursesFragment : BaseFragment(), MyResoursesContract.View, ResourseAdapter.onItemClickListener {
 
 
+
     var mScrollView: NestedScrollView? = null
 
     var lyEmpty: LinearLayout? = null
 
     var rvPending: RecyclerView? = null
     var mAdapterPending: ResourseAdapter? = null
-    private val listPending = ArrayList<Resourse>()
+    private val listPending = ArrayList<Resource>()
 
     var rvSaved: RecyclerView? = null
     var mAdapterSaved: ResourseAdapter? = null
-    private val listSaved = ArrayList<Resourse>()
+    private val listSaved = ArrayList<Resource>()
 
     var rvVolunteering: RecyclerView? = null
     var mAdapterVolunteering: ResourseAdapter? = null
-    private val listVolunteering = ArrayList<Resourse>()
+    private val listVolunteering = ArrayList<Resource>()
 
     var rvUsed: RecyclerView? = null
     var mAdapterUsed: ResourseAdapter? = null
-    private val listUsed = ArrayList<Resourse>()
+    private val listUsed = ArrayList<Resource>()
 
 
     @Inject
@@ -74,22 +75,22 @@ class MyResoursesFragment : BaseFragment(), MyResoursesContract.View, ResourseAd
 
         rvPending = rootView?.findViewById(R.id.rvPending)
         rvPending?.setLayoutManager(LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false))
-        mAdapterPending = ResourseAdapter(activity?.applicationContext, listPending, this, 2)
+        mAdapterPending = ResourseAdapter(activity?.applicationContext, listPending, this, 2,  false)
         rvPending?.setAdapter(mAdapterPending)
 
         rvSaved = rootView?.findViewById(R.id.rvSaved)
         rvSaved?.setLayoutManager(LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false))
-        mAdapterSaved = ResourseAdapter(activity?.applicationContext, listSaved, this, 2)
+        mAdapterSaved = ResourseAdapter(activity?.applicationContext, listSaved, this, 2,  false)
         rvSaved?.setAdapter(mAdapterSaved)
 
         rvVolunteering = rootView?.findViewById(R.id.rvVolunteering)
         rvVolunteering?.setLayoutManager(LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false))
-        mAdapterVolunteering = ResourseAdapter(activity?.applicationContext, listVolunteering, this, 2)
+        mAdapterVolunteering = ResourseAdapter(activity?.applicationContext, listVolunteering, this, 2,  false)
         rvVolunteering?.setAdapter(mAdapterVolunteering)
 
         rvUsed = rootView?.findViewById(R.id.rvUsed)
         rvUsed?.setLayoutManager(LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false))
-        mAdapterUsed = ResourseAdapter(activity?.applicationContext, listUsed, this, 2)
+        mAdapterUsed = ResourseAdapter(activity?.applicationContext, listUsed, this, 2,  false)
         rvUsed?.setAdapter(mAdapterUsed)
 
         return rootView
@@ -130,10 +131,10 @@ class MyResoursesFragment : BaseFragment(), MyResoursesContract.View, ResourseAd
     }
 
     override fun loadDataSuccess(
-        pending: List<Resourse>,
-        saved: List<Resourse>,
-        volunteer: List<Resourse>,
-        used: List<Resourse>
+        pending: List<Resource>,
+        saved: List<Resource>,
+        volunteer: List<Resource>,
+        used: List<Resource>
     ) {
         listPending.clear()
         listPending.addAll(pending)
@@ -152,9 +153,11 @@ class MyResoursesFragment : BaseFragment(), MyResoursesContract.View, ResourseAd
         mAdapterVolunteering?.notifyDataSetChanged()
     }
 
-    override fun clickDetailResource(postId: String) {
-        ( activity as MainActivity).openServiceDetailFragment()
+    override fun clickDetailResource(postId: Int, name: String, isGeneric:Boolean) {
+        (activity as MainActivity).openServiceDetailFragment()
     }
+
+    override fun clickScanresourse(postId: String) { }
 
     override fun onResume() {
         super.onResume()

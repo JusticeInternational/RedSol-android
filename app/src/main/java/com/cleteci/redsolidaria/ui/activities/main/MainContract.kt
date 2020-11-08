@@ -23,7 +23,9 @@ class MainContract {
 
         fun showUsersFragment()
 
-        fun showScanFragment()
+        fun showScanFragment(serviceID: String?, catId: String?, name: String?, isGeneric: Boolean)
+
+        fun showScanListFragment()
 
         fun showResoursesProviderFragment()
     }

@@ -11,19 +11,15 @@ import android.location.Address
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.widget.SearchView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -31,24 +27,19 @@ import com.cleteci.redsolidaria.R
 
 import com.cleteci.redsolidaria.di.component.DaggerFragmentComponent
 import com.cleteci.redsolidaria.di.module.FragmentModule
-import com.cleteci.redsolidaria.models.ResourseCategory
-import com.cleteci.redsolidaria.ui.activities.main.MainActivity
+import com.cleteci.redsolidaria.models.ResourceCategory
 import com.cleteci.redsolidaria.ui.adapters.ResourseCategoryAdapter
 import com.cleteci.redsolidaria.ui.base.BaseFragment
-import com.cleteci.redsolidaria.ui.fragments.basicsearch.BasicSearchFragment.Companion.TAG
-import com.cleteci.redsolidaria.ui.fragments.resourcesByCity.ResourcesByCityFragment
-import com.google.android.gms.common.ConnectionResult
-import com.google.android.gms.common.api.GoogleApiClient
+import com.cleteci.redsolidaria.ui.fragments.resourcesResult.ResourcesResultFragment
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import com.google.android.gms.maps.model.LatLng
 import com.schibstedspain.leku.*
-import com.schibstedspain.leku.locale.SearchZoneRect
 import javax.inject.Inject
 
 
 class AdvancedSearchFragment : BaseFragment(), AdvancedSearchContract.View,
     ResourseCategoryAdapter.onItemClickListener {
+
 
     private var mFusedLocationClient: FusedLocationProviderClient? = null
     protected var mLastLocation: Location? = null
@@ -59,7 +50,7 @@ class AdvancedSearchFragment : BaseFragment(), AdvancedSearchContract.View,
     var tvMyLocation: TextView? = null
     var searchView: SearchView? = null
     var mAdapter: ResourseCategoryAdapter? = null
-    private val listCategory = ArrayList<ResourseCategory>()
+    private val listCategory = ArrayList<ResourceCategory>()
 
     @Inject
     lateinit var presenter: AdvancedSearchContract.Presenter
@@ -128,7 +119,7 @@ class AdvancedSearchFragment : BaseFragment(), AdvancedSearchContract.View,
             startActivityForResult(locationPickerIntent, MAP_BUTTON_REQUEST_CODE)
         }
         mListRecyclerView?.setLayoutManager(LinearLayoutManager(getActivity()))
-        mAdapter = ResourseCategoryAdapter(activity?.applicationContext, listCategory, this, 2)
+        mAdapter = ResourseCategoryAdapter(activity?.applicationContext, listCategory, this, 2,  false)
         mListRecyclerView?.setAdapter(mAdapter)
         return rootView
     }
@@ -184,15 +175,12 @@ class AdvancedSearchFragment : BaseFragment(), AdvancedSearchContract.View,
         }
     }
 
-    override fun loadDataSuccess(list: List<ResourseCategory>) {
-        listCategory.clear()
-        listCategory.addAll(list)
-        //Log.d("sasasa", "sassasasasa2");
-        mAdapter?.notifyDataSetChanged()
-
-        //}
-
-
+    override fun loadDataSuccess(list: List<ResourceCategory>) {
+        activity?.runOnUiThread(Runnable {
+            listCategory.clear()
+            listCategory.addAll(list)
+            mAdapter?.notifyDataSetChanged()
+        })
     }
 
     /**
@@ -300,8 +288,13 @@ class AdvancedSearchFragment : BaseFragment(), AdvancedSearchContract.View,
         activity!!.supportFragmentManager.beginTransaction()
             .addToBackStack(null)
             // .setCustomAnimations(AnimType.FADE.getAnimPair().first, AnimType.FADE.getAnimPair().second)
-            .replace(R.id.container1, ResourcesByCityFragment().newInstance(), ResourcesByCityFragment.TAG)
+            .replace(R.id.container1, ResourcesResultFragment().newInstance(this.listCategory[postId], "asdf"), ResourcesResultFragment.TAG)
             .commit()
+    }
+
+    override fun clickScanCategory(postId: String) {
+
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

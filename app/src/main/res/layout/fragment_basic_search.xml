@@ -1,29 +1,43 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.cleteci.redsolidaria.ui.fragments.basicsearch.BasicSearchFragment"
+   android:orientation="vertical"
     android:background="@color/colorWhite"
+    android:paddingHorizontal="10dp"
+    android:paddingTop="10dp"
     android:paddingBottom="57dp">
 
-    <!-- TODO: Update blank fragment layout -->
+    <androidx.appcompat.widget.SearchView
+        app:queryHint="@string/search"
+        android:layout_centerVertical="true"
+        android:id="@+id/searchView"
+        android:layout_width="match_parent"
+        android:layout_marginTop="5dp"
+        android:layout_height="40dp"
+        android:background="@drawable/bg_border_line_grey"
+        app:queryBackground="@android:color/transparent" />
+
+    <TextView
+            android:id="@+id/tvResult"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/select_category"
+            android:textStyle="bold"
+            android:textColor="@color/colorBlack"/>
 
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_marginTop="110dp"
-
+        android:layout_marginTop="10dp"
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <RelativeLayout
-        android:id="@+id/advancedContainer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-    </RelativeLayout>
-
-</FrameLayout>
+</LinearLayout>

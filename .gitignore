@@ -37,6 +37,7 @@ proguard/
 captures/
 
 # IntelliJ
+.idea/
 *.iml
 .idea/workspace.xml
 .idea/tasks.xml
@@ -76,6 +77,9 @@ fastlane/readme.md
 
 # Version control
 vcs.xml
+
+#network_security
+app/src/main/res/xml/
 
 # lint
 lint/intermediates/
