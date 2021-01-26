@@ -111,7 +111,7 @@ class MyProfileProviderFragment : BaseFragment(), MyProfileProviderContract.View
         etLocation!!.setOnClickListener {
             val locationPickerIntent = LocationPickerActivity.Builder()
                 .withLocation(41.4036299, 2.1743558)
-                .withGeolocApiKey(getString(R.string.map_key))
+                .withGeolocApiKey(getString(R.string.google_maps_key))
                 .withSearchZone("es_ES")
 
                 .build(context!!)
