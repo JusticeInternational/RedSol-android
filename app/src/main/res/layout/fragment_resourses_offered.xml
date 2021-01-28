@@ -1,74 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
 <androidx.coordinatorlayout.widget.CoordinatorLayout
-
-
-        xmlns:android="http://schemas.android.com/apk/res/android"
-                                                     android:layout_width="match_parent"
-                                                     android:layout_height="match_parent"
-                                                     xmlns:app="http://schemas.android.com/apk/res-auto"
-                                                     android:background="@color/colorWhite"
-                                                     android:gravity="center"
-                                                     android:orientation="vertical"
-                                                     android:paddingBottom="57dp">
-
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorWhite"
+    android:gravity="center"
+    android:orientation="vertical">
     <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
         <TextView
-
-                style="@style/TextBodyBold"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="20dp"
-
-                android:text="@string/offered_resourses"
-                android:textColor="@color/colorBlack"
-                android:textSize="16sp" />
-
+            style="@style/TextBodyBold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/offered_resourses"
+            android:textColor="@color/colorBlack"
+            android:textSize="16sp" />
         <androidx.recyclerview.widget.RecyclerView
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                android:id="@+id/rvResoursesGeneric"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:id="@+id/rvResoursesGeneric"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
         </androidx.recyclerview.widget.RecyclerView>
-
         <TextView
-android:id="@+id/tvLabelCategories"
-                style="@style/TextBodyRegular"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingHorizontal="20dp"
-android:textAlignment="center"
-                android:paddingVertical="5dp"
-                android:layout_marginBottom="20dp"
-                android:text="@string/my_categories"
-                android:textColor="@color/colorWhite"
-                android:background="@color/colorAccent"
-                android:textSize="16sp"
-        android:visibility="gone"/>
-
+            android:id="@+id/tvLabelCategories"
+            style="@style/TextBodyRegular"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="20dp"
+            android:textAlignment="center"
+            android:paddingVertical="5dp"
+            android:layout_marginBottom="20dp"
+            android:text="@string/my_categories"
+            android:textColor="@color/colorWhite"
+            android:background="@color/colorAccent"
+            android:textSize="16sp"
+            android:visibility="gone"/>
         <androidx.recyclerview.widget.RecyclerView
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                android:id="@+id/rvMyCategories"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:id="@+id/rvMyCategories"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
         </androidx.recyclerview.widget.RecyclerView>
-
-
         <TextView
             android:id="@+id/tvLabelResourses"
             style="@style/TextBodyRegular"
@@ -83,18 +65,14 @@ android:textAlignment="center"
             android:visibility="gone"
             android:background="@color/colorAccent"
             android:textSize="16sp" />
-
         <androidx.recyclerview.widget.RecyclerView
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:id="@+id/rvResourses"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
         </androidx.recyclerview.widget.RecyclerView>
-
     </LinearLayout>
     </androidx.core.widget.NestedScrollView>
-
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
@@ -103,5 +81,4 @@ android:textAlignment="center"
         android:layout_margin="16dp"
         android:contentDescription="@string/continue_p"
         android:src="@drawable/ic_add" />
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
