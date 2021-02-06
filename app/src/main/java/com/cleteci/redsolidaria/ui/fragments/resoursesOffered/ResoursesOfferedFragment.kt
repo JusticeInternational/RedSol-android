@@ -27,6 +27,7 @@ class ResoursesOfferedFragment : BaseFragment(), ResoursesOfferedContract.View,
     ResourseCategoryAdapter.onItemClickListener, ResourseAdapter.onItemClickListener {
 
 
+
     var isFromScan = false
 
     var tvLabelResourses: TextView? = null
@@ -206,7 +207,17 @@ class ResoursesOfferedFragment : BaseFragment(), ResoursesOfferedContract.View,
 
     }
 
+    override fun scanNoUserCategory(position: Int) {
+        (activity as MainActivity).openScanNoUserFragment(null, listCategories[position].id, listCategories[position].name, false)
+    }
+
+    override fun scanNoUserResource(postId: String, name: String, isGeneric: Boolean) {
+        (activity as MainActivity).openScanNoUserFragment(postId, null, name, isGeneric)
+
+    }
+
     override fun clickScanresourse(postId: String) {
+
 
     }
 

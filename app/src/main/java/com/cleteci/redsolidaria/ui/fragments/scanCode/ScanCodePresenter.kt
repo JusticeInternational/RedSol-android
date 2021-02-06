@@ -29,7 +29,7 @@ class ScanCodePresenter : ScanCodeContract.Presenter {
         view.init() // as default
     }
 
-    override fun countService(userid: String, serviceid: String) {
+    override fun countService(userid: String, serviceid: String, nameService:String , isGeneric:Boolean) {
 
         BaseApp.apolloClient.mutate(
             ProvideAtentionServiceMutation.builder()
@@ -43,7 +43,12 @@ class ScanCodePresenter : ScanCodeContract.Presenter {
                 if (response.data() != null && response.data()?.provideAtentionService() != null ) {
                     var name= response.data()?.provideAtentionService()!!.recipient()!!.name()
 
-                    view.showSuccessMsg( String.format(BaseApp.instance.getResources().getString(R.string.posted_service),name ))
+                    if (isGeneric){
+                        view.showSuccessMsg( String.format(BaseApp.instance.getResources().getString(R.string.posted_service_2),name ))
+                    }else{
+                        view.showSuccessMsg( String.format(BaseApp.instance.getResources().getString(R.string.posted_service),name, nameService ))
+                    }
+
                 } else {
                     view.showErrorMsg(BaseApp.instance.getString(R.string.invalid_user))
                 }
@@ -57,7 +62,7 @@ class ScanCodePresenter : ScanCodeContract.Presenter {
 
     }
 
-    override fun countCategory(userid: String, categoriyid: String) {
+    override fun countCategory(userid: String, categoriyid: String, namecat:String) {
 
         BaseApp.apolloClient.mutate(
             ProvideAtentionCategoryMutation.builder()
@@ -71,7 +76,7 @@ class ScanCodePresenter : ScanCodeContract.Presenter {
                 if (response.data() != null && response.data()?.provideAtentionCategory() != null ) {
                     var name= response.data()?.provideAtentionCategory()!!.recipient()!!.name()
 
-                    view.showSuccessMsg( String.format(BaseApp.instance.getResources().getString(R.string.posted_category),name ))
+                    view.showSuccessMsg( String.format(BaseApp.instance.getResources().getString(R.string.posted_category),name,namecat ))
 
                 } else {
                     view.showErrorMsg(BaseApp.instance.getString(R.string.invalid_user))

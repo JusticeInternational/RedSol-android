@@ -381,6 +381,9 @@ class ServiceDetailFragment : BaseFragment(), ServiceDetailContract.View, Resour
     override fun clickScanCategory(postId: String) {
 
     }
+    override fun scanNoUserCategory(position: Int) {
+
+    }
 
     companion object {
         val TAG: String = "ServiceDetailFragment"
