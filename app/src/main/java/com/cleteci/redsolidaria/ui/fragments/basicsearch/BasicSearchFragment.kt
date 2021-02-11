@@ -26,6 +26,7 @@ import com.cleteci.redsolidaria.ui.fragments.resourcesResult.ResourcesResultFrag
 class BasicSearchFragment : BaseFragment() , BasicSearchContract.View , ResourseCategoryAdapter.onItemClickListener {
 
 
+
     var mListRecyclerView: RecyclerView? = null
     var mAdapter:ResourseCategoryAdapter? = null
     var searchView: SearchView? = null
@@ -154,6 +155,10 @@ class BasicSearchFragment : BaseFragment() , BasicSearchContract.View , Resourse
             .addToBackStack(null)
             .replace(R.id.container1, ResourcesResultFragment().newInstance(this.listCategory[postId], keyWord), ResourcesResultFragment.TAG)
             .commit()
+
+    }
+
+    override fun scanNoUserCategory(position: Int) {
 
     }
 
