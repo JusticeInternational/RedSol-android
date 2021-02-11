@@ -41,6 +41,7 @@ class AdvancedSearchFragment : BaseFragment(), AdvancedSearchContract.View,
     ResourseCategoryAdapter.onItemClickListener {
 
 
+
     private var mFusedLocationClient: FusedLocationProviderClient? = null
     protected var mLastLocation: Location? = null
     var mListRecyclerView: RecyclerView? = null
@@ -294,6 +295,10 @@ class AdvancedSearchFragment : BaseFragment(), AdvancedSearchContract.View,
 
     override fun clickScanCategory(postId: String) {
 
+
+    }
+
+    override fun scanNoUserCategory(position: Int) {
 
     }
 

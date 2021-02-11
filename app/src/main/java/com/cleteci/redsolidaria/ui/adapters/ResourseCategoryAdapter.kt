@@ -57,11 +57,11 @@ class ResourseCategoryAdapter
         }
 
         if (this.isScan){
-
+            holder.ivNoUser?.visibility= VISIBLE
             holder.ivArrow?.setImageResource(R.drawable.ic_scan)
 
         }else{
-
+            holder.ivNoUser?.visibility= GONE
             holder.ivArrow?.setImageResource(R.drawable.ic_right)
 
         }
@@ -73,8 +73,12 @@ class ResourseCategoryAdapter
             holder.viewLine?.visibility= VISIBLE
         }
 
-        holder.layout!!.setOnClickListener {
+        holder.ivArrow!!.setOnClickListener {
             listener.itemDetail(position)
+        }
+
+        holder.ivNoUser!!.setOnClickListener {
+            listener.scanNoUserCategory(position)
         }
     }
 
@@ -109,7 +113,7 @@ class ResourseCategoryAdapter
         val viewLine = itemView.findViewById<View>(R.id.viewLine)
         val tvDescription = itemView.findViewById<TextView>(R.id.tvDescription)
         val ivArrow = itemView.findViewById<ImageView>(R.id.ivArrow)
-
+        val ivNoUser = itemView.findViewById<ImageView>(R.id.ivNoUser)
 
 
 
@@ -125,6 +129,8 @@ class ResourseCategoryAdapter
         fun clickScanCategory(postId: String)
 
         fun itemDetail(postId: Int)
+
+        fun scanNoUserCategory(position: Int)
     }
 
 }

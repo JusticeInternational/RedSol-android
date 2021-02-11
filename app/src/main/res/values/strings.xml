@@ -39,8 +39,7 @@
     <string name="my_resourse">Mis recursos</string>
     <string name="count_resourses">Contabilizar recursos</string>
 
-    <string name="posted_category">Categoria contabilizada con el usuario %1$s</string>
-    <string name="error_posted_category">Error al contabilizar categoria</string>
+
 
 
     <string name="count_question_1">Usted está solicitando contabilizar para la categoría o servicio genérico: %1$s? , le recomendamos contabilizar recursos en servicios detallados, si no los ha definido puede definirlos en "Mis Recursos". Si aún así desea continuar esta contabilización por favor seleccione "Aceptar"</string>
@@ -48,20 +47,47 @@
     <string name="count_question_2">Usted está solicitando contabilizar para el servicio %1$s? ¿Está seguro que es el recurso que desea escanear?</string>
 
     <string name="service_count_question">¿Desea contabilizar este servicio?</string>
+    <string name="service">Servicio</string>
+
     <string name="category_count_question">¿Desea contabilizar esta categoria?</string>
 
-    <string name="posted_service">Servicio contabilizado con el usuario %1$s</string>
+    <string name="the_1">la</string>
+
+    <string name="the_2">el</string>
+
+    <string name="offered_1">ofrecida</string>
+
+    <string name="offered_2">ofrecido</string>
+
+
+    <string name="posted_category">El usuario %1$s ha sido atendido para un servicio
+        no detallado de la categoría %2$s</string>
+    <string name="error_posted_category">Error al contabilizar categoria</string>
+
+    <string name="posted_service_2">El usuario %1$s ha sido atendido para un servicio genérico no categorizado</string>
+    <string name="posted_service">El usuario %1$s ha sido atendido para el servicio %2$s </string>
     <string name="error_posted_service">Error al contabilizar servicio</string>
+
+
+    <string name="invalid_name">Agregue un nombre válido</string>
+    <string name="invalid_lastname">Agregue un apellido válido</string>
+    <string name="invalid_email">Agregue un email válido</string>
+    <string name="invalid_phone">Agregue un teléfono válido</string>
     <string name="invalid_user">Usuario no valido</string>
     <string name="my_resourse_detailed">Mis recursos detallados</string>
     <string name="map">Mapa</string>
     <string name="scan_qr">Scan QR</string>
     <string name="search">Buscar</string>
     <string name="users">Usuarios</string>
+
+    <string name="attenders">Usuarios atendidos</string>
     <string name="change_pass">Cambio de contraseña</string>
 
     <!--SERVICES-->
     <string name="info_services">Información servicios</string>
+    <string name="count_attention">Contabilizar atención (no usuarios)</string>
+    <string name="count_attention_msg">Introduzca la información de la persona que está recibiendo la atención y que no dispone de código QR</string>
+
     <string name="create_new_service">Crear nuevos servicios</string>
     <string name="new_pass">Nueva contraseña</string>
     <string name="min_request">Requisitos mínimos:</string>
@@ -87,6 +113,7 @@
     <string name="welcome_2">Bienvenido,</string>
 
     <!--REGISTER AND LOGIN-->
+    <string name="required_fields">*Campos  obligatorios</string>
     <string name="please_complete_form">Por favor complete el formulario</string>
     <string name="please_complete_fields">Por favor completa los campos para continuar con el registro</string>
     <string name="intro_email_acount">Para reiniciar su contraseña, por favor introduzca el correo electrónico asociado a su cuenta</string>
@@ -131,12 +158,29 @@
     <string name="near_to">Cerca de</string>
     <string name="next">Siguiente</string>
     <string name="name">Nombre</string>
+    <string name="name_2">Nombre*</string>
+    <string name="dni">Documento de identificación</string>
+    <string name="origin_county">País de origen</string>
     <string name="lastName">Apellido</string>
+    <string name="lastName_2">Apellido*</string>
     <string name="organization_name">Nombre de la organización</string>
     <string name="from_red_solidaria_team">De parte del equipo de Red Solidaria nos gustaría conocer como ayudarte, puedes dejar aquí cualquier comentario, duda o sugerencia</string>
     <string name="web_site">Página web</string>
     <string name="email">Correo</string>
+    <string name="sex">Género</string>
+    <string name="age">Edad</string>
     <string name="or">ó</string>
+
+    <string-array name="countries">
+        <item>Venezuela</item>
+        <item>Colombia</item>
+        <item>EEUU</item>
+        <item>Brasil</item>
+        <item>Otro</item>
+
+    </string-array>
+
+    <string name="random_prompt">Seleccione</string>
 
 
     <!--DETAIL SERVICE-->
@@ -144,6 +188,7 @@
     <string name="location">Ubicación</string>
     <string name="phone">Teléfono</string>
     <string name="schedule">Horario</string>
+    <string name="aditional_info">Información adicional</string>
     <string name="description">Descripción</string>
     <string name="services_desc">Descripción de Servicios</string>
     <string name="about_us">Acerca de la Organización</string>
@@ -152,6 +197,7 @@
     <string name="change_plan_inf">Para cambiar el plan, agregue servicios detallados</string>
     <string name="we_are">¿Quienes somos?</string>
     <string name="send">Enviar</string>
+    <string name="register_count">Registrar y contar</string>
     <string name="cancel">Cancelar</string>
     <string name="interested">Interesados</string>
     <string name="attend">Atendidos</string>
@@ -167,6 +213,9 @@
     <string name="accept">Aceptar</string>
     <string name="try_again">Intentar de nuevo</string>
     <string name="info_in_your_email">Información enviada a su correo electrónico</string>
+
+    <string name="registered">Registrados</string>
+    <string name="not_registered">No registrados</string>
 
     <string name="wrong_pass">Contraseña inválida</string>
     <string name="wrong_email">Correo inválido</string>
@@ -197,7 +246,7 @@
     <string name="resourses_categories">Categorias de nuestros recursos de apoyo</string>
     <string name="category">Categoria</string>
     <string name="validate_with_code">Validar con código ID</string>
-    <string name="to_scan">Para escanear el código de otro usuario colóquelo centrado en el recuadro a continuación</string>
+    <string name="to_scan">Para contabilizar el código de otro usuario a %1$s %2$s %3$s por usted, deberá escanear el código QR del usuario colocándolo centrado en el recuadro a continuación</string>
     <string name="general_desc">Descripción general</string>
     <string name="find_resourses">Encuentra los recursos de apoyo disponibles en tu comunidad</string>
     <string name="we_are_volunteer">Somos voluntarios</string>

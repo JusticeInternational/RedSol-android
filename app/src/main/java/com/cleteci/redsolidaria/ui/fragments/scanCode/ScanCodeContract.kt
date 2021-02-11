@@ -15,7 +15,7 @@ class ScanCodeContract {
     }
 
     interface Presenter: BaseContract.Presenter<ScanCodeContract.View> {
-        fun countService(userid: String, serviceid:String)
-        fun countCategory(userid: String, categoriyid:String)
+        fun countService(userid: String, serviceid:String, name:String, isGeneric:Boolean)
+        fun countCategory(userid: String, categoriyid:String,name:String)
     }
 }

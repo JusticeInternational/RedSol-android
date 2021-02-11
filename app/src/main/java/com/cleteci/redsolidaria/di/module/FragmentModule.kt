@@ -15,6 +15,8 @@ import com.cleteci.redsolidaria.ui.fragments.createService.CreateServiceContract
 import com.cleteci.redsolidaria.ui.fragments.createService.CreateServicePresenter
 import com.cleteci.redsolidaria.ui.fragments.infoService.InfoServiceContract
 import com.cleteci.redsolidaria.ui.fragments.infoService.InfoServicePresenter
+import com.cleteci.redsolidaria.ui.fragments.infoService.ScanNoUserContract
+import com.cleteci.redsolidaria.ui.fragments.infoService.ScanNoUserPresenter
 import com.cleteci.redsolidaria.ui.fragments.login.LoginFContract
 import com.cleteci.redsolidaria.ui.fragments.login.LoginFPresenter
 import com.cleteci.redsolidaria.ui.fragments.map.MapContract
@@ -35,8 +37,7 @@ import com.cleteci.redsolidaria.ui.fragments.servicedetail.ServiceDetailContract
 import com.cleteci.redsolidaria.ui.fragments.servicedetail.ServiceDetailPresenter
 import com.cleteci.redsolidaria.ui.fragments.suggestService.SuggestServiceContract
 import com.cleteci.redsolidaria.ui.fragments.suggestService.SuggestServicePresenter
-import com.cleteci.redsolidaria.ui.fragments.users.UsersContract
-import com.cleteci.redsolidaria.ui.fragments.users.UsersPresenter
+import com.cleteci.redsolidaria.ui.fragments.users.*
 import com.cleteci.redsolidaria.ui.fragments.welcome.WelcomeContract
 import com.cleteci.redsolidaria.ui.fragments.welcome.WelcomePresenter
 
@@ -146,6 +147,22 @@ class FragmentModule {
     fun provideInfoServicePresenter(): InfoServiceContract.Presenter {
         return InfoServicePresenter()
     }
+
+    @Provides
+    fun provideAttendersPresenter(): AttendersContract.Presenter {
+        return AttendersPresenter()
+    }
+
+    @Provides
+    fun provideAttendersListContractPresenter(): AttendersListContract.Presenter {
+        return AttendersListPresenter()
+    }
+
+    @Provides
+    fun provideScanNoUserContractPresenter(): ScanNoUserContract.Presenter {
+        return ScanNoUserPresenter()
+    }
+
 
 
 

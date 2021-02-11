@@ -27,7 +27,6 @@ class ResourcesResultFragment : BaseFragment(), ResourcesResultContract.View,
     ResourseAdapter.onItemClickListener {
 
 
-
     var mListRecyclerView: RecyclerView? = null
     var mAdapter: ResourseAdapter? = null
     private var imageView: ImageView? = null
@@ -159,6 +158,12 @@ class ResourcesResultFragment : BaseFragment(), ResourcesResultContract.View,
     override fun clickScanresourse(postId: String) {
 
     }
+
+    override fun scanNoUserResource(postId: String, name: String, isGeneric: Boolean) {
+
+
+    }
+
 
 
     companion object {
