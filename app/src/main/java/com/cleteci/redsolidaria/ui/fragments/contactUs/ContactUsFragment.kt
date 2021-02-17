@@ -1,19 +1,21 @@
 package com.cleteci.redsolidaria.ui.fragments.contactUs
 
 
-import android.app.Dialog
 import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import android.view.*
-import android.widget.Button
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
-import com.cleteci.redsolidaria.BaseApp
 import com.cleteci.redsolidaria.R
 import com.cleteci.redsolidaria.di.component.DaggerFragmentComponent
 import com.cleteci.redsolidaria.di.module.FragmentModule
 import com.cleteci.redsolidaria.ui.activities.main.MainActivity
 import com.cleteci.redsolidaria.ui.base.BaseFragment
+import com.cleteci.redsolidaria.util.Constants.Companion.ORGANIZATION_EMAIL
+import com.cleteci.redsolidaria.util.Constants.Companion.ORGANIZATION_PHONE
 import kotlinx.android.synthetic.main.fragment_contact_us.*
 import javax.inject.Inject
 
@@ -36,13 +38,8 @@ class ContactUsFragment : BaseFragment() , ContactUsContract.View  {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        btSend.setOnClickListener{
-            if (etWrite.text.isNotBlank()){
-                openEmailClient()
-            } else {
-                Toast.makeText(context, getString(R.string.please_complete_form), Toast.LENGTH_SHORT).show()
-            }
-        }
+        iconCall.setOnClickListener{openDialerClient()}
+        iconEmail.setOnClickListener{openEmailClient()}
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -71,66 +68,50 @@ class ContactUsFragment : BaseFragment() , ContactUsContract.View  {
         super.onResume()
         (activity as MainActivity).setTextToolbar(getString(R.string.contact_us),
             activity!!.resources.getColor(R.color.colorWhite))
-        if (BaseApp.prefs.login_later) {
-            showDialog();
+    }
+
+    private fun openDialerClient() {
+        try {
+            val callIntent = Intent(Intent.ACTION_DIAL)
+            callIntent.data = Uri.parse("tel:$ORGANIZATION_PHONE")
+            if (callIntent.resolveActivity(context!!.packageManager) != null) {
+                context!!.startActivity(callIntent)
+            }
+        } catch (ex: ActivityNotFoundException) {
+            Toast.makeText(
+                context, getString(R.string.error_email_app_not_found),
+                Toast.LENGTH_SHORT
+            ).show()
         }
+
+
     }
 
     private fun openEmailClient() {
-        val emailIntent = Intent(Intent.ACTION_SEND)
-        emailIntent.type = "message/rfc822"
-        emailIntent.putExtra(Intent.EXTRA_EMAIL,  arrayOf("redsolcontactus@exanple.com"))
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "subject")
-        emailIntent.putExtra(Intent.EXTRA_TEXT, etWrite.text)
         try {
-            startActivityForResult(Intent.createChooser(emailIntent, getString(R.string.select_email_client)), REQUEST_CODE_EMAIL)
+            val emailIntent =
+                Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", ORGANIZATION_EMAIL, null))
+            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "")
+            emailIntent.putExtra(Intent.EXTRA_TEXT, "")
+
+            if (emailIntent.resolveActivity(context!!.packageManager) != null) {
+                context!!.startActivity(
+                    Intent.createChooser(
+                        emailIntent,
+                        context!!.getString(R.string.select_email_client)
+                    )
+                )
+            }
         } catch (ex: ActivityNotFoundException) {
             Toast.makeText(
-                context, "No Email client found!!",
+                context, getString(R.string.error_email_app_not_found),
                 Toast.LENGTH_SHORT
             ).show()
         }
     }
 
-    private fun showDialogSuccess() {
-        val dialog = Dialog(activity!!)
-        dialog .requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.window!!.setLayout(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN)
-        dialog .setCancelable(false)
-        dialog .setContentView(R.layout.comp_alert_succes_suggest_resource)
-        val yesBtn = dialog .findViewById(R.id.btCont) as Button
-        yesBtn.setOnClickListener {
-            dialog .dismiss()
-            (activity as MainActivity).onBackPressed()
-        }
-        dialog .show()
-    }
-
-    private fun showDialog() {
-        val dialog = Dialog(activity!!)
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.window!!.setLayout(
-            WindowManager.LayoutParams.FLAG_FULLSCREEN,
-            WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN
-        )
-        dialog.setCancelable(false)
-        dialog.setContentView(R.layout.comp_alert_go_to_login)
-        val yesBtn = dialog.findViewById(R.id.btLogin) as Button
-        val btCancel = dialog.findViewById(R.id.btCancel) as Button
-        yesBtn.setOnClickListener {
-            (activity as MainActivity).goToLogin()
-            dialog.dismiss()
-        }
-        btCancel.setOnClickListener {
-            activity?.onBackPressed()
-            dialog.dismiss()
-        }
-        dialog.show()
-    }
-
     companion object {
         val TAG: String = "ContactUsFragment"
-        val REQUEST_CODE_EMAIL = 0
     }
 
 }

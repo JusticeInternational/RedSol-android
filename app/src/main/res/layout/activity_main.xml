@@ -45,8 +45,8 @@
         android:background="@color/colorWhite"
         android:fitsSystemWindows="true"
         android:paddingTop="25dp"
-        app:itemIconTint="@color/bnv_tab_item_foreground"
-        app:menu="@menu/activity_main2_drawer">
+        app:itemIconTint="@color/drawer_tab_item_foreground"
+        app:menu="@menu/main_drawer_menu">
         <LinearLayout
             android:id="@+id/lyLoginLogout"
             android:layout_width="match_parent"
@@ -56,9 +56,10 @@
             android:orientation="horizontal"
             android:padding="16dp">
             <ImageView
+                android:id="@+id/icLoginLogout"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:src="@drawable/ic_logout" />
+                android:src="@drawable/ic_login_24" />
             <TextView
                 android:id="@+id/tvLoginLogout"
                 style="@style/TextBodyRegular"

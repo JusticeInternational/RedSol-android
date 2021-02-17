@@ -88,7 +88,7 @@
            android:layout_marginRight="20dp"
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@id/ivArrow"
-            android:src="@drawable/ic_person" />
+            android:src="@drawable/ic_filled_person_24" />
 
     <View
             android:id="@+id/viewLine"

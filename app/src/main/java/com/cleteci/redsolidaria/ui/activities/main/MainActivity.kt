@@ -36,6 +36,7 @@ import android.view.*
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.Fragment
 import com.cleteci.redsolidaria.BaseApp
 import com.cleteci.redsolidaria.models.Resource
@@ -61,6 +62,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
 
@@ -78,10 +80,6 @@ class MainActivity : AppCompatActivity(), MainContract.View, NavigationView.OnNa
     internal var TABS = arrayOf("MyResourses", "Map", "Search")
 
     private var mNavController: FragNavController? = null
-
-    private var lyLoginLogout: LinearLayout? = null
-
-    private var tvLoginLogout: TextView? = null
 
     private var fragmentHistory: FragmentHistory? = null
 
@@ -162,29 +160,23 @@ class MainActivity : AppCompatActivity(), MainContract.View, NavigationView.OnNa
 
         navView.setNavigationItemSelectedListener(this)
 
-        lyLoginLogout = findViewById(R.id.lyLoginLogout)
-
         lyLoginLogout!!.setOnClickListener {
-
             if (!BaseApp.prefs.login_later) {
                 signOut()
                 goToLogin()
-
                 finish()
             } else {
                 goToLogin()
             }
-
         }
-
-        tvLoginLogout = findViewById(R.id.tvLoginLogout)
 
         if (BaseApp.prefs.login_later) {
             tvLoginLogout!!.setText(R.string.login)
+            icLoginLogout.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.ic_login_24))
         } else {
             tvLoginLogout!!.setText(R.string.logout)
+            icLoginLogout.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.ic_logout_24))
         }
-
 
         val bottomNavView: BottomNavigationView = findViewById(R.id.bottom_nav_view)
 
@@ -376,21 +368,21 @@ class MainActivity : AppCompatActivity(), MainContract.View, NavigationView.OnNa
     fun openScanNoUserFragment(serviceID: String?, catId: String?, name: String?, isGeneric: Boolean) {
         supportFragmentManager.beginTransaction()
             .addToBackStack(null)
-            .replace(R.id.container1, ScanNoUserFragment().newInstance(serviceID, catId, name, isGeneric), ScanNoUserFragment.TAG)
+            .replace(R.id.container_fragment, ScanNoUserFragment().newInstance(serviceID, catId, name, isGeneric), ScanNoUserFragment.TAG)
             .commit()
     }
 
     fun openAttendFragment(service:Resource) {
         supportFragmentManager.beginTransaction()
             .addToBackStack(null)
-            .replace(R.id.container1, AttendersFragment().newInstance(service), CreateServiceFragment.TAG)
+            .replace(R.id.container_fragment, AttendersFragment().newInstance(service), CreateServiceFragment.TAG)
             .commit()
     }
 
     fun openAttendFragment(category:ResourceCategory) {
         supportFragmentManager.beginTransaction()
             .addToBackStack(null)
-            .replace(R.id.container1, AttendersFragment().newInstance(category), CreateServiceFragment.TAG)
+            .replace(R.id.container_fragment, AttendersFragment().newInstance(category), CreateServiceFragment.TAG)
             .commit()
     }
 
