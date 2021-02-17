@@ -14,9 +14,6 @@ android {
         versionName "1.0"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        def localProperties = new Properties()
-        localProperties.load(new FileInputStream(rootProject.file("local.properties")))
-        resValue("string", "google_maps_key", localProperties['MAPS_API_KEY'])
     }
 
     buildTypes {
