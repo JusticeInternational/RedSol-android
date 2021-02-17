@@ -73,11 +73,11 @@ class ResourseCategoryAdapter
             holder.viewLine?.visibility= VISIBLE
         }
 
-        holder.ivArrow!!.setOnClickListener {
+        holder.ivArrow?.setOnClickListener {
             listener.itemDetail(position)
         }
 
-        holder.ivNoUser!!.setOnClickListener {
+        holder.ivNoUser?.setOnClickListener {
             listener.scanNoUserCategory(position)
         }
     }

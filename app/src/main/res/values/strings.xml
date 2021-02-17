@@ -3,7 +3,6 @@
     <!--CREDENTIALS-->
     <string name="facebook_app_id">601808097052754</string>
     <string name="fb_login_protocol_scheme">fb601808097052754</string>
-    <string name="map_key">AIzaSyBjP7ohjYVWINJKO5evwiKMeUFhhpRK5_Y</string>
 
     <!--INIT-->
     <string name="title_home">Home</string>
