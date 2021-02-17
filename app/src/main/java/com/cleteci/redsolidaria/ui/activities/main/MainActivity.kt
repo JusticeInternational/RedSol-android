@@ -36,6 +36,7 @@ import android.view.*
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.Fragment
 import com.cleteci.redsolidaria.BaseApp
 import com.cleteci.redsolidaria.models.Resource
@@ -61,6 +62,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
 
@@ -78,10 +80,6 @@ class MainActivity : AppCompatActivity(), MainContract.View, NavigationView.OnNa
     internal var TABS = arrayOf("MyResourses", "Map", "Search")
 
     private var mNavController: FragNavController? = null
-
-    private var lyLoginLogout: LinearLayout? = null
-
-    private var tvLoginLogout: TextView? = null
 
     private var fragmentHistory: FragmentHistory? = null
 
@@ -106,7 +104,7 @@ class MainActivity : AppCompatActivity(), MainContract.View, NavigationView.OnNa
             injectDependency()
             fragmentHistory = FragmentHistory()
 
-            mNavController = FragNavController.newBuilder(savedInstanceState, supportFragmentManager, R.id.container1)
+            mNavController = FragNavController.newBuilder(savedInstanceState, supportFragmentManager, R.id.container_fragment)
                 .transactionListener(this)
                 .rootFragmentListener(this, TABS.size)
                 .build()
@@ -162,29 +160,23 @@ class MainActivity : AppCompatActivity(), MainContract.View, NavigationView.OnNa
 
         navView.setNavigationItemSelectedListener(this)
 
-        lyLoginLogout = findViewById(R.id.lyLoginLogout)
-
         lyLoginLogout!!.setOnClickListener {
-
             if (!BaseApp.prefs.login_later) {
                 signOut()
                 goToLogin()
-
                 finish()
             } else {
                 goToLogin()
             }
-
         }
-
-        tvLoginLogout = findViewById(R.id.tvLoginLogout)
 
         if (BaseApp.prefs.login_later) {
             tvLoginLogout!!.setText(R.string.login)
+            icLoginLogout.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.ic_login_24))
         } else {
             tvLoginLogout!!.setText(R.string.logout)
+            icLoginLogout.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.ic_logout_24))
         }
-
 
         val bottomNavView: BottomNavigationView = findViewById(R.id.bottom_nav_view)
 
@@ -271,7 +263,7 @@ class MainActivity : AppCompatActivity(), MainContract.View, NavigationView.OnNa
     override fun showUsersFragment() {
         supportFragmentManager.beginTransaction()
             .addToBackStack(null)
-            .replace(R.id.container1, UsersFragment().newInstance(), UsersFragment.TAG)
+            .replace(R.id.container_fragment, UsersFragment().newInstance(), UsersFragment.TAG)
             .commit()
     }
 
@@ -317,7 +309,7 @@ class MainActivity : AppCompatActivity(), MainContract.View, NavigationView.OnNa
 
                 supportFragmentManager.beginTransaction()
                     .addToBackStack(null)
-                    .replace(R.id.container1, ScanCodeFragment().newInstance(serviceID, catID,name, isGeneric), ScanCodeFragment.TAG)
+                    .replace(R.id.container_fragment, ScanCodeFragment().newInstance(serviceID, catID,name, isGeneric), ScanCodeFragment.TAG)
                     .commit()
                 //  presenter.countService(msg, serviceID!!)
             }
@@ -338,7 +330,7 @@ class MainActivity : AppCompatActivity(), MainContract.View, NavigationView.OnNa
     override fun showScanListFragment() {
         supportFragmentManager.beginTransaction()
             .addToBackStack(null)
-            .replace(R.id.container1, ResoursesOfferedFragment().newInstance(true), ResoursesOfferedFragment.TAG)
+            .replace(R.id.container_fragment, ResoursesOfferedFragment().newInstance(true), ResoursesOfferedFragment.TAG)
             .commit()
     }
 
@@ -347,7 +339,7 @@ class MainActivity : AppCompatActivity(), MainContract.View, NavigationView.OnNa
     override fun showResoursesProviderFragment() {
         supportFragmentManager.beginTransaction()
             .addToBackStack(null)
-            .replace(R.id.container1, ResoursesOfferedFragment().newInstance(false), ResoursesOfferedFragment.TAG)
+            .replace(R.id.container_fragment, ResoursesOfferedFragment().newInstance(false), ResoursesOfferedFragment.TAG)
             .commit()
 
     }
@@ -355,42 +347,42 @@ class MainActivity : AppCompatActivity(), MainContract.View, NavigationView.OnNa
     override fun showSearchFragment() {
         supportFragmentManager.beginTransaction()
             .addToBackStack(null)
-            .replace(R.id.container1, BasicSearchFragment().newInstance(), BasicSearchFragment.TAG)
+            .replace(R.id.container_fragment, BasicSearchFragment().newInstance(), BasicSearchFragment.TAG)
             .commit()
     }
 
     fun openServiceDetailFragment() {
         supportFragmentManager.beginTransaction()
             .addToBackStack(null)
-            .replace(R.id.container1, ServiceDetailFragment().newInstance(), ServiceDetailFragment.TAG)
+            .replace(R.id.container_fragment, ServiceDetailFragment().newInstance(), ServiceDetailFragment.TAG)
             .commit()
     }
 
     fun openCreateServiceFragment() {
         supportFragmentManager.beginTransaction()
             .addToBackStack(null)
-            .replace(R.id.container1, CreateServiceFragment().newInstance(), CreateServiceFragment.TAG)
+            .replace(R.id.container_fragment, CreateServiceFragment().newInstance(), CreateServiceFragment.TAG)
             .commit()
     }
 
     fun openScanNoUserFragment(serviceID: String?, catId: String?, name: String?, isGeneric: Boolean) {
         supportFragmentManager.beginTransaction()
             .addToBackStack(null)
-            .replace(R.id.container1, ScanNoUserFragment().newInstance(serviceID, catId, name, isGeneric), ScanNoUserFragment.TAG)
+            .replace(R.id.container_fragment, ScanNoUserFragment().newInstance(serviceID, catId, name, isGeneric), ScanNoUserFragment.TAG)
             .commit()
     }
 
     fun openAttendFragment(service:Resource) {
         supportFragmentManager.beginTransaction()
             .addToBackStack(null)
-            .replace(R.id.container1, AttendersFragment().newInstance(service), CreateServiceFragment.TAG)
+            .replace(R.id.container_fragment, AttendersFragment().newInstance(service), CreateServiceFragment.TAG)
             .commit()
     }
 
     fun openAttendFragment(category:ResourceCategory) {
         supportFragmentManager.beginTransaction()
             .addToBackStack(null)
-            .replace(R.id.container1, AttendersFragment().newInstance(category), CreateServiceFragment.TAG)
+            .replace(R.id.container_fragment, AttendersFragment().newInstance(category), CreateServiceFragment.TAG)
             .commit()
     }
 
@@ -398,12 +390,12 @@ class MainActivity : AppCompatActivity(), MainContract.View, NavigationView.OnNa
         if(category != null) {
             supportFragmentManager.beginTransaction()
                 .addToBackStack(null)
-                .replace(R.id.container1, InfoServiceFragment().newInstance(category, null), InfoServiceFragment.TAG)
+                .replace(R.id.container_fragment, InfoServiceFragment().newInstance(category, null), InfoServiceFragment.TAG)
                 .commit()
         } else {
             supportFragmentManager.beginTransaction()
                 .addToBackStack(null)
-                .replace(R.id.container1, InfoServiceFragment().newInstance(null, service), InfoServiceFragment.TAG)
+                .replace(R.id.container_fragment, InfoServiceFragment().newInstance(null, service), InfoServiceFragment.TAG)
                 .commit()
         }
     }
@@ -411,42 +403,42 @@ class MainActivity : AppCompatActivity(), MainContract.View, NavigationView.OnNa
     fun showChangePassFragment() {
         supportFragmentManager.beginTransaction()
             .addToBackStack(null)
-            .replace(R.id.container1, ChangePassFragment().newInstance(), ChangePassFragment.TAG)
+            .replace(R.id.container_fragment, ChangePassFragment().newInstance(), ChangePassFragment.TAG)
             .commit()
     }
 
     fun opensuggestFragment() {
         supportFragmentManager.beginTransaction()
             .addToBackStack(null)
-            .replace(R.id.container1, SuggestServiceFragment().newInstance(), SuggestServiceFragment.TAG)
+            .replace(R.id.container_fragment, SuggestServiceFragment().newInstance(), SuggestServiceFragment.TAG)
             .commit()
     }
 
     fun openProfileFragment() {
         supportFragmentManager.beginTransaction()
             .addToBackStack(null)
-            .replace(R.id.container1, MyProfileFragment().newInstance(), MyProfileFragment.TAG)
+            .replace(R.id.container_fragment, MyProfileFragment().newInstance(), MyProfileFragment.TAG)
             .commit()
     }
 
     fun openProfileProviderFragment() {
         supportFragmentManager.beginTransaction()
             .addToBackStack(null)
-            .replace(R.id.container1, MyProfileProviderFragment().newInstance(), MyProfileProviderFragment.TAG)
+            .replace(R.id.container_fragment, MyProfileProviderFragment().newInstance(), MyProfileProviderFragment.TAG)
             .commit()
     }
 
     fun openConfigFragment() {
         supportFragmentManager.beginTransaction()
             .addToBackStack(null)
-            .replace(R.id.container1, ConfigurationFragment().newInstance(), ConfigurationFragment.TAG)
+            .replace(R.id.container_fragment, ConfigurationFragment().newInstance(), ConfigurationFragment.TAG)
             .commit()
     }
 
     fun openContactUsFragment() {
         supportFragmentManager.beginTransaction()
             .addToBackStack(null)
-            .replace(R.id.container1, ContactUsFragment().newInstance(), ContactUsFragment.TAG)
+            .replace(R.id.container_fragment, ContactUsFragment().newInstance(), ContactUsFragment.TAG)
             .commit()
     }
 
@@ -454,14 +446,14 @@ class MainActivity : AppCompatActivity(), MainContract.View, NavigationView.OnNa
     override fun showMapFragment() {
         supportFragmentManager.beginTransaction()
             .addToBackStack(null)
-            .replace(R.id.container1, MapFragment().newInstance(), MapFragment.TAG)
+            .replace(R.id.container_fragment, MapFragment().newInstance(), MapFragment.TAG)
             .commit()
     }
 
     override fun showResoursesFragment() {
         supportFragmentManager.beginTransaction()
             .addToBackStack(null)
-            .replace(R.id.container1, MyResoursesFragment().newInstance(), MyResoursesFragment.TAG)
+            .replace(R.id.container_fragment, MyResoursesFragment().newInstance(), MyResoursesFragment.TAG)
             .commit()
     }
 

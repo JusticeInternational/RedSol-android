@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.GridLayoutManager
@@ -153,7 +152,7 @@ class BasicSearchFragment : BaseFragment() , BasicSearchContract.View , Resourse
 
         activity!!.supportFragmentManager.beginTransaction()
             .addToBackStack(null)
-            .replace(R.id.container1, ResourcesResultFragment().newInstance(this.listCategory[postId], keyWord), ResourcesResultFragment.TAG)
+            .replace(R.id.container_fragment, ResourcesResultFragment().newInstance(this.listCategory[postId], keyWord), ResourcesResultFragment.TAG)
             .commit()
 
     }

@@ -1,64 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorWhite"
-    android:orientation="vertical"
-    android:paddingHorizontal="20dp"
-    android:paddingTop="40dp">
-
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:paddingTop="@dimen/activity_horizontal_margin"
+    android:paddingStart="@dimen/activity_horizontal_margin"
+    android:paddingEnd="@dimen/activity_horizontal_margin"
+    android:background="@color/colorWhite">
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:layout_height="0dp"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/etTitle"
+            style="@style/TextBodyBold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/how_can_help"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/font_size_large"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+        <TextView
+            android:id="@+id/etIntro"
+            style="@style/TextBodyRegular"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
 
+            android:layout_marginTop="@dimen/spacing_large"
+            android:text="@string/from_red_solidaria_team"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/font_size_medium"
+            android:justificationMode="inter_word"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etTitle"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/spacing_medium"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etIntro">
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/iconCall"
+                style="@style/TextBodyRegular"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="10dp"
-                android:text="@string/from_red_solidaria_team"
-                android:textColor="@color/colorBlack"
-                android:textSize="16sp" />
-
-
-            <FrameLayout
-                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:padding="@dimen/spacing_small"
+                android:gravity="center_vertical"
+                android:text="@string/call"
+                android:textColor="@color/colorPrimary"
+                android:linksClickable="true"
+                android:drawableStart="@drawable/ic_filled_phone_24"
+                android:drawablePadding="@dimen/spacing_small" />
+            <TextView
+                android:id="@+id/iconEmail"
+                style="@style/TextBodyRegular"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-
-                android:layout_centerVertical="true"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/bg_border_line_grey">
-
-                <EditText
-                    android:id="@+id/etWrite"
-                    android:layout_width="match_parent"
-                    android:layout_height="300dp"
-                    android:layout_centerVertical="true"
-                    android:background="@android:color/transparent"
-                    android:gravity="start"
-                    android:hint="@string/write"
-                    android:padding="10dp"
-
-                    />
-
-            </FrameLayout>
-
-
-            <Button
-                android:id="@+id/btSend"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="50dp"
-                android:background="@drawable/bg_color_primary"
-                android:minWidth="130dp"
-                android:text="@string/send"
-                android:textColor="@color/colorWhite" />
+                android:layout_weight="1"
+                android:padding="@dimen/spacing_small"
+                android:gravity="center_vertical"
+                android:text="@string/email"
+                android:textColor="@color/colorPrimary"
+                android:linksClickable="true"
+                android:drawableStart="@drawable/ic_filled_email_24"
+                android:drawablePadding="@dimen/spacing_small"/>
         </LinearLayout>
-    </ScrollView>
-</LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

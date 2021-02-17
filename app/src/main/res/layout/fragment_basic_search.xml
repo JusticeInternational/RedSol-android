@@ -8,8 +8,7 @@
    android:orientation="vertical"
     android:background="@color/colorWhite"
     android:paddingHorizontal="10dp"
-    android:paddingTop="10dp"
-    android:paddingBottom="57dp">
+    android:paddingTop="10dp">
 
     <androidx.appcompat.widget.SearchView
         app:queryHint="@string/search"
