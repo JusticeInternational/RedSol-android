@@ -28,7 +28,7 @@ class MapPresenter: MapContract.Presenter {
     override fun loadData() {
 
         val arrayList = ArrayList<ResourceCategory>()//Creating an empty arraylist
-        val tipo1 = ResourceCategory("1","Salud", "asdf", R.drawable.ic_emergency, "")//Creating an empty arraylist
+        val tipo1 = ResourceCategory("1","SaludALex", "asdf", R.drawable.ic_emergency, "")//Creating an empty arraylist
         arrayList.add(tipo1)//Adding object in arraylist
         val tipo2 = ResourceCategory("2","Educacion", "asdf", R.drawable.ic_education, "")//Creating an empty arraylist
         arrayList.add(tipo2)//Adding object in arraylist
