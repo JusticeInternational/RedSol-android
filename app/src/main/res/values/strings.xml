@@ -40,8 +40,6 @@
     <string name="count_resourses">Contabilizar recursos</string>
 
 
-
-
     <string name="count_question_1">Usted está solicitando contabilizar para la categoría o servicio genérico: %1$s? , le recomendamos contabilizar recursos en servicios detallados, si no los ha definido puede definirlos en "Mis Recursos". Si aún así desea continuar esta contabilización por favor seleccione "Aceptar"</string>
 
     <string name="count_question_2">Usted está solicitando contabilizar para el servicio %1$s? ¿Está seguro que es el recurso que desea escanear?</string>
@@ -225,7 +223,6 @@
     <string name="error_server">Ups! Ocurrió un error.</string>
 
 
-
     <string name="loremipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
     <string name="be_volunteer">¿Quieres ser voluntario? ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmo.</string>
     <string name="to_donate">Donaciones:  ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmo.</string>
@@ -268,4 +265,10 @@
     <string name="call">Llamar</string>
     <string name="how_can_help">¿Cómo podemos ayudar?</string>
     <string name="error_email_app_not_found">Disculpe, no hemos connseguido una App para enviar correo.</string>
+    <string name="title_activity_organization_profile">OrganizationProfile</string>
+    <string name="tab_text_1">Info</string>
+    <string name="tab_text_2">Servicios</string>
+    <string name="tab_text_3">Actividad</string>
+    <string name="tab_text_4">Contribuye</string>
+    <string name="how_we_are">¿Quienes somos?</string>
 </resources>

@@ -143,15 +143,15 @@ class ResourcesResultFragment : BaseFragment(), ResourcesResultContract.View,
     }
 
     override fun clickDetailResource(postId: Int, name: String, isGeneric:Boolean) {
-
-        activity!!.supportFragmentManager.beginTransaction()
-            .addToBackStack(null)
-            .replace(
-                R.id.container_fragment,
-                ServiceDetailFragment().newInstance(),
-                ServiceDetailFragment.TAG
-            )
-            .commit()
+//        activity!!.supportFragmentManager.beginTransaction()
+//            .addToBackStack(null)
+//            .replace(
+//                R.id.container_fragment,
+//                ServiceDetailFragment().newInstance(),
+//                ServiceDetailFragment.TAG
+//            )
+//            .commit()
+        (activity as MainActivity).openOrganizationProfile()
 
     }
 

@@ -154,7 +154,7 @@ class MyResoursesFragment : BaseFragment(), MyResoursesContract.View, ResourseAd
     }
 
     override fun clickDetailResource(postId: Int, name: String, isGeneric:Boolean) {
-        (activity as MainActivity).openServiceDetailFragment()
+        (activity as MainActivity).openOrganizationProfile()
     }
 
     override fun scanNoUserResource(postId: String, name: String, isGeneric: Boolean) {

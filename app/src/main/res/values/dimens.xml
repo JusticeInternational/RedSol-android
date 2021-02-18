@@ -20,4 +20,8 @@
     <dimen name="height_tool_bar_shadow">5dp</dimen>
 
     <dimen name="button_default_width">130dp</dimen>
+    <dimen name="appbar_padding">16dp</dimen>
+    <dimen name="appbar_padding_top">8dp</dimen>
+    <dimen name="height_info_item">56dp</dimen>
+    <dimen name="height_divider">1dp</dimen>
 </resources>

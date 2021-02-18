@@ -250,10 +250,11 @@ class MapFragment : BaseFragment(), MapContract.View, OnMapReadyCallback, Resour
     }
 
     override fun onInfoWindowClick(p0: Marker?) {
-        activity!!.supportFragmentManager.beginTransaction()
-            .addToBackStack(null)
-            .replace(R.id.container_fragment, ServiceDetailFragment().newInstance(), ServiceDetailFragment.TAG)
-            .commit()
+//        activity!!.supportFragmentManager.beginTransaction()
+//            .addToBackStack(null)
+//            .replace(R.id.container_fragment, ServiceDetailFragment().newInstance(), ServiceDetailFragment.TAG)
+//            .commit()
+        (activity as MainActivity).openOrganizationProfile()
     }
 
     fun createMarker(sydney: LatLng, image: Int) {

@@ -3,8 +3,8 @@
     <color name="colorPrimary">#5282F0</color>
     <color name="colorPrimaryDark">#3B5DAC</color>
     <color name="colorAccent">#759BF1</color>
-    <color name="colorPaleRed">#e04836</color>
 
+    <color name="colorPaleRed">#e04836</color>
     <color name="colorRed">#90ff001e</color>
     <color name="black70Opacity">#70000000</color>
     <color name="colorBlack">#000000</color>
@@ -13,4 +13,5 @@
     <color name="colorDarkBlue">#3a588d</color>
 
     <color name="colorGrey">#B8B8B8</color>
+    <color name="text_default">#5c676e</color>
 </resources>

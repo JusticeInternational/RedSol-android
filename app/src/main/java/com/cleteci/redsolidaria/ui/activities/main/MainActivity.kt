@@ -1,69 +1,62 @@
 package com.cleteci.redsolidaria.ui.activities.main
 
 import android.app.Dialog
+import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
-
+import android.view.*
+import android.widget.Button
+import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import com.cleteci.redsolidaria.R
-import com.cleteci.redsolidaria.di.component.DaggerActivityComponent
-
-import com.cleteci.redsolidaria.di.module.ActivityModule
-import com.cleteci.redsolidaria.ui.fragments.basicsearch.BasicSearchFragment
-import com.cleteci.redsolidaria.ui.fragments.configuration.ConfigurationFragment
-import com.cleteci.redsolidaria.ui.fragments.contactUs.ContactUsFragment
-import com.cleteci.redsolidaria.ui.fragments.map.MapFragment
-import com.cleteci.redsolidaria.ui.fragments.myProfile.MyProfileFragment
-import com.cleteci.redsolidaria.ui.fragments.myResourses.MyResoursesFragment
-import com.cleteci.redsolidaria.ui.fragments.suggestService.SuggestServiceFragment
-
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.navigation.NavigationView
-import kotlinx.android.synthetic.main.app_bar_main.*
-import uk.co.chrisjenx.calligraphy.CalligraphyConfig
-
-import javax.inject.Inject
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper
-
-import android.content.Context
-import android.content.Intent
-import android.view.*
-import android.widget.Button
-import android.widget.LinearLayout
-import android.widget.TextView
-import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.Fragment
 import com.cleteci.redsolidaria.BaseApp
+import com.cleteci.redsolidaria.R
+import com.cleteci.redsolidaria.di.component.DaggerActivityComponent
+import com.cleteci.redsolidaria.di.module.ActivityModule
 import com.cleteci.redsolidaria.models.Resource
 import com.cleteci.redsolidaria.models.ResourceCategory
 import com.cleteci.redsolidaria.ui.activities.login.LoginActivity
 import com.cleteci.redsolidaria.ui.activities.splash.SplashActivity
 import com.cleteci.redsolidaria.ui.customUIComponents.FragNavController
 import com.cleteci.redsolidaria.ui.customUIComponents.FragmentHistory
+import com.cleteci.redsolidaria.ui.fragments.basicsearch.BasicSearchFragment
 import com.cleteci.redsolidaria.ui.fragments.changePassword.ChangePassFragment
+import com.cleteci.redsolidaria.ui.fragments.configuration.ConfigurationFragment
+import com.cleteci.redsolidaria.ui.fragments.contactUs.ContactUsFragment
 import com.cleteci.redsolidaria.ui.fragments.createService.CreateServiceFragment
 import com.cleteci.redsolidaria.ui.fragments.infoService.InfoServiceFragment
 import com.cleteci.redsolidaria.ui.fragments.infoService.ScanNoUserFragment
+import com.cleteci.redsolidaria.ui.fragments.map.MapFragment
+import com.cleteci.redsolidaria.ui.fragments.myProfile.MyProfileFragment
 import com.cleteci.redsolidaria.ui.fragments.myProfileProvider.MyProfileProviderFragment
+import com.cleteci.redsolidaria.ui.fragments.myResourses.MyResoursesFragment
 import com.cleteci.redsolidaria.ui.fragments.resoursesOffered.ResoursesOfferedFragment
 import com.cleteci.redsolidaria.ui.fragments.scanCode.ScanCodeFragment
 import com.cleteci.redsolidaria.ui.fragments.servicedetail.ServiceDetailFragment
+import com.cleteci.redsolidaria.ui.fragments.suggestService.SuggestServiceFragment
 import com.cleteci.redsolidaria.ui.fragments.users.AttendersFragment
 import com.cleteci.redsolidaria.ui.fragments.users.UsersFragment
-
+import com.cleteci.redsolidaria.ui.organization.OrganizationProfileActivity
 import com.facebook.login.LoginManager
-
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_main.*
-import java.util.*
+import kotlinx.android.synthetic.main.app_bar_main.*
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper
+import javax.inject.Inject
 
 
 /**
@@ -356,6 +349,12 @@ class MainActivity : AppCompatActivity(), MainContract.View, NavigationView.OnNa
             .addToBackStack(null)
             .replace(R.id.container_fragment, ServiceDetailFragment().newInstance(), ServiceDetailFragment.TAG)
             .commit()
+    }
+
+    fun openOrganizationProfile() {
+        val intent = Intent(this, OrganizationProfileActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        startActivity(intent)
     }
 
     fun openCreateServiceFragment() {
