@@ -24,4 +24,5 @@
     <dimen name="appbar_padding_top">8dp</dimen>
     <dimen name="height_info_item">56dp</dimen>
     <dimen name="height_divider">1dp</dimen>
+    <dimen name="logo_size">90dp</dimen>
 </resources>

@@ -17,7 +17,6 @@ class OrganizationProfileActivity : AppCompatActivity() {
     }
 
     private fun setUpUI() {
-        appBarTitle.text = ""
         setupTabs()
     }
 

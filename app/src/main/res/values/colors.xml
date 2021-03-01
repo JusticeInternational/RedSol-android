@@ -14,6 +14,8 @@
     <color name="colorDarkBlue">#3a588d</color>
 
     <color name="colorGrey">#B8B8B8</color>
+    <color name="gray_transparent">#B3656565</color>
+    <color name="White_transparent">#99FFFFFF</color>
     <color name="text_default">#5c676e</color>
     <color name="text_default_selected">#31373A</color>
 </resources>
