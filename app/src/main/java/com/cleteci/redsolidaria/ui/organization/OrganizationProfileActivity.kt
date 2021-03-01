@@ -27,8 +27,8 @@ class OrganizationProfileActivity : AppCompatActivity() {
                 supportFragmentManager
             )
         adapter.addFragment(InfoFragment.newInstance(0), "Info")
-        adapter.addFragment(InfoFragment.newInstance(1), "Info1")
-        adapter.addFragment(InfoFragment.newInstance(1), "Info3")
+        adapter.addFragment(ServicesFragment.newInstance(1), "Services")
+        adapter.addFragment(ActivitiesFragment.newInstance(1), "Activities")
         adapter.addFragment(ContributeFragment.newInstance(1), "Contribute")
         viewPager.adapter = adapter
         tabs.setupWithViewPager(viewPager)
