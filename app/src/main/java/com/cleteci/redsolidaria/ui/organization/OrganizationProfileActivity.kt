@@ -30,7 +30,7 @@ class OrganizationProfileActivity : AppCompatActivity() {
         adapter.addFragment(InfoFragment.newInstance(0), "Info")
         adapter.addFragment(InfoFragment.newInstance(1), "Info1")
         adapter.addFragment(InfoFragment.newInstance(1), "Info3")
-        adapter.addFragment(InfoFragment.newInstance(1), "Info4")
+        adapter.addFragment(ContributeFragment.newInstance(1), "Contribute")
         viewPager.adapter = adapter
         tabs.setupWithViewPager(viewPager)
         tabs.tabMode = TabLayout.MODE_SCROLLABLE

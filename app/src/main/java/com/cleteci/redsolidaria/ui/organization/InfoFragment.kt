@@ -10,10 +10,11 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.cleteci.redsolidaria.R
-import kotlinx.android.synthetic.main.fragment_organization_info.*
+import com.cleteci.redsolidaria.util.*
+import kotlinx.android.synthetic.main.fragment_organization_info.linearAttributes
 
 
-class InfoFragment : Fragment() {
+class InfoFragment : Fragment(), View.OnClickListener {
 
     private lateinit var pageViewModel: PageViewModel
     private val attributes = hashMapOf(
@@ -32,10 +33,6 @@ class InfoFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val root = inflater.inflate(R.layout.fragment_organization_info, container, false)
-
-//        pageViewModel.text.observe(viewLifecycleOwner, Observer<String> {
-//            etTitle.text = it
-//        })
         return root
     }
 
@@ -64,12 +61,12 @@ class InfoFragment : Fragment() {
                     iconId = R.drawable.ic_filled_email_24
                 }
             }
-            linearAttributes.addView(getTextView(attributes[key]!!, iconId))
+            linearAttributes.addView( getTextView(key, attributes[key]!!, iconId))
             linearAttributes.addView(getDivider())
         }
     }
 
-    private fun getTextView(text: String, iconId: Int): TextView {
+    private fun getTextView(key: String, text: String, iconId: Int): TextView {
         val textView = TextView(context)
         val padding = resources.getDimensionPixelSize(R.dimen.activity_horizontal_margin)
         textView.setPadding(padding,0,padding,0)
@@ -86,6 +83,8 @@ class InfoFragment : Fragment() {
         textView.text = text
         textView.layoutParams.height = resources.getDimensionPixelSize(R.dimen.height_info_item)
         textView.setCompoundDrawablesWithIntrinsicBounds(0,0, iconId, 0)
+        textView.setOnClickListener(this)
+        textView.tag = key
         return textView
     }
 
@@ -96,6 +95,23 @@ class InfoFragment : Fragment() {
             ViewGroup.LayoutParams.WRAP_CONTENT)
         view.layoutParams.height = resources.getDimensionPixelSize(R.dimen.height_divider)
         return view
+    }
+
+    override fun onClick(view: View?) {
+        when ((view as TextView).tag) {
+            "location" -> {
+                activity?.packageManager?.let { openGoogleMaps(requireContext(),"geo:37.7749,-122.4194", it) }
+            }
+            "page" -> {
+                openBrowser(requireContext(), "https://www.unicef.org")
+            }
+            "phone" -> {
+                openDialerClient(requireContext(), "800123456")
+            }
+            "email" -> {
+                openEmailClient(requireContext(), "organization@example.org")
+            }
+        }
     }
 
     companion object {

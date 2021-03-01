@@ -1,13 +1,76 @@
 package com.cleteci.redsolidaria.util
 
-/**
- * Created by ogulcan on 07/02/2018.
- */
+import android.content.ActivityNotFoundException
+import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
+import android.widget.Toast
+import com.cleteci.redsolidaria.R
+
+
 class Constants {
     companion object {
         const val BASE_URL = "http://138.68.1.17:4000/graphql"
         //const val BASE_URL = "http://192.168.1.74:4000/graphql"
         const val ORGANIZATION_EMAIL = "redsol.app@gmail.com"
         const val ORGANIZATION_PHONE = "0123456789"
+    }
+}
+
+fun openDialerClient(context: Context, phone: String) {
+    try {
+        val callIntent = Intent(Intent.ACTION_DIAL)
+        callIntent.data = Uri.parse("tel:${phone}")
+        if (callIntent.resolveActivity(context.packageManager) != null) {
+            context.startActivity(callIntent)
+        }
+    } catch (ex: ActivityNotFoundException) {
+        Toast.makeText(
+            context, context.getString(R.string.error_email_app_not_found),
+            Toast.LENGTH_SHORT
+        ).show()
+    }
+
+
+}
+
+fun openEmailClient(context: Context, email: String) {
+    try {
+        val emailIntent =
+            Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", email, null))
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "")
+        emailIntent.putExtra(Intent.EXTRA_TEXT, "")
+
+        if (emailIntent.resolveActivity(context.packageManager) != null) {
+            context.startActivity(
+                Intent.createChooser(
+                    emailIntent,
+                    context.getString(R.string.select_email_client)
+                )
+            )
+        }
+    } catch (ex: ActivityNotFoundException) {
+        Toast.makeText(
+            context, context.getString(R.string.error_email_app_not_found),
+            Toast.LENGTH_SHORT
+        ).show()
+    }
+}
+
+fun openBrowser(context: Context, link: String) {
+    val browserIntent = Intent(
+        Intent.ACTION_VIEW,
+        Uri.parse(link)
+    )
+    context.startActivity(browserIntent)
+}
+
+fun openGoogleMaps(context: Context, location: String, packageManager: PackageManager) {
+    val gmmIntentUri = Uri.parse(location)
+    val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+    mapIntent.setPackage("com.google.android.apps.maps")
+    mapIntent.resolveActivity(packageManager)?.let {
+        context.startActivity(mapIntent)
     }
 }

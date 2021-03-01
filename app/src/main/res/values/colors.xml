@@ -9,9 +9,11 @@
     <color name="black70Opacity">#70000000</color>
     <color name="colorBlack">#000000</color>
     <color name="colorWhite">#FFFFFF</color>
+    <color name="off_white">#f8f9fa</color>
     <color name="sunYellow">#f7d02b</color>
     <color name="colorDarkBlue">#3a588d</color>
 
     <color name="colorGrey">#B8B8B8</color>
     <color name="text_default">#5c676e</color>
+    <color name="text_default_selected">#31373A</color>
 </resources>
