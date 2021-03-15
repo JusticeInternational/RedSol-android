@@ -2,6 +2,7 @@ package com.cleteci.redsolidaria.ui.organization
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources
 import com.cleteci.redsolidaria.R
 import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.activity_organization_profile.*
@@ -9,6 +10,7 @@ import java.util.*
 
 class OrganizationProfileActivity : AppCompatActivity() {
     private var sectionId: Int = 0
+    private var isoOrganizationSaved = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,6 +20,11 @@ class OrganizationProfileActivity : AppCompatActivity() {
 
     private fun setUpUI() {
         setupTabs()
+        heartIcon.setOnClickListener {
+            heartIcon.setImageDrawable(AppCompatResources.getDrawable(this,
+                if (isoOrganizationSaved) R.drawable.ic_heart_saved else R.drawable.ic_heart_unsaved))
+            isoOrganizationSaved = !isoOrganizationSaved
+        }
     }
 
     private fun setupTabs() {

@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginTop="@dimen/activity_vertical_margin"
     android:layout_marginBottom="@dimen/activity_vertical_margin"
     android:fillViewport="true"
@@ -11,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        tools:context=".ui.organization.InfoFragment">
+        tools:context=".ui.organization.ServicesFragment">
         <TextView
             android:id="@+id/etTitle"
             style="@style/TitleDefault"
@@ -21,7 +22,56 @@
             android:layout_marginEnd="@dimen/activity_horizontal_margin"
             android:layout_marginTop="@dimen/activity_vertical_margin"
             android:layout_marginBottom="@dimen/activity_vertical_margin"
-            android:text="@string/general_desc" />
+            android:text="@string/categories_of_services" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:orientation="horizontal">
+            <ImageView
+                android:id="@+id/icon1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/spacing_small"
+                app:srcCompat="@drawable/ic_cross"/>
+            <ImageView
+                android:id="@+id/icon2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/spacing_small"
+                android:layout_toEndOf="@+id/icon1"
+                app:srcCompat="@drawable/ic_test"/>
+            <ImageView
+                android:id="@+id/icon3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/spacing_small"
+                android:layout_toEndOf="@+id/icon2"
+                app:srcCompat="@drawable/ic_vaccine"/>
+            <ImageView
+                android:id="@+id/arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/spacing_small"
+                android:layout_alignParentEnd="true"
+                android:layout_centerInParent="true"
+                app:srcCompat="@drawable/ic_arrow_right_circle"/>
+        </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorGrey"/>
+        <TextView
+            android:id="@+id/etDescTitle"
+            style="@style/TitleDefault"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:text="@string/desc_our_services" />
         <TextView
             android:id="@+id/etDesc"
             style="@style/BodyDefault"
@@ -31,9 +81,60 @@
             android:layout_marginEnd="@dimen/activity_horizontal_margin"
             android:layout_marginBottom="@dimen/activity_vertical_margin"
             android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut varius justo at dui dictum tristique. Sed eget ante porta, congue lectus ac, placerat sapien. Proin laoreet sagittis nisl eget pulvinar."/>
+        <TextView
+            android:id="@+id/etServicesDetails"
+            style="@style/TitleDefault"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:text="@string/services_details" />
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/colorGrey"/>
+        <TextView
+            android:id="@+id/etHealth"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_info_item"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:gravity="center_vertical"
+            android:text="@string/health"
+            android:drawablePadding="@dimen/spacing_medium"
+            app:drawableStartCompat="@drawable/ic_cross"
+            app:drawableEndCompat="@drawable/ic_interested" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorGrey"/>
+        <TextView
+            android:id="@+id/etTest"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_info_item"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:gravity="center_vertical"
+            android:text="@string/tests_covid_19"
+            android:drawablePadding="@dimen/spacing_medium"
+            app:drawableStartCompat="@drawable/ic_test"
+            app:drawableEndCompat="@drawable/ic_interested" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorGrey"/>
+        <TextView
+            android:id="@+id/etVaccine"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_info_item"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:gravity="center_vertical"
+            android:text="@string/vaccines_covid_19"
+            android:drawablePadding="@dimen/spacing_medium"
+            app:drawableStartCompat="@drawable/ic_vaccine"
+            app:drawableEndCompat="@drawable/ic_interested_green" />
     </LinearLayout>
 </ScrollView>

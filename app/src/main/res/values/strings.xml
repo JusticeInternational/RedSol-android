@@ -273,4 +273,10 @@
     <string name="how_we_are">¿Quienes somos?</string>
     <string name="what_we_need">¿Que Necesitamos?</string>
     <string name="voluntary">Ser voluntario</string>
+    <string name="desc_our_services">Descripción de Nuestros Servicios</string>
+    <string name="categories_of_services">Categorías de Nuestros Servicios</string>
+    <string name="services_details">Servicios Detallados</string>
+    <string name="health">Salud</string>
+    <string name="tests_covid_19">Pruebas Covid-19</string>
+    <string name="vaccines_covid_19">Vacunas Covid-19</string>
 </resources>
