@@ -46,20 +46,18 @@ android:minHeight="70dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="18dp"
-            android:text="@string/near_services"
+            android:text="Proveedores de Servicios Sociales"
             android:textAlignment="center"
-            android:textColor="@color/colorBlack" />
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/font_size_large"/>
 
         <androidx.recyclerview.widget.RecyclerView
-
             android:id="@+id/rvResourses"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="48dp"
             android:background="@color/colorWhite"
             android:layout_marginBottom="57dp"/>
-
-
     </FrameLayout>
 
     <RelativeLayout

@@ -279,4 +279,5 @@
     <string name="health">Salud</string>
     <string name="tests_covid_19">Pruebas Covid-19</string>
     <string name="vaccines_covid_19">Vacunas Covid-19</string>
+    <string name="publish">Publicar</string>
 </resources>

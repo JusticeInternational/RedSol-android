@@ -15,6 +15,7 @@
     <dimen name="spacing_large">50dp</dimen>
     <dimen name="spacing_medium">20dp</dimen>
     <dimen name="spacing_small">10dp</dimen>
+    <dimen name="spacing_extra_small">5dp</dimen>
 
     <dimen name="height_edit_text_email">300dp</dimen>
     <dimen name="height_tool_bar_shadow">5dp</dimen>
@@ -25,4 +26,7 @@
     <dimen name="height_info_item">56dp</dimen>
     <dimen name="height_divider">1dp</dimen>
     <dimen name="logo_size">90dp</dimen>
+    <dimen name="logo_post_size">70dp</dimen>
+    <dimen name="button_padding">8dp</dimen>
+    <dimen name="button_height">40dp</dimen>
 </resources>

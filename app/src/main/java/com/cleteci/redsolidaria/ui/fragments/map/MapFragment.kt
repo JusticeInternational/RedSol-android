@@ -190,35 +190,27 @@ class MapFragment : BaseFragment(), MapContract.View, OnMapReadyCallback, Resour
         mMap.setOnInfoWindowClickListener(this)
 
         val marker = LatLng(41.4036299, 2.1743558)
-
         mMap.moveCamera(CameraUpdateFactory.newLatLng(marker))
 
         val marker2 = LatLng(41.4036289, 2.1743568)
-
-        createMarker(marker2, R.drawable.ic_justice)
+        createMarker(marker2, R.drawable.ic_vaccine)
 
         val marker4 = LatLng(41.4040338, 2.1751424)
-
-        createMarker(marker4, R.drawable.ic_emergency)
+        createMarker(marker4, R.drawable.ic_cross)
 
         val marker5 = LatLng(41.4065105, 2.178318)
-
-        createMarker(marker5, R.drawable.ic_job)
+        createMarker(marker5, R.drawable.ic_vaccine)
 
         val marker6 = LatLng(41.4033097, 2.1789857)
-
-        createMarker(marker6, R.drawable.ic_transp)
+        createMarker(marker6, R.drawable.ic_virus)
 
         val marker7 = LatLng(41.4016924, 2.1764415)
-
-        createMarker(marker7, R.drawable.ic_education)
+        createMarker(marker7, R.drawable.ic_red_person)
 
         val marker8 = LatLng(41.4017736, 2.173356)
-
-        createMarker(marker8, R.drawable.ic_emergency)
+        createMarker(marker8, R.drawable.ic_cross)
 
         presenter.loadData()
-
     }
 
 
@@ -258,32 +250,21 @@ class MapFragment : BaseFragment(), MapContract.View, OnMapReadyCallback, Resour
     }
 
     fun createMarker(sydney: LatLng, image: Int) {
-
         val viewMarker: View = (context!!.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater).inflate(
             R.layout.item_marker,
             null
         )
         val myImage: ImageView = viewMarker.findViewById(R.id.imageview)
-
-        val tvName: TextView = viewMarker.findViewById(R.id.tvNameM)
-
-        tvName.setText("salud")
-
         myImage.setImageResource(image)
-
         val bmp: Bitmap = createDrawableFromView(context!!, viewMarker)
-
         val markerOptions = MarkerOptions()
         markerOptions.position(sydney)
             .title("Justice International")
             .icon(BitmapDescriptorFactory.fromBitmap(bmp))
 
         val customInfoWindow = CustomInfoWindowGoogleMap(activity!!)
-
         mMap.setInfoWindowAdapter(customInfoWindow)
-
         mMap.addMarker(markerOptions)
-
     }
 
     override fun loadDataSuccess(list: List<ResourceCategory>) {

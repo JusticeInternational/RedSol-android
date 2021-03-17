@@ -6,6 +6,7 @@ import androidx.appcompat.content.res.AppCompatResources
 import com.cleteci.redsolidaria.R
 import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.activity_organization_profile.*
+import kotlinx.android.synthetic.main.fragment_ranking.*
 import java.util.*
 
 class OrganizationProfileActivity : AppCompatActivity() {
@@ -24,6 +25,41 @@ class OrganizationProfileActivity : AppCompatActivity() {
             heartIcon.setImageDrawable(AppCompatResources.getDrawable(this,
                 if (isoOrganizationSaved) R.drawable.ic_heart_saved else R.drawable.ic_heart_unsaved))
             isoOrganizationSaved = !isoOrganizationSaved
+        }
+        start_5.setOnClickListener {
+            start_5.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.ic_star_full_24))
+            start_4.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.ic_star_full_24))
+            start_3.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.ic_star_full_24))
+            start_2.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.ic_star_full_24))
+            start_1.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.ic_star_full_24))
+        }
+        start_4.setOnClickListener {
+            start_5.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.ic_star_24))
+            start_4.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.ic_star_full_24))
+            start_3.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.ic_star_full_24))
+            start_2.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.ic_star_full_24))
+            start_1.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.ic_star_full_24))
+        }
+        start_3.setOnClickListener {
+            start_5.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.ic_star_24))
+            start_4.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.ic_star_24))
+            start_3.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.ic_star_full_24))
+            start_2.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.ic_star_full_24))
+            start_1.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.ic_star_full_24))
+        }
+        start_2.setOnClickListener {
+            start_5.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.ic_star_24))
+            start_4.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.ic_star_24))
+            start_3.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.ic_star_24))
+            start_2.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.ic_star_full_24))
+            start_1.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.ic_star_full_24))
+        }
+        start_1.setOnClickListener {
+            start_5.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.ic_star_24))
+            start_4.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.ic_star_24))
+            start_3.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.ic_star_24))
+            start_2.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.ic_star_24))
+            start_1.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.ic_star_full_24))
         }
     }
 
