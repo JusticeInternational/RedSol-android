@@ -4,8 +4,6 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.RatingBar
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -31,7 +29,7 @@ class UserAdapter(
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
         var post = list[position]
 
-        holder!!.title?.text = post.name+ " "+post.lastname
+        holder!!.title?.text = post.name+ " "+post.lastName
         holder!!.tvEmail?.text=post.email
 
 

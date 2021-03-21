@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.cleteci.redsolidaria.BaseApp
 import com.cleteci.redsolidaria.R
 import com.cleteci.redsolidaria.models.Post
 import kotlinx.android.synthetic.main.fragment_organization_activities.*
@@ -27,22 +28,26 @@ class ActivitiesFragment : Fragment() {
         initHardCodeData()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val root = inflater.inflate(R.layout.fragment_organization_activities, container, false)
-        return root
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+        inflater.inflate(R.layout.fragment_organization_activities, container, false)
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        publish.setOnClickListener {
-                Toast.makeText(context,"Mostrar Pantalla para crear Post", Toast.LENGTH_LONG).show()
-            }
+        setUpUI()
+    }
+
+    private fun setUpUI() {
+        if (BaseApp.prefs.is_provider_service) {
+
+        } else {
+
+        }
         setupPostsList()
     }
 
     private fun setupPostsList() {
         postsRecyclerView.layoutManager = LinearLayoutManager(context)
-        postsRecyclerView.adapter = PostsAdapter(postList)
+        postsRecyclerView.adapter = PostsAdapter(postList,  requireContext())
     }
 
     //Temporal Function to see UI Changes
@@ -55,8 +60,15 @@ class ActivitiesFragment : Fragment() {
             " Noticia de ultima hora para 3er post, consectetur adipiscing elit. Ut varius justo at dui dictum tristique."))
         postList.add(Post("3","Santa Clara Valley Medical...","hoy",
             "Una history para recordar, Lorem ipsum dolor sit amet, consectetur adipiscing elit."))
+        postList.add(Post("4","Santa Clara Valley Medical...","Hace 2 días",
+            "Descripción para el primer post, Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut varius justo at dui dictum tristique."))
+        postList.add(Post("5","Santa Clara Valley Medical...","Hace 1 día",
+            "Algo Nuevo para el 2do post, Lorem ipsum dolor sit amet. "))
+        postList.add(Post("6","Santa Clara Valley Medical...","Ayer",
+            " Noticia de ultima hora para 3er post, consectetur adipiscing elit. Ut varius justo at dui dictum tristique."))
+        postList.add(Post("7","Santa Clara Valley Medical...","hoy",
+            "Una history para recordar, Lorem ipsum dolor sit amet, consectetur adipiscing elit."))
     }
-
 
     companion object {
         private const val ARG_SECTION_NUMBER = "section_number"
