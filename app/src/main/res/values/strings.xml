@@ -191,7 +191,7 @@
     <string name="services_desc">Descripción de Servicios</string>
     <string name="about_us">Acerca de la Organización</string>
     <string name="service_plan">Plan de servicio</string>
-    <string name="change_plan">Cambiar de plan</string>
+    <string name="change_plan">Cambiar Plan</string>
     <string name="change_plan_inf">Para cambiar el plan, agregue servicios detallados</string>
     <string name="we_are">¿Quienes somos?</string>
     <string name="send">Enviar</string>
@@ -280,4 +280,6 @@
     <string name="tests_covid_19">Pruebas Covid-19</string>
     <string name="vaccines_covid_19">Vacunas Covid-19</string>
     <string name="publish">Publicar</string>
+    <string name="interested_on_services">Me Interesan los servicios  de este proveedor</string>
+    <string name="my_services">Mis Servicios</string>
 </resources>

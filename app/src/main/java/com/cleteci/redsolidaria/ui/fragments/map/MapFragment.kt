@@ -1,62 +1,46 @@
 package com.cleteci.redsolidaria.ui.fragments.map
 
 
+import android.app.Activity
+import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.util.DisplayMetrics
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-
 import com.cleteci.redsolidaria.R
-
 import com.cleteci.redsolidaria.di.component.DaggerFragmentComponent
 import com.cleteci.redsolidaria.di.module.FragmentModule
 import com.cleteci.redsolidaria.models.ResourceCategory
 import com.cleteci.redsolidaria.ui.activities.main.MainActivity
 import com.cleteci.redsolidaria.ui.adapters.ResourseCategoryAdapter
+import com.cleteci.redsolidaria.ui.base.BaseFragment
+import com.cleteci.redsolidaria.ui.components.CustomInfoWindowGoogleMap
 import com.cleteci.redsolidaria.ui.fragments.advancedsearch.AdvancedSearchFragment
-
-import com.cleteci.redsolidaria.ui.fragments.servicedetail.ServiceDetailFragment
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GooglePlayServicesUtil
 import com.google.android.gms.maps.*
-import javax.inject.Inject
-
-import com.cleteci.redsolidaria.ui.components.CustomInfoWindowGoogleMap
-
-import com.google.android.gms.maps.CameraUpdateFactory
-
-import android.widget.TextView
-
-import android.content.Context
-import android.graphics.Bitmap
-import android.app.Activity
-import android.graphics.Canvas
-import android.util.DisplayMetrics
-
 import com.google.android.gms.maps.model.*
-import android.widget.ImageView
-import com.cleteci.redsolidaria.ui.base.BaseFragment
+import javax.inject.Inject
 
 
 class MapFragment : BaseFragment(), MapContract.View, OnMapReadyCallback, ResourseCategoryAdapter.onItemClickListener,
     GoogleMap.OnInfoWindowClickListener {
 
-
-
-    var mListRecyclerView: RecyclerView? = null
-    var mAdapter: ResourseCategoryAdapter? = null
-    private val listCategory = ArrayList<ResourceCategory>()
-    private lateinit var mMap: GoogleMap
-    var mapView: MapView? = null
-
-
     @Inject
     lateinit var presenter: MapContract.Presenter
-
     private lateinit var rootView: View
+    private lateinit var mMap: GoogleMap
+    private var mapView: MapView? = null
+    private var mListRecyclerView: RecyclerView? = null
+    private var mAdapter: ResourseCategoryAdapter? = null
+    private val listCategory = ArrayList<ResourceCategory>()
 
     fun newInstance(): MapFragment {
         return MapFragment()
@@ -67,10 +51,7 @@ class MapFragment : BaseFragment(), MapContract.View, OnMapReadyCallback, Resour
         injectDependency()
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         rootView = inflater.inflate(R.layout.fragment_map, container, false)
 
         activity!!.supportFragmentManager.beginTransaction()
@@ -78,13 +59,12 @@ class MapFragment : BaseFragment(), MapContract.View, OnMapReadyCallback, Resour
             .commit()
 
 
-        mListRecyclerView = rootView?.findViewById(R.id.rvResourses);
-        mListRecyclerView?.setLayoutManager(LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        mListRecyclerView = rootView.findViewById(R.id.rvResourses)
+        mListRecyclerView?.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false);
 
         // only create and set a new adapter if there isn't already one
-
         mAdapter = ResourseCategoryAdapter(activity?.applicationContext, listCategory, this, 3,  false)
-        mListRecyclerView?.setAdapter(mAdapter);
+        mListRecyclerView?.adapter = mAdapter;
 
         MapsInitializer.initialize(activity)
 
@@ -92,7 +72,6 @@ class MapFragment : BaseFragment(), MapContract.View, OnMapReadyCallback, Resour
         mapView?.onCreate(savedInstanceState)
 
         when (GooglePlayServicesUtil.isGooglePlayServicesAvailable(activity)) {
-
             ConnectionResult.SUCCESS -> {
                 mapView = rootView.findViewById(R.id.map)
                 mapView?.onCreate(savedInstanceState)
@@ -121,8 +100,6 @@ class MapFragment : BaseFragment(), MapContract.View, OnMapReadyCallback, Resour
                 Toast.LENGTH_SHORT
             ).show()
         }
-
-
         return rootView
     }
 
@@ -130,14 +107,12 @@ class MapFragment : BaseFragment(), MapContract.View, OnMapReadyCallback, Resour
         super.onViewCreated(view, savedInstanceState)
         presenter.attach(this)
         presenter.subscribe()
-        initView()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         presenter.unsubscribe()
     }
-
 
     private fun injectDependency() {
         val aboutComponent = DaggerFragmentComponent.builder()
@@ -147,25 +122,13 @@ class MapFragment : BaseFragment(), MapContract.View, OnMapReadyCallback, Resour
         aboutComponent.inject(this)
     }
 
-    override fun init() {
-
-    }
-
-    private fun initView() {
-        //presenter.loadMessage()
-    }
-
     override fun onResume() {
         super.onResume()
         if (mapView != null) {
             mapView?.onResume()
-
         }
-
         (activity as MainActivity).setTextToolbar(
-            getText(R.string.map).toString(),
-            activity!!.resources.getColor(R.color.colorWhite)
-        )
+            getText(R.string.map).toString(), activity!!.resources.getColor(R.color.colorWhite))
     }
 
     override fun onDestroy() {
@@ -183,7 +146,6 @@ class MapFragment : BaseFragment(), MapContract.View, OnMapReadyCallback, Resour
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
-
         mMap = googleMap
         mMap.setMaxZoomPreference(20f)
         mMap.setMinZoomPreference(15f)
@@ -213,17 +175,13 @@ class MapFragment : BaseFragment(), MapContract.View, OnMapReadyCallback, Resour
         presenter.loadData()
     }
 
-
-    fun createDrawableFromView(context: Context, view: View): Bitmap {
-
+    private fun createDrawableFromView(context: Context, view: View): Bitmap {
         val displayMetrics = DisplayMetrics()
         (context as Activity).windowManager.defaultDisplay
             .getMetrics(displayMetrics)
-        view!!.setLayoutParams(
-            ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-            )
+        view.layoutParams = ViewGroup.LayoutParams(
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
         )
         view.measure(displayMetrics.widthPixels, displayMetrics.heightPixels)
         view.layout(
@@ -232,8 +190,8 @@ class MapFragment : BaseFragment(), MapContract.View, OnMapReadyCallback, Resour
         )
         view.buildDrawingCache()
         val bitmap = Bitmap.createBitmap(
-            view.getMeasuredWidth(),
-            view.getMeasuredHeight(), Bitmap.Config.ARGB_8888
+            view.measuredWidth,
+            view.measuredHeight, Bitmap.Config.ARGB_8888
         )
 
         val canvas = Canvas(bitmap)
@@ -242,18 +200,13 @@ class MapFragment : BaseFragment(), MapContract.View, OnMapReadyCallback, Resour
     }
 
     override fun onInfoWindowClick(p0: Marker?) {
-//        activity!!.supportFragmentManager.beginTransaction()
-//            .addToBackStack(null)
-//            .replace(R.id.container_fragment, ServiceDetailFragment().newInstance(), ServiceDetailFragment.TAG)
-//            .commit()
         (activity as MainActivity).openOrganizationProfile()
     }
 
-    fun createMarker(sydney: LatLng, image: Int) {
+    private fun createMarker(sydney: LatLng, image: Int) {
         val viewMarker: View = (context!!.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater).inflate(
             R.layout.item_marker,
-            null
-        )
+            null)
         val myImage: ImageView = viewMarker.findViewById(R.id.imageview)
         myImage.setImageResource(image)
         val bmp: Bitmap = createDrawableFromView(context!!, viewMarker)
@@ -274,41 +227,48 @@ class MapFragment : BaseFragment(), MapContract.View, OnMapReadyCallback, Resour
 
     }
 
+    override fun init() {
+
+    }
+
     override fun clickScanCategory(postId: String) {
 
     }
+
     override fun scanNoUserCategory(position: Int) {
 
-    }
-
-
-    companion object {
-        val TAG: String = "MapFragment"
     }
 
     override fun itemDetail(postId: Int) {
         mMap.clear()
 
-        if (postId == 0) {
-            val marker4 = LatLng(41.4040338, 2.1751424)
-            createMarker(marker4, R.drawable.ic_emergency)
-            val marker8 = LatLng(41.4017736, 2.173356)
-            createMarker(marker8, R.drawable.ic_emergency)
-        } else if (postId == 1) {
-            val marker7 = LatLng(41.4016924, 2.1764415)
-            createMarker(marker7, R.drawable.ic_education)
-        } else if (postId == 2) {
-            val marker5 = LatLng(41.4065105, 2.178318)
-            createMarker(marker5, R.drawable.ic_job)
-        } else if (postId == 3) {
-            val marker6 = LatLng(41.4033097, 2.1789857)
-            createMarker(marker6, R.drawable.ic_transp)
-        } else if (postId == 4) {
-            val marker2 = LatLng(41.4036289, 2.1743568)
-            createMarker(marker2, R.drawable.ic_justice)
+        when (postId) {
+            0 -> {
+                val marker4 = LatLng(41.4040338, 2.1751424)
+                createMarker(marker4, R.drawable.ic_emergency)
+                val marker8 = LatLng(41.4017736, 2.173356)
+                createMarker(marker8, R.drawable.ic_emergency)
+            }
+            1 -> {
+                val marker7 = LatLng(41.4016924, 2.1764415)
+                createMarker(marker7, R.drawable.ic_education)
+            }
+            2 -> {
+                val marker5 = LatLng(41.4065105, 2.178318)
+                createMarker(marker5, R.drawable.ic_job)
+            }
+            3 -> {
+                val marker6 = LatLng(41.4033097, 2.1789857)
+                createMarker(marker6, R.drawable.ic_transp)
+            }
+            4 -> {
+                val marker2 = LatLng(41.4036289, 2.1743568)
+                createMarker(marker2, R.drawable.ic_justice)
+            }
         }
-
     }
 
-
+    companion object {
+        const val TAG: String = "MapFragment"
+    }
 }

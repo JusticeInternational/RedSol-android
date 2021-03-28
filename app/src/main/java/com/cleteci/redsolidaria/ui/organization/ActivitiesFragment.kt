@@ -37,11 +37,6 @@ class ActivitiesFragment : Fragment() {
     }
 
     private fun setUpUI() {
-        if (BaseApp.prefs.is_provider_service) {
-
-        } else {
-
-        }
         setupPostsList()
     }
 
