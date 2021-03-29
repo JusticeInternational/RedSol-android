@@ -25,9 +25,7 @@ class MyProfileFragment : BaseFragment() , MyProfileContract.View  {
 
     var ivQR: ImageView? = null
     var tvQR: TextView? = null
-
     @Inject lateinit var presenter: MyProfileContract.Presenter
-
     private lateinit var rootView: View
 
     fun newInstance(): MyProfileFragment {
@@ -39,18 +37,10 @@ class MyProfileFragment : BaseFragment() , MyProfileContract.View  {
         injectDependency()
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         rootView = inflater.inflate(R.layout.fragment_my_profile, container, false)
-
         ivQR = rootView.findViewById(R.id.ivQR)
-
         tvQR = rootView.findViewById(R.id.tvQR)
-
-
-
         return rootView
     }
 
@@ -66,15 +56,13 @@ class MyProfileFragment : BaseFragment() , MyProfileContract.View  {
         presenter.unsubscribe()
     }
 
-
-
     private fun injectDependency() {
         val aboutComponent = DaggerFragmentComponent.builder()
             .fragmentModule(FragmentModule())
             .build()
-
         aboutComponent.inject(this)
     }
+
     override fun init() {
 
     }
@@ -92,15 +80,12 @@ class MyProfileFragment : BaseFragment() , MyProfileContract.View  {
         super.onResume()
         (activity as MainActivity).setTextToolbar(getText(R.string.my_profile).toString(),activity!!.resources.getColor(R.color.colorWhite))
         if (BaseApp.prefs.login_later) {
-            showDialog();
+            showDialog()
             ivQR?.visibility=View.GONE
             tvQR?.visibility=View.GONE
-
-        }else{
+        } else {
             ivQR?.visibility=View.VISIBLE
             tvQR?.visibility=View.VISIBLE
-
-
         }
     }
 
@@ -131,13 +116,9 @@ class MyProfileFragment : BaseFragment() , MyProfileContract.View  {
         }
 
         dialog.show()
-
     }
 
     override fun showQR(bitmap: Bitmap) {
-
         ivQR?.setImageBitmap(bitmap)
     }
-
-
 }

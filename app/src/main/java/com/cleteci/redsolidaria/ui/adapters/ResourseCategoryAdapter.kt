@@ -13,18 +13,13 @@ import androidx.fragment.app.Fragment
 
 import androidx.recyclerview.widget.RecyclerView
 import com.cleteci.redsolidaria.R
-import com.cleteci.redsolidaria.models.ResourceCategory
+import com.cleteci.redsolidaria.models.Category
 
-class ResourseCategoryAdapter
-    (
-    private val context: Context?, private val list: MutableList<ResourceCategory>,
-    fragment: Fragment, typeInfl:Int, isFromScan:Boolean
-) : RecyclerView.Adapter<ResourseCategoryAdapter.ListViewHolder>() {
+class ResourseCategoryAdapter(private val context: Context?, private val list: MutableList<Category>,
+    fragment: Fragment, typeInfl:Int, isFromScan:Boolean): RecyclerView.Adapter<ResourseCategoryAdapter.ListViewHolder>() {
 
     private val listener: ResourseCategoryAdapter.onItemClickListener
-
     private val inflaterLayType: Int
-
     private val isScan: Boolean
 
     init {
@@ -41,35 +36,28 @@ class ResourseCategoryAdapter
     }
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
-        var post = list[position]
+        val category = list[position]
 
-
-        holder!!.title!!.setText(post.name)
-        holder.body!!.setImageResource(post.photo)
-        if (post.description!=null && post.description?.length!!>0){
+        holder.title!!.text = category.name
+        holder.body!!.setImageResource(category.iconId)
+        if (category.description!=null && category.description.isNotEmpty()){
             holder.tvDescription?.visibility= VISIBLE
-            holder.tvDescription?.setText(post.description)
-
-        }else{
-
+            holder.tvDescription?.text = category.description
+        } else {
             holder.tvDescription?.visibility= GONE
-
         }
 
-        if (this.isScan){
+        if (this.isScan) {
             holder.ivNoUser?.visibility= VISIBLE
             holder.ivArrow?.setImageResource(R.drawable.ic_scan)
-
-        }else{
+        }else {
             holder.ivNoUser?.visibility= GONE
             holder.ivArrow?.setImageResource(R.drawable.ic_right)
-
         }
 
-
-        if (position==itemCount-1){
+        if (position == itemCount - 1) {
             holder.viewLine?.visibility=GONE
-        }else{
+        } else {
             holder.viewLine?.visibility= VISIBLE
         }
 
@@ -118,7 +106,7 @@ class ResourseCategoryAdapter
 
 
 
-        fun bind(item: ResourceCategory) {
+        fun bind(item: Category) {
             // title = item.post
             // body etc.
         }

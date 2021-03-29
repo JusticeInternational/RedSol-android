@@ -7,7 +7,8 @@ import com.apollographql.apollo.exception.ApolloException
 import com.cleteci.redsolidaria.BaseApp
 import com.cleteci.redsolidaria.GetOrganizationsByCategoryQuery
 import com.cleteci.redsolidaria.R
-import com.cleteci.redsolidaria.models.Resource
+import com.cleteci.redsolidaria.data.LocalDataForUITest
+import com.cleteci.redsolidaria.models.Service
 import io.reactivex.disposables.CompositeDisposable
 
 /**
@@ -31,20 +32,21 @@ class ResourcesResultPresenter: ResourcesResultContract.Presenter {
         view.init() // as default
     }
 
-    private fun deserializeResponse(list: List<GetOrganizationsByCategoryQuery.ByIdOrOrgKeyWord>?): ArrayList<Resource> {
-        val arrayList = ArrayList<Resource>()
+    private fun deserializeResponse(list: List<GetOrganizationsByCategoryQuery.ByIdOrOrgKeyWord>?): ArrayList<Service> {
+        val arrayList = ArrayList<Service>()
         var sCategory = list
         if (sCategory != null) {
-            for (organization in sCategory!!) {
+            for (organization in sCategory) {
                 arrayList.add(
-                    Resource(
-                        id = organization.id(),
-                        name = organization.name().toString(),
-                        hourHand = organization.hourHand().toString(),
-                        ranking = organization.ranking().toString(),
-                        photo = R.drawable.ic_sun2,
-                        cate = "Testing",
-                        location = organization.location()?.name().toString(),description ="", isGeneric =  false
+                    Service(
+                        organization.id(),
+                        organization.name().toString(),
+                        LocalDataForUITest.getCategoryById("0")!!,
+                        organization.hourHand().toString(),
+                        organization.ranking().toString(),
+                        "",
+                        organization.location()?.name().toString(),
+                        isGeneric =  false
                     )
                 )//Adding object in arraylist
             }

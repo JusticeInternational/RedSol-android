@@ -12,16 +12,14 @@ import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
-import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.cleteci.redsolidaria.BaseApp
 import com.cleteci.redsolidaria.R
 import com.cleteci.redsolidaria.di.component.DaggerActivityComponent
 import com.cleteci.redsolidaria.di.module.ActivityModule
-import com.cleteci.redsolidaria.models.Resource
-import com.cleteci.redsolidaria.models.ResourceCategory
+import com.cleteci.redsolidaria.models.Service
+import com.cleteci.redsolidaria.models.Category
 import com.cleteci.redsolidaria.ui.activities.login.LoginActivity
 import com.cleteci.redsolidaria.ui.activities.splash.SplashActivity
 import com.cleteci.redsolidaria.ui.customUIComponents.FragNavController
@@ -51,7 +49,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
-import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig
@@ -59,58 +56,40 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper
 import javax.inject.Inject
 
 
-/**
- * Created by ogulcan on 07/02/2018.
- */
 class MainActivity : AppCompatActivity(), MainContract.View, NavigationView.OnNavigationItemSelectedListener,
     FragNavController.TransactionListener, FragNavController.RootFragmentListener {
 
-
-    lateinit var mGoogleSignInClient: GoogleSignInClient
-    lateinit var mGoogleSignInOptions: GoogleSignInOptions
-
-    var tvTitle: TextView? = null
-    internal var TABS = arrayOf("MyResourses", "Map", "Search")
-
-    private var mNavController: FragNavController? = null
-
-    private var fragmentHistory: FragmentHistory? = null
-
     @Inject
     lateinit var presenter: MainContract.Presenter
+    lateinit var mGoogleSignInClient: GoogleSignInClient
+    lateinit var mGoogleSignInOptions: GoogleSignInOptions
+    private var tvTitle: TextView? = null
+    private var TABS = arrayOf("MyResourses", "Map", "Search")
+    private var mNavController: FragNavController? = null
+    private var fragmentHistory: FragmentHistory? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         if (BaseApp.prefs.first_time) {
             BaseApp.prefs.first_time = false
-
             val intent = Intent(this, SplashActivity::class.java)
-
             startActivity(intent)
-
             finish()
-
         } else if (BaseApp.prefs.user_saved != null || BaseApp.prefs.login_later) {
-
             setContentView(R.layout.activity_main)
             injectDependency()
             fragmentHistory = FragmentHistory()
-
             mNavController = FragNavController.newBuilder(savedInstanceState, supportFragmentManager, R.id.container_fragment)
                 .transactionListener(this)
                 .rootFragmentListener(this, TABS.size)
                 .build()
-
             presenter.attach(this)
         } else {
-
             goToLogin()
-
             finish()
-
         }
-
         configureGoogleSignIn()
     }
 
@@ -118,13 +97,10 @@ class MainActivity : AppCompatActivity(), MainContract.View, NavigationView.OnNa
         val activityComponent = DaggerActivityComponent.builder()
             .activityModule(ActivityModule(this))
             .build()
-
         activityComponent.inject(this)
     }
 
-
     override fun init() {
-
         CalligraphyConfig.initDefault(
             CalligraphyConfig.Builder()
                 .setDefaultFontPath("fonts/Roboto-Light.ttf")
@@ -132,25 +108,19 @@ class MainActivity : AppCompatActivity(), MainContract.View, NavigationView.OnNa
                 .build()
         )
 
-        var toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
-
-        tvTitle = findViewById(R.id.tvTitle)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
             window.statusBarColor = Color.WHITE
         }
 
-        val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
-        val navView: NavigationView = findViewById(R.id.nav_view)
         val toggle = ActionBarDrawerToggle(
             this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
         )
 
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
-
         navView.setNavigationItemSelectedListener(this)
 
         lyLoginLogout!!.setOnClickListener {
@@ -171,85 +141,63 @@ class MainActivity : AppCompatActivity(), MainContract.View, NavigationView.OnNa
             icLoginLogout.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.ic_logout_24))
         }
 
-        val bottomNavView: BottomNavigationView = findViewById(R.id.bottom_nav_view)
-
-        bottomNavView.getMenu().clear(); //clear old inflated items.
+        bottomNavView.menu.clear(); //clear old inflated items.
         if (BaseApp.prefs.is_provider_service) {
             bottomNavView.inflateMenu(R.menu.bottom_nav_menu_provider)
         } else {
             bottomNavView.inflateMenu(R.menu.bottom_nav_menu)
         }
 
-
         val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navigation_home -> {
-
                     presenter.onNavResourcesOption()
-
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.navigation_dashboard -> {
-
                     presenter.onNavMapOption()
-
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.navigation_search -> {
-
                     presenter.onNavSearchOption()
-
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.navigation_home_provider -> {
-
                     presenter.onNavResoursesProviderOption()
-
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.navigation_scan_provider -> {
-
                     presenter.onNavScanOption()
-
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.navigation_users_providers -> {
-
                     presenter.onNavUsersOption()
-
                     return@OnNavigationItemSelectedListener true
                 }
             }
             false
         }
 
-
         bottomNavView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
-
         switchTab(0)
     }
 
     fun goToLogin() {
         val intent = Intent(this, LoginActivity::class.java)
-
         startActivity(intent)
-
     }
 
     private fun switchTab(position: Int) {
         mNavController!!.switchTab(position)
-
     }
 
-    fun selectitem(position: Int) {
+    private fun selectItem(position: Int) {
         fragmentHistory!!.push(position)
-
         switchTab(position)
     }
 
-    fun reSelected(position: Int) {
+    private fun reSelected(position: Int) {
         mNavController!!.clearStack()
-
         switchTab(position)
     }
 
@@ -261,12 +209,10 @@ class MainActivity : AppCompatActivity(), MainContract.View, NavigationView.OnNa
     }
 
     override fun showScanFragment(serviceID: String?, catId: String?, name: String?, isGeneric: Boolean) {
-
         alertConfirmation(isGeneric,name, serviceID, catId)
-
     }
 
-    fun alertConfirmation(isGeneric:Boolean,name:String?, serviceID:String?, catID:String? ){
+    private fun alertConfirmation(isGeneric:Boolean, name:String?, serviceID:String?, catID:String? ){
 
         val dialog = Dialog(this)
         dialog .requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -275,49 +221,29 @@ class MainActivity : AppCompatActivity(), MainContract.View, NavigationView.OnNa
         dialog .setContentView(R.layout.comp_alert_scan)
 
         val yesBtn = dialog .findViewById(R.id.btCont) as Button
-
         val btCancel = dialog .findViewById(R.id.btCancel) as Button
-
-
 
         btCancel.setOnClickListener {
             dialog .dismiss()
-            //(activity as MainActivity).onBackPressed()
         }
 
         val tvAlertMsg = dialog .findViewById(R.id.tvAlertMsg) as TextView
 
-        if (isGeneric){
+        if (isGeneric) {
             tvAlertMsg.text=String.format(BaseApp.instance.getResources().getString(R.string.count_question_1),name )
-        }else{
+        } else {
             tvAlertMsg.text=String.format(BaseApp.instance.getResources().getString(R.string.count_question_2),name )
         }
 
-       // if (serviceID!=null) {
+        yesBtn.setOnClickListener {
+            dialog .dismiss()
 
-
-
-            yesBtn.setOnClickListener {
-                dialog .dismiss()
-
-                supportFragmentManager.beginTransaction()
-                    .addToBackStack(null)
-                    .replace(R.id.container_fragment, ScanCodeFragment().newInstance(serviceID, catID,name, isGeneric), ScanCodeFragment.TAG)
-                    .commit()
-                //  presenter.countService(msg, serviceID!!)
-            }
-
-       /* } else{
-
-            yesBtn.setOnClickListener {
-                dialog .dismiss()
-               // presenter.countCategory(msg, catID!!)
-            }
-
-        }*/
-
+            supportFragmentManager.beginTransaction()
+                .addToBackStack(null)
+                .replace(R.id.container_fragment, ScanCodeFragment().newInstance(serviceID, catID,name, isGeneric), ScanCodeFragment.TAG)
+                .commit()
+        }
         dialog .show()
-
     }
 
     override fun showScanListFragment() {
@@ -326,8 +252,6 @@ class MainActivity : AppCompatActivity(), MainContract.View, NavigationView.OnNa
             .replace(R.id.container_fragment, ResoursesOfferedFragment().newInstance(true), ResoursesOfferedFragment.TAG)
             .commit()
     }
-
-
 
     override fun showResoursesProviderFragment() {
         supportFragmentManager.beginTransaction()
@@ -371,21 +295,21 @@ class MainActivity : AppCompatActivity(), MainContract.View, NavigationView.OnNa
             .commit()
     }
 
-    fun openAttendFragment(service:Resource) {
+    fun openAttendFragment(service:Service) {
         supportFragmentManager.beginTransaction()
             .addToBackStack(null)
             .replace(R.id.container_fragment, AttendersFragment().newInstance(service), CreateServiceFragment.TAG)
             .commit()
     }
 
-    fun openAttendFragment(category:ResourceCategory) {
+    fun openAttendFragment(category:Category) {
         supportFragmentManager.beginTransaction()
             .addToBackStack(null)
             .replace(R.id.container_fragment, AttendersFragment().newInstance(category), CreateServiceFragment.TAG)
             .commit()
     }
 
-    fun openInfoFragment(category: ResourceCategory?, service: Resource?) {
+    fun openInfoFragment(category: Category?, service: Service?) {
         if(category != null) {
             supportFragmentManager.beginTransaction()
                 .addToBackStack(null)
@@ -457,7 +381,6 @@ class MainActivity : AppCompatActivity(), MainContract.View, NavigationView.OnNa
     }
 
     override fun onBackPressed() {
-        val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START)
         } else {
@@ -484,7 +407,8 @@ class MainActivity : AppCompatActivity(), MainContract.View, NavigationView.OnNa
 
     override fun showProfileFragment() {
         if (BaseApp.prefs.is_provider_service) {
-            openProfileProviderFragment()
+            //openProfileProviderFragment()
+            openOrganizationProfile()
         } else {
             openProfileFragment()
         }
@@ -562,12 +486,8 @@ class MainActivity : AppCompatActivity(), MainContract.View, NavigationView.OnNa
             }
             R.id.nav_tools -> {
                 presenter.onDrawerSuggestOption()
-
-
             }
-
         }
-        val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
     }

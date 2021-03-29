@@ -1,6 +1,5 @@
 package com.cleteci.redsolidaria.ui.fragments.users
 
-import com.cleteci.redsolidaria.models.ResourceCategory
 import com.cleteci.redsolidaria.models.User
 import com.cleteci.redsolidaria.ui.base.BaseContract
 

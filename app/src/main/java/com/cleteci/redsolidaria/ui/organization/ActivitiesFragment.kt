@@ -38,6 +38,14 @@ class ActivitiesFragment : Fragment() {
 
     private fun setUpUI() {
         setupPostsList()
+        if (BaseApp.prefs.is_provider_service) {
+            btPublish.visibility = View.VISIBLE
+            btPublish.setOnClickListener {
+                Toast.makeText(context,"Mostra Publicar Post", Toast.LENGTH_LONG).show()
+            }
+        } else {
+            btPublish.visibility = View.GONE
+        }
     }
 
     private fun setupPostsList() {

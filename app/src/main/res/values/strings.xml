@@ -117,7 +117,7 @@
     <string name="intro_email_acount">Para reiniciar su contraseña, por favor introduzca el correo electrónico asociado a su cuenta</string>
     <string name="register_later">Registrarme luego</string>
     <string name="login">Iniciar sesión</string>
-    <string name="logout">Salir</string>
+    <string name="logout">Cerrar sesión</string>
     <string name="google">Google</string>
     <string name="facebook">Facebook</string>
     <string name="user">Usuario</string>

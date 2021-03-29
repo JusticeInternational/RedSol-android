@@ -80,7 +80,7 @@
             android:layout_marginBottom="@dimen/activity_vertical_margin"
             android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut varius justo at dui dictum tristique. Sed eget ante porta, congue lectus ac, placerat sapien. Proin laoreet sagittis nisl eget pulvinar."/>
         <Button
-            android:id="@+id/sendNotificationInterested"
+            android:id="@+id/btNotifyInterest"
             android:layout_width="@dimen/button_width"
             android:layout_height="wrap_content"
             android:padding="@dimen/spacing_small"
@@ -148,7 +148,7 @@
             app:drawableStartCompat="@drawable/ic_vaccine"
             app:drawableEndCompat="@drawable/ic_interested_green" />
         <Button
-            android:id="@+id/change"
+            android:id="@+id/btShowServices"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/button_height"
             android:layout_marginTop="@dimen/activity_horizontal_margin"

@@ -6,8 +6,9 @@ import com.apollographql.apollo.ApolloCall
 import com.apollographql.apollo.api.Response
 import com.apollographql.apollo.exception.ApolloException
 import com.cleteci.redsolidaria.*
-import com.cleteci.redsolidaria.models.Resource
-import com.cleteci.redsolidaria.models.ResourceCategory
+import com.cleteci.redsolidaria.data.LocalDataForUITest
+import com.cleteci.redsolidaria.models.Service
+import com.cleteci.redsolidaria.models.Category
 import io.reactivex.disposables.CompositeDisposable
 
 /**
@@ -32,8 +33,8 @@ class ResoursesOfferedPresenter : ResoursesOfferedContract.Presenter {
         view.init() // as default
     }
 
-   private fun deserializeResponse(list: List<GetOrganizationServicesAndCategoriesQuery.User>?): ArrayList<ResourceCategory> {
-        val arrayList = ArrayList<ResourceCategory>()
+   private fun deserializeResponse(list: List<GetOrganizationServicesAndCategoriesQuery.User>?): ArrayList<Category> {
+        val arrayList = ArrayList<Category>()
         var categories = list!![0].ownerOf()?.serviceCategories()!!
         for (serviceCategory in categories) {
 
@@ -43,11 +44,13 @@ class ResoursesOfferedPresenter : ResoursesOfferedContract.Presenter {
                 BaseApp?.instance.packageName)
 
                 arrayList.add(
-                    ResourceCategory(
+                    Category(
                         serviceCategory.id(),
                         serviceCategory.name(),
-                        serviceCategory.icon(),
-                        resourceId, serviceCategory.description()
+                        resourceId,
+                        0,
+                        serviceCategory.description(),
+                        serviceCategory.icon()
                     )
                 )
 
@@ -55,9 +58,9 @@ class ResoursesOfferedPresenter : ResoursesOfferedContract.Presenter {
         return arrayList
     }
 
-    private fun deserializeResponseGeneric(list: List<GetOrganizationServicesAndCategoriesQuery.User>?): ArrayList<Resource> {
+    private fun deserializeResponseGeneric(list: List<GetOrganizationServicesAndCategoriesQuery.User>?): ArrayList<Service> {
 
-        val arrayList = ArrayList<Resource>()
+        val arrayList = ArrayList<Service>()
         var services = list!![0].ownerOf()?.services()!!
         for (service in services) {
             if (service.isGeneral==true){
@@ -68,10 +71,16 @@ class ResoursesOfferedPresenter : ResoursesOfferedContract.Presenter {
         )
 
         arrayList.add(
-            Resource(
-                service.id(), service.name()!!,
-                "", "", null,
-                "", resourceId, service.description(), service.isGeneral!!
+            Service(
+                service.id(),
+                service.name()!!,
+                LocalDataForUITest.getCategoryById("0")!!,
+                "",
+                "0",
+                "",
+                "",
+                service.description(),
+                service.isGeneral!!
             )
 
         )}
@@ -81,8 +90,8 @@ class ResoursesOfferedPresenter : ResoursesOfferedContract.Presenter {
         return arrayList
     }
 
-    private fun deserializeResponseServices(list: List<GetOrganizationServicesAndCategoriesQuery.User>?): ArrayList<Resource> {
-        val arrayList = ArrayList<Resource>()
+    private fun deserializeResponseServices(list: List<GetOrganizationServicesAndCategoriesQuery.User>?): ArrayList<Service> {
+        val arrayList = ArrayList<Service>()
 
         var services = list!![0].ownerOf()?.services()!!
         for (service in services) {
@@ -93,9 +102,15 @@ class ResoursesOfferedPresenter : ResoursesOfferedContract.Presenter {
                 serviceCategory?.icon(), "drawable",
                 BaseApp?.instance.packageName)
                 arrayList.add(
-                    Resource(service.id(),service.name()!!,
-                "","",serviceCategory.id(),
-                "", resourceId, service.description(),service.isGeneral!!)
+                    Service(service.id(),
+                        service.name()!!,
+                        LocalDataForUITest.getCategoryById("0")!!,
+                        "",
+                        serviceCategory.id(),
+                        "",
+                        "",
+                        service.description(),
+                        service.isGeneral!!)
 
                 )
             }

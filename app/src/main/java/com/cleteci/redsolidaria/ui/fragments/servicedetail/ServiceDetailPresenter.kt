@@ -1,7 +1,7 @@
 package com.cleteci.redsolidaria.ui.fragments.servicedetail
 
 import com.cleteci.redsolidaria.R
-import com.cleteci.redsolidaria.models.ResourceCategory
+import com.cleteci.redsolidaria.models.Category
 import io.reactivex.disposables.CompositeDisposable
 
 /**
@@ -26,21 +26,20 @@ class ServiceDetailPresenter: ServiceDetailContract.Presenter {
         view.init() // as default
     }
 
-    override fun getData() : ArrayList<ResourceCategory> {
-
-        val listCategory = ArrayList<ResourceCategory>()
-        val tipo1 = ResourceCategory("1", "Salud","Salud", R.drawable.ic_emergency, "")//Creating an empty arraylist
-        listCategory.add(tipo1)//Adding object in arraylist
-        val tipo2 = ResourceCategory("2", "Educacion","Salud", R.drawable.ic_education, "")//Creating an empty arraylist
-        listCategory.add(tipo2)//Adding object in arraylist
-        val tipo3 = ResourceCategory("3", "Trabajo","Salud", R.drawable.ic_job, "")//Creating an empty arraylist
-        listCategory.add(tipo3)//Adding object in arraylist
-        val tipo4 = ResourceCategory("4", "Transporte","Salud", R.drawable.ic_transp, "")//Creating an empty arraylist
-        listCategory.add(tipo4)//Adding object in arraylist
-        val tipo5 = ResourceCategory("5", "Comida","Salud", R.drawable.ic_food, "")//Creating an empty arraylist
-        listCategory.add(tipo5)//Adding object in arraylist
-        val tipo6 = ResourceCategory("6", "Asesoria","Salud", R.drawable.ic_justice, "")//Creating an empty arraylist
-        listCategory.add(tipo6)//Adding object in arraylist
+    override fun getData() : ArrayList<Category> {
+        val listCategory = ArrayList<Category>()
+        val tipo1 = Category("1", "Salud", R.drawable.ic_emergency)
+        listCategory.add(tipo1)
+        val tipo2 = Category("2", "Educacion", R.drawable.ic_education)
+        listCategory.add(tipo2)
+        val tipo3 = Category("3", "Trabajo", R.drawable.ic_job)
+        listCategory.add(tipo3)
+        val tipo4 = Category("4", "Transporte", R.drawable.ic_transp)
+        listCategory.add(tipo4)
+        val tipo5 = Category("5", "Comida", R.drawable.ic_food)
+        listCategory.add(tipo5)
+        val tipo6 = Category("6", "Asesoria", R.drawable.ic_justice)
+        listCategory.add(tipo6)
 
         return listCategory
     }

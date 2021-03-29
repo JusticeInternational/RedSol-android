@@ -8,7 +8,7 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.cleteci.redsolidaria.R
-import com.cleteci.redsolidaria.models.Resource
+import com.cleteci.redsolidaria.models.Service
 import com.cleteci.redsolidaria.models.User
 
 
@@ -65,7 +65,7 @@ class UserAdapter(
 
         val viewLine = itemView.findViewById<View>(R.id.viewLine)
 
-        fun bind(item: Resource) {
+        fun bind(item: Service) {
 
         }
     }

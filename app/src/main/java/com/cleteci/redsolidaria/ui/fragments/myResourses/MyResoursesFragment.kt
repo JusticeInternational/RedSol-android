@@ -1,11 +1,8 @@
 package com.cleteci.redsolidaria.ui.fragments.myResourses
 
 
-import android.app.Dialog
 import android.os.Bundle
 import android.view.*
-import androidx.fragment.app.Fragment
-import android.widget.Button
 import android.widget.LinearLayout
 import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,11 +13,10 @@ import com.cleteci.redsolidaria.R
 
 import com.cleteci.redsolidaria.di.component.DaggerFragmentComponent
 import com.cleteci.redsolidaria.di.module.FragmentModule
-import com.cleteci.redsolidaria.models.Resource
+import com.cleteci.redsolidaria.models.Service
 import com.cleteci.redsolidaria.ui.activities.main.MainActivity
 import com.cleteci.redsolidaria.ui.adapters.ResourseAdapter
 import com.cleteci.redsolidaria.ui.base.BaseFragment
-import com.cleteci.redsolidaria.ui.fragments.servicedetail.ServiceDetailFragment
 import javax.inject.Inject
 
 
@@ -34,19 +30,19 @@ class MyResoursesFragment : BaseFragment(), MyResoursesContract.View, ResourseAd
 
     var rvPending: RecyclerView? = null
     var mAdapterPending: ResourseAdapter? = null
-    private val listPending = ArrayList<Resource>()
+    private val listPending = ArrayList<Service>()
 
     var rvSaved: RecyclerView? = null
     var mAdapterSaved: ResourseAdapter? = null
-    private val listSaved = ArrayList<Resource>()
+    private val listSaved = ArrayList<Service>()
 
     var rvVolunteering: RecyclerView? = null
     var mAdapterVolunteering: ResourseAdapter? = null
-    private val listVolunteering = ArrayList<Resource>()
+    private val listVolunteering = ArrayList<Service>()
 
     var rvUsed: RecyclerView? = null
     var mAdapterUsed: ResourseAdapter? = null
-    private val listUsed = ArrayList<Resource>()
+    private val listUsed = ArrayList<Service>()
 
 
     @Inject
@@ -131,10 +127,10 @@ class MyResoursesFragment : BaseFragment(), MyResoursesContract.View, ResourseAd
     }
 
     override fun loadDataSuccess(
-        pending: List<Resource>,
-        saved: List<Resource>,
-        volunteer: List<Resource>,
-        used: List<Resource>
+        pending: List<Service>,
+        saved: List<Service>,
+        volunteer: List<Service>,
+        used: List<Service>
     ) {
         listPending.clear()
         listPending.addAll(pending)

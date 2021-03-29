@@ -13,8 +13,8 @@ import com.cleteci.redsolidaria.R
 
 import com.cleteci.redsolidaria.di.component.DaggerFragmentComponent
 import com.cleteci.redsolidaria.di.module.FragmentModule
-import com.cleteci.redsolidaria.models.Resource
-import com.cleteci.redsolidaria.models.ResourceCategory
+import com.cleteci.redsolidaria.models.Service
+import com.cleteci.redsolidaria.models.Category
 import com.cleteci.redsolidaria.ui.activities.main.MainActivity
 import com.cleteci.redsolidaria.ui.adapters.ResourseAdapter
 import com.cleteci.redsolidaria.ui.adapters.ResourseCategoryAdapter
@@ -41,9 +41,9 @@ class ResoursesOfferedFragment : BaseFragment(), ResoursesOfferedContract.View,
     var genericResoursesAdapter: ResourseAdapter? = null
 
     var fab: FloatingActionButton? = null
-    private val listCategories = ArrayList<ResourceCategory>()
-    private val listResourses = ArrayList<Resource>()
-    private val listGenericResourses = ArrayList<Resource>()
+    private val listCategories = ArrayList<Category>()
+    private val listResourses = ArrayList<Service>()
+    private val listGenericResourses = ArrayList<Service>()
 
 
     @Inject
@@ -150,9 +150,9 @@ class ResoursesOfferedFragment : BaseFragment(), ResoursesOfferedContract.View,
     }
 
     override fun loadDataSuccess(
-        pending: List<ResourceCategory>,
-        services: List<Resource>,
-        genericServices: List<Resource>
+        pending: List<Category>,
+        services: List<Service>,
+        genericServices: List<Service>
     ) {
         activity?.runOnUiThread(Runnable {
             listCategories.clear()

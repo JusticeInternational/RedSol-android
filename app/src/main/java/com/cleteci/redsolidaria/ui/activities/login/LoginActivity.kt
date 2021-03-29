@@ -1,32 +1,23 @@
 package com.cleteci.redsolidaria.ui.activities.login
 
 import android.os.Bundle
-
-
-import androidx.appcompat.app.AppCompatActivity
-
-import com.cleteci.redsolidaria.R
-import com.cleteci.redsolidaria.di.component.DaggerActivityComponent
-
-import com.cleteci.redsolidaria.di.module.ActivityModule
-
-import uk.co.chrisjenx.calligraphy.CalligraphyConfig
-
-import javax.inject.Inject
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper
-
 import android.content.Context
 import android.content.Intent
-import android.widget.RelativeLayout
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.cleteci.redsolidaria.BaseApp
+import com.cleteci.redsolidaria.di.component.DaggerActivityComponent
+import com.cleteci.redsolidaria.di.module.ActivityModule
+import com.cleteci.redsolidaria.R
 import com.cleteci.redsolidaria.ui.activities.main.MainActivity
 import com.cleteci.redsolidaria.ui.activities.register.RegisterActivity
 import com.cleteci.redsolidaria.ui.activities.resetPassword.ResetPasswordActivity
 import com.cleteci.redsolidaria.ui.fragments.login.LoginFFragment
 import com.cleteci.redsolidaria.ui.fragments.welcome.WelcomeFragment
 import com.facebook.*
+import com.facebook.login.LoginManager
+import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -35,29 +26,24 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
-
-import com.facebook.appevents.AppEventsLogger;
-import com.facebook.login.LoginManager
-import com.facebook.login.LoginResult
 import com.google.firebase.auth.FacebookAuthProvider
+import kotlinx.android.synthetic.main.fragment_login.*
 import java.util.*
+import javax.inject.Inject
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper
 
 
-/**
- *
- */
 class LoginActivity : AppCompatActivity(), LoginContract.View {
-
-
-    val RC_SIGN_IN: Int = 1
-    lateinit var mGoogleSignInClient: GoogleSignInClient
-    lateinit var mGoogleSignInOptions: GoogleSignInOptions
-    var callbackManager: CallbackManager? = null
-    private lateinit var firebaseAuth: FirebaseAuth
-    private var lyContainerLogin: RelativeLayout? = null
 
     @Inject
     lateinit var presenter: LoginContract.Presenter
+    private lateinit var mGoogleSignInClient: GoogleSignInClient
+    private lateinit var mGoogleSignInOptions: GoogleSignInOptions
+    private lateinit var firebaseAuth: FirebaseAuth
+    private var callbackManager: CallbackManager? = null
+    private val RC_SIGN_IN: Int = 1
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,22 +51,17 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
         injectDependency()
         configureGoogleSignIn()
         firebaseAuth = FirebaseAuth.getInstance()
-        FacebookSdk.sdkInitialize(this.getApplicationContext());
+        FacebookSdk.sdkInitialize(applicationContext)
         callbackManager = CallbackManager.Factory.create()
         LoginManager.getInstance().registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
             override fun onSuccess(loginResult: LoginResult) {
                 handleFacebookAccessToken(loginResult.accessToken)
             }
 
-            override fun onCancel() {
+            override fun onCancel() {}
 
-            }
-
-            override fun onError(error: FacebookException) {
-
-            }
+            override fun onError(error: FacebookException) {}
         })
-
         presenter.attach(this)
     }
 
@@ -88,13 +69,10 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
         val activityComponent = DaggerActivityComponent.builder()
             .activityModule(ActivityModule(this))
             .build()
-
         activityComponent.inject(this)
     }
 
-
     override fun init() {
-
         CalligraphyConfig.initDefault(
             CalligraphyConfig.Builder()
                 .setDefaultFontPath("fonts/Roboto-Light.ttf")
@@ -102,27 +80,24 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
                 .build()
         )
 
-        lyContainerLogin = findViewById(R.id.lyContainerLogin)
-
         if (BaseApp.prefs.login_later) {
             val fragment = LoginFFragment().newInstance() as Fragment
-            val fragmentManager = getSupportFragmentManager()
+            val fragmentManager = supportFragmentManager
             fragmentManager.beginTransaction().replace(R.id.lyContainerLogin, fragment).commit()
         } else {
             val fragment = WelcomeFragment().newInstance() as Fragment
-            val fragmentManager = getSupportFragmentManager()
+            val fragmentManager = supportFragmentManager
             fragmentManager.beginTransaction().replace(R.id.lyContainerLogin, fragment).commit()
         }
     }
 
     fun openLogin() {
         val fragment = LoginFFragment().newInstance() as Fragment
-        val fragmentManager = getSupportFragmentManager()
+        val fragmentManager = supportFragmentManager
         fragmentManager.beginTransaction()
             .addToBackStack(null)
             .replace(R.id.lyContainerLogin, fragment, LoginFFragment.TAG).commit()
     }
-
 
     override fun attachBaseContext(newBase: Context) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase))
@@ -155,13 +130,10 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
         }
     }
 
-
     private fun firebaseAuthWithGoogle(acct: GoogleSignInAccount) {
         val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
         firebaseAuth.signInWithCredential(credential).addOnCompleteListener {
             if (it.isSuccessful) {
-
-                //Toast.makeText(this, "LOGEO EXITOSO", Toast.LENGTH_LONG).show()
                 BaseApp.prefs.login_later = false
                 BaseApp.prefs.user_saved = acct.displayName
                 BaseApp.prefs.is_provider_service = false
@@ -173,42 +145,32 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
     }
 
     fun loginFacebook() {
-        LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile", "user_friends"));
+        LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile", "user_friends"))
     }
 
-
-    fun openMainActivity() {
+    private fun openMainActivity() {
         val intent = Intent(this, MainActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
-
         finish()
-
     }
 
     fun openRegisterActivity() {
         val intent = Intent(this, RegisterActivity::class.java)
-
         startActivity(intent)
-
     }
 
     fun openResetActivity() {
         val intent = Intent(this, ResetPasswordActivity::class.java)
-
         startActivity(intent)
-
     }
 
-
     private fun handleFacebookAccessToken(token: AccessToken) {
-
         val credential = FacebookAuthProvider.getCredential(token.token)
         firebaseAuth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
-
                     val user = firebaseAuth.currentUser
                     BaseApp.prefs.login_later = false
                     BaseApp.prefs.user_saved = user!!.displayName
@@ -216,7 +178,6 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
                     openMainActivity()
                 } else {
                     // If sign in fails, display a message to the user.
-
                     Toast.makeText(
                         baseContext, "Authentication failed.",
                         Toast.LENGTH_SHORT
@@ -227,13 +188,9 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
             }
     }
 
-    fun loginEmailPass(user: String) {
-
+    fun loginEmailPass() {
         BaseApp.prefs.login_later = false
-        user.replace(" ", "");
-
+        etUser?.setText(etUser?.text.toString().trim())
         openMainActivity()
     }
-
-
 }

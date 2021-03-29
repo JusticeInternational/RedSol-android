@@ -1,6 +1,5 @@
 package com.cleteci.redsolidaria.ui.adapters
 
-import java.lang.CharSequence
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -11,13 +10,12 @@ import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.RelativeLayout
 import android.widget.TextView
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.cleteci.redsolidaria.R
-import com.cleteci.redsolidaria.models.Resource
+import com.cleteci.redsolidaria.models.Service
 
 class ResourseAdapter(
-    private val context: Context?, private val list: MutableList<Resource>,
+    private val context: Context?, private val list: MutableList<Service>,
     fragment: onItemClickListener, typeInfl: Int, isFromScan:Boolean
 ) : RecyclerView.Adapter<ResourseAdapter.ListViewHolder>() {
 
@@ -40,7 +38,7 @@ class ResourseAdapter(
         var post = list[position]
 
         holder!!.title?.text = post.name
-        holder!!.body?.setImageResource(post.photo)
+        //holder!!.body?.setImageResource(post.photo)
         holder!!.tvLocation?.text = post.location
         holder!!.tvHourHand?.text = post.hourHand
         holder!!.rbGeneral?.rating = post.ranking.toFloat()
@@ -119,7 +117,7 @@ class ResourseAdapter(
         val ivNoUser = itemView.findViewById<ImageView>(R.id.ivNoUser)
 
 
-        fun bind(item: Resource) {
+        fun bind(item: Service) {
 
         }
     }

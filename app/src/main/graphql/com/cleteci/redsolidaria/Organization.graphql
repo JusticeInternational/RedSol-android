@@ -69,7 +69,9 @@ mutation provideAtentionUnregisteredService($orgID:ID!, $serviceID:ID!, $name: S
 
 query getServedBeneficiariesService($id: ID, $orgID:ID!) {
     servedBeneficiariesService(id:$id, orgID: $orgID) {
+        id
         name
+        lastName
         email
     }
 }
@@ -84,6 +86,7 @@ query getServedBeneficiariesCategory($id: ID, $orgID:ID!) {
 
 query getServedUnregisteredService($id: ID, $orgID:ID!) {
     servedUnregisteredService(id:$id, orgID: $orgID) {
+        id
         name
         lastName
         email

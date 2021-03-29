@@ -7,11 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.cleteci.redsolidaria.BaseApp
 import com.cleteci.redsolidaria.R
 import com.cleteci.redsolidaria.util.*
-import kotlinx.android.synthetic.main.fragment_organization_info.linearAttributes
+import kotlinx.android.synthetic.main.fragment_organization_info.*
 
 
 class InfoFragment : Fragment(), View.OnClickListener {
@@ -38,6 +40,14 @@ class InfoFragment : Fragment(), View.OnClickListener {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        if (BaseApp.prefs.is_provider_service) {
+            planLayout.visibility = View.VISIBLE
+            btChangePlan.setOnClickListener {
+                Toast.makeText(context,"Mostrar cambiar plan", Toast.LENGTH_LONG).show()
+            }
+        } else {
+            planLayout.visibility = View.GONE
+        }
         setupAttributes()
     }
 

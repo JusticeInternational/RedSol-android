@@ -11,7 +11,7 @@ import com.cleteci.redsolidaria.R
 
 import com.cleteci.redsolidaria.di.component.DaggerFragmentComponent
 import com.cleteci.redsolidaria.di.module.FragmentModule
-import com.cleteci.redsolidaria.models.ResourceCategory
+import com.cleteci.redsolidaria.models.Category
 
 import com.cleteci.redsolidaria.ui.adapters.ResourseCategoryAdapter
 import javax.inject.Inject
@@ -34,7 +34,7 @@ class ServiceDetailFragment : BaseFragment(), ServiceDetailContract.View, Resour
 
     var mListRecyclerView: RecyclerView? = null
     var mAdapter: ResourseCategoryAdapter? = null
-    private var listCategory = ArrayList<ResourceCategory>()
+    private var listCategory = ArrayList<Category>()
     var btSave: Button? = null
     var btVolunteer: Button? = null
     var btContribution: Button? = null

@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.cleteci.redsolidaria.R
 import com.cleteci.redsolidaria.di.component.DaggerFragmentComponent
 import com.cleteci.redsolidaria.di.module.FragmentModule
-import com.cleteci.redsolidaria.models.ResourceCategory
+import com.cleteci.redsolidaria.models.Category
 import com.cleteci.redsolidaria.ui.activities.main.MainActivity
 import com.cleteci.redsolidaria.ui.adapters.ResourseCategoryAdapter
 import com.cleteci.redsolidaria.ui.base.BaseFragment
@@ -40,7 +40,7 @@ class MapFragment : BaseFragment(), MapContract.View, OnMapReadyCallback, Resour
     private var mapView: MapView? = null
     private var mListRecyclerView: RecyclerView? = null
     private var mAdapter: ResourseCategoryAdapter? = null
-    private val listCategory = ArrayList<ResourceCategory>()
+    private val listCategory = ArrayList<Category>()
 
     fun newInstance(): MapFragment {
         return MapFragment()
@@ -220,24 +220,18 @@ class MapFragment : BaseFragment(), MapContract.View, OnMapReadyCallback, Resour
         mMap.addMarker(markerOptions)
     }
 
-    override fun loadDataSuccess(list: List<ResourceCategory>) {
+    override fun loadDataSuccess(list: List<Category>) {
         listCategory.clear()
         listCategory.addAll(list)
         mAdapter?.notifyDataSetChanged()
 
     }
 
-    override fun init() {
+    override fun init() {}
 
-    }
+    override fun clickScanCategory(postId: String) {}
 
-    override fun clickScanCategory(postId: String) {
-
-    }
-
-    override fun scanNoUserCategory(position: Int) {
-
-    }
+    override fun scanNoUserCategory(position: Int) {}
 
     override fun itemDetail(postId: Int) {
         mMap.clear()

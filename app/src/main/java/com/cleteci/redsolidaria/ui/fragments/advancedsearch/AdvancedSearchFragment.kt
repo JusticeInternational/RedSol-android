@@ -27,7 +27,7 @@ import com.cleteci.redsolidaria.R
 
 import com.cleteci.redsolidaria.di.component.DaggerFragmentComponent
 import com.cleteci.redsolidaria.di.module.FragmentModule
-import com.cleteci.redsolidaria.models.ResourceCategory
+import com.cleteci.redsolidaria.models.Category
 import com.cleteci.redsolidaria.ui.adapters.ResourseCategoryAdapter
 import com.cleteci.redsolidaria.ui.base.BaseFragment
 import com.cleteci.redsolidaria.ui.fragments.resourcesResult.ResourcesResultFragment
@@ -51,7 +51,7 @@ class AdvancedSearchFragment : BaseFragment(), AdvancedSearchContract.View,
     var tvMyLocation: TextView? = null
     var searchView: SearchView? = null
     var mAdapter: ResourseCategoryAdapter? = null
-    private val listCategory = ArrayList<ResourceCategory>()
+    private val listCategory = ArrayList<Category>()
 
     @Inject
     lateinit var presenter: AdvancedSearchContract.Presenter
@@ -176,7 +176,7 @@ class AdvancedSearchFragment : BaseFragment(), AdvancedSearchContract.View,
         }
     }
 
-    override fun loadDataSuccess(list: List<ResourceCategory>) {
+    override fun loadDataSuccess(list: List<Category>) {
         activity?.runOnUiThread(Runnable {
             listCategory.clear()
             listCategory.addAll(list)

@@ -1,6 +1,6 @@
 package com.cleteci.redsolidaria.ui.fragments.servicedetail
 
-import com.cleteci.redsolidaria.models.ResourceCategory
+import com.cleteci.redsolidaria.models.Category
 import com.cleteci.redsolidaria.ui.base.BaseContract
 
 /**
@@ -13,6 +13,6 @@ class ServiceDetailContract {
     }
 
     interface Presenter: BaseContract.Presenter<ServiceDetailContract.View> {
-        fun getData():ArrayList<ResourceCategory>
+        fun getData():ArrayList<Category>
     }
 }

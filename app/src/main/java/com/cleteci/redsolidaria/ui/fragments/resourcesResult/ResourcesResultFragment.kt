@@ -14,12 +14,11 @@ import com.cleteci.redsolidaria.BaseApp
 import com.cleteci.redsolidaria.R
 import com.cleteci.redsolidaria.di.component.DaggerFragmentComponent
 import com.cleteci.redsolidaria.di.module.FragmentModule
-import com.cleteci.redsolidaria.models.Resource
-import com.cleteci.redsolidaria.models.ResourceCategory
+import com.cleteci.redsolidaria.models.Service
+import com.cleteci.redsolidaria.models.Category
 import com.cleteci.redsolidaria.ui.activities.main.MainActivity
 import com.cleteci.redsolidaria.ui.adapters.ResourseAdapter
 import com.cleteci.redsolidaria.ui.base.BaseFragment
-import com.cleteci.redsolidaria.ui.fragments.servicedetail.ServiceDetailFragment
 import javax.inject.Inject
 
 
@@ -34,14 +33,14 @@ class ResourcesResultFragment : BaseFragment(), ResourcesResultContract.View,
     private lateinit var keyWord: String
     private lateinit var sCategoryName: String
     var tvResult: TextView? = null
-    private val listCategory = ArrayList<Resource>()
+    private val listCategory = ArrayList<Service>()
 
     @Inject
     lateinit var presenter: ResourcesResultContract.Presenter
 
     private lateinit var rootView: View
 
-    fun newInstance(sc: ResourceCategory, key: String): ResourcesResultFragment {
+    fun newInstance(sc: Category, key: String): ResourcesResultFragment {
         val fragment = ResourcesResultFragment()
         val args = Bundle()
         args.putString("id", sc.id)
@@ -128,7 +127,7 @@ class ResourcesResultFragment : BaseFragment(), ResourcesResultContract.View,
         )
     }
 
-    override fun loadDataSuccess(list: List<Resource>) {
+    override fun loadDataSuccess(list: List<Service>) {
         activity?.runOnUiThread(Runnable {
             listCategory.clear()
             listCategory.addAll(list)

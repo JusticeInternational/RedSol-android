@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.cleteci.redsolidaria.BaseApp
@@ -36,10 +37,20 @@ class ServicesFragment : Fragment() {
 
     private fun setUpUI() {
         if (BaseApp.prefs.is_provider_service) {
+            btShowServices.visibility = View.VISIBLE
+            btNotifyInterest.visibility = View.GONE
             etHealth.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_cross,0, 0, 0)
             etTest.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_test,0, 0, 0)
             etVaccine.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_vaccine,0, 0, 0)
+            btShowServices.setOnClickListener {
+                    Toast.makeText(context,"Mostrar servicios", Toast.LENGTH_LONG).show()
+                }
         } else {
+            btShowServices.visibility = View.GONE
+            btNotifyInterest.visibility = View.VISIBLE
+            btNotifyInterest.setOnClickListener {
+                Toast.makeText(context,"Notificación de interes ha sido enviada al proveedor de los servicios", Toast.LENGTH_LONG).show()
+            }
             etHealth.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_cross,0,
                 if (isHealthSaved) R.drawable.ic_interested else R.drawable.ic_interested_green , 0)
             etTest.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_test,0,

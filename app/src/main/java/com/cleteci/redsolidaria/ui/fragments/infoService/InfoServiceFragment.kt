@@ -10,15 +10,15 @@ import android.widget.TextView
 import com.cleteci.redsolidaria.R
 import com.cleteci.redsolidaria.di.component.DaggerFragmentComponent
 import com.cleteci.redsolidaria.di.module.FragmentModule
-import com.cleteci.redsolidaria.models.Resource
-import com.cleteci.redsolidaria.models.ResourceCategory
+import com.cleteci.redsolidaria.models.Service
+import com.cleteci.redsolidaria.models.Category
 import com.cleteci.redsolidaria.ui.activities.main.MainActivity
 import com.cleteci.redsolidaria.ui.base.BaseFragment
 import javax.inject.Inject
 
 class InfoServiceFragment : BaseFragment(), InfoServiceContract.View {
-    var catService: ResourceCategory? = null
-    var service: Resource? = null
+    var catService: Category? = null
+    var service: Service? = null
     var tvName: TextView? = null
     var totalServed: TextView? = null
     var ivService: ImageView? = null
@@ -30,7 +30,7 @@ class InfoServiceFragment : BaseFragment(), InfoServiceContract.View {
 
     private lateinit var rootView: View
 
-    fun newInstance(catService1: ResourceCategory?, service: Resource?): InfoServiceFragment {
+    fun newInstance(catService1: Category?, service: Service?): InfoServiceFragment {
         var frag: InfoServiceFragment = InfoServiceFragment()
         var args = Bundle()
         if (catService1 != null) {
@@ -46,9 +46,9 @@ class InfoServiceFragment : BaseFragment(), InfoServiceContract.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (arguments != null && arguments?.getSerializable("category") != null) {
-            catService = arguments?.getSerializable("category") as ResourceCategory
+            catService = arguments?.getSerializable("category") as Category
         } else {
-            service = arguments?.getSerializable("service") as Resource
+            service = arguments?.getSerializable("service") as Service
         }
         injectDependency()
     }
@@ -107,7 +107,7 @@ class InfoServiceFragment : BaseFragment(), InfoServiceContract.View {
             tvName?.text = catService!!.name
             presenter.loadCategoryData(catService!!.id)
         } else {
-            ivService?.setImageResource(service!!.photo)
+            ivService?.setImageResource(service!!.category.iconId)
             tvName?.text = service!!.name
             presenter.loadServiceData(service!!.id)
         }

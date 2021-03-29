@@ -2,7 +2,6 @@ package com.cleteci.redsolidaria.ui.fragments.users
 
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -14,8 +13,8 @@ import com.cleteci.redsolidaria.R
 
 import com.cleteci.redsolidaria.di.component.DaggerFragmentComponent
 import com.cleteci.redsolidaria.di.module.FragmentModule
-import com.cleteci.redsolidaria.models.Resource
-import com.cleteci.redsolidaria.models.ResourceCategory
+import com.cleteci.redsolidaria.models.Service
+import com.cleteci.redsolidaria.models.Category
 import com.cleteci.redsolidaria.ui.activities.main.MainActivity
 import com.cleteci.redsolidaria.ui.base.BaseFragment
 import com.google.android.material.tabs.TabLayout
@@ -27,13 +26,13 @@ class AttendersFragment : BaseFragment() , AttendersContract.View  {
 
     @Inject lateinit var presenter: AttendersContract.Presenter
      var mSectionsPagerAdapter:SectionsPagerAdapter? = null
-    var catService: ResourceCategory? = null
-    var service: Resource? = null
+    var catService: Category? = null
+    var service: Service? = null
     var tabs: TabLayout?=null
     var mViewPager: ViewPager?=null
     private lateinit var rootView: View
 
-    fun newInstance(service: Resource): AttendersFragment {
+    fun newInstance(service: Service): AttendersFragment {
 
         val fragment = AttendersFragment()
         val args = Bundle()
@@ -43,7 +42,7 @@ class AttendersFragment : BaseFragment() , AttendersContract.View  {
 
     }
 
-    fun newInstance(category: ResourceCategory): AttendersFragment {
+    fun newInstance(category: Category): AttendersFragment {
         val fragment = AttendersFragment()
         val args = Bundle()
         args.putSerializable("category", category)
@@ -55,9 +54,9 @@ class AttendersFragment : BaseFragment() , AttendersContract.View  {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (arguments != null && arguments?.getSerializable("category") != null) {
-            catService = arguments?.getSerializable("category") as ResourceCategory
+            catService = arguments?.getSerializable("category") as Category
         } else {
-            service = arguments?.getSerializable("service") as Resource
+            service = arguments?.getSerializable("service") as Service
         }
         injectDependency()
     }
@@ -136,7 +135,7 @@ class AttendersFragment : BaseFragment() , AttendersContract.View  {
     }
 
 
-    class SectionsPagerAdapter(fm: FragmentManager, catService: ResourceCategory?,service: Resource? ) : FragmentPagerAdapter(fm) {
+    class SectionsPagerAdapter(fm: FragmentManager, catService: Category?, service: Service? ) : FragmentPagerAdapter(fm) {
        /* var catService:ResourceCategory?=catService
         var service:Resource?=service*/
 

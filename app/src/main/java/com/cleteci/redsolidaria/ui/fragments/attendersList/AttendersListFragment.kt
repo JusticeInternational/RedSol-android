@@ -10,12 +10,10 @@ import com.cleteci.redsolidaria.R
 
 import com.cleteci.redsolidaria.di.component.DaggerFragmentComponent
 import com.cleteci.redsolidaria.di.module.FragmentModule
-import com.cleteci.redsolidaria.models.Resource
-import com.cleteci.redsolidaria.models.ResourceCategory
+import com.cleteci.redsolidaria.models.Service
+import com.cleteci.redsolidaria.models.Category
 import com.cleteci.redsolidaria.models.User
 import com.cleteci.redsolidaria.ui.activities.main.MainActivity
-import com.cleteci.redsolidaria.ui.adapters.ResourseAdapter
-import com.cleteci.redsolidaria.ui.adapters.ResourseCategoryAdapter
 import com.cleteci.redsolidaria.ui.adapters.UserAdapter
 import com.cleteci.redsolidaria.ui.base.BaseFragment
 import javax.inject.Inject
@@ -24,8 +22,8 @@ import javax.inject.Inject
 class AttendersListFragment : BaseFragment(), AttendersListContract.View {
 
 
-    var catService: ResourceCategory? = null
-    var service: Resource? = null
+    var catService: Category? = null
+    var service: Service? = null
     var type: Int? = null
 
     var rvUsers: RecyclerView? = null
@@ -37,7 +35,7 @@ class AttendersListFragment : BaseFragment(), AttendersListContract.View {
 
     private lateinit var rootView: View
 
-    fun newInstance(type: Int, serviceId: Resource?, catId: ResourceCategory?): AttendersListFragment {
+    fun newInstance(type: Int, serviceId: Service?, catId: Category?): AttendersListFragment {
 
         val fragment = AttendersListFragment()
         val args = Bundle()
@@ -55,9 +53,9 @@ class AttendersListFragment : BaseFragment(), AttendersListContract.View {
         if (arguments != null) {
             type = arguments!!.getInt("type")
             if (arguments!!.getSerializable("service") != null) {
-                service = arguments!!.getSerializable("service") as Resource
+                service = arguments!!.getSerializable("service") as Service
             } else {
-                catService = arguments!!.getSerializable("cat") as ResourceCategory
+                catService = arguments!!.getSerializable("cat") as Category
             }
 
         }

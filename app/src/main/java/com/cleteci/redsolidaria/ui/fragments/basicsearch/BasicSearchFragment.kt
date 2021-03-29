@@ -13,7 +13,7 @@ import com.cleteci.redsolidaria.R
 
 import com.cleteci.redsolidaria.di.component.DaggerFragmentComponent
 import com.cleteci.redsolidaria.di.module.FragmentModule
-import com.cleteci.redsolidaria.models.ResourceCategory
+import com.cleteci.redsolidaria.models.Category
 import javax.inject.Inject
 import androidx.recyclerview.widget.RecyclerView
 import com.cleteci.redsolidaria.ui.activities.main.MainActivity
@@ -31,7 +31,7 @@ class BasicSearchFragment : BaseFragment() , BasicSearchContract.View , Resourse
     var searchView: SearchView? = null
     var tvResult: TextView? = null
     private var keyWord: String = ""
-    private val listCategory= ArrayList<ResourceCategory>()
+    private val listCategory= ArrayList<Category>()
 
     @Inject lateinit var presenter: BasicSearchContract.Presenter
 
@@ -140,7 +140,7 @@ class BasicSearchFragment : BaseFragment() , BasicSearchContract.View , Resourse
         presenter.loadData()
     }
 
-    override fun loadDataSuccess(list: List<ResourceCategory>) {
+    override fun loadDataSuccess(list: List<Category>) {
         activity?.runOnUiThread(Runnable {
             listCategory.clear()
             listCategory.addAll(list)
