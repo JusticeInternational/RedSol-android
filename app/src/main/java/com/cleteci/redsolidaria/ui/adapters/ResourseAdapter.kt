@@ -104,12 +104,12 @@ class ResourseAdapter(
     }
 
     class ListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var layout = itemView.findViewById<RelativeLayout>(R.id.parentr)
+        var layout = itemView.findViewById<RelativeLayout>(R.id.relativeMaker)
         val title: TextView? = itemView.findViewById<TextView>(R.id.tvName)
         val tvLocation: TextView? = itemView.findViewById<TextView>(R.id.tvLocation)
         val tvHourHand: TextView? = itemView.findViewById<TextView>(R.id.tvHourHand)
         val rbGeneral: RatingBar? = itemView.findViewById<RatingBar>(R.id.rbGeneral)
-        val body: ImageView? = itemView.findViewById<ImageView>(R.id.imageview)
+        val body: ImageView? = itemView.findViewById<ImageView>(R.id.imgMarker)
         val viewLine = itemView.findViewById<View>(R.id.viewLine)
         val tvDescription = itemView.findViewById<TextView>(R.id.tvDescription)
         val ivArrow = itemView.findViewById<ImageView>(R.id.ivArrow)

@@ -17,17 +17,17 @@ import com.cleteci.redsolidaria.models.Category
 import javax.inject.Inject
 import androidx.recyclerview.widget.RecyclerView
 import com.cleteci.redsolidaria.ui.activities.main.MainActivity
-import com.cleteci.redsolidaria.ui.adapters.ResourseCategoryAdapter
+import com.cleteci.redsolidaria.ui.adapters.CategoriesAdapter
 import com.cleteci.redsolidaria.ui.base.BaseFragment
 import com.cleteci.redsolidaria.ui.fragments.resourcesResult.ResourcesResultFragment
 
 
-class BasicSearchFragment : BaseFragment() , BasicSearchContract.View , ResourseCategoryAdapter.onItemClickListener {
+class BasicSearchFragment : BaseFragment() , BasicSearchContract.View , CategoriesAdapter.OnItemClickListener {
 
 
 
     var mListRecyclerView: RecyclerView? = null
-    var mAdapter:ResourseCategoryAdapter? = null
+    var mAdapter:CategoriesAdapter? = null
     var searchView: SearchView? = null
     var tvResult: TextView? = null
     private var keyWord: String = ""
@@ -57,7 +57,7 @@ class BasicSearchFragment : BaseFragment() , BasicSearchContract.View , Resourse
 
         // only create and set a new adapter if there isn't already one
         //if (mAdapter == null) {
-        mAdapter = ResourseCategoryAdapter(activity?.applicationContext, listCategory, this, 1,  false)
+        mAdapter = CategoriesAdapter(activity?.applicationContext, listCategory, this, 1,  false)
         mListRecyclerView?.adapter = mAdapter;
         searchView = rootView?.findViewById(R.id.searchView);
         searchView!!.isIconified = false
@@ -161,7 +161,7 @@ class BasicSearchFragment : BaseFragment() , BasicSearchContract.View , Resourse
 
     }
 
-    override fun clickScanCategory(postId: String) {
+    override fun clickScanCategory(postId: Int) {
 
 
     }

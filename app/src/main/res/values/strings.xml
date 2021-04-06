@@ -282,4 +282,5 @@
     <string name="publish">Publicar</string>
     <string name="interested_on_services">Me Interesan los servicios  de este proveedor</string>
     <string name="my_services">Mis Servicios</string>
+    <string name="see_details"><![CDATA[<u>Ver Detalle</u>]]></string>
 </resources>

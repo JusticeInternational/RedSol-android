@@ -6,7 +6,7 @@
     android:layout_width="60dp"
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
-    android:id="@+id/parentr">
+    android:id="@+id/relativeMaker">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/lyConst"
@@ -22,7 +22,7 @@
         >
 
         <ImageView
-            android:id="@+id/imageview"
+            android:id="@+id/imgMarker"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:scaleType="fitXY"

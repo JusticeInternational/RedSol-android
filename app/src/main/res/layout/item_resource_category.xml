@@ -7,7 +7,7 @@
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
 
-    android:id="@+id/parentr">
+    android:id="@+id/relativeMaker">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:background="@drawable/bg_border_line_grey"
@@ -23,7 +23,7 @@
         >
 
     <ImageView
-        android:id="@+id/imageview"
+        android:id="@+id/imgMarker"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintDimensionRatio="H,1:1"

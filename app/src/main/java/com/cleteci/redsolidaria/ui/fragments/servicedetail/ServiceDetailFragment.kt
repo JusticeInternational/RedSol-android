@@ -13,7 +13,7 @@ import com.cleteci.redsolidaria.di.component.DaggerFragmentComponent
 import com.cleteci.redsolidaria.di.module.FragmentModule
 import com.cleteci.redsolidaria.models.Category
 
-import com.cleteci.redsolidaria.ui.adapters.ResourseCategoryAdapter
+import com.cleteci.redsolidaria.ui.adapters.CategoriesAdapter
 import javax.inject.Inject
 import android.widget.TextView
 import android.text.Spannable
@@ -28,12 +28,12 @@ import android.view.View.OnTouchListener
 import com.cleteci.redsolidaria.ui.base.BaseFragment
 
 
-class ServiceDetailFragment : BaseFragment(), ServiceDetailContract.View, ResourseCategoryAdapter.onItemClickListener {
+class ServiceDetailFragment : BaseFragment(), ServiceDetailContract.View, CategoriesAdapter.OnItemClickListener {
 
 
 
     var mListRecyclerView: RecyclerView? = null
-    var mAdapter: ResourseCategoryAdapter? = null
+    var mAdapter: CategoriesAdapter? = null
     private var listCategory = ArrayList<Category>()
     var btSave: Button? = null
     var btVolunteer: Button? = null
@@ -70,7 +70,7 @@ class ServiceDetailFragment : BaseFragment(), ServiceDetailContract.View, Resour
 
         listCategory=presenter.getData()
 
-        mAdapter = ResourseCategoryAdapter(activity?.applicationContext, listCategory, this, 3, false)
+        mAdapter = CategoriesAdapter(activity?.applicationContext, listCategory, this, 3, false)
         mListRecyclerView?.setAdapter(mAdapter);
 
         val str = SpannableStringBuilder(getString(R.string.be_volunteer))
@@ -378,7 +378,7 @@ class ServiceDetailFragment : BaseFragment(), ServiceDetailContract.View, Resour
 
     }
 
-    override fun clickScanCategory(postId: String) {
+    override fun clickScanCategory(postId: Int) {
 
     }
     override fun scanNoUserCategory(position: Int) {

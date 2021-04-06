@@ -4,6 +4,8 @@ import java.io.Serializable
 
 data class Organization(val id: String, val user: User,
                         val name: String,
+                        val lat: Double,
+                        val lng: Double,
                         val schedule: String,
                         val address: String,
                         val location: String,

@@ -28,7 +28,7 @@ import com.cleteci.redsolidaria.R
 import com.cleteci.redsolidaria.di.component.DaggerFragmentComponent
 import com.cleteci.redsolidaria.di.module.FragmentModule
 import com.cleteci.redsolidaria.models.Category
-import com.cleteci.redsolidaria.ui.adapters.ResourseCategoryAdapter
+import com.cleteci.redsolidaria.ui.adapters.CategoriesAdapter
 import com.cleteci.redsolidaria.ui.base.BaseFragment
 import com.cleteci.redsolidaria.ui.fragments.resourcesResult.ResourcesResultFragment
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -38,7 +38,7 @@ import javax.inject.Inject
 
 
 class AdvancedSearchFragment : BaseFragment(), AdvancedSearchContract.View,
-    ResourseCategoryAdapter.onItemClickListener {
+    CategoriesAdapter.OnItemClickListener {
 
 
 
@@ -50,7 +50,7 @@ class AdvancedSearchFragment : BaseFragment(), AdvancedSearchContract.View,
     var lyContainer: LinearLayout? = null
     var tvMyLocation: TextView? = null
     var searchView: SearchView? = null
-    var mAdapter: ResourseCategoryAdapter? = null
+    var mAdapter: CategoriesAdapter? = null
     private val listCategory = ArrayList<Category>()
 
     @Inject
@@ -120,7 +120,7 @@ class AdvancedSearchFragment : BaseFragment(), AdvancedSearchContract.View,
             startActivityForResult(locationPickerIntent, MAP_BUTTON_REQUEST_CODE)
         }
         mListRecyclerView?.setLayoutManager(LinearLayoutManager(getActivity()))
-        mAdapter = ResourseCategoryAdapter(activity?.applicationContext, listCategory, this, 2,  false)
+        mAdapter = CategoriesAdapter(activity?.applicationContext, listCategory, this, 2,  false)
         mListRecyclerView?.setAdapter(mAdapter)
         return rootView
     }
@@ -288,12 +288,11 @@ class AdvancedSearchFragment : BaseFragment(), AdvancedSearchContract.View,
     override fun itemDetail(postId: Int) {
         activity!!.supportFragmentManager.beginTransaction()
             .addToBackStack(null)
-            // .setCustomAnimations(AnimType.FADE.getAnimPair().first, AnimType.FADE.getAnimPair().second)
             .replace(R.id.container_fragment, ResourcesResultFragment().newInstance(this.listCategory[postId], "asdf"), ResourcesResultFragment.TAG)
             .commit()
     }
 
-    override fun clickScanCategory(postId: String) {
+    override fun clickScanCategory(postId: Int) {
 
 
     }

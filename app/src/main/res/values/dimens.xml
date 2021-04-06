@@ -26,9 +26,15 @@
     <dimen name="appbar_padding_top">8dp</dimen>
     <dimen name="height_info_item">56dp</dimen>
     <dimen name="height_divider">1dp</dimen>
+
+    <dimen name="height_marker">55dp</dimen>
+    <dimen name="width_marker">45dp</dimen>
+    <dimen name="height_icon_marker">30dp</dimen>
+
     <dimen name="logo_size">90dp</dimen>
     <dimen name="logo_post_size">70dp</dimen>
     <dimen name="button_padding">8dp</dimen>
     <dimen name="button_height">44dp</dimen>
     <dimen name="button_width">260dp</dimen>
+    <dimen name="height_icon_marker_info">20dp</dimen>
 </resources>

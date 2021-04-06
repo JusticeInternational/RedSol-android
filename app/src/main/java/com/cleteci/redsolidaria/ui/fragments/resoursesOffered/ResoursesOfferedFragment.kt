@@ -17,14 +17,14 @@ import com.cleteci.redsolidaria.models.Service
 import com.cleteci.redsolidaria.models.Category
 import com.cleteci.redsolidaria.ui.activities.main.MainActivity
 import com.cleteci.redsolidaria.ui.adapters.ResourseAdapter
-import com.cleteci.redsolidaria.ui.adapters.ResourseCategoryAdapter
+import com.cleteci.redsolidaria.ui.adapters.CategoriesAdapter
 import com.cleteci.redsolidaria.ui.base.BaseFragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import javax.inject.Inject
 
 
 class ResoursesOfferedFragment : BaseFragment(), ResoursesOfferedContract.View,
-    ResourseCategoryAdapter.onItemClickListener, ResourseAdapter.onItemClickListener {
+    CategoriesAdapter.OnItemClickListener, ResourseAdapter.onItemClickListener {
 
 
 
@@ -36,7 +36,7 @@ class ResoursesOfferedFragment : BaseFragment(), ResoursesOfferedContract.View,
     var rvResourses: RecyclerView? = null
     var rvResoursesGeneric: RecyclerView? = null
     var rvMyCategories: RecyclerView? = null
-    var mAdapter: ResourseCategoryAdapter? = null
+    var mAdapter: CategoriesAdapter? = null
     var resoursesAdapter: ResourseAdapter? = null
     var genericResoursesAdapter: ResourseAdapter? = null
 
@@ -75,7 +75,7 @@ class ResoursesOfferedFragment : BaseFragment(), ResoursesOfferedContract.View,
         rootView = inflater.inflate(R.layout.fragment_resourses_offered, container, false)
 
         rvMyCategories = rootView.findViewById(R.id.rvMyCategories)
-        rvResourses = rootView.findViewById(R.id.rvResourses)
+        rvResourses = rootView.findViewById(R.id.rvCategories)
         rvResoursesGeneric = rootView.findViewById(R.id.rvResoursesGeneric)
         tvLabelResourses = rootView.findViewById(R.id.tvLabelResourses)
         tvLabelCategories = rootView.findViewById(R.id.tvLabelCategories)
@@ -100,7 +100,7 @@ class ResoursesOfferedFragment : BaseFragment(), ResoursesOfferedContract.View,
         rvResoursesGeneric?.setLayoutManager(
             LinearLayoutManager(getActivity())
         )
-        mAdapter = ResourseCategoryAdapter(
+        mAdapter = CategoriesAdapter(
             activity?.applicationContext, listCategories, this, 4, isFromScan
         )
 
@@ -221,7 +221,7 @@ class ResoursesOfferedFragment : BaseFragment(), ResoursesOfferedContract.View,
 
     }
 
-    override fun clickScanCategory(postId: String) {
+    override fun clickScanCategory(postId: Int) {
 
     }
 

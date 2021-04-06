@@ -66,7 +66,7 @@ class ResourcesResultFragment : BaseFragment(), ResourcesResultContract.View,
     ): View? {
         rootView = inflater.inflate(R.layout.fragment_resourses_result, container, false)
 
-        mListRecyclerView = rootView?.findViewById(R.id.rvResourses);
+        mListRecyclerView = rootView?.findViewById(R.id.rvCategories);
         mListRecyclerView?.layoutManager = LinearLayoutManager(activity);
 
         // only create and set a new adapter if there isn't already one

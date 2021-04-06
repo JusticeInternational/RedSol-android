@@ -38,7 +38,7 @@ class ServiceDetailPresenter: ServiceDetailContract.Presenter {
         listCategory.add(tipo4)
         val tipo5 = Category("5", "Comida", R.drawable.ic_food)
         listCategory.add(tipo5)
-        val tipo6 = Category("6", "Asesoria", R.drawable.ic_justice)
+        val tipo6 = Category("6", "Asesoria", R.drawable.ic_legal)
         listCategory.add(tipo6)
 
         return listCategory

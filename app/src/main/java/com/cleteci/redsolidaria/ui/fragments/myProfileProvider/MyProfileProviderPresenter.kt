@@ -40,6 +40,7 @@ class MyProfileProviderPresenter: MyProfileProviderContract.Presenter {
                 organization.id(),
                 LocalDataForUITest.getUserById(organization.id())!!,
                 organization.name().toString(),
+                0.0, 0.0,
                 "",
                 organization.location()?.name().toString(),
                 organization.location()?.name().toString(),

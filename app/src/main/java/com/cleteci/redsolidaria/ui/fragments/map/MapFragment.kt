@@ -1,45 +1,50 @@
 package com.cleteci.redsolidaria.ui.fragments.map
 
 
-import android.app.Activity
+import android.Manifest
 import android.content.Context
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.PorterDuff
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.util.DisplayMetrics
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.cleteci.redsolidaria.R
+import com.cleteci.redsolidaria.data.LocalDataForUITest.getOrganizationsList
 import com.cleteci.redsolidaria.di.component.DaggerFragmentComponent
 import com.cleteci.redsolidaria.di.module.FragmentModule
 import com.cleteci.redsolidaria.models.Category
+import com.cleteci.redsolidaria.models.Service
 import com.cleteci.redsolidaria.ui.activities.main.MainActivity
-import com.cleteci.redsolidaria.ui.adapters.ResourseCategoryAdapter
+import com.cleteci.redsolidaria.ui.adapters.CategoriesAdapter
 import com.cleteci.redsolidaria.ui.base.BaseFragment
 import com.cleteci.redsolidaria.ui.components.CustomInfoWindowGoogleMap
 import com.cleteci.redsolidaria.ui.fragments.advancedsearch.AdvancedSearchFragment
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GooglePlayServicesUtil
-import com.google.android.gms.maps.*
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.MapsInitializer
+import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.*
+import kotlinx.android.synthetic.main.fragment_map.*
 import javax.inject.Inject
 
 
-class MapFragment : BaseFragment(), MapContract.View, OnMapReadyCallback, ResourseCategoryAdapter.onItemClickListener,
+class MapFragment : BaseFragment(), MapContract.View, OnMapReadyCallback, CategoriesAdapter.OnItemClickListener,
     GoogleMap.OnInfoWindowClickListener {
 
     @Inject
     lateinit var presenter: MapContract.Presenter
-    private lateinit var rootView: View
     private lateinit var mMap: GoogleMap
-    private var mapView: MapView? = null
-    private var mListRecyclerView: RecyclerView? = null
-    private var mAdapter: ResourseCategoryAdapter? = null
+    private var mAdapter: CategoriesAdapter? = null
     private val listCategory = ArrayList<Category>()
 
     fun newInstance(): MapFragment {
@@ -49,31 +54,28 @@ class MapFragment : BaseFragment(), MapContract.View, OnMapReadyCallback, Resour
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         injectDependency()
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        rootView = inflater.inflate(R.layout.fragment_map, container, false)
-
         activity!!.supportFragmentManager.beginTransaction()
             .replace(R.id.advancedContainer, AdvancedSearchFragment().newInstance())
             .commit()
+    }
 
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+        inflater.inflate(R.layout.fragment_map, container, false)
 
-        mListRecyclerView = rootView.findViewById(R.id.rvResourses)
-        mListRecyclerView?.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false);
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        presenter.attach(this)
+        presenter.subscribe()
 
-        // only create and set a new adapter if there isn't already one
-        mAdapter = ResourseCategoryAdapter(activity?.applicationContext, listCategory, this, 3,  false)
-        mListRecyclerView?.adapter = mAdapter;
+        rvCategories.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false);
+        mAdapter = CategoriesAdapter(requireContext(), listCategory, this, 3,  false)
+        rvCategories.adapter = mAdapter
 
         MapsInitializer.initialize(activity)
 
-        mapView = rootView.findViewById(R.id.map)
         mapView?.onCreate(savedInstanceState)
-
         when (GooglePlayServicesUtil.isGooglePlayServicesAvailable(activity)) {
             ConnectionResult.SUCCESS -> {
-                mapView = rootView.findViewById(R.id.map)
                 mapView?.onCreate(savedInstanceState)
                 if (mapView != null) {
                     mapView?.getMapAsync(this)
@@ -100,13 +102,6 @@ class MapFragment : BaseFragment(), MapContract.View, OnMapReadyCallback, Resour
                 Toast.LENGTH_SHORT
             ).show()
         }
-        return rootView
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        presenter.attach(this)
-        presenter.subscribe()
     }
 
     override fun onDestroyView() {
@@ -147,77 +142,71 @@ class MapFragment : BaseFragment(), MapContract.View, OnMapReadyCallback, Resour
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
-        mMap.setMaxZoomPreference(20f)
-        mMap.setMinZoomPreference(15f)
         mMap.setOnInfoWindowClickListener(this)
+        val cameraPosition = CameraPosition.Builder()
+            .target(LatLng(25.7617,-80.1918)) // Sets the center of the map to Miami //LatLng(37.09, -97.02) // United States of America as default
+            .zoom(11f) // Sets the zoom
+            .build()
 
-        val marker = LatLng(41.4036299, 2.1743558)
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(marker))
+        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
+        if (ContextCompat.checkSelfPermission(
+                requireContext(), USER_LOCATION_ACCESS_PERMISSION_STRING) == PackageManager.PERMISSION_GRANTED) {
+            mMap.isMyLocationEnabled = true
+        } else {
+            // Should we show an explanation?
+            if (!shouldShowRequestPermissionRationale(USER_LOCATION_ACCESS_PERMISSION_STRING)) {
+                // No explanation needed, we can request the permission.
+                requestPermissions(USER_LOCATION_ACCESS_PERMISSION_ARRAY, USER_LOCATION_ACCESS_PERMISSION_REQUEST_ID)
+            }
+        }
+        mMap.uiSettings.isMyLocationButtonEnabled = false
 
-        val marker2 = LatLng(41.4036289, 2.1743568)
-        createMarker(marker2, R.drawable.ic_vaccine)
-
-        val marker4 = LatLng(41.4040338, 2.1751424)
-        createMarker(marker4, R.drawable.ic_cross)
-
-        val marker5 = LatLng(41.4065105, 2.178318)
-        createMarker(marker5, R.drawable.ic_vaccine)
-
-        val marker6 = LatLng(41.4033097, 2.1789857)
-        createMarker(marker6, R.drawable.ic_virus)
-
-        val marker7 = LatLng(41.4016924, 2.1764415)
-        createMarker(marker7, R.drawable.ic_red_person)
-
-        val marker8 = LatLng(41.4017736, 2.173356)
-        createMarker(marker8, R.drawable.ic_cross)
+        for (organization in getOrganizationsList()) {
+            var space = 0.0
+            for (service in organization.servicesList!!) {
+                createMarker(service, organization.name, LatLng(organization.lat + space, organization.lng))
+                space += 0.05
+            }
+        }
 
         presenter.loadData()
     }
 
-    private fun createDrawableFromView(context: Context, view: View): Bitmap {
-        val displayMetrics = DisplayMetrics()
-        (context as Activity).windowManager.defaultDisplay
-            .getMetrics(displayMetrics)
-        view.layoutParams = ViewGroup.LayoutParams(
-            ViewGroup.LayoutParams.WRAP_CONTENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT
-        )
-        view.measure(displayMetrics.widthPixels, displayMetrics.heightPixels)
-        view.layout(
-            0, 0, displayMetrics.widthPixels,
-            displayMetrics.heightPixels
-        )
-        view.buildDrawingCache()
-        val bitmap = Bitmap.createBitmap(
-            view.measuredWidth,
-            view.measuredHeight, Bitmap.Config.ARGB_8888
-        )
+    private fun createMarker(service: Service, organizationName: String, latLng: LatLng) {
+        val viewMarker: View = (requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater)
+            .inflate(R.layout.item_marker, null)
 
+        val imgMarker: ImageView = viewMarker.findViewById(R.id.imgMarker)
+        imgMarker.setImageResource(service.category.iconId)
+        val bmp: Bitmap = createDrawableFromView(requireContext(), viewMarker)
+        mMap.setInfoWindowAdapter(CustomInfoWindowGoogleMap(activity!!))
+
+       val marker = mMap.addMarker(MarkerOptions()
+            .position(latLng)
+            .title(service.name)
+            .icon(BitmapDescriptorFactory.fromBitmap(bmp)))
+        marker.tag = CustomInfoWindowGoogleMap.MarkerInfo(
+            service.name, organizationName, service.category.iconId)
+    }
+
+    private fun createDrawableFromView(context: Context, view: View): Bitmap {
+        val pxH = context.resources.getDimensionPixelSize(R.dimen.height_marker)
+        val pxW = context.resources.getDimensionPixelSize(R.dimen.width_marker)
+        view.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
+        view.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT)
+        view.layout(0, 0, pxH, pxH)
+        view.buildDrawingCache()
+        val bitmap = Bitmap.createBitmap(pxH, pxH, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
+        canvas.drawColor(Color.WHITE, PorterDuff.Mode.SRC_IN);
+        view.background?.draw(canvas)
         view.draw(canvas)
         return bitmap
     }
 
     override fun onInfoWindowClick(p0: Marker?) {
         (activity as MainActivity).openOrganizationProfile()
-    }
-
-    private fun createMarker(sydney: LatLng, image: Int) {
-        val viewMarker: View = (context!!.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater).inflate(
-            R.layout.item_marker,
-            null)
-        val myImage: ImageView = viewMarker.findViewById(R.id.imageview)
-        myImage.setImageResource(image)
-        val bmp: Bitmap = createDrawableFromView(context!!, viewMarker)
-        val markerOptions = MarkerOptions()
-        markerOptions.position(sydney)
-            .title("Justice International")
-            .icon(BitmapDescriptorFactory.fromBitmap(bmp))
-
-        val customInfoWindow = CustomInfoWindowGoogleMap(activity!!)
-        mMap.setInfoWindowAdapter(customInfoWindow)
-        mMap.addMarker(markerOptions)
     }
 
     override fun loadDataSuccess(list: List<Category>) {
@@ -229,40 +218,31 @@ class MapFragment : BaseFragment(), MapContract.View, OnMapReadyCallback, Resour
 
     override fun init() {}
 
-    override fun clickScanCategory(postId: String) {}
-
-    override fun scanNoUserCategory(position: Int) {}
-
-    override fun itemDetail(postId: Int) {
+    override fun clickScanCategory(position: Int) {
         mMap.clear()
-
-        when (postId) {
-            0 -> {
-                val marker4 = LatLng(41.4040338, 2.1751424)
-                createMarker(marker4, R.drawable.ic_emergency)
-                val marker8 = LatLng(41.4017736, 2.173356)
-                createMarker(marker8, R.drawable.ic_emergency)
-            }
-            1 -> {
-                val marker7 = LatLng(41.4016924, 2.1764415)
-                createMarker(marker7, R.drawable.ic_education)
-            }
-            2 -> {
-                val marker5 = LatLng(41.4065105, 2.178318)
-                createMarker(marker5, R.drawable.ic_job)
-            }
-            3 -> {
-                val marker6 = LatLng(41.4033097, 2.1789857)
-                createMarker(marker6, R.drawable.ic_transp)
-            }
-            4 -> {
-                val marker2 = LatLng(41.4036289, 2.1743568)
-                createMarker(marker2, R.drawable.ic_justice)
+        for (organization in getOrganizationsList()) {
+            var space = 0.0
+            for (service in organization.servicesList!!) {
+                if (service.category.id == listCategory[position].id) {
+                    createMarker(service, organization.name, LatLng(organization.lat + space, organization.lng))
+                    space += 0.05
+                }
             }
         }
     }
 
+    override fun scanNoUserCategory(position: Int) {}
+
+    override fun itemDetail(categoryId: Int) {
+        mMap.clear()
+    }
+
     companion object {
         const val TAG: String = "MapFragment"
+        const val USER_LOCATION_ACCESS_PERMISSION_REQUEST_ID = 11
+        const val USER_LOCATION_ACCESS_PERMISSION_STRING =
+            Manifest.permission.ACCESS_FINE_LOCATION
+        val USER_LOCATION_ACCESS_PERMISSION_ARRAY =
+            arrayOf(USER_LOCATION_ACCESS_PERMISSION_STRING)
     }
 }
