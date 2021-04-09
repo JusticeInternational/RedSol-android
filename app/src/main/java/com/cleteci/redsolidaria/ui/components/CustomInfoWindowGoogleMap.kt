@@ -39,5 +39,6 @@ class CustomInfoWindowGoogleMap(private val activity: Activity) : GoogleMap.Info
     class MarkerInfo(
         val serviceTitle: String,
         val organizationName: String,
+        val organizationId: String,
         val serviceIcon: Int)
 }

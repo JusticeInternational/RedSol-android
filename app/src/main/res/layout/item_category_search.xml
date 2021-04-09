@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/relativeCategory"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/spacing_extra_small"
+    android:layout_marginStart="@dimen/spacing_extra_small"
+    android:layout_marginEnd="@dimen/spacing_extra_small"
+    android:orientation="horizontal"
+    android:background="@drawable/bg_border_line_grey">
+    <ImageView
+        android:id="@+id/imgCategory"
+        android:layout_width="@dimen/height_icon_marker_info"
+        android:layout_height="@dimen/height_icon_marker_info"
+        app:srcCompat="@drawable/ic_emergency"/>
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="2dp"
+        android:gravity="center"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:text="Medicina General"
+        android:textAlignment="center"
+        android:textSize="@dimen/font_size_small"
+        android:textColor="@color/colorBlack" />
+</LinearLayout>

@@ -150,7 +150,7 @@ class ResourcesResultFragment : BaseFragment(), ResourcesResultContract.View,
 //                ServiceDetailFragment.TAG
 //            )
 //            .commit()
-        (activity as MainActivity).openOrganizationProfile()
+        (activity as MainActivity).openOrganizationProfile("")
 
     }
 

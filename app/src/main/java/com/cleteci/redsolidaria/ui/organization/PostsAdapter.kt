@@ -38,10 +38,10 @@ class PostsAdapter(private val dataSet: java.util.ArrayList<Post>, private val c
         viewHolder.title.text = dataSet[position].title
         viewHolder.date.text = dataSet[position].date
         viewHolder.description.text = dataSet[position].description
-        Glide.with(context)
-            .load(R.drawable.organization_logo_sample)
-            .apply(RequestOptions().circleCrop())
-            .into(viewHolder.logo)
+//        Glide.with(context)
+//            .load(R.drawable.organization_logo_sample)
+//            .apply(RequestOptions().circleCrop())
+//            .into(viewHolder.logo)
     }
 
     override fun getItemCount() = dataSet.size

@@ -4,15 +4,10 @@
     <item
             android:id="@+id/navigation_home"
             android:icon="@drawable/ic_resources"
-            android:title="@string/my_resourse"/>
+            android:title="@string/my_resources"/>
 
     <item
             android:id="@+id/navigation_dashboard"
-            android:icon="@drawable/ic_map"
-            android:title="@string/map"/>
-
-    <item
-            android:id="@+id/navigation_search"
             android:icon="@drawable/ic_search"
             android:title="@string/search"/>
 

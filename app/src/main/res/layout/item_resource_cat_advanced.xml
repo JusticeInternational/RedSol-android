@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/relativeMaker"
+    android:id="@+id/relativeCategory"
     android:layout_width="match_parent"
     android:layout_height="50dp"
     android:background="@color/colorWhite"
@@ -10,7 +10,7 @@
 
 
     <ImageView
-        android:id="@+id/imgMarker"
+        android:id="@+id/imgCategory"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_centerVertical="true"
@@ -32,7 +32,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="5dp"
-        android:layout_toRightOf="@id/imgMarker"
+        android:layout_toRightOf="@id/imgCategory"
         android:ellipsize="end"
         android:maxLines="1"
         android:padding="3dp"

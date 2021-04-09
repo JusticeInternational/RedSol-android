@@ -45,7 +45,19 @@
                         android:layout_height="@dimen/logo_size"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:srcCompat="@drawable/organization_logo_sample" />
+                        app:srcCompat="@drawable/ic_logo_place_holder" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginBottom="32dp"
+                        android:text="Logo"
+                        android:textSize="@dimen/font_size_large"
+                        android:textStyle="bold|italic"
+                        android:textColor="@color/off_white"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
 
                     <LinearLayout
                         android:id="@+id/centerDetails"

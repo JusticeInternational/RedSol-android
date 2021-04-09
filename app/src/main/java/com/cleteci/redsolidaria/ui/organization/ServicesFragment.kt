@@ -10,21 +10,20 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.cleteci.redsolidaria.BaseApp
 import com.cleteci.redsolidaria.R
+import com.cleteci.redsolidaria.models.Organization
 import kotlinx.android.synthetic.main.fragment_organization_services.*
 
 
-class ServicesFragment : Fragment() {
+class ServicesFragment(private val organization: Organization?) : Fragment() {
 
-    private lateinit var pageViewModel: PageViewModel
     private var isHealthSaved = false
     private var isTestSaved = false
     private var isVaccineSaved = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        pageViewModel = ViewModelProvider(this).get(PageViewModel::class.java).apply {
-            setIndex(arguments?.getInt(ARG_SECTION_NUMBER) ?: 1)
-        }
+        if (organization == null)
+            return
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
@@ -75,17 +74,5 @@ class ServicesFragment : Fragment() {
             }
         }
 
-    }
-
-    companion object {
-        private const val ARG_SECTION_NUMBER = "section_number"
-        @JvmStatic
-        fun newInstance(sectionNumber: Int): ServicesFragment {
-            return ServicesFragment().apply {
-                arguments = Bundle().apply {
-                    putInt(ARG_SECTION_NUMBER, sectionNumber)
-                }
-            }
-        }
     }
 }

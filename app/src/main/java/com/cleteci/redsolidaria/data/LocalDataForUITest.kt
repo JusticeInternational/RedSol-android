@@ -11,9 +11,9 @@ object LocalDataForUITest {
     fun getUsersList(): ArrayList<User> {
         val list = java.util.ArrayList<User>()
         list.add(User("0", "Miami General Medical Center", ROLE_ORGANIZATION,
-            "scvmc@correo.com", "123456"))
+            "sample0@correo.com", "123456"))
         list.add(User("1", "Palm Medical Centers", ROLE_ORGANIZATION,
-            "lacommunity@correo.com", "123456"))
+            "sample1@correo.com", "123456"))
         list.add(User("2", "Carlos", ROLE_BENEFICIARY,
             "csuarez@correo.com", "123456","Suarez"))
         list.add(User("3", "Cristina", ROLE_BENEFICIARY,
@@ -21,11 +21,11 @@ object LocalDataForUITest {
         list.add(User("4", "Alexandra", ROLE_BENEFICIARY,
             "aperdomo@mahisoft.com", "123456","Perdomo"))
         list.add(User("5", "Leon Medical Centers Miami", ROLE_ORGANIZATION,
-            "scvmc@correo.com", "123456"))
+            "sample5@correo.com", "123456"))
         list.add(User("6", "Little Havana Activities & Nutrition Center", ROLE_ORGANIZATION,
-            "lacommunity@correo.com", "123456"))
+            "sample6@correo.com", "123456"))
         list.add(User("7", "University of Miami Health System", ROLE_ORGANIZATION,
-            "lacommunity@correo.com", "123456"))
+            "sample7@correo.com", "123456"))
         return list
     }
 
@@ -49,11 +49,11 @@ object LocalDataForUITest {
         val list = java.util.ArrayList<Organization>()
 
         list.add(Organization("0", getUserById("0")!!,"Miami General Medical Center",25.7510, -80.2252,
-            "Horario: 8:00 am - 5:00 pm",
-            "Ubicación: Miami",
-            "val location: String",
-            "Página Web: www.scvmc.com",
-            "Teléfono: +984651384951",
+            "8:00 am - 5:00 pm",
+            "Miami",
+            "871 Coral Way, Miami, FL 33145, United States",
+            "https://www.umiamihealth.org",
+            "+1 305-856-3287",
             "Básico",
             arrayListOf(getServiceById("0")!!),
             ArrayList(),
@@ -62,12 +62,12 @@ object LocalDataForUITest {
             " Need 0 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut varius justo at dui dictum tristique. Sed eget ante porta, congue lectus ac, placerat sapien. Proin laoreet sagittis nisl eget pulvinar."))
 
         list.add(Organization("1", getUserById("1")!!,"Palm Medical Centers",25.7654, -80.2370,
-            "Horario: 8:00 am - 5:00 pm",
-            "Ubicación: Little Havana",
-            "val location: String",
-            "Página Web: www.lacommunity.com",
-            "Teléfono: +984651384951",
-            "Básico",
+            "7:00 am - 4:00 pm",
+            "Miami",
+            "135 E 1st St, Lakeland, FL 33805, United States",
+            "https://www.palmmedicalcenters.com",
+            "+1 863-686-2728",
+            "Plus",
             arrayListOf(getServiceById("1")!!),
             ArrayList(),
             "Info 1 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut varius justo at dui dictum tristique. Sed eget ante porta, congue lectus ac, placerat sapien. Proin laoreet sagittis nisl eget pulvinar.",
@@ -75,11 +75,11 @@ object LocalDataForUITest {
             " Need 1Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut varius justo at dui dictum tristique. Sed eget ante porta, congue lectus ac, placerat sapien. Proin laoreet sagittis nisl eget pulvinar."))
 
         list.add(Organization("2", getUserById("5")!!,"Leon Medical Centers Miami",25.7711, -80.2388,
-            "Horario: 8:00 am - 5:00 pm",
-            "Ubicación: Miami",
-            "val location: String",
-            "Página Web: www.lacommunity.com",
-            "Teléfono: +984651384951",
+            "9:00 am - 6:00 pm",
+            "Little Havana",
+            "101 SW 27th Ave, Miami, FL 33135, United States",
+            "https://www.convivacarecenters.com/en",
+            "+1 305-642-5366",
             "Básico",
             arrayListOf(getServiceById("2")!!, getServiceById("7")!!),
             ArrayList(),
@@ -88,11 +88,11 @@ object LocalDataForUITest {
             " Need 1Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut varius justo at dui dictum tristique. Sed eget ante porta, congue lectus ac, placerat sapien. Proin laoreet sagittis nisl eget pulvinar."))
 
         list.add(Organization("3", getUserById("6")!!,"Little Havana Activities & Nutrition Center",25.7657, -80.2060,
-            "Horario: 8:00 am - 5:00 pm",
-            "Ubicación: Little Havana",
-            "val location: String",
-            "Página Web: www.lacommunity.com",
-            "Teléfono: +984651384951",
+            "8:00 am - 5:00 pm",
+            "Little Havana",
+            "700 SW 8th St, Miami, FL 33130, United States",
+            "https://www.lhanc.org",
+            "+1 305-858-0887",
             "Básico",
             arrayListOf(getServiceById("3")!!, getServiceById("6")!!),
             ArrayList(),
@@ -101,12 +101,12 @@ object LocalDataForUITest {
             " Need 1Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut varius justo at dui dictum tristique. Sed eget ante porta, congue lectus ac, placerat sapien. Proin laoreet sagittis nisl eget pulvinar."))
 
         list.add(Organization("4", getUserById("7")!!,"University of Miami Health System",25.7884, -80.2164,
-            "Horario: 8:00 am - 5:00 pm",
-            "Ubicación: Miami",
-            "val location: String",
-            "Página Web: www.lacommunity.com",
-            "Teléfono: +984651384951",
-            "Básico",
+            "Abierto 24 horas",
+            "Little Havana",
+            "1295 NW 14th St, Miami, FL 33136, United States",
+            "https://www.umiamihealth.org",
+            "+1 305-243-4000",
+            "Premium",
             arrayListOf(getServiceById("4")!!, getServiceById("5")!!),
             ArrayList(),
             "Info 1 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut varius justo at dui dictum tristique. Sed eget ante porta, congue lectus ac, placerat sapien. Proin laoreet sagittis nisl eget pulvinar.",
@@ -118,6 +118,14 @@ object LocalDataForUITest {
     fun getOrganizationByUserId(id: String): Organization? {
         for ( organization in getOrganizationsList() ) {
             if(organization.user.id == id)
+                return organization
+        }
+        return null
+    }
+
+    fun getOrganizationById(id: String): Organization? {
+        for ( organization in getOrganizationsList() ) {
+            if(organization.id == id)
                 return organization
         }
         return null

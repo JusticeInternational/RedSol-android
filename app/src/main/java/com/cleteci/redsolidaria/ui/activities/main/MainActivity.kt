@@ -8,6 +8,7 @@ import android.os.Build
 import android.os.Bundle
 import android.view.*
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -20,6 +21,7 @@ import com.cleteci.redsolidaria.di.component.DaggerActivityComponent
 import com.cleteci.redsolidaria.di.module.ActivityModule
 import com.cleteci.redsolidaria.models.Service
 import com.cleteci.redsolidaria.models.Category
+import com.cleteci.redsolidaria.models.Organization
 import com.cleteci.redsolidaria.ui.activities.login.LoginActivity
 import com.cleteci.redsolidaria.ui.activities.splash.SplashActivity
 import com.cleteci.redsolidaria.ui.customUIComponents.FragNavController
@@ -42,6 +44,8 @@ import com.cleteci.redsolidaria.ui.fragments.suggestService.SuggestServiceFragme
 import com.cleteci.redsolidaria.ui.fragments.users.AttendersFragment
 import com.cleteci.redsolidaria.ui.fragments.users.UsersFragment
 import com.cleteci.redsolidaria.ui.organization.OrganizationProfileActivity
+import com.cleteci.redsolidaria.ui.organization.OrganizationProfileActivity.Companion.ORGANIZATION_ID
+import com.cleteci.redsolidaria.ui.organization.OrganizationProfileActivity.Companion.USER_ID
 import com.facebook.login.LoginManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -67,6 +71,7 @@ class MainActivity : AppCompatActivity(), MainContract.View, NavigationView.OnNa
     private var TABS = arrayOf("MyResourses", "Map", "Search")
     private var mNavController: FragNavController? = null
     private var fragmentHistory: FragmentHistory? = null
+    private var currentFragment: Fragment? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -132,6 +137,12 @@ class MainActivity : AppCompatActivity(), MainContract.View, NavigationView.OnNa
                 goToLogin()
             }
         }
+        mapListButton.setOnClickListener {
+            if (currentFragment != null && currentFragment is MapFragment ) {
+                (currentFragment as MapFragment).onClickMapListButton(it as ImageView)
+
+            }
+        }
 
         if (BaseApp.prefs.login_later) {
             tvLoginLogout!!.setText(R.string.login)
@@ -158,10 +169,10 @@ class MainActivity : AppCompatActivity(), MainContract.View, NavigationView.OnNa
                     presenter.onNavMapOption()
                     return@OnNavigationItemSelectedListener true
                 }
-                R.id.navigation_search -> {
-                    presenter.onNavSearchOption()
-                    return@OnNavigationItemSelectedListener true
-                }
+//                R.id.navigation_search -> {
+//                    presenter.onNavSearchOption()
+//                    return@OnNavigationItemSelectedListener true
+//                }
                 R.id.navigation_home_provider -> {
                     presenter.onNavResoursesProviderOption()
                     return@OnNavigationItemSelectedListener true
@@ -180,6 +191,10 @@ class MainActivity : AppCompatActivity(), MainContract.View, NavigationView.OnNa
 
         bottomNavView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
         switchTab(0)
+    }
+
+    fun setSearchLabel(newLabel: String) {
+        searchLabel.text = newLabel
     }
 
     fun goToLogin() {
@@ -275,8 +290,16 @@ class MainActivity : AppCompatActivity(), MainContract.View, NavigationView.OnNa
             .commit()
     }
 
-    fun openOrganizationProfile() {
+    fun openOrganizationProfile(organizationId: String) {
         val intent = Intent(this, OrganizationProfileActivity::class.java)
+        intent.putExtra(ORGANIZATION_ID, organizationId)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        startActivity(intent)
+    }
+
+    fun openOrganizationProfileByUserId(userId: String) {
+        val intent = Intent(this, OrganizationProfileActivity::class.java)
+        intent.putExtra(USER_ID, userId)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         startActivity(intent)
     }
@@ -367,13 +390,21 @@ class MainActivity : AppCompatActivity(), MainContract.View, NavigationView.OnNa
 
 
     override fun showMapFragment() {
+        searchButton.visibility = View.VISIBLE
+        appBarTitle.visibility = View.GONE
+        if (currentFragment == null || currentFragment !is MapFragment ) {
+            currentFragment = MapFragment().newInstance()
+        }
         supportFragmentManager.beginTransaction()
             .addToBackStack(null)
-            .replace(R.id.container_fragment, MapFragment().newInstance(), MapFragment.TAG)
+            .replace(R.id.container_fragment, currentFragment as MapFragment, MapFragment.TAG)
             .commit()
     }
 
     override fun showResoursesFragment() {
+        searchButton.visibility = View.GONE
+        appBarTitle.visibility = View.VISIBLE
+        appBarTitle.text = getString(R.string.my_resources)
         supportFragmentManager.beginTransaction()
             .addToBackStack(null)
             .replace(R.id.container_fragment, MyResoursesFragment().newInstance(), MyResoursesFragment.TAG)
@@ -408,7 +439,7 @@ class MainActivity : AppCompatActivity(), MainContract.View, NavigationView.OnNa
     override fun showProfileFragment() {
         if (BaseApp.prefs.is_provider_service) {
             //openProfileProviderFragment()
-            openOrganizationProfile()
+            BaseApp.prefs.user_saved?.let { openOrganizationProfileByUserId(it) }
         } else {
             openProfileFragment()
         }
@@ -442,8 +473,23 @@ class MainActivity : AppCompatActivity(), MainContract.View, NavigationView.OnNa
         if (!BaseApp.prefs.is_provider_service) {
             when (index) {
 
-                FragNavController.TAB1 -> return MyResoursesFragment()
-                FragNavController.TAB2 -> return MapFragment()
+                FragNavController.TAB1 -> {
+                    searchButton.visibility = View.GONE
+                    appBarTitle.visibility = View.VISIBLE
+                    appBarTitle.text = getString(R.string.my_resources)
+                    if (currentFragment == null || currentFragment !is MyResoursesFragment ) {
+                        currentFragment = MyResoursesFragment().newInstance()
+                    }
+                    return currentFragment as MyResoursesFragment
+                }
+                FragNavController.TAB2 -> {
+                    searchButton.visibility = View.VISIBLE
+                    appBarTitle.visibility = View.GONE
+                    if (currentFragment == null || currentFragment !is MapFragment ) {
+                        currentFragment = MapFragment().newInstance()
+                    }
+                    return currentFragment as Fragment
+                }
                 FragNavController.TAB3 -> return BasicSearchFragment()
 
             }

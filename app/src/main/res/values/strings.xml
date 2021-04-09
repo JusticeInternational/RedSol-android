@@ -31,13 +31,13 @@
 
     <!--NO DATA-->
     <string name="progress">En Progreso!</string>
-    <string name="no_resourses">No hay recursos para mostrar</string>
+    <string name="no_resources">No hay recursos para mostrar</string>
     <string name="missing_data">Por favor complete el formulario</string>
 
     <!--BOTTOM BAR-->
     <string name="my_categories">Mis categorias</string>
-    <string name="my_resourse">Mis recursos</string>
-    <string name="count_resourses">Contabilizar recursos</string>
+    <string name="my_resources">Mis Recursos</string>
+    <string name="count_resources">Contabilizar recursos</string>
 
 
     <string name="count_question_1">Usted está solicitando contabilizar para la categoría o servicio genérico: %1$s? , le recomendamos contabilizar recursos en servicios detallados, si no los ha definido puede definirlos en "Mis Recursos". Si aún así desea continuar esta contabilización por favor seleccione "Aceptar"</string>

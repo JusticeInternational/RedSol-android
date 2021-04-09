@@ -9,28 +9,27 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.cleteci.redsolidaria.BaseApp
 import com.cleteci.redsolidaria.R
+import com.cleteci.redsolidaria.models.Organization
 import com.cleteci.redsolidaria.util.*
 import kotlinx.android.synthetic.main.fragment_organization_info.*
 
 
-class InfoFragment : Fragment(), View.OnClickListener {
+class InfoFragment(private val organization: Organization?) : Fragment(), View.OnClickListener {
 
-    private lateinit var pageViewModel: PageViewModel
-    private val attributes = hashMapOf(
-        "schedule" to "Horario: 8:00 am - 5:00 pm",
-        "location" to "Ubicación: Santa Clara",
-        "page" to "Página Web: www.scvmc.com",
-        "phone" to "Teléfono: +984651384951",
-        "email" to "Correo: scvmc@correo.com")
+    private lateinit var attributes: HashMap<String, String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        pageViewModel = ViewModelProvider(this).get(PageViewModel::class.java).apply {
-            setIndex(arguments?.getInt(ARG_SECTION_NUMBER) ?: 1)
-        }
+       if (organization == null)
+            return
+        attributes = hashMapOf(
+            "schedule" to organization.schedule,
+            "location" to organization.location,
+            "page" to organization.webPage,
+            "phone" to organization.phone,
+            "email" to organization.user.email)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -54,29 +53,35 @@ class InfoFragment : Fragment(), View.OnClickListener {
     private fun setupAttributes() {
         for (key in attributes.keys) {
             var iconId= R.drawable.ic_time_24
+            var label: String = ""
             when (key) {
                 "schedule" -> {
                     iconId = R.drawable.ic_time_24
+                    label = getString(R.string.schedule)
                 }
                 "location" -> {
                     iconId = R.drawable.ic_outline_location_24
+                    label = getString(R.string.location)
                 }
                 "page" -> {
                     iconId = R.drawable.ic_link_24
+                    label = getString(R.string.web_site)
                 }
                 "phone" -> {
                     iconId = R.drawable.ic_filled_phone_24
+                    label = getString(R.string.phone)
                 }
                 "email" -> {
                     iconId = R.drawable.ic_filled_email_24
+                    label = getString(R.string.email)
                 }
             }
-            linearAttributes.addView( getTextView(key, attributes[key]!!, iconId))
+            linearAttributes.addView( getTextView(key, label, attributes[key]!!, iconId))
             linearAttributes.addView(getDivider())
         }
     }
 
-    private fun getTextView(key: String, text: String, iconId: Int): TextView {
+    private fun getTextView(key: String, label: String, text: String, iconId: Int): TextView {
         val textView = TextView(context)
         val padding = resources.getDimensionPixelSize(R.dimen.activity_horizontal_margin)
         textView.setPadding(padding,0,padding,0)
@@ -90,7 +95,7 @@ class InfoFragment : Fragment(), View.OnClickListener {
             textView.setTextAppearance(activity, R.style.BodyDefault)
         }
 
-        textView.text = text
+        textView.text = "$label: $text"
         textView.layoutParams.height = resources.getDimensionPixelSize(R.dimen.height_info_item)
         textView.setCompoundDrawablesWithIntrinsicBounds(0,0, iconId, 0)
         textView.setOnClickListener(this)
@@ -110,37 +115,17 @@ class InfoFragment : Fragment(), View.OnClickListener {
     override fun onClick(view: View?) {
         when ((view as TextView).tag) {
             "location" -> {
-                activity?.packageManager?.let { openGoogleMaps(requireContext(),"geo:37.7749,-122.4194", it) }
+                activity?.packageManager?.let { openGoogleMaps(requireContext(),
+                    "geo:${organization!!.lat}, ${organization.lng}", it) }
             }
             "page" -> {
-                openBrowser(requireContext(), "https://www.unicef.org")
+                openBrowser(requireContext(), organization!!.webPage)
             }
             "phone" -> {
-                openDialerClient(requireContext(), "800123456")
+                openDialerClient(requireContext(), organization!!.phone)
             }
             "email" -> {
-                openEmailClient(requireContext(), "organization@example.org")
-            }
-        }
-    }
-
-    companion object {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private const val ARG_SECTION_NUMBER = "section_number"
-
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        @JvmStatic
-        fun newInstance(sectionNumber: Int): InfoFragment {
-            return InfoFragment().apply {
-                arguments = Bundle().apply {
-                    putInt(ARG_SECTION_NUMBER, sectionNumber)
-                }
+                openEmailClient(requireContext(), organization!!.user.email)
             }
         }
     }

@@ -76,9 +76,6 @@ class CategoriesAdapter(private val context: Context?, private val list: Mutable
             2 -> {
                 LayoutInflater.from(context).inflate(R.layout.item_resource_cat_advanced, parent, false)
             }
-            3 -> {
-                LayoutInflater.from(context).inflate(R.layout.item_resource_cat_map_list, parent, false)
-            }
             else -> {
                 LayoutInflater.from(context).inflate(R.layout.item_my_resourse_provider, parent, false)
             }
@@ -87,9 +84,9 @@ class CategoriesAdapter(private val context: Context?, private val list: Mutable
     }
 
     class ListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var layout: RelativeLayout? = itemView.findViewById(R.id.relativeMaker)
+        var layout: RelativeLayout? = itemView.findViewById(R.id.relativeCategory)
         val title: TextView? = itemView.findViewById(R.id.tvName)
-        val body: ImageView? = itemView.findViewById(R.id.imgMarker)
+        val body: ImageView? = itemView.findViewById(R.id.imgCategory)
         val viewLine: View? = itemView.findViewById<View>(R.id.viewLine)
         val tvDescription: TextView? = itemView.findViewById(R.id.tvDescription)
         val ivArrow: ImageView? = itemView.findViewById(R.id.ivArrow)

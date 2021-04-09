@@ -235,12 +235,12 @@ class ResoursesOfferedFragment : BaseFragment(), ResoursesOfferedContract.View,
 
         if (!isFromScan) {
             (activity as MainActivity).setTextToolbar(
-                getText(R.string.my_resourse).toString(),
+                getText(R.string.my_resources).toString(),
                 activity!!.resources.getColor(R.color.colorWhite)
             )
         } else {
             (activity as MainActivity).setTextToolbar(
-                getText(R.string.count_resourses).toString(),
+                getText(R.string.count_resources).toString(),
                 activity!!.resources.getColor(R.color.colorWhite)
             )
         }

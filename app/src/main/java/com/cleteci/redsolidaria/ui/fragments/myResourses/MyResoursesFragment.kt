@@ -150,7 +150,7 @@ class MyResoursesFragment : BaseFragment(), MyResoursesContract.View, ResourseAd
     }
 
     override fun clickDetailResource(postId: Int, name: String, isGeneric:Boolean) {
-        (activity as MainActivity).openOrganizationProfile()
+        (activity as MainActivity).openOrganizationProfile("")
     }
 
     override fun scanNoUserResource(postId: String, name: String, isGeneric: Boolean) {
@@ -162,7 +162,7 @@ class MyResoursesFragment : BaseFragment(), MyResoursesContract.View, ResourseAd
     override fun onResume() {
         super.onResume()
         (activity as MainActivity).setTextToolbar(
-            getText(R.string.my_resourse).toString(),
+            getText(R.string.my_resources).toString(),
             activity!!.resources.getColor(R.color.colorWhite)
         )
 
