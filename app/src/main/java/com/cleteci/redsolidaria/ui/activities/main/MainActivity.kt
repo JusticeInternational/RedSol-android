@@ -21,7 +21,6 @@ import com.cleteci.redsolidaria.di.component.DaggerActivityComponent
 import com.cleteci.redsolidaria.di.module.ActivityModule
 import com.cleteci.redsolidaria.models.Service
 import com.cleteci.redsolidaria.models.Category
-import com.cleteci.redsolidaria.models.Organization
 import com.cleteci.redsolidaria.ui.activities.login.LoginActivity
 import com.cleteci.redsolidaria.ui.activities.splash.SplashActivity
 import com.cleteci.redsolidaria.ui.customUIComponents.FragNavController
@@ -33,7 +32,7 @@ import com.cleteci.redsolidaria.ui.fragments.contactUs.ContactUsFragment
 import com.cleteci.redsolidaria.ui.fragments.createService.CreateServiceFragment
 import com.cleteci.redsolidaria.ui.fragments.infoService.InfoServiceFragment
 import com.cleteci.redsolidaria.ui.fragments.infoService.ScanNoUserFragment
-import com.cleteci.redsolidaria.ui.fragments.map.MapFragment
+import com.cleteci.redsolidaria.ui.search.SearchFragment
 import com.cleteci.redsolidaria.ui.fragments.myProfile.MyProfileFragment
 import com.cleteci.redsolidaria.ui.fragments.myProfileProvider.MyProfileProviderFragment
 import com.cleteci.redsolidaria.ui.fragments.myResourses.MyResoursesFragment
@@ -46,6 +45,8 @@ import com.cleteci.redsolidaria.ui.fragments.users.UsersFragment
 import com.cleteci.redsolidaria.ui.organization.OrganizationProfileActivity
 import com.cleteci.redsolidaria.ui.organization.OrganizationProfileActivity.Companion.ORGANIZATION_ID
 import com.cleteci.redsolidaria.ui.organization.OrganizationProfileActivity.Companion.USER_ID
+import com.cleteci.redsolidaria.ui.search.SearchItemsActivity
+import com.cleteci.redsolidaria.ui.search.SearchItemsActivity.Companion.SEARCH_REQUEST_CODE
 import com.facebook.login.LoginManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -138,11 +139,13 @@ class MainActivity : AppCompatActivity(), MainContract.View, NavigationView.OnNa
             }
         }
         mapListButton.setOnClickListener {
-            if (currentFragment != null && currentFragment is MapFragment ) {
-                (currentFragment as MapFragment).onClickMapListButton(it as ImageView)
-
+            if (currentFragment != null && currentFragment is SearchFragment) {
+                (currentFragment as SearchFragment).onClickMapListButton(it as ImageView)
             }
         }
+         searchButton.setOnClickListener {
+             presenter.onNavSearchOption()
+         }
 
         if (BaseApp.prefs.login_later) {
             tvLoginLogout!!.setText(R.string.login)
@@ -277,10 +280,14 @@ class MainActivity : AppCompatActivity(), MainContract.View, NavigationView.OnNa
     }
 
     override fun showSearchFragment() {
-        supportFragmentManager.beginTransaction()
-            .addToBackStack(null)
-            .replace(R.id.container_fragment, BasicSearchFragment().newInstance(), BasicSearchFragment.TAG)
-            .commit()
+        val intent = Intent(this, SearchItemsActivity::class.java)
+        if (currentFragment != null && currentFragment is SearchFragment) {
+            currentFragment!!.startActivityForResult(intent, SEARCH_REQUEST_CODE)
+        }
+//        supportFragmentManager.beginTransaction()
+//            .addToBackStack(null)
+//            .replace(R.id.container_fragment, BasicSearchFragment().newInstance(), BasicSearchFragment.TAG)
+//            .commit()
     }
 
     fun openServiceDetailFragment() {
@@ -392,12 +399,12 @@ class MainActivity : AppCompatActivity(), MainContract.View, NavigationView.OnNa
     override fun showMapFragment() {
         searchButton.visibility = View.VISIBLE
         appBarTitle.visibility = View.GONE
-        if (currentFragment == null || currentFragment !is MapFragment ) {
-            currentFragment = MapFragment().newInstance()
+        if (currentFragment == null || currentFragment !is SearchFragment) {
+            currentFragment = SearchFragment().newInstance()
         }
         supportFragmentManager.beginTransaction()
             .addToBackStack(null)
-            .replace(R.id.container_fragment, currentFragment as MapFragment, MapFragment.TAG)
+            .replace(R.id.container_fragment, currentFragment as SearchFragment, SearchFragment.TAG)
             .commit()
     }
 
@@ -478,6 +485,9 @@ class MainActivity : AppCompatActivity(), MainContract.View, NavigationView.OnNa
                     appBarTitle.visibility = View.VISIBLE
                     appBarTitle.text = getString(R.string.my_resources)
                     if (currentFragment == null || currentFragment !is MyResoursesFragment ) {
+                        searchButton.visibility = View.GONE
+                        appBarTitle.visibility = View.VISIBLE
+                        appBarTitle.text = getString(R.string.my_resources)
                         currentFragment = MyResoursesFragment().newInstance()
                     }
                     return currentFragment as MyResoursesFragment
@@ -485,8 +495,9 @@ class MainActivity : AppCompatActivity(), MainContract.View, NavigationView.OnNa
                 FragNavController.TAB2 -> {
                     searchButton.visibility = View.VISIBLE
                     appBarTitle.visibility = View.GONE
-                    if (currentFragment == null || currentFragment !is MapFragment ) {
-                        currentFragment = MapFragment().newInstance()
+                    if (currentFragment == null || currentFragment !is SearchFragment) {
+                        currentFragment = SearchFragment()
+                            .newInstance()
                     }
                     return currentFragment as Fragment
                 }
@@ -560,6 +571,4 @@ class MainActivity : AppCompatActivity(), MainContract.View, NavigationView.OnNa
         // Check if user is signed in (non-null) and update UI accordingly.
 
     }
-
-
 }

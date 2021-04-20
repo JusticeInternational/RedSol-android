@@ -25,8 +25,7 @@ class ContributeFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val root = inflater.inflate(R.layout.fragment_organization_contribute, container, false)
-        return root
+        return inflater.inflate(R.layout.fragment_organization_contribute, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

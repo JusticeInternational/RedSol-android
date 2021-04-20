@@ -1,8 +1,9 @@
-package com.cleteci.redsolidaria.ui.fragments.map
+package com.cleteci.redsolidaria.ui.search
 
 
 import android.Manifest
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -15,6 +16,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -30,6 +32,11 @@ import com.cleteci.redsolidaria.ui.adapters.CategoriesSearchAdapter
 import com.cleteci.redsolidaria.ui.base.BaseFragment
 import com.cleteci.redsolidaria.ui.components.CustomInfoWindowGoogleMap
 import com.cleteci.redsolidaria.ui.fragments.advancedsearch.AdvancedSearchFragment
+import com.cleteci.redsolidaria.ui.search.SearchItemsActivity.Companion.ID_LOCATION_LAT
+import com.cleteci.redsolidaria.ui.search.SearchItemsActivity.Companion.ID_LOCATION_LNG
+import com.cleteci.redsolidaria.ui.search.SearchItemsActivity.Companion.ID_LOCATION_TEXT
+import com.cleteci.redsolidaria.ui.search.SearchItemsActivity.Companion.ID_QUERY
+import com.cleteci.redsolidaria.ui.search.SearchItemsActivity.Companion.SEARCH_REQUEST_CODE
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GooglePlayServicesUtil
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -37,23 +44,26 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapsInitializer
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.*
-import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.fragment_map.*
 import javax.inject.Inject
 
 
-class MapFragment : BaseFragment(), MapContract.View, OnMapReadyCallback, CategoriesSearchAdapter.OnItemClickListener,
-    GoogleMap.OnInfoWindowClickListener {
+class SearchFragment : BaseFragment(),
+    SearchContract.View, OnMapReadyCallback, CategoriesSearchAdapter.OnItemClickListener,
+    GoogleMap.OnInfoWindowClickListener, ServicesSearchAdapter.OnItemClickListener {
 
     @Inject
-    lateinit var presenter: MapContract.Presenter
+    lateinit var presenter: SearchContract.Presenter
     private lateinit var mMap: GoogleMap
     private var mAdapter: CategoriesSearchAdapter? = null
+    private var mAdapterServices: ServicesSearchAdapter? = null
     private val listCategory = ArrayList<Category>()
-    private var currentViewType = MAP_VIEW
+    private val listServices = ArrayList<ServicesSearchAdapter.ServiceSearch>()
+    private var currentViewType =
+        MAP_VIEW
 
-    fun newInstance(): MapFragment {
-        return MapFragment()
+    fun newInstance(): SearchFragment {
+        return SearchFragment()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -75,6 +85,10 @@ class MapFragment : BaseFragment(), MapContract.View, OnMapReadyCallback, Catego
         rvCategories.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false);
         mAdapter = CategoriesSearchAdapter(requireContext(), listCategory, this)
         rvCategories.adapter = mAdapter
+
+        rvServices.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
+        mAdapterServices = ServicesSearchAdapter(requireContext(), listServices, this)
+        rvServices.adapter = mAdapterServices
 
         MapsInitializer.initialize(activity)
 
@@ -155,7 +169,9 @@ class MapFragment : BaseFragment(), MapContract.View, OnMapReadyCallback, Catego
 
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
         if (ContextCompat.checkSelfPermission(
-                requireContext(), USER_LOCATION_ACCESS_PERMISSION_STRING) == PackageManager.PERMISSION_GRANTED) {
+                requireContext(),
+                USER_LOCATION_ACCESS_PERMISSION_STRING
+            ) == PackageManager.PERMISSION_GRANTED) {
             mMap.isMyLocationEnabled = true
             val locationButton = (mapView.findViewById<View>("1".toInt()).parent as View).findViewById<View>("2".toInt())
             val rlp: RelativeLayout.LayoutParams = locationButton.layoutParams as RelativeLayout.LayoutParams
@@ -166,7 +182,10 @@ class MapFragment : BaseFragment(), MapContract.View, OnMapReadyCallback, Catego
             // Should we show an explanation?
             if (!shouldShowRequestPermissionRationale(USER_LOCATION_ACCESS_PERMISSION_STRING)) {
                 // No explanation needed, we can request the permission.
-                requestPermissions(USER_LOCATION_ACCESS_PERMISSION_ARRAY, USER_LOCATION_ACCESS_PERMISSION_REQUEST_ID)
+                requestPermissions(
+                    USER_LOCATION_ACCESS_PERMISSION_ARRAY,
+                    USER_LOCATION_ACCESS_PERMISSION_REQUEST_ID
+                )
             }
         }
 
@@ -174,6 +193,8 @@ class MapFragment : BaseFragment(), MapContract.View, OnMapReadyCallback, Catego
             var space = 0.0
             for (service in organization.servicesList!!) {
                 createMarker(service, organization, LatLng(organization.lat + space, organization.lng))
+                listServices.add(
+                    ServicesSearchAdapter.ServiceSearch(service, organization.id, organization.name))
                 space += 0.05
             }
         }
@@ -218,6 +239,11 @@ class MapFragment : BaseFragment(), MapContract.View, OnMapReadyCallback, Catego
         (activity as MainActivity).openOrganizationProfile((marker?.tag as CustomInfoWindowGoogleMap.MarkerInfo).organizationId)
     }
 
+    override fun onServiceSearchClicked(position: Int) {
+        (activity as MainActivity).openOrganizationProfile(listServices[position] .organizationId)
+
+    }
+
     override fun loadDataSuccess(list: List<Category>) {
         listCategory.clear()
         listCategory.add(Category("-1","Todas", -1))
@@ -227,26 +253,35 @@ class MapFragment : BaseFragment(), MapContract.View, OnMapReadyCallback, Catego
     }
 
     override fun clickScanCategory(position: Int) {
-        mMap.clear()
         val category = listCategory[position]
-
         if (category.id == "-1") {// All Categories
             (activity as MainActivity).setSearchLabel(getString(R.string.search))
         } else {
             (activity as MainActivity).setSearchLabel(category.name)
         }
 
+        filterMapList(category.id)
+    }
+
+    private fun filterMapList(categoryId: String) {
+        mMap.clear()
+        listServices.clear()
         for (organization in getOrganizationsList()) {
             var space = 0.0
             for (service in organization.servicesList!!) {
-                if (category.id == "-1") {// All Categories
+                if (categoryId == "-1") {// All Categories
                     createMarker(service, organization, LatLng(organization.lat + space, organization.lng))
+                    listServices.add(
+                        ServicesSearchAdapter.ServiceSearch(service, organization.id, organization.name))
                     space += 0.05
-                } else if (service.category.id == category.id) {
+                } else if (service.category.id == categoryId) {
                     createMarker(service, organization, LatLng(organization.lat + space, organization.lng))
+                    listServices.add(
+                        ServicesSearchAdapter.ServiceSearch(service, organization.id, organization.name))
                     space += 0.05
                 }
             }
+            mAdapterServices!!.notifyDataSetChanged()
         }
     }
 
@@ -254,14 +289,41 @@ class MapFragment : BaseFragment(), MapContract.View, OnMapReadyCallback, Catego
     fun onClickMapListButton(icon: ImageView) {
          if (currentViewType == MAP_VIEW) {
              mapView.visibility = View.GONE
-             servicesList.visibility = View.VISIBLE
+             rvServices.visibility = View.VISIBLE
              currentViewType = LIST_VIEW
              icon.setImageDrawable(AppCompatResources.getDrawable(requireContext(), R.drawable.ic_map))
         } else {
              mapView.visibility = View.VISIBLE
-             servicesList.visibility = View.GONE
+             rvServices.visibility = View.GONE
              currentViewType = MAP_VIEW
              icon.setImageDrawable(AppCompatResources.getDrawable(requireContext(), R.drawable.ic_list))
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (resultCode == AppCompatActivity.RESULT_OK && requestCode == SEARCH_REQUEST_CODE) {
+            if (data != null) {
+                val categoryId = data.getStringExtra(ID_QUERY)
+                val locationText = data.getStringExtra(ID_LOCATION_TEXT)
+
+                for (category in listCategory) {
+                    if (category.id == categoryId) {
+                        (activity as MainActivity).setSearchLabel(category.name + ", " + locationText)
+                    }
+                }
+                filterMapList(categoryId)
+
+                val lat = data.getDoubleExtra(ID_LOCATION_LAT, 0.0)
+                val lng = data.getDoubleExtra(ID_LOCATION_LNG, 0.0)
+                if (lat != 0.0 && lng != 0.0) {
+                    val cameraPosition = CameraPosition.Builder()
+                        .target(LatLng(lat,lng))
+                        .zoom(12f) // Sets the zoom
+                        .build()
+
+                    mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
+                }
+            }
         }
     }
 

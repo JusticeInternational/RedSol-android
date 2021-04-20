@@ -1,10 +1,10 @@
-package com.cleteci.redsolidaria.ui.fragments.map
+package com.cleteci.redsolidaria.ui.search
 
 import com.cleteci.redsolidaria.models.Category
 import com.cleteci.redsolidaria.ui.base.BaseContract
 
 
-class MapContract {
+class SearchContract {
 
     interface View: BaseContract.View {
         fun init()

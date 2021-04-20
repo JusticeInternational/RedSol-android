@@ -154,6 +154,7 @@
     <string name="volunteering">Voluntariado</string>
     <string name="used">Utilizados</string>
     <string name="near_to">Cerca de</string>
+    <string name="near_to_location">Cerca de %s1</string>
     <string name="next">Siguiente</string>
     <string name="name">Nombre</string>
     <string name="name_2">Nombre*</string>
@@ -266,6 +267,7 @@
     <string name="how_can_help">¿Cómo podemos ayudar?</string>
     <string name="error_email_app_not_found">Disculpe, no hemos connseguido una App para enviar correo.</string>
     <string name="title_activity_organization_profile">OrganizationProfile</string>
+    <string name="title_activity_search">Search</string>
     <string name="tab_text_1">Info</string>
     <string name="tab_text_2">Servicios</string>
     <string name="tab_text_3">Anuncios</string>
@@ -283,4 +285,5 @@
     <string name="interested_on_services">Me Interesan los servicios  de este proveedor</string>
     <string name="my_services">Mis Servicios</string>
     <string name="see_details"><![CDATA[<u>Ver Detalle</u>]]></string>
+    <string name="current_location_text">Ubicación actual</string>
 </resources>

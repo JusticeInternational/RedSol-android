@@ -19,8 +19,8 @@ import com.cleteci.redsolidaria.ui.fragments.infoService.ScanNoUserContract
 import com.cleteci.redsolidaria.ui.fragments.infoService.ScanNoUserPresenter
 import com.cleteci.redsolidaria.ui.fragments.login.LoginFContract
 import com.cleteci.redsolidaria.ui.fragments.login.LoginFPresenter
-import com.cleteci.redsolidaria.ui.fragments.map.MapContract
-import com.cleteci.redsolidaria.ui.fragments.map.MapPresenter
+import com.cleteci.redsolidaria.ui.search.SearchContract
+import com.cleteci.redsolidaria.ui.search.SearchPresenter
 import com.cleteci.redsolidaria.ui.fragments.myProfile.MyProfileContract
 import com.cleteci.redsolidaria.ui.fragments.myProfile.MyProfilePresenter
 import com.cleteci.redsolidaria.ui.fragments.myProfileProvider.MyProfileProviderContract
@@ -72,8 +72,8 @@ class FragmentModule {
     }
 
     @Provides
-    fun provideMapPresenter(): MapContract.Presenter {
-        return MapPresenter()
+    fun provideMapPresenter(): SearchContract.Presenter {
+        return SearchPresenter()
     }
 
     @Provides

@@ -14,19 +14,20 @@
         android:layout_height="match_parent"
         map:uiMapToolbar="false" />
 
-    <TextView
-        android:id="@+id/servicesList"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvServices"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="Lista de Servicios"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_medium"
+        android:background="@color/colorWhite"
+        android:orientation="vertical"
         android:visibility="gone"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvCategories"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_small"
+        android:layout_marginTop="@dimen/spacing_extra_small"
         android:orientation="horizontal"
         android:background="@android:color/transparent" />
 

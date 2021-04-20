@@ -33,6 +33,7 @@ import com.cleteci.redsolidaria.ui.base.BaseFragment
 import com.cleteci.redsolidaria.ui.fragments.resourcesResult.ResourcesResultFragment
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.model.LatLng
 import com.schibstedspain.leku.*
 import javax.inject.Inject
 
@@ -112,9 +113,9 @@ class AdvancedSearchFragment : BaseFragment(), AdvancedSearchContract.View,
         lyLocation = rootView?.findViewById(R.id.lyLocation);
         lyLocation!!.setOnClickListener {
             val locationPickerIntent = LocationPickerActivity.Builder()
-                .withLocation(41.4036299, 2.1743558)
+                .withLocation(25.7617,-80.1918)
                 .withGeolocApiKey(getString(R.string.google_maps_key))
-                .withSearchZone("es_ES")
+                .withSearchZone("US")
                 .build(context!!)
 
             startActivityForResult(locationPickerIntent, MAP_BUTTON_REQUEST_CODE)

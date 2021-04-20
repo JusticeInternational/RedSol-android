@@ -11,9 +11,9 @@ object LocalDataForUITest {
     fun getUsersList(): ArrayList<User> {
         val list = java.util.ArrayList<User>()
         list.add(User("0", "Miami General Medical Center", ROLE_ORGANIZATION,
-            "sample0@correo.com", "123456"))
+            "organization0@sample.com", "123456"))
         list.add(User("1", "Palm Medical Centers", ROLE_ORGANIZATION,
-            "sample1@correo.com", "123456"))
+            "organization1@sample.com", "123456"))
         list.add(User("2", "Carlos", ROLE_BENEFICIARY,
             "csuarez@correo.com", "123456","Suarez"))
         list.add(User("3", "Cristina", ROLE_BENEFICIARY,
@@ -21,11 +21,11 @@ object LocalDataForUITest {
         list.add(User("4", "Alexandra", ROLE_BENEFICIARY,
             "aperdomo@mahisoft.com", "123456","Perdomo"))
         list.add(User("5", "Leon Medical Centers Miami", ROLE_ORGANIZATION,
-            "sample5@correo.com", "123456"))
+            "organization5@sample.com", "123456"))
         list.add(User("6", "Little Havana Activities & Nutrition Center", ROLE_ORGANIZATION,
-            "sample6@correo.com", "123456"))
+            "organization6@sample.com", "123456"))
         list.add(User("7", "University of Miami Health System", ROLE_ORGANIZATION,
-            "sample7@correo.com", "123456"))
+            "organization7@sample.com", "123456"))
         return list
     }
 

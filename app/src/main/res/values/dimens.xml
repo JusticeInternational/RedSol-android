@@ -14,7 +14,8 @@
 
     <!-- Spacing -->
     <dimen name="spacing_large">50dp</dimen>
-    <dimen name="spacing_medium">20dp</dimen>
+    <dimen name="spacing_medium">33dp</dimen>
+    <dimen name="spacing_extra_medium">20dp</dimen>
     <dimen name="spacing_small">10dp</dimen>
     <dimen name="spacing_extra_small">5dp</dimen>
 
@@ -39,4 +40,6 @@
     <dimen name="button_height">44dp</dimen>
     <dimen name="button_width">260dp</dimen>
     <dimen name="button_default_width">130dp</dimen>
+
+    <dimen name="size_img_category">65dp</dimen>
 </resources>

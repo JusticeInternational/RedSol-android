@@ -114,7 +114,7 @@
             android:layout_marginEnd="@dimen/activity_horizontal_margin"
             android:gravity="center_vertical"
             android:text="@string/health"
-            android:drawablePadding="@dimen/spacing_medium"
+            android:drawablePadding="@dimen/spacing_extra_medium"
             app:drawableStartCompat="@drawable/ic_cross"
             app:drawableEndCompat="@drawable/ic_interested" />
         <View
@@ -129,7 +129,7 @@
             android:layout_marginEnd="@dimen/activity_horizontal_margin"
             android:gravity="center_vertical"
             android:text="@string/tests_covid_19"
-            android:drawablePadding="@dimen/spacing_medium"
+            android:drawablePadding="@dimen/spacing_extra_medium"
             app:drawableStartCompat="@drawable/ic_test"
             app:drawableEndCompat="@drawable/ic_interested" />
         <View
@@ -144,7 +144,7 @@
             android:layout_marginEnd="@dimen/activity_horizontal_margin"
             android:gravity="center_vertical"
             android:text="@string/vaccines_covid_19"
-            android:drawablePadding="@dimen/spacing_medium"
+            android:drawablePadding="@dimen/spacing_extra_medium"
             app:drawableStartCompat="@drawable/ic_vaccine"
             app:drawableEndCompat="@drawable/ic_interested_green" />
         <Button
