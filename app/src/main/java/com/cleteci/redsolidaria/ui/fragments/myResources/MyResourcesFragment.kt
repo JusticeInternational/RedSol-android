@@ -1,12 +1,9 @@
-package com.cleteci.redsolidaria.ui.fragments.myResourses
+package com.cleteci.redsolidaria.ui.fragments.myResources
 
 
 import android.os.Bundle
 import android.view.*
-import android.widget.LinearLayout
-import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.cleteci.redsolidaria.BaseApp
 
 import com.cleteci.redsolidaria.R
@@ -17,38 +14,23 @@ import com.cleteci.redsolidaria.models.Service
 import com.cleteci.redsolidaria.ui.activities.main.MainActivity
 import com.cleteci.redsolidaria.ui.adapters.ResourseAdapter
 import com.cleteci.redsolidaria.ui.base.BaseFragment
+import kotlinx.android.synthetic.main.fragment_my_resources.*
 import javax.inject.Inject
 
 
-class MyResoursesFragment : BaseFragment(), MyResoursesContract.View, ResourseAdapter.onItemClickListener {
-
-
-
-    var mScrollView: NestedScrollView? = null
-
-    var lyEmpty: LinearLayout? = null
-
-    var rvPending: RecyclerView? = null
-    var mAdapterPending: ResourseAdapter? = null
-    private val listPending = ArrayList<Service>()
-
-    var rvSaved: RecyclerView? = null
-    var mAdapterSaved: ResourseAdapter? = null
-    private val listSaved = ArrayList<Service>()
-
-    var rvVolunteering: RecyclerView? = null
-    var mAdapterVolunteering: ResourseAdapter? = null
-    private val listVolunteering = ArrayList<Service>()
-
-    var rvUsed: RecyclerView? = null
-    var mAdapterUsed: ResourseAdapter? = null
-    private val listUsed = ArrayList<Service>()
-
+class MyResoursesFragment : BaseFragment(), MyResourcesContract.View, ResourseAdapter.onItemClickListener {
 
     @Inject
-    lateinit var presenter: MyResoursesContract.Presenter
+    private lateinit var presenter: MyResourcesContract.Presenter
 
-    private lateinit var rootView: View
+    private lateinit var mAdapterPending: ResourseAdapter
+    private lateinit var mAdapterSaved: ResourseAdapter
+    private lateinit var mAdapterUsed: ResourseAdapter
+    private lateinit var mAdapterVolunteering: ResourseAdapter
+    private val listPending = ArrayList<Service>()
+    private val listSaved = ArrayList<Service>()
+    private val listVolunteering = ArrayList<Service>()
+    private val listUsed = ArrayList<Service>()
 
     fun newInstance(): MyResoursesFragment {
         return MyResoursesFragment()
@@ -62,35 +44,7 @@ class MyResoursesFragment : BaseFragment(), MyResoursesContract.View, ResourseAd
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        rootView = inflater.inflate(R.layout.fragment_my_resources, container, false)
-
-        mScrollView = rootView?.findViewById(R.id.mScrollView)
-
-        lyEmpty = rootView?.findViewById(R.id.lyEmpty)
-
-        rvPending = rootView?.findViewById(R.id.rvPending)
-        rvPending?.setLayoutManager(LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false))
-        mAdapterPending = ResourseAdapter(activity?.applicationContext, listPending, this, 2,  false)
-        rvPending?.setAdapter(mAdapterPending)
-
-        rvSaved = rootView?.findViewById(R.id.rvSaved)
-        rvSaved?.setLayoutManager(LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false))
-        mAdapterSaved = ResourseAdapter(activity?.applicationContext, listSaved, this, 2,  false)
-        rvSaved?.setAdapter(mAdapterSaved)
-
-        rvVolunteering = rootView?.findViewById(R.id.rvVolunteering)
-        rvVolunteering?.setLayoutManager(LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false))
-        mAdapterVolunteering = ResourseAdapter(activity?.applicationContext, listVolunteering, this, 2,  false)
-        rvVolunteering?.setAdapter(mAdapterVolunteering)
-
-        rvUsed = rootView?.findViewById(R.id.rvUsed)
-        rvUsed?.setLayoutManager(LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false))
-        mAdapterUsed = ResourseAdapter(activity?.applicationContext, listUsed, this, 2,  false)
-        rvUsed?.setAdapter(mAdapterUsed)
-
-        return rootView
-    }
+    ): View  = inflater.inflate(R.layout.fragment_my_resources, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -119,7 +73,21 @@ class MyResoursesFragment : BaseFragment(), MyResoursesContract.View, ResourseAd
     }
 
     private fun initView() {
-        //presenter.loadMessage()
+        rvPending.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+        mAdapterPending = ResourseAdapter(activity?.applicationContext, listPending, this, 2,  false)
+        rvPending.adapter = mAdapterPending
+
+        rvSaved.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+        mAdapterSaved = ResourseAdapter(activity?.applicationContext, listSaved, this, 2,  false)
+        rvSaved.adapter = mAdapterSaved
+
+        rvVolunteering.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+        mAdapterVolunteering = ResourseAdapter(activity?.applicationContext, listVolunteering, this, 2,  false)
+        rvVolunteering.adapter = mAdapterVolunteering
+
+        rvUsed.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+        mAdapterUsed = ResourseAdapter(activity?.applicationContext, listUsed, this, 2,  false)
+        rvUsed.adapter = mAdapterUsed
     }
 
     companion object {

@@ -1,17 +1,16 @@
-package com.cleteci.redsolidaria.ui.fragments.myResourses
+package com.cleteci.redsolidaria.ui.fragments.myResources
 
-import com.cleteci.redsolidaria.R
 import com.cleteci.redsolidaria.models.Service
 import io.reactivex.disposables.CompositeDisposable
 
 /**
  * Created by ogulcan on 07/02/2018.
  */
-class MyResoursesPresenter: MyResoursesContract.Presenter {
+class MyResoursesPresenter: MyResourcesContract.Presenter {
 
 
     private val subscriptions = CompositeDisposable()
-    private lateinit var view: MyResoursesContract.View
+    private lateinit var view: MyResourcesContract.View
 
     override fun subscribe() {
 
@@ -21,7 +20,7 @@ class MyResoursesPresenter: MyResoursesContract.Presenter {
         subscriptions.clear()
     }
 
-    override fun attach(view: MyResoursesContract.View) {
+    override fun attach(view: MyResourcesContract.View) {
         this.view = view
         view.init() // as default
     }

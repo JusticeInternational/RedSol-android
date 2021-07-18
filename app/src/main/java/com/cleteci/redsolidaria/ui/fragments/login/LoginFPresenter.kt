@@ -53,8 +53,8 @@ class LoginFPresenter : LoginFContract.Presenter {
         } else if (pass.isEmpty()) {
             view.errorEmailPass(BaseApp.instance.getString(R.string.wrong_pass))
         } else {
-            //loginUserMutation(email, pass)
-            uiTestLogin(email, pass)
+            loginUserMutation(email, pass)
+            //uiTestLogin(email, pass)
         }
     }
 

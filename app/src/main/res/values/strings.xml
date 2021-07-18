@@ -286,4 +286,5 @@
     <string name="my_services">Mis Servicios</string>
     <string name="see_details"><![CDATA[<u>Ver Detalle</u>]]></string>
     <string name="current_location_text">Ubicación actual</string>
+    <string name="empty_image_description">Empty image</string>
 </resources>

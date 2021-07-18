@@ -55,7 +55,7 @@ object LocalDataForUITest {
             "https://www.umiamihealth.org",
             "+1 305-856-3287",
             "Básico",
-            arrayListOf(getServiceById("0")!!),
+            arrayListOf(getServiceById("0")!!, getServiceById("1")!!),
             ArrayList(),
             "Info 0 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut varius justo at dui dictum tristique. Sed eget ante porta, congue lectus ac, placerat sapien. Proin laoreet sagittis nisl eget pulvinar.",
             "Des 0 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut varius justo at dui dictum tristique. Sed eget ante porta, congue lectus ac, placerat sapien. Proin laoreet sagittis nisl eget pulvinar.",
@@ -132,7 +132,7 @@ object LocalDataForUITest {
     }
 
     fun getServicesList(): ArrayList<Service> {
-        var list = java.util.ArrayList<Service>()
+        val list = java.util.ArrayList<Service>()
         list.add(Service("0", "Prueba Covid-19", getCategoryById("0")!!))
         list.add(Service("1", "Vacuna Covic-19", getCategoryById("1")!!))
         list.add(Service("2", "Revisión General", getCategoryById("2")!!))
@@ -153,7 +153,7 @@ object LocalDataForUITest {
     }
 
     fun getCategoriesList(): ArrayList<Category> {
-        var list = java.util.ArrayList<Category>()
+        val list = java.util.ArrayList<Category>()
         list.add(Category("0","Laboratorio", R.drawable.ic_test))
         list.add(Category("1","Vacuna", R.drawable.ic_vaccine))
         list.add(Category("2","Medicina General", R.drawable.ic_cross))
