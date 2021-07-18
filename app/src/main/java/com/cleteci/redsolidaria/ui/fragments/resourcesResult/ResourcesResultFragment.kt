@@ -17,17 +17,17 @@ import com.cleteci.redsolidaria.di.module.FragmentModule
 import com.cleteci.redsolidaria.models.Service
 import com.cleteci.redsolidaria.models.Category
 import com.cleteci.redsolidaria.ui.activities.main.MainActivity
-import com.cleteci.redsolidaria.ui.adapters.ResourseAdapter
+import com.cleteci.redsolidaria.ui.adapters.ResourceAdapter
 import com.cleteci.redsolidaria.ui.base.BaseFragment
 import javax.inject.Inject
 
 
 class ResourcesResultFragment : BaseFragment(), ResourcesResultContract.View,
-    ResourseAdapter.onItemClickListener {
+    ResourceAdapter.OnItemClickListener {
 
 
     var mListRecyclerView: RecyclerView? = null
-    var mAdapter: ResourseAdapter? = null
+    var mAdapter: ResourceAdapter? = null
     private var imageView: ImageView? = null
     private lateinit var selectedItem: String
     private lateinit var keyWord: String
@@ -71,7 +71,7 @@ class ResourcesResultFragment : BaseFragment(), ResourcesResultContract.View,
 
         // only create and set a new adapter if there isn't already one
         //if (mAdapter == null) {
-        mAdapter = ResourseAdapter(activity?.applicationContext, listCategory, this, 1, false)
+        mAdapter = ResourceAdapter(activity?.applicationContext, listCategory, this, 1, false)
         mListRecyclerView?.adapter = mAdapter;
         imageView = rootView?.findViewById<ImageView>(R.id.imageView);
 
@@ -154,7 +154,7 @@ class ResourcesResultFragment : BaseFragment(), ResourcesResultContract.View,
 
     }
 
-    override fun clickScanresourse(postId: String) {
+    override fun clickScanResource(postId: String) {
 
     }
 

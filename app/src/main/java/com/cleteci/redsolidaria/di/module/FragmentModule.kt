@@ -25,12 +25,12 @@ import com.cleteci.redsolidaria.ui.fragments.myProfile.MyProfileContract
 import com.cleteci.redsolidaria.ui.fragments.myProfile.MyProfilePresenter
 import com.cleteci.redsolidaria.ui.fragments.myProfileProvider.MyProfileProviderContract
 import com.cleteci.redsolidaria.ui.fragments.myProfileProvider.MyProfileProviderPresenter
-import com.cleteci.redsolidaria.ui.fragments.myResourses.MyResoursesContract
-import com.cleteci.redsolidaria.ui.fragments.myResourses.MyResoursesPresenter
+import com.cleteci.redsolidaria.ui.fragments.myResources.MyResourcesContract
+import com.cleteci.redsolidaria.ui.fragments.myResources.MyResourcesPresenter
 import com.cleteci.redsolidaria.ui.fragments.resourcesResult.ResourcesResultContract
 import com.cleteci.redsolidaria.ui.fragments.resourcesResult.ResourcesResultPresenter
-import com.cleteci.redsolidaria.ui.fragments.resoursesOffered.ResoursesOfferedContract
-import com.cleteci.redsolidaria.ui.fragments.resoursesOffered.ResoursesOfferedPresenter
+import com.cleteci.redsolidaria.ui.fragments.resourcesOffered.ResourcesOfferedContract
+import com.cleteci.redsolidaria.ui.fragments.resourcesOffered.ResourcesOfferedPresenter
 import com.cleteci.redsolidaria.ui.fragments.scanCode.ScanCodeContract
 import com.cleteci.redsolidaria.ui.fragments.scanCode.ScanCodePresenter
 import com.cleteci.redsolidaria.ui.fragments.servicedetail.ServiceDetailContract
@@ -67,8 +67,8 @@ class FragmentModule {
     }
 
     @Provides
-    fun provideMyResoursesPresenterPresenter(): MyResoursesContract.Presenter {
-        return MyResoursesPresenter()
+    fun provideMyResoursesPresenterPresenter(): MyResourcesContract.Presenter {
+        return MyResourcesPresenter()
     }
 
     @Provides
@@ -114,8 +114,8 @@ class FragmentModule {
     }
 
     @Provides
-    fun provideResoursesOfferedPresenter(): ResoursesOfferedContract.Presenter {
-        return ResoursesOfferedPresenter()
+    fun provideResoursesOfferedPresenter(): ResourcesOfferedContract.Presenter {
+        return ResourcesOfferedPresenter()
     }
 
     @Provides

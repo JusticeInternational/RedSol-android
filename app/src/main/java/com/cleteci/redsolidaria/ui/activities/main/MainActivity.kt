@@ -35,8 +35,8 @@ import com.cleteci.redsolidaria.ui.fragments.infoService.ScanNoUserFragment
 import com.cleteci.redsolidaria.ui.search.SearchFragment
 import com.cleteci.redsolidaria.ui.fragments.myProfile.MyProfileFragment
 import com.cleteci.redsolidaria.ui.fragments.myProfileProvider.MyProfileProviderFragment
-import com.cleteci.redsolidaria.ui.fragments.myResourses.MyResoursesFragment
-import com.cleteci.redsolidaria.ui.fragments.resoursesOffered.ResoursesOfferedFragment
+import com.cleteci.redsolidaria.ui.fragments.myResources.MyResourcesFragment
+import com.cleteci.redsolidaria.ui.fragments.resourcesOffered.ResourcesOfferedFragment
 import com.cleteci.redsolidaria.ui.fragments.scanCode.ScanCodeFragment
 import com.cleteci.redsolidaria.ui.fragments.servicedetail.ServiceDetailFragment
 import com.cleteci.redsolidaria.ui.fragments.suggestService.SuggestServiceFragment
@@ -172,12 +172,12 @@ class MainActivity : AppCompatActivity(), MainContract.View, NavigationView.OnNa
                     presenter.onNavMapOption()
                     return@OnNavigationItemSelectedListener true
                 }
-//                R.id.navigation_search -> {
-//                    presenter.onNavSearchOption()
-//                    return@OnNavigationItemSelectedListener true
-//                }
+                R.id.navigation_search -> {
+                    presenter.onNavSearchOption()
+                    return@OnNavigationItemSelectedListener true
+                }
                 R.id.navigation_home_provider -> {
-                    presenter.onNavResoursesProviderOption()
+                    presenter.onNavResourcesProviderOption()
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.navigation_scan_provider -> {
@@ -231,7 +231,6 @@ class MainActivity : AppCompatActivity(), MainContract.View, NavigationView.OnNa
     }
 
     private fun alertConfirmation(isGeneric:Boolean, name:String?, serviceID:String?, catID:String? ){
-
         val dialog = Dialog(this)
         dialog .requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.window!!.setLayout(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN)
@@ -267,14 +266,14 @@ class MainActivity : AppCompatActivity(), MainContract.View, NavigationView.OnNa
     override fun showScanListFragment() {
         supportFragmentManager.beginTransaction()
             .addToBackStack(null)
-            .replace(R.id.container_fragment, ResoursesOfferedFragment().newInstance(true), ResoursesOfferedFragment.TAG)
+            .replace(R.id.container_fragment, ResourcesOfferedFragment().newInstance(true), ResourcesOfferedFragment.TAG)
             .commit()
     }
 
-    override fun showResoursesProviderFragment() {
+    override fun showResourcesProviderFragment() {
         supportFragmentManager.beginTransaction()
             .addToBackStack(null)
-            .replace(R.id.container_fragment, ResoursesOfferedFragment().newInstance(false), ResoursesOfferedFragment.TAG)
+            .replace(R.id.container_fragment, ResourcesOfferedFragment().newInstance(false), ResourcesOfferedFragment.TAG)
             .commit()
 
     }
@@ -304,7 +303,7 @@ class MainActivity : AppCompatActivity(), MainContract.View, NavigationView.OnNa
         startActivity(intent)
     }
 
-    fun openOrganizationProfileByUserId(userId: String) {
+    private fun openOrganizationProfileByUserId(userId: String) {
         val intent = Intent(this, OrganizationProfileActivity::class.java)
         intent.putExtra(USER_ID, userId)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
@@ -360,14 +359,14 @@ class MainActivity : AppCompatActivity(), MainContract.View, NavigationView.OnNa
             .commit()
     }
 
-    fun opensuggestFragment() {
+    private fun openSuggestFragment() {
         supportFragmentManager.beginTransaction()
             .addToBackStack(null)
             .replace(R.id.container_fragment, SuggestServiceFragment().newInstance(), SuggestServiceFragment.TAG)
             .commit()
     }
 
-    fun openProfileFragment() {
+    private fun openProfileFragment() {
         supportFragmentManager.beginTransaction()
             .addToBackStack(null)
             .replace(R.id.container_fragment, MyProfileFragment().newInstance(), MyProfileFragment.TAG)
@@ -381,14 +380,14 @@ class MainActivity : AppCompatActivity(), MainContract.View, NavigationView.OnNa
             .commit()
     }
 
-    fun openConfigFragment() {
+    private fun openConfigFragment() {
         supportFragmentManager.beginTransaction()
             .addToBackStack(null)
             .replace(R.id.container_fragment, ConfigurationFragment().newInstance(), ConfigurationFragment.TAG)
             .commit()
     }
 
-    fun openContactUsFragment() {
+    private fun openContactUsFragment() {
         supportFragmentManager.beginTransaction()
             .addToBackStack(null)
             .replace(R.id.container_fragment, ContactUsFragment().newInstance(), ContactUsFragment.TAG)
@@ -408,13 +407,13 @@ class MainActivity : AppCompatActivity(), MainContract.View, NavigationView.OnNa
             .commit()
     }
 
-    override fun showResoursesFragment() {
+    override fun showResourcesFragment() {
         searchButton.visibility = View.GONE
         appBarTitle.visibility = View.VISIBLE
         appBarTitle.text = getString(R.string.my_resources)
         supportFragmentManager.beginTransaction()
             .addToBackStack(null)
-            .replace(R.id.container_fragment, MyResoursesFragment().newInstance(), MyResoursesFragment.TAG)
+            .replace(R.id.container_fragment, MyResourcesFragment(), MyResourcesFragment.TAG)
             .commit()
     }
 
@@ -436,7 +435,7 @@ class MainActivity : AppCompatActivity(), MainContract.View, NavigationView.OnNa
     }
 
     override fun showSuggestFragment() {
-        opensuggestFragment()
+        openSuggestFragment()
     }
 
     override fun showConfigFragment() {
@@ -484,13 +483,13 @@ class MainActivity : AppCompatActivity(), MainContract.View, NavigationView.OnNa
                     searchButton.visibility = View.GONE
                     appBarTitle.visibility = View.VISIBLE
                     appBarTitle.text = getString(R.string.my_resources)
-                    if (currentFragment == null || currentFragment !is MyResoursesFragment ) {
+                    if (currentFragment == null || currentFragment !is MyResourcesFragment ) {
                         searchButton.visibility = View.GONE
                         appBarTitle.visibility = View.VISIBLE
                         appBarTitle.text = getString(R.string.my_resources)
-                        currentFragment = MyResoursesFragment().newInstance()
+                        currentFragment = MyResourcesFragment()
                     }
-                    return currentFragment as MyResoursesFragment
+                    return currentFragment as MyResourcesFragment
                 }
                 FragNavController.TAB2 -> {
                     searchButton.visibility = View.VISIBLE
@@ -508,8 +507,8 @@ class MainActivity : AppCompatActivity(), MainContract.View, NavigationView.OnNa
         } else {
             when (index) {
 
-                FragNavController.TAB1 -> return ResoursesOfferedFragment()
-                FragNavController.TAB2 -> return ResoursesOfferedFragment()
+                FragNavController.TAB1 -> return ResourcesOfferedFragment()
+                FragNavController.TAB2 -> return ResourcesOfferedFragment()
                 FragNavController.TAB3 -> return UsersFragment()
 
             }

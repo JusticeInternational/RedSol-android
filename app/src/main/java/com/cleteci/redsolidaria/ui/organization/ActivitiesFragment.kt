@@ -16,7 +16,7 @@ import com.cleteci.redsolidaria.models.Post
 import kotlinx.android.synthetic.main.fragment_organization_activities.*
 
 
-class ActivitiesFragment(private val organization: Organization?) : Fragment() {
+class ActivitiesFragment(private val organization: Organization) : Fragment() {
 
     private val postList: java.util.ArrayList<Post> = ArrayList()
 

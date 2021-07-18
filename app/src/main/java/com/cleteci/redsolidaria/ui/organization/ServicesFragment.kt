@@ -14,7 +14,7 @@ import com.cleteci.redsolidaria.models.Organization
 import kotlinx.android.synthetic.main.fragment_organization_services.*
 
 
-class ServicesFragment(private val organization: Organization?) : Fragment() {
+class ServicesFragment(private val organization: Organization) : Fragment() {
 
     private var isHealthSaved = false
     private var isTestSaved = false

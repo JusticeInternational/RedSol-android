@@ -6,16 +6,12 @@ import androidx.fragment.app.Fragment
 
 open class BaseFragment : Fragment (){
 
-    val ARGS_INSTANCE = "com.cleteci.redsolidaria"
+    private var mFragmentNavigation: FragmentNavigation? = null
 
-
-    internal var mFragmentNavigation: FragmentNavigation?=null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
+    inline fun <T : Fragment> T.withArguments(capacity: Int, block: Bundle.() -> Unit): T {
+        arguments = Bundle(capacity).apply(block)
+        return this
     }
-
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

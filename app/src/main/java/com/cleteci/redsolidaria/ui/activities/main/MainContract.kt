@@ -2,16 +2,16 @@ package com.cleteci.redsolidaria.ui.activities.main
 
 import com.cleteci.redsolidaria.ui.base.BaseContract
 
-/**
- * Created by ogulcan on 07/02/2018.
- */
 class MainContract {
 
     interface View: BaseContract.View {
         fun init()
+
         fun showSearchFragment()
+
         fun showMapFragment()
-        fun showResoursesFragment()
+
+        fun showResourcesFragment()
 
         fun showSuggestFragment()
 
@@ -27,20 +27,21 @@ class MainContract {
 
         fun showScanListFragment()
 
-        fun showResoursesProviderFragment()
+        fun showResourcesProviderFragment()
     }
 
-    interface Presenter: BaseContract.Presenter<MainContract.View> {
+    interface Presenter: BaseContract.Presenter<View> {
 
         fun onNavUsersOption()
 
         fun onNavScanOption()
 
-        fun onNavResoursesProviderOption()
-
+        fun onNavResourcesProviderOption()
 
         fun onNavSearchOption()
+
         fun onNavMapOption()
+
         fun onNavResourcesOption()
 
         fun onDrawerSuggestOption()

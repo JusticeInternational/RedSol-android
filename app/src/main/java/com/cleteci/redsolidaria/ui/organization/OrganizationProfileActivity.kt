@@ -2,11 +2,13 @@ package com.cleteci.redsolidaria.ui.organization
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import com.cleteci.redsolidaria.BaseApp
 import com.cleteci.redsolidaria.R
 import com.cleteci.redsolidaria.data.LocalDataForUITest.getOrganizationById
+import com.cleteci.redsolidaria.data.LocalDataForUITest.getOrganizationsList
 import com.cleteci.redsolidaria.models.Organization
 import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.activity_organization_profile.*
@@ -57,20 +59,23 @@ class OrganizationProfileActivity : AppCompatActivity() {
     }
 
     private fun setupTabs() {
-        val adapter =
-            SectionsPagerAdapter(
-                this,
-                supportFragmentManager
-            )
-        adapter.addFragment(InfoFragment(organization), "Info")
-        adapter.addFragment(ServicesFragment(organization), "Services")
-        adapter.addFragment(ActivitiesFragment(organization), "Activities")
-        adapter.addFragment(ContributeFragment.newInstance(3), "Contribute")
-        viewPager.adapter = adapter
-        tabs.setupWithViewPager(viewPager)
-        tabs.tabMode = TabLayout.MODE_SCROLLABLE
-        val tab = tabs.getTabAt(sectionId)
-        Objects.requireNonNull<TabLayout.Tab>(tab).select()
+        val adapter = SectionsPagerAdapter(this, supportFragmentManager)
+//        if (organization == null) {
+//            Toast.makeText(this,"Usuario no tiene organización asociada", Toast.LENGTH_LONG).show()
+//            finish()
+//        } else {
+            organization = getOrganizationsList()[0]
+            adapter.addFragment(InfoFragment(organization!!), "Info")
+            adapter.addFragment(ServicesFragment(organization!!), "Services")
+            adapter.addFragment(ActivitiesFragment(organization!!), "Activities")
+            adapter.addFragment(ContributeFragment.newInstance(3), "Contribute")
+            viewPager.adapter = adapter
+            tabs.setupWithViewPager(viewPager)
+            tabs.tabMode = TabLayout.MODE_SCROLLABLE
+            val tab = tabs.getTabAt(sectionId)
+            Objects.requireNonNull<TabLayout.Tab>(tab).select()
+//        }
+
     }
      companion object {
          const val ORGANIZATION_ID = "organization_id"

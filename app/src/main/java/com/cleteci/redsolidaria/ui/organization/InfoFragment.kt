@@ -16,26 +16,24 @@ import com.cleteci.redsolidaria.util.*
 import kotlinx.android.synthetic.main.fragment_organization_info.*
 
 
-class InfoFragment(private val organization: Organization?) : Fragment(), View.OnClickListener {
+class InfoFragment(private val organization: Organization) : Fragment(), View.OnClickListener {
 
     private lateinit var attributes: HashMap<String, String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-       if (organization == null)
-            return
+
         attributes = hashMapOf(
-            "schedule" to organization.schedule,
-            "location" to organization.location,
-            "page" to organization.webPage,
-            "phone" to organization.phone,
-            "email" to organization.user.email)
+                "schedule" to organization.schedule,
+                "location" to organization.location,
+                "page" to organization.webPage,
+                "phone" to organization.phone,
+                "email" to organization.user.email)
+
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val root = inflater.inflate(R.layout.fragment_organization_info, container, false)
-        return root
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+            inflater.inflate(R.layout.fragment_organization_info, container, false)
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)

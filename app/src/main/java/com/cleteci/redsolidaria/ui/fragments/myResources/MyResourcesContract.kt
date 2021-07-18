@@ -1,19 +1,16 @@
-package com.cleteci.redsolidaria.ui.fragments.myResourses
+package com.cleteci.redsolidaria.ui.fragments.myResources
 
 import com.cleteci.redsolidaria.models.Service
 import com.cleteci.redsolidaria.ui.base.BaseContract
 
-/**
- * Created by ogulcan on 07/02/2018.
- */
-class MyResoursesContract {
+class MyResourcesContract {
 
     interface View: BaseContract.View {
         fun init()
         fun loadDataSuccess(pending: List<Service>, saved: List<Service>, volunteer: List<Service>, used: List<Service>)
     }
 
-    interface Presenter: BaseContract.Presenter<MyResoursesContract.View> {
+    interface Presenter: BaseContract.Presenter<View> {
         fun getData()
     }
 }

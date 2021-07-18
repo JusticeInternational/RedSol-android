@@ -13,9 +13,9 @@ import com.cleteci.redsolidaria.ui.fragments.login.LoginFFragment
 import com.cleteci.redsolidaria.ui.search.SearchFragment
 import com.cleteci.redsolidaria.ui.fragments.myProfile.MyProfileFragment
 import com.cleteci.redsolidaria.ui.fragments.myProfileProvider.MyProfileProviderFragment
-import com.cleteci.redsolidaria.ui.fragments.myResourses.MyResoursesFragment
+import com.cleteci.redsolidaria.ui.fragments.myResources.MyResourcesFragment
+import com.cleteci.redsolidaria.ui.fragments.resourcesOffered.ResourcesOfferedFragment
 import com.cleteci.redsolidaria.ui.fragments.resourcesResult.ResourcesResultFragment
-import com.cleteci.redsolidaria.ui.fragments.resoursesOffered.ResoursesOfferedFragment
 import com.cleteci.redsolidaria.ui.fragments.scanCode.ScanCodeFragment
 import com.cleteci.redsolidaria.ui.fragments.servicedetail.ServiceDetailFragment
 import com.cleteci.redsolidaria.ui.fragments.suggestService.SuggestServiceFragment
@@ -23,11 +23,10 @@ import com.cleteci.redsolidaria.ui.fragments.users.AttendersFragment
 import com.cleteci.redsolidaria.ui.fragments.users.UsersFragment
 import com.cleteci.redsolidaria.ui.fragments.users.AttendersListFragment
 import com.cleteci.redsolidaria.ui.fragments.welcome.WelcomeFragment
-
 import dagger.Component
 
 
-@Component(modules = arrayOf(FragmentModule::class))
+@Component(modules = [FragmentModule::class])
 interface FragmentComponent {
 
     fun inject(basicSearchFragment: BasicSearchFragment)
@@ -38,7 +37,7 @@ interface FragmentComponent {
 
     fun inject(resourcesResultFragment: ResourcesResultFragment)
 
-    fun inject(myResoursesFragment: MyResoursesFragment)
+    fun inject(myResourcesFragment: MyResourcesFragment)
 
     fun inject(searchFragment: SearchFragment)
 
@@ -58,7 +57,7 @@ interface FragmentComponent {
 
     fun inject(scanCodeFragment: ScanCodeFragment)
 
-    fun inject(resoursesOfferedFragment: ResoursesOfferedFragment)
+    fun inject(resourcesOfferedFragment: ResourcesOfferedFragment)
 
     fun inject(changePassFragment: ChangePassFragment)
 

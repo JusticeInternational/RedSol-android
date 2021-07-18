@@ -1,40 +1,35 @@
 package com.cleteci.redsolidaria.ui.fragments.myResources
 
-
 import android.os.Bundle
 import android.view.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cleteci.redsolidaria.BaseApp
-
 import com.cleteci.redsolidaria.R
-
 import com.cleteci.redsolidaria.di.component.DaggerFragmentComponent
 import com.cleteci.redsolidaria.di.module.FragmentModule
 import com.cleteci.redsolidaria.models.Service
 import com.cleteci.redsolidaria.ui.activities.main.MainActivity
-import com.cleteci.redsolidaria.ui.adapters.ResourseAdapter
+import com.cleteci.redsolidaria.ui.adapters.ResourceAdapter
 import com.cleteci.redsolidaria.ui.base.BaseFragment
 import kotlinx.android.synthetic.main.fragment_my_resources.*
 import javax.inject.Inject
 
 
-class MyResoursesFragment : BaseFragment(), MyResourcesContract.View, ResourseAdapter.onItemClickListener {
+class MyResourcesFragment : BaseFragment(),
+        MyResourcesContract.View,
+        ResourceAdapter.OnItemClickListener {
 
     @Inject
-    private lateinit var presenter: MyResourcesContract.Presenter
+    lateinit var presenter: MyResourcesContract.Presenter
 
-    private lateinit var mAdapterPending: ResourseAdapter
-    private lateinit var mAdapterSaved: ResourseAdapter
-    private lateinit var mAdapterUsed: ResourseAdapter
-    private lateinit var mAdapterVolunteering: ResourseAdapter
+    private lateinit var mAdapterPending: ResourceAdapter
+    private lateinit var mAdapterSaved: ResourceAdapter
+    private lateinit var mAdapterUsed: ResourceAdapter
+    private lateinit var mAdapterVolunteering: ResourceAdapter
     private val listPending = ArrayList<Service>()
     private val listSaved = ArrayList<Service>()
     private val listVolunteering = ArrayList<Service>()
     private val listUsed = ArrayList<Service>()
-
-    fun newInstance(): MyResoursesFragment {
-        return MyResoursesFragment()
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +39,7 @@ class MyResoursesFragment : BaseFragment(), MyResourcesContract.View, ResourseAd
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View  = inflater.inflate(R.layout.fragment_my_resources, container, false)
+    ): View = inflater.inflate(R.layout.fragment_my_resources, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -59,40 +54,7 @@ class MyResoursesFragment : BaseFragment(), MyResourcesContract.View, ResourseAd
         presenter.unsubscribe()
     }
 
-
-    private fun injectDependency() {
-        val aboutComponent = DaggerFragmentComponent.builder()
-            .fragmentModule(FragmentModule())
-            .build()
-
-        aboutComponent.inject(this)
-    }
-
-    override fun init() {
-
-    }
-
-    private fun initView() {
-        rvPending.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-        mAdapterPending = ResourseAdapter(activity?.applicationContext, listPending, this, 2,  false)
-        rvPending.adapter = mAdapterPending
-
-        rvSaved.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-        mAdapterSaved = ResourseAdapter(activity?.applicationContext, listSaved, this, 2,  false)
-        rvSaved.adapter = mAdapterSaved
-
-        rvVolunteering.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-        mAdapterVolunteering = ResourseAdapter(activity?.applicationContext, listVolunteering, this, 2,  false)
-        rvVolunteering.adapter = mAdapterVolunteering
-
-        rvUsed.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-        mAdapterUsed = ResourseAdapter(activity?.applicationContext, listUsed, this, 2,  false)
-        rvUsed.adapter = mAdapterUsed
-    }
-
-    companion object {
-        val TAG: String = "MyResoursesFragment"
-    }
+    override fun init() {}
 
     override fun loadDataSuccess(
         pending: List<Service>,
@@ -102,51 +64,72 @@ class MyResoursesFragment : BaseFragment(), MyResourcesContract.View, ResourseAd
     ) {
         listPending.clear()
         listPending.addAll(pending)
-        mAdapterPending?.notifyDataSetChanged()
+        mAdapterPending.notifyDataSetChanged()
 
         listSaved.clear()
         listSaved.addAll(saved)
-        mAdapterSaved?.notifyDataSetChanged()
+        mAdapterSaved.notifyDataSetChanged()
 
         listUsed.clear()
         listUsed.addAll(used)
-        mAdapterUsed?.notifyDataSetChanged()
+        mAdapterUsed.notifyDataSetChanged()
 
         listVolunteering.clear()
         listVolunteering.addAll(volunteer)
-        mAdapterVolunteering?.notifyDataSetChanged()
+        mAdapterVolunteering.notifyDataSetChanged()
+    }
+
+    private fun injectDependency() {
+        val aboutComponent = DaggerFragmentComponent.builder()
+                .fragmentModule(FragmentModule())
+                .build()
+
+        aboutComponent.inject(this)
+    }
+
+    private fun initView() {
+        if (BaseApp.prefs.login_later) {
+            mScrollView?.visibility = View.GONE
+            lyEmpty?.visibility = View.VISIBLE
+        } else {
+            mScrollView?.visibility = View.VISIBLE
+            lyEmpty?.visibility = View.GONE
+        }
+
+        (activity as MainActivity).setTextToolbar(
+                getString(R.string.my_resources),
+                activity!!.resources.getColor(R.color.colorWhite)
+        )
+
+        rvPending.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+        mAdapterPending = ResourceAdapter(activity?.applicationContext, listPending, this, 2,  false)
+        rvPending.adapter = mAdapterPending
+
+        rvSaved.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+        mAdapterSaved = ResourceAdapter(activity?.applicationContext, listSaved, this, 2,  false)
+        rvSaved.adapter = mAdapterSaved
+
+        rvVolunteering.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+        mAdapterVolunteering = ResourceAdapter(activity?.applicationContext, listVolunteering, this, 2,  false)
+        rvVolunteering.adapter = mAdapterVolunteering
+
+        rvUsed.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+        mAdapterUsed = ResourceAdapter(activity?.applicationContext, listUsed, this, 2,  false)
+        rvUsed.adapter = mAdapterUsed
     }
 
     override fun clickDetailResource(postId: Int, name: String, isGeneric:Boolean) {
         (activity as MainActivity).openOrganizationProfile("")
     }
 
-    override fun scanNoUserResource(postId: String, name: String, isGeneric: Boolean) {
+    override fun scanNoUserResource(postId: String, name: String, isGeneric: Boolean) {}
+
+    override fun clickScanResource(postId: String) {}
+
+    companion object {
+
+        const val TAG: String = "MyResourcesFragment"
 
     }
-
-    override fun clickScanresourse(postId: String) { }
-
-    override fun onResume() {
-        super.onResume()
-        (activity as MainActivity).setTextToolbar(
-            getText(R.string.my_resources).toString(),
-            activity!!.resources.getColor(R.color.colorWhite)
-        )
-
-        if (BaseApp.prefs.login_later) {
-
-            mScrollView?.visibility = View.GONE
-            lyEmpty?.visibility = View.VISIBLE
-
-
-        } else {
-            mScrollView?.visibility = View.VISIBLE
-            lyEmpty?.visibility = View.GONE
-
-
-        }
-    }
-
 
 }

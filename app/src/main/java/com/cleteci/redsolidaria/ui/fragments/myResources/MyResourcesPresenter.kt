@@ -1,20 +1,14 @@
 package com.cleteci.redsolidaria.ui.fragments.myResources
 
-import com.cleteci.redsolidaria.models.Service
+import com.cleteci.redsolidaria.data.LocalDataForUITest
 import io.reactivex.disposables.CompositeDisposable
 
-/**
- * Created by ogulcan on 07/02/2018.
- */
-class MyResoursesPresenter: MyResourcesContract.Presenter {
-
+class MyResourcesPresenter: MyResourcesContract.Presenter {
 
     private val subscriptions = CompositeDisposable()
     private lateinit var view: MyResourcesContract.View
 
-    override fun subscribe() {
-
-    }
+    override fun subscribe() {}
 
     override fun unsubscribe() {
         subscriptions.clear()
@@ -22,14 +16,16 @@ class MyResoursesPresenter: MyResourcesContract.Presenter {
 
     override fun attach(view: MyResourcesContract.View) {
         this.view = view
-        view.init() // as default
+        view.init()
     }
 
     override fun getData() {
-        val arrayList = ArrayList<Service>()//Creating an empty arraylist
-
-        view.loadDataSuccess(arrayList,arrayList,arrayList,arrayList)
+        view.loadDataSuccess(
+                LocalDataForUITest.getServicesList().subList(0, 2),
+                LocalDataForUITest.getServicesList().subList(2, 7),
+                LocalDataForUITest.getServicesList().subList(3, 5),
+                LocalDataForUITest.getServicesList().subList(5, 6)
+        )
     }
-
 
 }
