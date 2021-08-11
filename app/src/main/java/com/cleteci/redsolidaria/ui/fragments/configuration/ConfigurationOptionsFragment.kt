@@ -40,7 +40,7 @@ class ConfigurationFragment : BaseFragment() , ConfigurationContract.View  {
         savedInstanceState: Bundle?
     ): View? {
         rootView = inflater.inflate(R.layout.fragment_configuration, container, false)
-        tvChangePass=rootView.findViewById(R.id.tvChangePass)
+        tvChangePass=rootView.findViewById(R.id.tvChangePassword)
         tvChangePass?.setOnClickListener{
             ( activity as MainActivity).showChangePassFragment()
         }

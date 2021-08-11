@@ -59,12 +59,7 @@ class SearchFragment : BaseFragment(),
     private var mAdapterServices: ServicesSearchAdapter? = null
     private val listCategory = ArrayList<Category>()
     private val listServices = ArrayList<ServicesSearchAdapter.ServiceSearch>()
-    private var currentViewType =
-        MAP_VIEW
-
-    fun newInstance(): SearchFragment {
-        return SearchFragment()
-    }
+    private var currentViewType = MAP_VIEW
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -141,8 +136,7 @@ class SearchFragment : BaseFragment(),
         if (mapView != null) {
             mapView?.onResume()
         }
-        (activity as MainActivity).setTextToolbar(
-            getText(R.string.map).toString(), activity!!.resources.getColor(R.color.colorWhite))
+        (activity as MainActivity).setSearchButton()
     }
 
     override fun onDestroy() {

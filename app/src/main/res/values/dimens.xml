@@ -42,4 +42,6 @@
     <dimen name="button_default_width">130dp</dimen>
 
     <dimen name="size_img_category">65dp</dimen>
+    <dimen name="qr_size">250dp</dimen>
+    <dimen name="margin_text_extra_large">100dp</dimen>
 </resources>

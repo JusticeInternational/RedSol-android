@@ -8,119 +8,114 @@
     android:paddingHorizontal="20dp">
 
     <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    <TextView
-        style="@style/TextBodyBold"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="@string/new_pass"
-        android:textColor="@color/colorBlack" />
-
-    <FrameLayout
-
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        android:layout_centerVertical="true"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/bg_border_line_grey">
+        <TextView
+            style="@style/TextBodyBold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/new_pass"
+            android:textColor="@color/colorBlack" />
 
+        <FrameLayout
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:passwordToggleEnabled="true">
+            android:layout_centerVertical="true"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bg_border_line_grey">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etPass"
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/password"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_centerVertical="true"
-                android:background="@android:color/transparent"
-                android:inputType="textPassword"
-                android:padding="5dp"
+                android:layout_height="wrap_content"
+                app:passwordToggleEnabled="true">
 
-                />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etPass"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_centerVertical="true"
+                    android:background="@android:color/transparent"
+                    android:inputType="textPassword"
+                    android:padding="5dp" />
 
-        </com.google.android.material.textfield.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-    </FrameLayout>
+        </FrameLayout>
 
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:indeterminate="false"
+            android:progress="0" />
 
-    <ProgressBar
-        android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:indeterminate="false"
-        android:progress="0" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/bad"
+                android:textColor="@color/colorBlack"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="@string/good"
+                android:textColor="@color/colorBlack"
+                android:textSize="12sp" />
+
+        </RelativeLayout>
 
         <TextView
-            android:text="@string/bad"
+            style="@style/TextBodyBold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorBlack"
-            android:textSize="12sp" />
-
+            android:layout_marginTop="20dp"
+            android:text="@string/min_request"
+            android:textColor="@color/colorBlack" />
 
         <TextView
-            android:text="@string/good"
-            android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorBlack"
-            android:textSize="12sp" />
+            android:layout_marginTop="10dp"
+            android:text="@string/eigth_character"
+            android:textColor="@color/colorBlack" />
 
-    </RelativeLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/at_lest_one_number"
+            android:textColor="@color/colorBlack" />
 
-
-    <TextView
-        style="@style/TextBodyBold"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="@string/min_request"
-        android:textColor="@color/colorBlack" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="@string/eigth_character"
-        android:textColor="@color/colorBlack" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="@string/at_lest_one_number"
-        android:textColor="@color/colorBlack" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="@string/at_lest_one_special_character"
-        android:textColor="@color/colorBlack" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/at_lest_one_special_character"
+            android:textColor="@color/colorBlack" />
 
     </LinearLayout>
 
     <Button
         android:id="@+id/btSave"
-        android:layout_marginBottom="30dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp"
         android:background="@drawable/bg_color_primary"
         android:minWidth="130dp"
         android:text="@string/save"

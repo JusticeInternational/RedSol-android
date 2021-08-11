@@ -24,7 +24,7 @@ import com.cleteci.redsolidaria.ui.activities.login.LoginActivity
 import com.google.android.material.textfield.TextInputEditText
 
 
-class ChangePassFragment : BaseFragment() , ChangePassContract.View , TextWatcher {
+class ChangePassFragment : BaseFragment(), ChangePassContract.View, TextWatcher {
 
     var progressBar:ProgressBar?=null
     var etPass : TextInputEditText?=null
@@ -88,11 +88,12 @@ class ChangePassFragment : BaseFragment() , ChangePassContract.View , TextWatche
 
     private fun injectDependency() {
         val aboutComponent = DaggerFragmentComponent.builder()
-            .fragmentModule(FragmentModule())
-            .build()
+                .fragmentModule(FragmentModule())
+                .build()
 
         aboutComponent.inject(this)
     }
+
     override fun init() {
 
     }
@@ -109,10 +110,6 @@ class ChangePassFragment : BaseFragment() , ChangePassContract.View , TextWatche
 
     private fun initView() {
         //presenter.loadMessage()
-    }
-
-    companion object {
-        val TAG: String = "ChangePassFragment"
     }
 
     override fun onResume() {
@@ -168,4 +165,10 @@ class ChangePassFragment : BaseFragment() , ChangePassContract.View , TextWatche
         }
     }
 
+
+    companion object {
+
+        const val TAG: String = "ChangePassFragment"
+
+    }
 }

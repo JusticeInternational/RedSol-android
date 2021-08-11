@@ -267,6 +267,8 @@
     <string name="how_can_help">¿Cómo podemos ayudar?</string>
     <string name="error_email_app_not_found">Disculpe, no hemos connseguido una App para enviar correo.</string>
     <string name="title_activity_organization_profile">OrganizationProfile</string>
+    <string name="title_activity_user_profile">Mi perfil</string>
+    <string name="title_activity_user_configuration">Configuración</string>
     <string name="title_activity_search">Search</string>
     <string name="tab_text_1">Info</string>
     <string name="tab_text_2">Servicios</string>
@@ -287,4 +289,6 @@
     <string name="see_details"><![CDATA[<u>Ver Detalle</u>]]></string>
     <string name="current_location_text">Ubicación actual</string>
     <string name="empty_image_description">Empty image</string>
+    <string name="user_id">ID: %1$s</string>
+    <string name="home">Principal</string>
 </resources>

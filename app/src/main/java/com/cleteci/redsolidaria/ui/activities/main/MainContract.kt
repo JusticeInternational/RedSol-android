@@ -7,6 +7,8 @@ class MainContract {
     interface View: BaseContract.View {
         fun init()
 
+        fun showHomeFragment()
+
         fun showSearchFragment()
 
         fun showMapFragment()
@@ -31,6 +33,8 @@ class MainContract {
     }
 
     interface Presenter: BaseContract.Presenter<View> {
+
+        fun onDrawerHomeOption()
 
         fun onNavUsersOption()
 

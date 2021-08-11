@@ -25,6 +25,10 @@ class MainPresenter: MainContract.Presenter {
         view.init() // as default
     }
 
+    override fun onDrawerHomeOption() {
+        view.showHomeFragment()
+    }
+
     override fun onNavSearchOption() {
         view.showSearchFragment()
     }

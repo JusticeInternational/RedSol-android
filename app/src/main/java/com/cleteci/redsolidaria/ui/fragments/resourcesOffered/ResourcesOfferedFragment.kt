@@ -14,6 +14,7 @@ import com.cleteci.redsolidaria.ui.activities.main.MainActivity
 import com.cleteci.redsolidaria.ui.adapters.ResourceAdapter
 import com.cleteci.redsolidaria.ui.adapters.CategoriesAdapter
 import com.cleteci.redsolidaria.ui.base.BaseFragment
+import com.cleteci.redsolidaria.ui.base.withArguments
 import kotlinx.android.synthetic.main.fragment_resources_offered.*
 import javax.inject.Inject
 
@@ -35,11 +36,6 @@ class ResourcesOfferedFragment :
     private val listGenericResources = ArrayList<Service>()
     private var isFromScan = false
 
-    fun newInstance(isFromScan: Boolean): ResourcesOfferedFragment {
-        return ResourcesOfferedFragment().withArguments(1) {
-            putBoolean(IS_FROM_SCAN, isFromScan)
-        }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -180,6 +176,12 @@ class ResourcesOfferedFragment :
     companion object {
         const val TAG: String = "ResourcesProviderFragment"
         const val IS_FROM_SCAN: String = "isFromScan"
+
+        fun newInstance(isFromScan: Boolean): ResourcesOfferedFragment {
+            return ResourcesOfferedFragment().withArguments(1) {
+                putBoolean(IS_FROM_SCAN, isFromScan)
+            }
+        }
     }
 
 }
