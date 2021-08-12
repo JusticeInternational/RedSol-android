@@ -545,7 +545,7 @@ class MainActivity : AppCompatActivity(), MainContract.View,
 
     override fun showProfileFragment() {
         if (BaseApp.prefs.is_provider_service) {
-            BaseApp.prefs.user_saved?.let { openOrganizationProfileByUserId(it) }
+            BaseApp.prefs.current_org?.let { openOrganizationProfile(it) }
         } else {
             openProfileFragment()
         }

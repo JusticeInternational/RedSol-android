@@ -25,7 +25,7 @@ import android.widget.*
 import androidx.appcompat.widget.Toolbar
 import com.cleteci.redsolidaria.ui.activities.login.LoginActivity
 
-import com.github.glomadrian.codeinputlib.CodeInput
+
 import java.util.*
 
 

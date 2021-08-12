@@ -222,7 +222,8 @@
     <string name="wrong_login">Inicio de sesión incorrecto</string>
     <string name="error_login">Error al iniciar sesión</string>
     <string name="error_server">Ups! Ocurrió un error.</string>
-
+    <string name="error_getting_organization">Error obteninendo data de la organización</string>
+    <string name="error_organization_not_found">Usuario no tiene organización asociada</string>
 
     <string name="loremipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
     <string name="be_volunteer">¿Quieres ser voluntario? ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmo.</string>

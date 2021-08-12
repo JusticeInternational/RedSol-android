@@ -1,130 +1,150 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorWhite"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <ImageView
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="50dp"
-        android:src="@drawable/ic_sun" />
-
-    <EditText
-        android:id="@+id/etUser"
-        android:paddingHorizontal="10dp"
-        android:hint="@string/user"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginHorizontal="50dp"
-        android:layout_marginTop="30dp"
-        android:background="@drawable/bg_border_line_grey"
-        android:inputType="textEmailAddress" />
-
-    <EditText
-        android:id="@+id/etPass"
-        android:inputType="textPassword"
-        android:paddingHorizontal="10dp"
-        android:hint="@string/password"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginHorizontal="50dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/bg_border_line_grey" />
-
-    <Button
-        android:id="@+id/btLogin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/bg_color_primary_round_corner"
-        android:paddingHorizontal="20dp"
-        android:text="@string/login"
-        android:textAllCaps="false"
-        android:textColor="@color/colorWhite" />
-
-    <TextView
-        android:id="@+id/tvRegister"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp"
-        android:text="@string/register_me"
-        android:textColor="@color/colorPrimary"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/tvResetPass"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="10dp"
-        android:text="@string/restore_pass"
-        android:textColor="@color/colorPrimary"
-        android:textStyle="bold" />
-
-    <RelativeLayout
-        android:layout_marginTop="10dp"
-        android:id="@+id/lyCondition"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="50dp"
-        android:gravity="center"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:background="@color/colorWhite"
+        android:orientation="vertical">
 
         <ImageView
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="50dp"
+            android:src="@drawable/ic_sun" />
+
+        <EditText
+            android:id="@+id/etUser"
+            android:paddingHorizontal="10dp"
+            android:hint="@string/user"
             android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_centerVertical="true"
-            android:layout_toStartOf="@id/tvOr"
-            android:src="@color/colorGrey" />
+            android:layout_height="40dp"
+            android:layout_marginHorizontal="50dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/bg_border_line_grey"
+            android:inputType="textEmailAddress" />
 
+        <EditText
+            android:id="@+id/etPass"
+            android:inputType="textPassword"
+            android:paddingHorizontal="10dp"
+            android:hint="@string/password"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginHorizontal="50dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/bg_border_line_grey" />
 
-        <TextView
-            android:textSize="12sp"
-            android:id="@+id/tvOr"
+        <Button
+            android:id="@+id/btLogin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginHorizontal="10dp"
-            android:text="@string/or" />
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/bg_color_primary_round_corner"
+            android:paddingHorizontal="20dp"
+            android:text="@string/login"
+            android:textAllCaps="false"
+            android:textColor="@color/colorWhite" />
 
-        <ImageView
+        <TextView
+            android:id="@+id/tvRegister"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:text="@string/register_me"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvResetPass"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:text="@string/restore_pass"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold" />
+
+        <RelativeLayout
+            android:layout_marginTop="10dp"
+            android:id="@+id/lyCondition"
             android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_centerVertical="true"
-            android:layout_toEndOf="@id/tvOr"
-            android:src="@color/colorGrey" />
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="50dp"
+            android:gravity="center"
+            android:orientation="horizontal">
 
-    </RelativeLayout>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_centerVertical="true"
+                android:layout_toStartOf="@id/tvOr"
+                android:src="@color/colorGrey" />
 
-    <Button
-        android:id="@+id/btFacebook"
-        android:layout_marginHorizontal="50dp"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/bg_dark_blue"
-        android:paddingHorizontal="20dp"
-        android:text="@string/facebook"
-        android:textAllCaps="false"
-        android:textColor="@color/colorWhite" />
 
-    <Button
-        android:id="@+id/btGoogle"
-        android:layout_marginHorizontal="50dp"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="15dp"
-        android:background="@drawable/bg_pale_red"
-        android:paddingHorizontal="20dp"
-        android:text="@string/google"
-        android:textAllCaps="false"
-        android:textColor="@color/colorWhite" />
+            <TextView
+                android:textSize="12sp"
+                android:id="@+id/tvOr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginHorizontal="10dp"
+                android:text="@string/or" />
 
-</LinearLayout>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@id/tvOr"
+                android:src="@color/colorGrey" />
+
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/btFacebook"
+            android:layout_marginHorizontal="50dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/bg_dark_blue"
+            android:paddingHorizontal="20dp"
+            android:text="@string/facebook"
+            android:textAllCaps="false"
+            android:textColor="@color/colorWhite" />
+
+        <Button
+            android:id="@+id/btGoogle"
+            android:layout_marginHorizontal="50dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/bg_pale_red"
+            android:paddingHorizontal="20dp"
+            android:text="@string/google"
+            android:textAllCaps="false"
+            android:textColor="@color/colorWhite" />
+
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

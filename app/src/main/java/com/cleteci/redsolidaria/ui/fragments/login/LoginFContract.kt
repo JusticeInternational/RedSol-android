@@ -10,7 +10,7 @@ class LoginFContract {
     interface View: BaseContract.View {
         fun init()
         fun validEmailPass()
-        fun errorEmailPass(mdg:String)
+        fun showError(msg:String)
     }
 
     interface Presenter: BaseContract.Presenter<LoginFContract.View> {

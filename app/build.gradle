@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'com.apollographql.android'
+apply plugin: 'com.apollographql.apollo'
 
 android {
     compileSdkVersion 28
@@ -24,9 +24,14 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
 }
 
@@ -34,12 +39,8 @@ repositories {
 
     mavenCentral()
     maven { url "https://jitpack.io" }
-    maven {
-        url "http://dl.bintray.com/glomadrian/maven"
-    }
 
 }
-
 
 ext {
 
@@ -50,6 +51,8 @@ ext {
     glideVersion = '4.4.0'
     googleServices = '16.0.0'
     googleMapLibServices='0.9.4'
+    koinVersion = '1.0.2'
+    okHttpVersion = '4.5.0'
 
 }
 
@@ -69,6 +72,17 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxjava:$rxjava2_version"
     implementation "io.reactivex.rxjava2:rxandroid:$rxandroid_version"
     implementation "io.reactivex.rxjava2:rxkotlin:2.4.0"
+
+    //Kotlin Injection
+    implementation "org.koin:koin-java:$koinVersion"
+    implementation "org.koin:koin-android:$koinVersion"
+    implementation "org.koin:koin-android-viewmodel:$koinVersion"
+    testImplementation "org.koin:koin-test:$koinVersion"
+
+    //OKHttp
+    implementation "com.squareup.okhttp3:okhttp:$okHttpVersion"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okHttpVersion"
+    implementation "com.squareup.okhttp3:okhttp-urlconnection:$okHttpVersion"
 
     // dependency injection
     implementation "com.google.dagger:dagger:$dagger2_version"
@@ -94,8 +108,11 @@ dependencies {
 
     implementation 'uk.co.chrisjenx:calligraphy:2.3.0'
     implementation 'com.afollestad:viewpagerdots:1.0.0'
-    implementation 'com.github.glomadrian:CodeInput:1.1@aar'
     implementation 'com.github.yesterselga:password-strength-checker-android:v1.0'
+
+    implementation("com.apollographql.apollo:apollo-runtime:2.2.0")
+    implementation("com.apollographql.apollo:apollo-coroutines-support:2.2.0")
+    implementation 'com.apollographql.apollo:apollo-rx2-support:2.2.0'
 
     //google
     implementation "com.google.android.gms:play-services-auth:$googleServices"
@@ -130,7 +147,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
     // just for testing
-    implementation("com.apollographql.apollo:apollo-runtime:1.2.0")
+    implementation("com.apollographql.apollo:apollo-runtime:2.2.0")
     compileOnly 'org.jetbrains:annotations:13.0'
     testCompileOnly 'org.jetbrains:annotations:13.0'
     implementation 'com.orhanobut:logger:2.2.0'

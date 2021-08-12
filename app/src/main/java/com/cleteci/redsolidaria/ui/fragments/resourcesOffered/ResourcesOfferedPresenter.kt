@@ -111,29 +111,29 @@ class ResourcesOfferedPresenter : ResourcesOfferedContract.Presenter {
     }
 
     override fun getData() {
-        val organization = getOrganizationById("0")!!
-        val services = organization.servicesList!!
-        val categories = java.util.ArrayList<Category>()
-        for (service in services) {
-            categories.add(service.category)
-        }
-        view.loadDataSuccess(categories, services, services)
+//        val organization = getOrganizationById("0")!!
+//        val services = organization.servicesList!!
+//        val categories = java.util.ArrayList<Category>()
+//        for (service in services) {
+//            categories.add(service.category)
+//        }
+//        view.loadDataSuccess(categories, services, services)
 
-//        BaseApp.apolloClient.query(
-//            GetOrganizationServicesAndCategoriesQuery.builder().id(BaseApp.prefs.user_saved.toString()).build()
-//        ).enqueue(object : ApolloCall.Callback<GetOrganizationServicesAndCategoriesQuery.Data>() {
-//            override fun onResponse(response: Response<GetOrganizationServicesAndCategoriesQuery.Data>) {
-//                if (response.data() != null) {
-//                    val arrayListServices = deserializeResponseServices(response.data()?.User())
-//                    val arrayList = deserializeResponse(response.data()?.User())
-//                    val arrayListGenericServices = deserializeResponseGeneric(response.data()?.User())
-//                    view.loadDataSuccess(arrayList, arrayListServices, arrayListGenericServices)
-//                }
-//            }
-//            override fun onFailure(e: ApolloException) {
-//                Log.d("TAG", "error")
-//            }
-//        })
+        BaseApp.apolloClient.query(
+            GetOrganizationServicesAndCategoriesQuery.builder().id(BaseApp.prefs.user_saved.toString()).build()
+        ).enqueue(object : ApolloCall.Callback<GetOrganizationServicesAndCategoriesQuery.Data>() {
+            override fun onResponse(response: Response<GetOrganizationServicesAndCategoriesQuery.Data>) {
+                if (response.data != null) {
+                    val arrayListServices = deserializeResponseServices(response.data?.User())
+                    val arrayList = deserializeResponse(response.data?.User())
+                    val arrayListGenericServices = deserializeResponseGeneric(response.data?.User())
+                    view.loadDataSuccess(arrayList, arrayListServices, arrayListGenericServices)
+                }
+            }
+            override fun onFailure(e: ApolloException) {
+                Log.d("TAG", "error")
+            }
+        })
     }
 
 

@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import com.cleteci.redsolidaria.BaseApp
@@ -59,21 +60,22 @@ class OrganizationProfileActivity : AppCompatActivity() {
 
     private fun setupTabs() {
         val adapter = SectionsPagerAdapter(this, supportFragmentManager)
-//        if (organization == null) {
-//            Toast.makeText(this,"Usuario no tiene organización asociada", Toast.LENGTH_LONG).show()
-//            finish()
-//        } else {
-        organization = getOrganizationsList()[0]
-        adapter.addFragment(InfoFragment(organization!!), "Info")
-        adapter.addFragment(ServicesFragment(organization!!), "Services")
-        adapter.addFragment(ActivitiesFragment(organization!!), "Activities")
-        adapter.addFragment(ContributeFragment.newInstance(3), "Contribute")
-        viewPager.adapter = adapter
-        tabs.setupWithViewPager(viewPager)
-        tabs.tabMode = TabLayout.MODE_SCROLLABLE
-        val tab = tabs.getTabAt(sectionId)
-        Objects.requireNonNull<TabLayout.Tab>(tab).select()
-//        }
+        if (organization == null) {
+            Toast.makeText(this,getString(R.string.error_organization_not_found), Toast.LENGTH_LONG).show()
+            finish()
+        } else {
+            organization = getOrganizationsList()[0]// Using test data
+
+            adapter.addFragment(InfoFragment(organization!!), "Info")
+            adapter.addFragment(ServicesFragment(organization!!), "Services")
+            adapter.addFragment(ActivitiesFragment(organization!!), "Activities")
+            adapter.addFragment(ContributeFragment.newInstance(3), "Contribute")
+            viewPager.adapter = adapter
+            tabs.setupWithViewPager(viewPager)
+            tabs.tabMode = TabLayout.MODE_SCROLLABLE
+            val tab = tabs.getTabAt(sectionId)
+            Objects.requireNonNull<TabLayout.Tab>(tab).select()
+        }
 
     }
 

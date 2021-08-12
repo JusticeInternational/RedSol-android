@@ -14,6 +14,7 @@ class Constants {
         const val BASE_URL = "http://redsol.eastus.cloudapp.azure.com/graphql"
         const val ORGANIZATION_EMAIL = "redsol.app@gmail.com"
         const val ORGANIZATION_PHONE = "0123456789"
+        const val SLASH = "/"
     }
 }
 

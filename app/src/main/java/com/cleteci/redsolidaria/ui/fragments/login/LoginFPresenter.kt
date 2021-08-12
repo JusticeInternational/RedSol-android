@@ -49,9 +49,9 @@ class LoginFPresenter : LoginFContract.Presenter {
     override fun validateEmailPass(emailStr: String, pass: String) {
         val email= emailStr.trim()
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            view.errorEmailPass(BaseApp.instance.getString(R.string.wrong_email))
+            view.showError(BaseApp.instance.getString(R.string.wrong_email))
         } else if (pass.isEmpty()) {
-            view.errorEmailPass(BaseApp.instance.getString(R.string.wrong_pass))
+            view.showError(BaseApp.instance.getString(R.string.wrong_pass))
         } else {
             loginUserMutation(email, pass)
             //uiTestLogin(email, pass)
@@ -68,7 +68,7 @@ class LoginFPresenter : LoginFContract.Presenter {
             }
             view.validEmailPass()
         } else {
-            view.errorEmailPass(BaseApp.instance.getString(R.string.wrong_login))
+            view.showError(BaseApp.instance.getString(R.string.wrong_login))
         }
     }
 
@@ -91,30 +91,29 @@ class LoginFPresenter : LoginFContract.Presenter {
                         view.validEmailPass()
                     }
                 } else {
-                    view.errorEmailPass(BaseApp.instance.getString(R.string.wrong_login))
+                    view.showError(BaseApp.instance.getString(R.string.wrong_login))
                 }
             }
 
             override fun onFailure(e: ApolloException) {
-                view.errorEmailPass(BaseApp.instance.getString(R.string.error_login))
+                view.showError(BaseApp.instance.getString(R.string.error_login))
                 Log.d("TAG", "error")
             }
         })
     }
 
-    fun getInfoOrganization (){
+    fun getInfoOrganization () {
         BaseApp.apolloClient.query(
             GetOrganizationInfoQuery.builder().id(BaseApp.prefs.user_saved.toString()).build()
         ).enqueue(object : ApolloCall.Callback<GetOrganizationInfoQuery.Data>() {
             override fun onResponse(response: Response<GetOrganizationInfoQuery.Data>) {
                 if (response.data() != null) {
-
                     BaseApp.prefs.current_org = response.data()?.User()?.get(0)?.ownerOf()?.id()
                     view.validEmailPass()
                 }
             }
             override fun onFailure(e: ApolloException) {
-                view.errorEmailPass(BaseApp.instance.getString(R.string.error_login))
+                view.showError(BaseApp.instance.getString(R.string.error_login))
             }
         })
 

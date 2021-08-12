@@ -1,5 +1,5 @@
 query getOrganizationsByCategory($id: ID, $keyWord: String) {
-    byIdOrOrgKeyWord(id:$id, keyWord:$keyWord, orderBy: ranking_desc){
+    byIdOrOrgKeyWord(id:$id, keyWord:$keyWord, orderBy: [ranking_desc]){
         id
         name
         hourHand
@@ -128,7 +128,7 @@ query getOrganizationServicesAndCategories($id: ID) {
     }
 }
 
-query getOrganizationInfo($id: ID) {
+query getOrganizationInfo($id: ID!) {
     User(id: $id) {
         ownerOf {
             id
