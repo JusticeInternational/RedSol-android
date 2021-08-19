@@ -10,6 +10,7 @@ import android.view.*
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
@@ -19,8 +20,8 @@ import com.cleteci.redsolidaria.BaseApp
 import com.cleteci.redsolidaria.R
 import com.cleteci.redsolidaria.di.component.DaggerActivityComponent
 import com.cleteci.redsolidaria.di.module.ActivityModule
-import com.cleteci.redsolidaria.models.Service
 import com.cleteci.redsolidaria.models.Category
+import com.cleteci.redsolidaria.models.Service
 import com.cleteci.redsolidaria.ui.activities.login.LoginActivity
 import com.cleteci.redsolidaria.ui.activities.splash.SplashActivity
 import com.cleteci.redsolidaria.ui.customUIComponents.FragNavController
@@ -33,7 +34,6 @@ import com.cleteci.redsolidaria.ui.fragments.createService.CreateServiceFragment
 import com.cleteci.redsolidaria.ui.fragments.infoService.InfoServiceFragment
 import com.cleteci.redsolidaria.ui.fragments.infoService.ScanNoUserFragment
 import com.cleteci.redsolidaria.ui.fragments.myProfile.MyProfileFragment
-import com.cleteci.redsolidaria.ui.search.SearchFragment
 import com.cleteci.redsolidaria.ui.fragments.myResources.MyResourcesFragment
 import com.cleteci.redsolidaria.ui.fragments.resourcesOffered.ResourcesOfferedFragment
 import com.cleteci.redsolidaria.ui.fragments.scanCode.ScanCodeFragment
@@ -41,6 +41,7 @@ import com.cleteci.redsolidaria.ui.fragments.suggestService.SuggestServiceFragme
 import com.cleteci.redsolidaria.ui.fragments.users.AttendersFragment
 import com.cleteci.redsolidaria.ui.fragments.users.UsersFragment
 import com.cleteci.redsolidaria.ui.organization.OrganizationProfileActivity
+import com.cleteci.redsolidaria.ui.search.SearchFragment
 import com.cleteci.redsolidaria.ui.search.SearchItemsActivity
 import com.cleteci.redsolidaria.ui.search.SearchItemsActivity.Companion.SEARCH_REQUEST_CODE
 import com.facebook.login.LoginManager
@@ -73,12 +74,12 @@ class MainActivity : AppCompatActivity(), MainContract.View,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (BaseApp.prefs.first_time) {
-            BaseApp.prefs.first_time = false
+        if (BaseApp.sharedPreferences.isFirstTime) {
+            BaseApp.sharedPreferences.isFirstTime = false
             val intent = Intent(this, SplashActivity::class.java)
             startActivity(intent)
             finish()
-        } else if (BaseApp.prefs.user_saved != null || BaseApp.prefs.login_later) {
+        } else if (BaseApp.sharedPreferences.userSaved != null || BaseApp.sharedPreferences.loginLater) {
             setContentView(R.layout.activity_main)
             injectDependency()
             fragmentHistory = FragmentHistory()
@@ -132,7 +133,7 @@ class MainActivity : AppCompatActivity(), MainContract.View,
         navView.setNavigationItemSelectedListener(this)
 
         lyLoginLogout!!.setOnClickListener {
-            if (!BaseApp.prefs.login_later) {
+            if (!BaseApp.sharedPreferences.loginLater) {
                 signOut()
                 goToLogin()
                 finish()
@@ -149,7 +150,7 @@ class MainActivity : AppCompatActivity(), MainContract.View,
             presenter.onNavSearchOption()
         }
 
-        if (BaseApp.prefs.login_later) {
+        if (BaseApp.sharedPreferences.loginLater) {
             tvLoginLogout!!.setText(R.string.login)
             icLoginLogout.setImageDrawable(
                 AppCompatResources.getDrawable(
@@ -168,7 +169,7 @@ class MainActivity : AppCompatActivity(), MainContract.View,
         }
 
         bottomNavView.menu.clear(); //clear old inflated items.
-        if (BaseApp.prefs.is_provider_service) {
+        if (BaseApp.sharedPreferences.isProviderService) {
             bottomNavView.inflateMenu(R.menu.bottom_nav_menu_provider)
         } else {
             bottomNavView.inflateMenu(R.menu.bottom_nav_menu)
@@ -210,7 +211,7 @@ class MainActivity : AppCompatActivity(), MainContract.View,
     }
 
     override fun showHomeFragment() {
-        if (BaseApp.prefs.is_provider_service) {
+        if (BaseApp.sharedPreferences.isProviderService) {
             presenter.onNavResourcesProviderOption()
         } else {
             presenter.onNavResourcesOption()
@@ -434,7 +435,7 @@ class MainActivity : AppCompatActivity(), MainContract.View,
     }
 
     private fun openProfileFragment() {
-        if (BaseApp.prefs.login_later) {
+        if (BaseApp.sharedPreferences.loginLater) {
             showDialog()
         } else {
             supportFragmentManager.beginTransaction()
@@ -471,7 +472,7 @@ class MainActivity : AppCompatActivity(), MainContract.View,
     }
 
     private fun openConfigFragment() {
-        if (BaseApp.prefs.login_later) {
+        if (BaseApp.sharedPreferences.loginLater) {
             showDialog()
         } else {
             supportFragmentManager.beginTransaction()
@@ -544,9 +545,22 @@ class MainActivity : AppCompatActivity(), MainContract.View,
     }
 
     override fun showProfileFragment() {
-        if (BaseApp.prefs.is_provider_service) {
-            BaseApp.prefs.current_org?.let { openOrganizationProfile(it) }
+        if (BaseApp.sharedPreferences.isProviderService) {
+            bottomNavView.visibility = View.VISIBLE
+            val organizationId = BaseApp.sharedPreferences.currentOrganizationId
+            if (organizationId.isNullOrEmpty()) {
+                val toast = Toast.makeText(
+                    this,
+                    getString(R.string.error_organization_not_found),
+                    Toast.LENGTH_LONG
+                )
+                toast.setGravity(Gravity.CENTER, 0, 0)
+                toast.show()
+            } else {
+                openOrganizationProfile(organizationId)
+            }
         } else {
+            bottomNavView.visibility = View.GONE
             openProfileFragment()
         }
     }
@@ -577,7 +591,7 @@ class MainActivity : AppCompatActivity(), MainContract.View,
     }
 
     override fun getRootFragment(index: Int): Fragment {
-        if (!BaseApp.prefs.is_provider_service) {
+        if (!BaseApp.sharedPreferences.isProviderService) {
             when (index) {
 
                 FragNavController.TAB1 -> {
@@ -630,7 +644,6 @@ class MainActivity : AppCompatActivity(), MainContract.View,
             }
             R.id.nav_profile -> {
                 presenter.onDrawerProfileOption()
-                bottomNavView.visibility = View.GONE
             }
             R.id.nav_gallery -> {
                 presenter.onDrawerConfigOption()
@@ -653,7 +666,7 @@ class MainActivity : AppCompatActivity(), MainContract.View,
         FirebaseAuth.getInstance().signOut()
         LoginManager.getInstance().logOut()
         mGoogleSignInClient.signOut()
-        BaseApp.prefs.logout()
+        BaseApp.sharedPreferences.logout()
 
     }
 

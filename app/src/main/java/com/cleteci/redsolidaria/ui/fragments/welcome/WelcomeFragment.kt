@@ -7,16 +7,13 @@ import android.os.Bundle
 import android.view.*
 import android.widget.Button
 import android.widget.TextView
-import androidx.fragment.app.Fragment
 import com.cleteci.redsolidaria.BaseApp
 import com.cleteci.redsolidaria.R
 import com.cleteci.redsolidaria.di.component.DaggerFragmentComponent
 import com.cleteci.redsolidaria.di.module.FragmentModule
 import com.cleteci.redsolidaria.ui.activities.login.LoginActivity
 import com.cleteci.redsolidaria.ui.activities.main.MainActivity
-import com.cleteci.redsolidaria.ui.activities.splash.SplashActivity
 import com.cleteci.redsolidaria.ui.base.BaseFragment
-import com.cleteci.redsolidaria.util.Prefs
 
 import javax.inject.Inject
 
@@ -54,9 +51,9 @@ class WelcomeFragment : BaseFragment(), WelcomeContract.View {
         btContinue = rootView.findViewById(R.id.btContinue)
 
         btContinue!!.setOnClickListener{
-            BaseApp.prefs.login_later=true
+            BaseApp.sharedPreferences.loginLater=true
 
-            BaseApp.prefs.is_provider_service = false
+            BaseApp.sharedPreferences.isProviderService = false
 
             val intent = Intent(activity, MainActivity::class.java)
 

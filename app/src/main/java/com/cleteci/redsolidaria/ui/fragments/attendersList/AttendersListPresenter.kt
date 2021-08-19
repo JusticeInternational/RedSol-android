@@ -32,11 +32,11 @@ class AttendersListPresenter: AttendersListContract.Presenter {
     }
 
     override fun loadDataService(serviceId: String, type: Int) {
-        Log.d("TAG", "IMIN--"+serviceId+"---"+type+"---"+BaseApp.prefs.user_saved.toString())
+        Log.d("TAG", "IMIN--"+serviceId+"---"+type+"---"+BaseApp.sharedPreferences.userSaved.toString())
         if (type == 1) {
             BaseApp.apolloClient.query(
                 GetServedBeneficiariesServiceQuery.builder()
-                    .id(serviceId).orgID(BaseApp.prefs.current_org.toString())
+                    .id(serviceId).orgID(BaseApp.sharedPreferences.currentOrganizationId.toString())
                     .build()
             ).enqueue(object : ApolloCall.Callback<GetServedBeneficiariesServiceQuery.Data>() {
                 override fun onResponse(response: Response<GetServedBeneficiariesServiceQuery.Data>) {
@@ -69,7 +69,7 @@ class AttendersListPresenter: AttendersListContract.Presenter {
         } else {
             BaseApp.apolloClient.query(
                 GetServedUnregisteredServiceQuery.builder()
-                    .id(serviceId).orgID(BaseApp.prefs.current_org.toString())
+                    .id(serviceId).orgID(BaseApp.sharedPreferences.currentOrganizationId.toString())
                     .build()
             ).enqueue(object : ApolloCall.Callback<GetServedUnregisteredServiceQuery.Data>() {
                 override fun onResponse(response: Response<GetServedUnregisteredServiceQuery.Data>) {
@@ -103,12 +103,12 @@ class AttendersListPresenter: AttendersListContract.Presenter {
 
     override fun loadDataCategory(categoryId: String, type: Int) {
 
-        Log.d("TAG", "IMIN--"+categoryId+"---"+type+"---"+BaseApp.prefs.user_saved.toString())
+        Log.d("TAG", "IMIN--"+categoryId+"---"+type+"---"+BaseApp.sharedPreferences.userSaved.toString())
 if (type==1) {
     BaseApp.apolloClient.query(
         GetServedBeneficiariesCategoryQuery.builder()
             .id(categoryId)
-            .orgID(BaseApp.prefs.current_org.toString())
+            .orgID(BaseApp.sharedPreferences.currentOrganizationId.toString())
             .build()
     ).enqueue(object : ApolloCall.Callback<GetServedBeneficiariesCategoryQuery.Data>() {
         override fun onResponse(response: Response<GetServedBeneficiariesCategoryQuery.Data>) {
@@ -141,7 +141,7 @@ if (type==1) {
     BaseApp.apolloClient.query(
         GetServedUnregisteredCategoryQuery.builder()
             .id(categoryId)
-            .orgID(BaseApp.prefs.current_org.toString())
+            .orgID(BaseApp.sharedPreferences.currentOrganizationId.toString())
             .build()
     ).enqueue(object : ApolloCall.Callback<GetServedUnregisteredCategoryQuery.Data>() {
         override fun onResponse(response: Response<GetServedUnregisteredCategoryQuery.Data>) {

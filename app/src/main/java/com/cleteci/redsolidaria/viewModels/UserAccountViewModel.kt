@@ -1,5 +1,6 @@
 package com.cleteci.redsolidaria.viewModels
 
+
 import android.util.Base64
 import android.util.Log
 import com.apollographql.apollo.api.Response
@@ -10,10 +11,12 @@ import com.cleteci.redsolidaria.network.GraphQLController
 import com.google.gson.Gson
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import java.net.UnknownHostException
 import java.nio.charset.Charset
 
 
 class UserAccountViewModel(private val graphQLController: GraphQLController) : BaseViewModel() {
+
     private var email: String? = null
     private var password: String? = null
 
@@ -25,25 +28,32 @@ class UserAccountViewModel(private val graphQLController: GraphQLController) : B
             graphQLController.login(email!!, password!!)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { dataResponse: Response<LoginUserMutation.Data>, throwable: Throwable? ->
+                .subscribe({ dataResponse: Response<LoginUserMutation.Data> ->
                     if (dataResponse.data == null || dataResponse.hasErrors()) {
                         status.value = QueryStatus.NOTIFY_FAILURE
-                        if (throwable != null) Log.d(TAG, throwable.message)
-
                     } else {
                         val token = dataResponse.data?.login().toString()
                         val user = getUser(token)
-                        BaseApp.prefs.login_later = false
-                        BaseApp.prefs.is_provider_service = user.role == "admin"
-                        BaseApp.prefs.user_saved = user.id
-                        BaseApp.prefs.token = token
+                        BaseApp.sharedPreferences.loginLater = false
+                        BaseApp.sharedPreferences.isProviderService = user.role == "admin"
+                        BaseApp.sharedPreferences.userSaved = user.id
+                        BaseApp.sharedPreferences.token = token
 
                         if (user.role == "admin") {
                             //getInfoOrganization()
                         }
                         status.value = QueryStatus.NOTIFY_SUCCESS
                     }
-                })
+                },
+                    {
+                        Log.d(TAG, it.message)
+                        status.value = if (it.cause is UnknownHostException) {
+                            QueryStatus.NOTIFY_UNKNOWN_HOST_FAILURE
+                        } else {
+                            QueryStatus.NOTIFY_FAILURE
+                        }
+                    })
+        )
     }
 
     private fun getUser(response: String): User {

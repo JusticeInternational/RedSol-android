@@ -102,7 +102,7 @@ query getServedUnregisteredCategory($id: ID, $orgID:ID!) {
 }
 
 
-query getOrganizationServicesAndCategories($id: ID) {
+query getOrganizationServicesAndCategories($id: ID!) {
     User(id: $id) {
         ownerOf {
             services {

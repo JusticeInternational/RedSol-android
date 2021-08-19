@@ -369,7 +369,7 @@ class ServiceDetailFragment : BaseFragment(), ServiceDetailContract.View, Catego
             activity!!.resources.getColor(R.color.colorPrimary)
         )
 
-        if (BaseApp.prefs.login_later) {
+        if (BaseApp.sharedPreferences.loginLater) {
             showDialogLogin();
         }
     }

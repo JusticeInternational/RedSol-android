@@ -4,27 +4,28 @@ package com.cleteci.redsolidaria.ui.fragments.configuration
 import android.app.Dialog
 import android.os.Bundle
 import android.view.*
-import androidx.fragment.app.Fragment
 import android.widget.Button
-import android.widget.TextView
 import com.cleteci.redsolidaria.BaseApp
 
 import com.cleteci.redsolidaria.R
+import com.cleteci.redsolidaria.data.LocalDataForUITest
 
 import com.cleteci.redsolidaria.di.component.DaggerFragmentComponent
 import com.cleteci.redsolidaria.di.module.FragmentModule
 import com.cleteci.redsolidaria.ui.activities.main.MainActivity
 import com.cleteci.redsolidaria.ui.base.BaseFragment
+import com.cleteci.redsolidaria.util.SharedPreferences
+import com.cleteci.redsolidaria.util.SharedPreferences.Companion.getTestDataPreference
+import com.cleteci.redsolidaria.util.SharedPreferences.Companion.putTestDataPreference
+import com.cleteci.redsolidaria.util.SharedPreferences.Companion.removeOrganizationSharedPreferences
+import kotlinx.android.synthetic.main.fragment_configuration.*
 import javax.inject.Inject
 
 
-class ConfigurationFragment : BaseFragment() , ConfigurationContract.View  {
+class ConfigurationFragment : BaseFragment(), ConfigurationContract.View {
 
-
-    @Inject lateinit var presenter: ConfigurationContract.Presenter
-
-    private lateinit var rootView: View
-    var  tvChangePass: TextView?=null
+    @Inject
+    lateinit var presenter: ConfigurationContract.Presenter
 
     fun newInstance(): ConfigurationFragment {
         return ConfigurationFragment()
@@ -38,14 +39,7 @@ class ConfigurationFragment : BaseFragment() , ConfigurationContract.View  {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        rootView = inflater.inflate(R.layout.fragment_configuration, container, false)
-        tvChangePass=rootView.findViewById(R.id.tvChangePassword)
-        tvChangePass?.setOnClickListener{
-            ( activity as MainActivity).showChangePassFragment()
-        }
-        return rootView
-    }
+    ): View? = inflater.inflate(R.layout.fragment_configuration, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -59,8 +53,6 @@ class ConfigurationFragment : BaseFragment() , ConfigurationContract.View  {
         presenter.unsubscribe()
     }
 
-
-
     private fun injectDependency() {
         val aboutComponent = DaggerFragmentComponent.builder()
             .fragmentModule(FragmentModule())
@@ -68,22 +60,36 @@ class ConfigurationFragment : BaseFragment() , ConfigurationContract.View  {
 
         aboutComponent.inject(this)
     }
+
     override fun init() {
 
     }
 
     private fun initView() {
-        //presenter.loadMessage()
-    }
-
-    companion object {
-        val TAG: String = "ChangePassFragment"
+        swTestData.isChecked = getTestDataPreference()
+        tvChangePassword.setOnClickListener {
+            (activity as MainActivity).showChangePassFragment()
+        }
+        swTestData.setOnCheckedChangeListener { _, isChecked ->
+            putTestDataPreference(isChecked)
+            swTestData.isChecked = isChecked
+            if (isChecked) {
+                val organization = LocalDataForUITest.getOrganizationsList()[0]// Using test data
+                BaseApp.sharedPreferences.currentOrganizationId = organization.id
+                SharedPreferences.putOrganizationAttributes(organization)
+            } else {
+                removeOrganizationSharedPreferences()
+            }
+        }
     }
 
     override fun onResume() {
         super.onResume()
-        (activity as MainActivity).setTextToolbar(getText(R.string.config).toString(),activity!!.resources.getColor(R.color.colorWhite))
-        if (BaseApp.prefs.login_later) {
+        (activity as MainActivity).setTextToolbar(
+            getText(R.string.config).toString(),
+            activity!!.resources.getColor(R.color.colorWhite)
+        )
+        if (BaseApp.sharedPreferences.loginLater) {
             showDialog();
         }
     }
@@ -103,7 +109,6 @@ class ConfigurationFragment : BaseFragment() , ConfigurationContract.View  {
 
         yesBtn.setOnClickListener {
             (activity as MainActivity).goToLogin()
-
             dialog.dismiss()
         }
 
@@ -113,7 +118,10 @@ class ConfigurationFragment : BaseFragment() , ConfigurationContract.View  {
         }
 
         dialog.show()
+    }
 
+    companion object {
+        const val TAG: String = "ChangePassFragment"
     }
 
 }

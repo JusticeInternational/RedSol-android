@@ -222,6 +222,8 @@
     <string name="wrong_login">Inicio de sesión incorrecto</string>
     <string name="error_login">Error al iniciar sesión</string>
     <string name="error_server">Ups! Ocurrió un error.</string>
+    <string name="error_unknown_host_title">Ups! Lo sentimos</string>
+    <string name="error_unknown_host">Ocurrió un error conectando con el host, porfavor intente de nuevo mas tarde.</string>
     <string name="error_getting_organization">Error obteninendo data de la organización</string>
     <string name="error_organization_not_found">Usuario no tiene organización asociada</string>
 
@@ -292,4 +294,7 @@
     <string name="empty_image_description">Empty image</string>
     <string name="user_id">ID: %1$s</string>
     <string name="home">Principal</string>
+    <string name="ok">ok</string>
+    <string name="organization_empty_resources">No tiene recursos asociados!</string>
+    <string name="on_off_test_data">Mostrar data de prueba para organización</string>
 </resources>

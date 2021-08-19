@@ -1,6 +1,5 @@
 package com.cleteci.redsolidaria.ui.fragments.scanCode
 
-import android.util.Log
 import com.apollographql.apollo.ApolloCall
 import com.apollographql.apollo.api.Response
 import com.apollographql.apollo.exception.ApolloException
@@ -33,7 +32,7 @@ class ScanCodePresenter : ScanCodeContract.Presenter {
 
         BaseApp.apolloClient.mutate(
             ProvideAtentionServiceMutation.builder()
-                .orgID(BaseApp.prefs.current_org.toString())
+                .orgID(BaseApp.sharedPreferences.currentOrganizationId.toString())
                 .userID(userid)
                 .serviceID(serviceid)
                 .build()
@@ -66,7 +65,7 @@ class ScanCodePresenter : ScanCodeContract.Presenter {
 
         BaseApp.apolloClient.mutate(
             ProvideAtentionCategoryMutation.builder()
-                .orgID(BaseApp.prefs.current_org.toString())
+                .orgID(BaseApp.sharedPreferences.currentOrganizationId.toString())
                 .categoryID(categoriyid)
                 .userID(userid)
                 .build()

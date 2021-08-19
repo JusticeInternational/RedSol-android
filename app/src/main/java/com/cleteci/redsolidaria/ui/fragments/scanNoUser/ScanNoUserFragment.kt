@@ -108,7 +108,7 @@ class ScanNoUserFragment : BaseFragment(), ScanNoUserContract.View {
 
             if (serviceID != null) {
                 presenter.validateAtentionUnregisteredService(
-                    BaseApp.prefs.current_org.toString(),
+                    BaseApp.sharedPreferences.currentOrganizationId.toString(),
                     serviceID!!, etName?.text.toString(),
                     etLastName?.text.toString(),
                     etDNI?.text.toString(),
@@ -123,7 +123,7 @@ class ScanNoUserFragment : BaseFragment(), ScanNoUserContract.View {
             } else {
 
                 presenter.validateAtentionUnregisteredCategory(
-                    BaseApp.prefs.current_org.toString(),
+                    BaseApp.sharedPreferences.currentOrganizationId.toString(),
                     catID!!, etName?.text.toString(),
                     etLastName?.text.toString(),
                     etDNI?.text.toString(),

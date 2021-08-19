@@ -1,23 +1,26 @@
 package com.cleteci.redsolidaria.ui.fragments.login
 
 
+import android.content.Context
 import android.os.Bundle
 import android.view.*
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
+import android.widget.TextView
 import android.widget.Toast
+import androidx.fragment.app.FragmentActivity
 import com.cleteci.redsolidaria.BaseApp
-
 import com.cleteci.redsolidaria.R
 import com.cleteci.redsolidaria.di.component.DaggerFragmentComponent
 import com.cleteci.redsolidaria.di.module.FragmentModule
 import com.cleteci.redsolidaria.ui.activities.login.LoginActivity
 import com.cleteci.redsolidaria.ui.base.BaseFragment
+import com.cleteci.redsolidaria.util.showInfoDialog
 import com.cleteci.redsolidaria.viewModels.BaseViewModel.QueryStatus
 import com.cleteci.redsolidaria.viewModels.OrganizationViewModel
 import com.cleteci.redsolidaria.viewModels.UserAccountViewModel
-
 import kotlinx.android.synthetic.main.fragment_login.*
 import org.koin.android.viewmodel.ext.android.viewModel
-
 import javax.inject.Inject
 
 
@@ -40,8 +43,12 @@ class LoginFFragment : BaseFragment(), LoginFContract.View {
             when (status) {
                 QueryStatus.NOTIFY_LOADING -> showLoading(true)
                 QueryStatus.NOTIFY_SUCCESS -> {
-                    if (BaseApp.prefs.is_provider_service) {
-                        BaseApp.prefs.user_saved?.let { organizationVM.getOrganization(it) }
+                    if (BaseApp.sharedPreferences.isProviderService) {
+                        BaseApp.sharedPreferences.userSaved?.let {
+                            organizationVM.getOrganization(
+                                it
+                            )
+                        }
                     } else {
                         showLoading(false)
                         (activity as LoginActivity).openMainActivity()
@@ -49,6 +56,14 @@ class LoginFFragment : BaseFragment(), LoginFContract.View {
                 }
                 QueryStatus.NOTIFY_FAILURE -> {
                     showError(getString(R.string.wrong_login))
+                    showLoading(false)
+                }
+                QueryStatus.NOTIFY_UNKNOWN_HOST_FAILURE -> {
+                    showInfoDialog(
+                        activity,
+                        getString(R.string.error_unknown_host_title),
+                        getString(R.string.error_unknown_host)
+                    )
                     showLoading(false)
                 }
                 else -> {
@@ -74,16 +89,27 @@ class LoginFFragment : BaseFragment(), LoginFContract.View {
                     showError(getString(R.string.error_getting_organization))
                     showLoading(false)
                 }
+                QueryStatus.NOTIFY_UNKNOWN_HOST_FAILURE -> {
+                    showInfoDialog(
+                        activity,
+                        getString(R.string.error_unknown_host_title),
+                        getString(R.string.error_unknown_host)
+                    )
+                    showLoading(false)
+                }
             }
         })
     }
 
     private fun showLoading(show: Boolean) {
-        progressBar.visibility = if(show) View.VISIBLE else View.GONE
+        progressBar.visibility = if (show) View.VISIBLE else View.GONE
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
-            = inflater.inflate(R.layout.fragment_login, container, false)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? = inflater.inflate(R.layout.fragment_login, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -114,9 +140,16 @@ class LoginFFragment : BaseFragment(), LoginFContract.View {
         btGoogle!!.setOnClickListener {
             (activity as LoginActivity).signInGoogle()
         }
-
+        etPass.setOnEditorActionListener(TextView.OnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                activity?.let { hideSoftKeyboard(it) }
+                validateEmailPass(etUser!!.text.toString(), etPass!!.text.toString())
+                return@OnEditorActionListener true
+            }
+            false
+        })
         btLogin!!.setOnClickListener {
-           validateEmailPass(etUser!!.text.toString(), etPass!!.text.toString())
+            validateEmailPass(etUser!!.text.toString(), etPass!!.text.toString())
         }
 
         tvRegister!!.setOnClickListener {
@@ -129,7 +162,7 @@ class LoginFFragment : BaseFragment(), LoginFContract.View {
     }
 
     private fun validateEmailPass(emailStr: String, pass: String) {
-        val email= emailStr.trim()
+        val email = emailStr.trim()
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             showError(getString(R.string.wrong_email))
         } else if (pass.isEmpty()) {
@@ -146,6 +179,17 @@ class LoginFFragment : BaseFragment(), LoginFContract.View {
     override fun showError(msg: String) {
         activity?.runOnUiThread {
             Toast.makeText(activity, msg, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun hideSoftKeyboard(activity: FragmentActivity?) {
+        if (null != activity && null != activity.window) {
+            val viewFocus = activity.window.currentFocus
+            if (null != viewFocus) {
+                val inputMethodManager = BaseApp.getContext()
+                    .getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                inputMethodManager.hideSoftInputFromWindow(viewFocus.windowToken, 0)
+            }
         }
     }
 

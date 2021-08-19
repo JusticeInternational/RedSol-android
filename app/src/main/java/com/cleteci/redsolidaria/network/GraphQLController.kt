@@ -7,9 +7,11 @@ import com.apollographql.apollo.cache.CacheHeaders
 import com.apollographql.apollo.rx2.rxMutate
 import com.apollographql.apollo.rx2.rxQuery
 import com.cleteci.redsolidaria.GetOrganizationInfoQuery
+import com.cleteci.redsolidaria.GetOrganizationServicesAndCategoriesQuery
 import com.cleteci.redsolidaria.LoginUserMutation
 import io.reactivex.Observable
 import io.reactivex.Single
+
 
 class GraphQLController(private val apolloClient: ApolloClient) {
 
@@ -26,4 +28,12 @@ class GraphQLController(private val apolloClient: ApolloClient) {
             cacheHeaders(CacheHeaders.NONE)
         }
     }
+
+    fun getOrganizationServicesAndCategories(id: String): Observable<Response<GetOrganizationServicesAndCategoriesQuery.Data>> {
+        val query = GetOrganizationServicesAndCategoriesQuery(id)
+        return apolloClient.rxQuery(query) {
+            cacheHeaders(CacheHeaders.NONE)
+        }
+    }
+
 }

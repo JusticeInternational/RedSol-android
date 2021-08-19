@@ -32,7 +32,7 @@ class InfoServicePresenter: InfoServiceContract.Presenter {
 
     override fun loadCategoryData(id: String) {
         BaseApp.apolloClient.query(
-            LoadTotalServedCategoryQuery.builder().id(id).orgID(BaseApp.prefs.current_org.toString()).build()
+            LoadTotalServedCategoryQuery.builder().id(id).orgID(BaseApp.sharedPreferences.currentOrganizationId.toString()).build()
         ).enqueue(object : ApolloCall.Callback<LoadTotalServedCategoryQuery.Data>() {
             override fun onResponse(response: Response<LoadTotalServedCategoryQuery.Data>) {
                 if (response.data() != null) {
@@ -47,7 +47,7 @@ class InfoServicePresenter: InfoServiceContract.Presenter {
 
     override fun loadServiceData(id: String) {
         BaseApp.apolloClient.query(
-            LoadTotalServedServiceQuery.builder().id(id).orgID(BaseApp.prefs.current_org.toString()).build()
+            LoadTotalServedServiceQuery.builder().id(id).orgID(BaseApp.sharedPreferences.currentOrganizationId.toString()).build()
         ).enqueue(object : ApolloCall.Callback<LoadTotalServedServiceQuery.Data>() {
             override fun onResponse(response: Response<LoadTotalServedServiceQuery.Data>) {
                 if (response.data() != null) {

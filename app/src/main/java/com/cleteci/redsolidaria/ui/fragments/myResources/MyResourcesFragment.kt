@@ -88,7 +88,7 @@ class MyResourcesFragment : BaseFragment(),
     }
 
     private fun initView() {
-        if (BaseApp.prefs.login_later) {
+        if (BaseApp.sharedPreferences.loginLater) {
             mScrollView?.visibility = View.GONE
             lyEmpty?.visibility = View.VISIBLE
         } else {

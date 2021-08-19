@@ -80,7 +80,7 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
                 .build()
         )
 
-        if (BaseApp.prefs.login_later) {
+        if (BaseApp.sharedPreferences.loginLater) {
             val fragment = LoginFFragment().newInstance() as Fragment
             val fragmentManager = supportFragmentManager
             fragmentManager.beginTransaction().replace(R.id.lyContainerLogin, fragment).commit()
@@ -134,9 +134,9 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
         val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
         firebaseAuth.signInWithCredential(credential).addOnCompleteListener {
             if (it.isSuccessful) {
-                BaseApp.prefs.login_later = false
-                BaseApp.prefs.user_saved = acct.displayName
-                BaseApp.prefs.is_provider_service = false
+                BaseApp.sharedPreferences.loginLater = false
+                BaseApp.sharedPreferences.userSaved = acct.displayName
+                BaseApp.sharedPreferences.isProviderService = false
                 openMainActivity()
             } else {
                 Toast.makeText(this, "Google sign in failed:(", Toast.LENGTH_LONG).show()
@@ -172,9 +172,9 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
                     val user = firebaseAuth.currentUser
-                    BaseApp.prefs.login_later = false
-                    BaseApp.prefs.user_saved = user!!.displayName
-                    BaseApp.prefs.is_provider_service = false
+                    BaseApp.sharedPreferences.loginLater = false
+                    BaseApp.sharedPreferences.userSaved = user!!.displayName
+                    BaseApp.sharedPreferences.isProviderService = false
                     openMainActivity()
                 } else {
                     // If sign in fails, display a message to the user.
@@ -189,7 +189,7 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
     }
 
     fun loginEmailPass() {
-        BaseApp.prefs.login_later = false
+        BaseApp.sharedPreferences.loginLater = false
         etUser?.setText(etUser?.text.toString().trim())
         openMainActivity()
     }

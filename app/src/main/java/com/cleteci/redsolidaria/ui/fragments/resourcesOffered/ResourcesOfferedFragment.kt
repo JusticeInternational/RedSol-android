@@ -1,21 +1,28 @@
 package com.cleteci.redsolidaria.ui.fragments.resourcesOffered
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.*
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.cleteci.redsolidaria.BaseApp
 import com.cleteci.redsolidaria.R
 import com.cleteci.redsolidaria.di.component.DaggerFragmentComponent
 import com.cleteci.redsolidaria.di.module.FragmentModule
 import com.cleteci.redsolidaria.models.Service
 import com.cleteci.redsolidaria.models.Category
+import com.cleteci.redsolidaria.models.Organization
 import com.cleteci.redsolidaria.ui.activities.main.MainActivity
 import com.cleteci.redsolidaria.ui.adapters.ResourceAdapter
 import com.cleteci.redsolidaria.ui.adapters.CategoriesAdapter
 import com.cleteci.redsolidaria.ui.base.BaseFragment
 import com.cleteci.redsolidaria.ui.base.withArguments
+import com.cleteci.redsolidaria.viewModels.BaseViewModel
+import com.cleteci.redsolidaria.viewModels.OrganizationViewModel
 import kotlinx.android.synthetic.main.fragment_resources_offered.*
+import org.koin.android.viewmodel.ext.android.viewModel
 import javax.inject.Inject
 
 
@@ -24,6 +31,8 @@ class ResourcesOfferedFragment :
         ResourcesOfferedContract.View,
         CategoriesAdapter.OnItemClickListener,
         ResourceAdapter.OnItemClickListener {
+
+    private val organizationVM by viewModel<OrganizationViewModel>()
 
     @Inject
     lateinit var presenter: ResourcesOfferedContract.Presenter
@@ -47,6 +56,67 @@ class ResourcesOfferedFragment :
         mAdapter = CategoriesAdapter(context, listCategories, this, 4, isFromScan)
         resourcesAdapter = ResourceAdapter(context, listResources, this, 3, isFromScan)
         genericResourcesAdapter = ResourceAdapter(context, listGenericResources, this, 3, isFromScan)
+
+        organizationVM.organizationLists.observe(this,
+            androidx.lifecycle.Observer { organizationLists: Organization.OrganizationLists ->
+                loadDataSuccess(organizationLists.serviceCategories,
+                    organizationLists.servicesList,
+                    organizationLists.genericServices
+                )
+        })
+        organizationVM.status.observe(this, androidx.lifecycle.Observer { status: BaseViewModel.QueryStatus? ->
+            when (status) {
+                BaseViewModel.QueryStatus.NOTIFY_LOADING -> showLoading(true)
+                BaseViewModel.QueryStatus.NOTIFY_SUCCESS -> {
+                    showLoading(false)
+                }
+                BaseViewModel.QueryStatus.NOTIFY_FAILURE -> {
+                    showError(getString(R.string.error_getting_organization))
+                    showLoading(false)
+                }
+                BaseViewModel.QueryStatus.NOTIFY_UNKNOWN_HOST_FAILURE -> {
+                    showDialog(
+                        getString(R.string.error_unknown_host_title),
+                        getString(R.string.error_unknown_host)
+                    )
+                    showLoading(false)
+                }
+                else -> {
+                    showError(getString(R.string.error_getting_organization))
+                    showLoading(false)
+                }
+            }
+        })
+
+    }
+
+    private fun showLoading(show: Boolean) {
+        progressBar.visibility = if(show) View.VISIBLE else View.GONE
+    }
+
+    fun showError(msg: String) {
+        activity?.runOnUiThread {
+            Toast.makeText(activity, msg, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun showDialog(title: String, msg: String) {
+        val alertDialog: AlertDialog? = activity?.let {
+            val builder = AlertDialog.Builder(it)
+            builder.apply {
+                setPositiveButton(
+                    R.string.ok
+                ) { dialog, _ ->
+                    dialog.dismiss()
+                }
+            }
+            builder.create()
+        }
+        alertDialog?.let {
+            it.setTitle(title)
+            it.setMessage(msg)
+            it.show()
+        }
     }
 
     override fun onCreateView(
@@ -59,7 +129,17 @@ class ResourcesOfferedFragment :
         super.onViewCreated(view, savedInstanceState)
         presenter.attach(this)
         presenter.subscribe()
-        presenter.getData()
+
+        val organizationId = BaseApp.sharedPreferences.currentOrganizationId
+        if (organizationId.isNullOrEmpty()){
+            lyEmpty.visibility = VISIBLE
+            scrollView.visibility = GONE
+        } else {
+            lyEmpty.visibility = GONE
+            scrollView.visibility = VISIBLE
+            organizationVM.getServicesAndCategories(organizationId)
+        }
+        
         initView()
     }
 
@@ -77,21 +157,28 @@ class ResourcesOfferedFragment :
             services: List<Service>,
             genericServices: List<Service>
     ) {
-        activity?.runOnUiThread {
-            listCategories.clear()
-            listCategories.addAll(pending)
-            mAdapter.notifyDataSetChanged()
+         if (pending.isNullOrEmpty() && services.isNullOrEmpty() && genericServices.isNullOrEmpty()) {
+             lyEmpty.visibility = VISIBLE
+             scrollView.visibility = GONE
+         } else {
+             lyEmpty.visibility = GONE
+             scrollView.visibility = VISIBLE
+             activity?.runOnUiThread {
+                 listCategories.clear()
+                 listCategories.addAll(pending)
+                 mAdapter.notifyDataSetChanged()
 
-            listResources.clear()
-            listResources.addAll(services)
-            resourcesAdapter.notifyDataSetChanged()
+                 listResources.clear()
+                 listResources.addAll(services)
+                 resourcesAdapter.notifyDataSetChanged()
 
-            setupLabels()
+                 setupLabels()
 
-            listGenericResources.clear()
-            listGenericResources.addAll(genericServices)
-            genericResourcesAdapter.notifyDataSetChanged()
-        }
+                 listGenericResources.clear()
+                 listGenericResources.addAll(genericServices)
+                 genericResourcesAdapter.notifyDataSetChanged()
+             }
+         }
     }
 
     private fun initView() {

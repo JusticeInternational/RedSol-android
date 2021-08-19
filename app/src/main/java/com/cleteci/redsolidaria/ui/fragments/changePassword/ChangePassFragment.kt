@@ -18,9 +18,7 @@ import com.cleteci.redsolidaria.ui.activities.main.MainActivity
 import com.cleteci.redsolidaria.ui.base.BaseFragment
 import javax.inject.Inject
 import com.ybs.passwordstrengthmeter.PasswordStrength
-import android.widget.TextView
 import android.widget.Toast
-import com.cleteci.redsolidaria.ui.activities.login.LoginActivity
 import com.google.android.material.textfield.TextInputEditText
 
 
@@ -115,7 +113,7 @@ class ChangePassFragment : BaseFragment(), ChangePassContract.View, TextWatcher 
     override fun onResume() {
         super.onResume()
         (activity as MainActivity).setTextToolbar(getText(R.string.change_pass).toString(),activity!!.resources.getColor(R.color.colorWhite))
-        if (BaseApp.prefs.login_later) {
+        if (BaseApp.sharedPreferences.loginLater) {
             showDialog();
         }
     }
@@ -139,7 +137,6 @@ class ChangePassFragment : BaseFragment(), ChangePassContract.View, TextWatcher 
         }
 
         dialog.show()
-
     }
 
     private fun updatePasswordStrengthView(password: String) {

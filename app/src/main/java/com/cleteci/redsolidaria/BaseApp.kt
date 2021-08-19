@@ -11,14 +11,12 @@ import com.cleteci.redsolidaria.di.modules.appModule
 import com.cleteci.redsolidaria.di.modules.controllersModule
 import com.cleteci.redsolidaria.di.modules.viewModelsModule
 import com.cleteci.redsolidaria.util.Constants
-import com.cleteci.redsolidaria.util.Prefs
+import com.cleteci.redsolidaria.util.SharedPreferences
 import com.facebook.FacebookSdk
 import com.facebook.appevents.AppEventsLogger
 import org.koin.android.ext.android.startKoin
 
-/**
- * Created by ogulcan on 07/02/2018.
- */
+
 class BaseApp : Application() {
 
 
@@ -34,7 +32,7 @@ class BaseApp : Application() {
         FacebookSdk.sdkInitialize(applicationContext);
         AppEventsLogger.activateApp(this);
 
-        prefs = Prefs(applicationContext)
+        sharedPreferences = SharedPreferences(applicationContext)
         startModules()
     }
 
@@ -45,17 +43,22 @@ class BaseApp : Application() {
     }
 
     private fun startModules() {
-        startKoin(this, listOf(
-            appModule,
-            controllersModule,
-            viewModelsModule
-        ))
+        startKoin(
+            this, listOf(
+                appModule,
+                controllersModule,
+                viewModelsModule
+            )
+        )
     }
 
     companion object {
         lateinit var apolloClient: ApolloClient
         lateinit var instance: BaseApp private set
-        lateinit var prefs: Prefs
+        lateinit var sharedPreferences: SharedPreferences
+
+        @JvmStatic
+        fun getContext(): Context = instance.applicationContext
     }
 
 }

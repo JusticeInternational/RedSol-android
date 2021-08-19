@@ -61,10 +61,10 @@ class LoginFPresenter : LoginFContract.Presenter {
     private fun uiTestLogin(email: String, pass: String) {
         val user = LocalDataForUITest.uiTestLogin(email, pass)
         if (user != null) {
-            BaseApp.prefs.user_saved = user.id
+            BaseApp.sharedPreferences.userSaved = user.id
             if (user.role == ROLE_ORGANIZATION) {
-                BaseApp.prefs.is_provider_service = true
-                BaseApp.prefs.current_org = LocalDataForUITest.getOrganizationByUserId(user.id)?.id
+                BaseApp.sharedPreferences.isProviderService = true
+                BaseApp.sharedPreferences.currentOrganizationId = LocalDataForUITest.getOrganizationByUserId(user.id)?.id
             }
             view.validEmailPass()
         } else {
@@ -81,9 +81,9 @@ class LoginFPresenter : LoginFContract.Presenter {
                 if (response.data() != null) {
                     var token = response.data()?.login().toString()
                     val user = getUser(token)
-                    BaseApp.prefs.is_provider_service = user.role == "admin"
-                    BaseApp.prefs.user_saved = user.id
-                    BaseApp.prefs.token = token
+                    BaseApp.sharedPreferences.isProviderService = user.role == "admin"
+                    BaseApp.sharedPreferences.userSaved = user.id
+                    BaseApp.sharedPreferences.token = token
 
                     if (user.role == "admin") {
                         getInfoOrganization()
@@ -104,11 +104,11 @@ class LoginFPresenter : LoginFContract.Presenter {
 
     fun getInfoOrganization () {
         BaseApp.apolloClient.query(
-            GetOrganizationInfoQuery.builder().id(BaseApp.prefs.user_saved.toString()).build()
+            GetOrganizationInfoQuery.builder().id(BaseApp.sharedPreferences.userSaved.toString()).build()
         ).enqueue(object : ApolloCall.Callback<GetOrganizationInfoQuery.Data>() {
             override fun onResponse(response: Response<GetOrganizationInfoQuery.Data>) {
                 if (response.data() != null) {
-                    BaseApp.prefs.current_org = response.data()?.User()?.get(0)?.ownerOf()?.id()
+                    BaseApp.sharedPreferences.currentOrganizationId = response.data()?.User()?.get(0)?.ownerOf()?.id()
                     view.validEmailPass()
                 }
             }

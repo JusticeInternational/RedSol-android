@@ -1,5 +1,6 @@
 package com.cleteci.redsolidaria.util
 
+import android.app.AlertDialog
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
@@ -72,5 +73,24 @@ fun openGoogleMaps(context: Context, location: String, packageManager: PackageMa
     mapIntent.setPackage("com.google.android.apps.maps")
     mapIntent.resolveActivity(packageManager)?.let {
         context.startActivity(mapIntent)
+    }
+}
+
+fun showInfoDialog(context: Context?, title: String, msg: String) {
+    val alertDialog: AlertDialog? = context?.let {
+        val builder = AlertDialog.Builder(it)
+        builder.apply {
+            setPositiveButton(
+                R.string.ok
+            ) { dialog, _ ->
+                dialog.dismiss()
+            }
+        }
+        builder.create()
+    }
+    alertDialog?.let {
+        it.setTitle(title)
+        it.setMessage(msg)
+        it.show()
     }
 }

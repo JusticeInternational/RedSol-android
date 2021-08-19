@@ -53,14 +53,14 @@ class MyProfileFragment : BaseFragment(), MyProfileContract.View {
 
     private fun initView() {
         (activity as MainActivity).setTextToolbar(getString(R.string.my_profile), activity!!.resources.getColor(R.color.colorWhite))
-        if (BaseApp.prefs.login_later) {
+        if (BaseApp.sharedPreferences.loginLater) {
             showDialog()
             ivQR.visibility = View.GONE
             tvQR.visibility = View.GONE
         } else {
             ivQR.visibility = View.VISIBLE
             tvQR.visibility = View.VISIBLE
-            val id = "ID " + BaseApp.prefs.user_saved
+            val id = "ID " + BaseApp.sharedPreferences.userSaved
             tvQR.text = id
         }
 
