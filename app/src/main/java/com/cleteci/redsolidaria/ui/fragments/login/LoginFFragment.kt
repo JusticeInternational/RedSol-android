@@ -101,10 +101,6 @@ class LoginFFragment : BaseFragment(), LoginFContract.View {
         })
     }
 
-    private fun showLoading(show: Boolean) {
-        progressBar.visibility = if (show) View.VISIBLE else View.GONE
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -174,12 +170,6 @@ class LoginFFragment : BaseFragment(), LoginFContract.View {
 
     override fun validEmailPass() {
         (activity as LoginActivity).loginEmailPass()
-    }
-
-    override fun showError(msg: String) {
-        activity?.runOnUiThread {
-            Toast.makeText(activity, msg, Toast.LENGTH_SHORT).show()
-        }
     }
 
     private fun hideSoftKeyboard(activity: FragmentActivity?) {

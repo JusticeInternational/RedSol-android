@@ -8,8 +8,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.cleteci.redsolidaria.R
-import com.cleteci.redsolidaria.models.Category
-import com.cleteci.redsolidaria.models.Organization
 import com.cleteci.redsolidaria.models.Service
 
 class ServicesSearchAdapter(private val context: Context?,
@@ -36,8 +34,8 @@ class ServicesSearchAdapter(private val context: Context?,
     }
 
     class ListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val name: TextView = itemView.findViewById(R.id.tvName)
-        val icon: ImageView = itemView.findViewById(R.id.imgCategory)
+        val name: TextView = itemView.findViewById(R.id.tvOrganizationName)
+        val icon: ImageView = itemView.findViewById(R.id.imgOrganization)
         val categoryName: TextView = itemView.findViewById(R.id.tvCategory)
         val organizationName: TextView = itemView.findViewById(R.id.tvOrganizationName)
 

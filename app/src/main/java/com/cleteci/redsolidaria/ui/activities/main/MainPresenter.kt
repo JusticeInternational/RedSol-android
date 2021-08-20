@@ -30,7 +30,7 @@ class MainPresenter: MainContract.Presenter {
     }
 
     override fun onNavSearchOption() {
-        view.showSearchFragment()
+        view.showSearchWithMapFragment()
     }
 
     override fun onNavResourcesOption() {

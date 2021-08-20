@@ -12,8 +12,10 @@ import com.cleteci.redsolidaria.R
 import com.cleteci.redsolidaria.data.LocalDataForUITest.getOrganizationById
 import com.cleteci.redsolidaria.models.Organization
 import com.cleteci.redsolidaria.ui.base.withExtras
+import com.cleteci.redsolidaria.viewModels.OrganizationViewModel
 import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.activity_organization_profile.*
+import org.koin.android.viewmodel.ext.android.viewModel
 import java.util.*
 
 

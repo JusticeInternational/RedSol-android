@@ -13,7 +13,7 @@ class BasicSearchContract {
         fun loadDataSuccess(list: List<Category>)
     }
 
-    interface Presenter: BaseContract.Presenter<BasicSearchContract.View> {
+    interface Presenter: BaseContract.Presenter<View> {
         fun loadData()
     }
 }

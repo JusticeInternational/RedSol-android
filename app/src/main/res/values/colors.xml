@@ -15,6 +15,7 @@
 
     <color name="colorGrey">#B8B8B8</color>
     <color name="gray_transparent">#B3656565</color>
+    <color name="white_transparent">#9AF4F3F3</color>
     <color name="gray">#40000000</color>
     <color name="White_transparent">#99FFFFFF</color>
     <color name="text_default">#5c676e</color>

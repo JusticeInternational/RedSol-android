@@ -10,7 +10,7 @@
 
 
     <ImageView
-        android:id="@+id/imgCategory"
+        android:id="@+id/imgOrganization"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_centerVertical="true"
@@ -25,14 +25,14 @@
 
 
     <TextView
-        android:id="@+id/tvName"
+        android:id="@+id/tvOrganizationName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="5dp"
-        android:layout_toRightOf="@id/imgCategory"
+        android:layout_toRightOf="@id/imgOrganization"
         android:ellipsize="end"
         android:maxLines="1"
         android:padding="3dp"

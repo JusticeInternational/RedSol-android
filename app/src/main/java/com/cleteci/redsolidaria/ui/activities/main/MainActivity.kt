@@ -182,12 +182,12 @@ class MainActivity : AppCompatActivity(), MainContract.View,
                         presenter.onNavResourcesOption()
                         return@OnNavigationItemSelectedListener true
                     }
-                    R.id.navigation_dashboard -> {
+                    R.id.navigation_search_map_list -> {
                         presenter.onNavMapOption()
                         return@OnNavigationItemSelectedListener true
                     }
                     R.id.navigation_search -> {
-                        presenter.onNavSearchOption()
+                        showSearchFragment()
                         return@OnNavigationItemSelectedListener true
                     }
                     R.id.navigation_home_provider -> {
@@ -321,15 +321,18 @@ class MainActivity : AppCompatActivity(), MainContract.View,
 
     }
 
-    override fun showSearchFragment() {
+    override fun showSearchWithMapFragment() {
         val intent = Intent(this, SearchItemsActivity::class.java)
         if (currentFragment != null && currentFragment is SearchFragment) {
             currentFragment!!.startActivityForResult(intent, SEARCH_REQUEST_CODE)
         }
-//        supportFragmentManager.beginTransaction()
-//            .addToBackStack(null)
-//            .replace(R.id.container_fragment, BasicSearchFragment().newInstance(), BasicSearchFragment.TAG)
-//            .commit()
+    }
+
+    private fun showSearchFragment() {
+        supportFragmentManager.beginTransaction()
+            .addToBackStack(null)
+            .replace(R.id.container_fragment, BasicSearchFragment(), BasicSearchFragment.TAG)
+            .commit()
     }
 
     fun openOrganizationProfile(organizationId: String) {

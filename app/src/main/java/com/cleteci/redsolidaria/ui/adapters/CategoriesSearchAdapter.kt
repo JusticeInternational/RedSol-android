@@ -37,8 +37,8 @@ class CategoriesSearchAdapter(private val context: Context?,
     }
 
     class ListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val title: TextView = itemView.findViewById(R.id.tvName)
-        val icon: ImageView = itemView.findViewById(R.id.imgCategory)
+        val title: TextView = itemView.findViewById(R.id.tvOrganizationName)
+        val icon: ImageView = itemView.findViewById(R.id.imgOrganization)
     }
 
     interface OnItemClickListener {

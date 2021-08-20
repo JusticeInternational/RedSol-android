@@ -61,7 +61,7 @@ class InfoServiceFragment : BaseFragment(), InfoServiceContract.View {
 
         ivService = rootView.findViewById(R.id.ivService)
 
-        tvName = rootView.findViewById(R.id.tvName)
+        tvName = rootView.findViewById(R.id.tvOrganizationName)
 
         totalServed = rootView.findViewById(R.id.totalServed)
 

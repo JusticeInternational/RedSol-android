@@ -81,7 +81,7 @@ class AdvancedSearchFragment : BaseFragment(), AdvancedSearchContract.View,
         searchView = rootView?.findViewById(R.id.searchView);
         searchView!!.setIconified(false)
         var imm: InputMethodManager = context!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        if (imm != null) {
+        if (imm != null && view != null) {
             imm.showSoftInput(view, 0)
         }
         searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -289,7 +289,9 @@ class AdvancedSearchFragment : BaseFragment(), AdvancedSearchContract.View,
     override fun itemDetail(postId: Int) {
         activity!!.supportFragmentManager.beginTransaction()
             .addToBackStack(null)
-            .replace(R.id.container_fragment, ResourcesResultFragment().newInstance(this.listCategory[postId], "asdf"), ResourcesResultFragment.TAG)
+            .replace(R.id.container_fragment,
+                ResourcesResultFragment.newInstance(this.listCategory[postId], "asdf"),
+                ResourcesResultFragment.TAG)
             .commit()
     }
 

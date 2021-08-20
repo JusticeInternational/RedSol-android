@@ -9,7 +9,7 @@ class MainContract {
 
         fun showHomeFragment()
 
-        fun showSearchFragment()
+        fun showSearchWithMapFragment()
 
         fun showMapFragment()
 

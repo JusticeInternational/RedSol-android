@@ -35,7 +35,7 @@
     <string name="missing_data">Por favor complete el formulario</string>
 
     <!--BOTTOM BAR-->
-    <string name="my_categories">Mis categorias</string>
+    <string name="my_categories">Mis Categorías</string>
     <string name="my_resources">Mis Recursos</string>
     <string name="count_resources">Contabilizar recursos</string>
 
@@ -47,7 +47,7 @@
     <string name="service_count_question">¿Desea contabilizar este servicio?</string>
     <string name="service">Servicio</string>
 
-    <string name="category_count_question">¿Desea contabilizar esta categoria?</string>
+    <string name="category_count_question">¿Desea contabilizar esta categoría?</string>
 
     <string name="the_1">la</string>
 
@@ -60,7 +60,7 @@
 
     <string name="posted_category">El usuario %1$s ha sido atendido para un servicio
         no detallado de la categoría %2$s</string>
-    <string name="error_posted_category">Error al contabilizar categoria</string>
+    <string name="error_posted_category">Error al contabilizar categoría</string>
 
     <string name="posted_service_2">El usuario %1$s ha sido atendido para un servicio genérico no categorizado</string>
     <string name="posted_service">El usuario %1$s ha sido atendido para el servicio %2$s </string>
@@ -226,6 +226,7 @@
     <string name="error_unknown_host">Ocurrió un error conectando con el host, porfavor intente de nuevo mas tarde.</string>
     <string name="error_getting_organization">Error obteninendo data de la organización</string>
     <string name="error_organization_not_found">Usuario no tiene organización asociada</string>
+    <string name="error_getting_categories">Error obteninendo data de categorías</string>
 
     <string name="loremipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
     <string name="be_volunteer">¿Quieres ser voluntario? ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmo.</string>
@@ -244,8 +245,8 @@
     <string name="call_to_number">Llamar a los números:</string>
 
     <!--CATEGORIES-->
-    <string name="resourses_categories">Categorias de nuestros recursos de apoyo</string>
-    <string name="category">Categoria</string>
+    <string name="resourses_categories">Categorías de nuestros recursos de apoyo</string>
+    <string name="category">Categoría</string>
     <string name="validate_with_code">Validar con código ID</string>
     <string name="to_scan">Para contabilizar el código de otro usuario a %1$s %2$s %3$s por usted, deberá escanear el código QR del usuario colocándolo centrado en el recuadro a continuación</string>
     <string name="general_desc">Descripción general</string>
@@ -254,7 +255,7 @@
     <string name="near_services">Servicios cerca</string>
     <string name="we_are_volunteer_desc">Si quieres ser voluntario, ubica la iniciativa de tu preferencia y ofrece tu apoyo a través de esta aplicación</string>
     <string name="search_resourses">Busca los recursos de aoyo mas cercanos a ti o en una ciudad particular</string>
-    <string name="search_resourses_desc">La aplicación Red Solidaria te permite hacer búsquedas geolocalizadas. Podrás seleccionar los recursos de acuerdo a las categorias de los proveedores de servicios comunitarios: Agua y comida, refugio, salud, educación, trabajo, entre otros. Bienvenido, registrate ya!</string>
+    <string name="search_resourses_desc">La aplicación Red Solidaria te permite hacer búsquedas geolocalizadas. Podrás seleccionar los recursos de acuerdo a las categorías de los proveedores de servicios comunitarios: Agua y comida, refugio, salud, educación, trabajo, entre otros. Bienvenido, registrate ya!</string>
     <string name="explore">Navega a través de los cientos de iniciativas de apoyo existentes en Red Solidaria, organizaciones de caridad, ONGs, lideres comunitarios, voluntarios. Registrate ya!</string>
     <string name="capacity">Capacidad</string>
 
@@ -297,4 +298,5 @@
     <string name="ok">ok</string>
     <string name="organization_empty_resources">No tiene recursos asociados!</string>
     <string name="on_off_test_data">Mostrar data de prueba para organización</string>
+    <string name="search_map">Buscar en mapa</string>
 </resources>

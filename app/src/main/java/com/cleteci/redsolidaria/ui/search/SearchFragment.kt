@@ -200,7 +200,7 @@ class SearchFragment : BaseFragment(),
         val viewMarker: View = (requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater)
             .inflate(R.layout.item_marker, null)
 
-        val imgMarker: ImageView = viewMarker.findViewById(R.id.imgCategory)
+        val imgMarker: ImageView = viewMarker.findViewById(R.id.imgOrganization)
         imgMarker.setImageResource(service.category.iconId)
         val bmp: Bitmap = createDrawableFromView(requireContext(), viewMarker)
         mMap.setInfoWindowAdapter(CustomInfoWindowGoogleMap(activity!!))
@@ -234,7 +234,7 @@ class SearchFragment : BaseFragment(),
     }
 
     override fun onServiceSearchClicked(position: Int) {
-        (activity as MainActivity).openOrganizationProfile(listServices[position] .organizationId)
+        (activity as MainActivity).openOrganizationProfile(listServices[position].organizationId)
 
     }
 

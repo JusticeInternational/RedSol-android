@@ -2,7 +2,6 @@ package com.cleteci.redsolidaria.di.component
 
 import com.cleteci.redsolidaria.di.module.FragmentModule
 import com.cleteci.redsolidaria.ui.fragments.advancedsearch.AdvancedSearchFragment
-import com.cleteci.redsolidaria.ui.fragments.basicsearch.BasicSearchFragment
 import com.cleteci.redsolidaria.ui.fragments.changePassword.ChangePassFragment
 import com.cleteci.redsolidaria.ui.fragments.configuration.ConfigurationFragment
 import com.cleteci.redsolidaria.ui.fragments.contactUs.ContactUsFragment
@@ -28,8 +27,6 @@ import dagger.Component
 
 @Component(modules = [FragmentModule::class])
 interface FragmentComponent {
-
-    fun inject(basicSearchFragment: BasicSearchFragment)
 
     fun inject(advancedSearchFragment: AdvancedSearchFragment)
 
@@ -72,7 +69,5 @@ interface FragmentComponent {
     fun inject(attendersListFragment: AttendersListFragment)
 
     fun inject(scanNoUserFragment: ScanNoUserFragment)
-
-
 
 }

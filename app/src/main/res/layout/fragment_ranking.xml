@@ -8,19 +8,7 @@
     android:orientation="horizontal">
 
     <ImageView
-        android:id="@+id/start_5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_star_24"/>
-
-    <ImageView
-        android:id="@+id/start_4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_star_24"/>
-
-    <ImageView
-        android:id="@+id/start_3"
+        android:id="@+id/start_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/ic_star_24"/>
@@ -32,8 +20,21 @@
         app:srcCompat="@drawable/ic_star_24"/>
 
     <ImageView
-        android:id="@+id/start_1"
+        android:id="@+id/start_3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/ic_star_24"/>
+
+    <ImageView
+        android:id="@+id/start_4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_star_24"/>
+
+    <ImageView
+        android:id="@+id/start_5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_star_24"/>
+
 </LinearLayout>

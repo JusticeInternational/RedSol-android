@@ -1,121 +1,90 @@
 package com.cleteci.redsolidaria.ui.fragments.resourcesResult
 
 
-import android.content.res.Resources
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.cleteci.redsolidaria.BaseApp
 import com.cleteci.redsolidaria.R
-import com.cleteci.redsolidaria.di.component.DaggerFragmentComponent
-import com.cleteci.redsolidaria.di.module.FragmentModule
-import com.cleteci.redsolidaria.models.Service
 import com.cleteci.redsolidaria.models.Category
 import com.cleteci.redsolidaria.ui.activities.main.MainActivity
-import com.cleteci.redsolidaria.ui.adapters.ResourceAdapter
 import com.cleteci.redsolidaria.ui.base.BaseFragment
-import javax.inject.Inject
+import com.cleteci.redsolidaria.ui.search.OrganizationsCategorySearchAdapter
+import com.cleteci.redsolidaria.ui.search.OrganizationsCategorySearchAdapter.OrganizationCategory
+import com.cleteci.redsolidaria.util.showInfoDialog
+import com.cleteci.redsolidaria.viewModels.BaseViewModel
+import com.cleteci.redsolidaria.viewModels.OrganizationViewModel
+import kotlinx.android.synthetic.main.fragment_resourses_result.*
+import org.koin.android.viewmodel.ext.android.viewModel
 
 
-class ResourcesResultFragment : BaseFragment(), ResourcesResultContract.View,
-    ResourceAdapter.OnItemClickListener {
+class ResourcesResultFragment : BaseFragment(),
+    OrganizationsCategorySearchAdapter.OnItemClickListener {
 
-
-    var mListRecyclerView: RecyclerView? = null
-    var mAdapter: ResourceAdapter? = null
-    private var imageView: ImageView? = null
-    private lateinit var selectedItem: String
+    private val organizationVM by viewModel<OrganizationViewModel>()
+    private lateinit var mAdapter: OrganizationsCategorySearchAdapter
+    private lateinit var categoryId: String
+    private lateinit var categoryName: String
     private lateinit var keyWord: String
-    private lateinit var sCategoryName: String
-    var tvResult: TextView? = null
-    private val listCategory = ArrayList<Service>()
-
-    @Inject
-    lateinit var presenter: ResourcesResultContract.Presenter
-
-    private lateinit var rootView: View
-
-    fun newInstance(sc: Category, key: String): ResourcesResultFragment {
-        val fragment = ResourcesResultFragment()
-        val args = Bundle()
-        args.putString("id", sc.id)
-        args.putString("icon", sc.icon)
-        args.putString("keyWord", key)
-        fragment.arguments = args
-        return fragment
-    }
+    private var categoryIconId: Int = 0
+    private val organizationsCategoryList = ArrayList<OrganizationCategory>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (arguments != null) {
-            selectedItem = arguments!!.getString("id")
-            keyWord = arguments!!.getString(("keyWord"))
-            sCategoryName = arguments!!.getString(("icon"))
+        arguments?.also { bundle ->
+            categoryId = bundle.getString(CATEGORY_ID, "")
+            categoryName = bundle.getString(CATEGORY_NAME_ID, "")
+            categoryIconId = bundle.getInt(ICON_ID, 0)
+            keyWord = bundle.getString(KEY_WORD_ID, "")
         }
-        injectDependency()
+
+        organizationVM.organizationsCategoryList.observe(this,
+            androidx.lifecycle.Observer { services: ArrayList<OrganizationCategory> ->
+                loadDataSuccess(services)
+            })
+        organizationVM.status.observe(this, androidx.lifecycle.Observer { status: BaseViewModel.QueryStatus? ->
+            when (status) {
+                BaseViewModel.QueryStatus.NOTIFY_LOADING -> showLoading(true)
+                BaseViewModel.QueryStatus.NOTIFY_SUCCESS -> showLoading(false)
+                BaseViewModel.QueryStatus.NOTIFY_FAILURE -> {
+                    showError(getString(R.string.error_getting_organization))
+                    showLoading(false)
+                }
+                BaseViewModel.QueryStatus.NOTIFY_UNKNOWN_HOST_FAILURE -> {
+                    showInfoDialog(
+                        activity,
+                        getString(R.string.error_unknown_host_title),
+                        getString(R.string.error_unknown_host)
+                    )
+                    showLoading(false)
+                }
+                else -> {
+                    showError(getString(R.string.error_getting_organization))
+                    showLoading(false)
+                }
+            }
+        })
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        rootView = inflater.inflate(R.layout.fragment_resourses_result, container, false)
-
-        mListRecyclerView = rootView?.findViewById(R.id.rvCategories);
-        mListRecyclerView?.layoutManager = LinearLayoutManager(activity);
-
-        // only create and set a new adapter if there isn't already one
-        //if (mAdapter == null) {
-        mAdapter = ResourceAdapter(activity?.applicationContext, listCategory, this, 1, false)
-        mListRecyclerView?.adapter = mAdapter;
-        imageView = rootView?.findViewById<ImageView>(R.id.imageView);
-
-        tvResult = rootView?.findViewById(R.id.tvResult);
-        tvResult?.visibility = View.GONE
-
-        mListRecyclerView?.visibility = View.GONE
-
-        return rootView
-    }
+    ): View?  = inflater.inflate(R.layout.fragment_resourses_result, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        presenter.attach(this)
-        presenter.subscribe()
-        presenter.loadData(selectedItem, keyWord)
-        val resources: Resources = BaseApp?.instance.resources
-        val resourceId: Int = resources.getIdentifier(
-            sCategoryName, "drawable",
-            BaseApp?.instance.packageName)
-        imageView?.setImageResource(resourceId)
         initView()
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        presenter.unsubscribe()
-    }
-
-
-    private fun injectDependency() {
-        val aboutComponent = DaggerFragmentComponent.builder()
-            .fragmentModule(FragmentModule())
-            .build()
-
-        aboutComponent.inject(this)
-    }
-
-    override fun init() {
-
-    }
-
     private fun initView() {
-        //presenter.loadMessage()
+        imageView.setImageResource(categoryIconId)
+        rvCategories.layoutManager = LinearLayoutManager(activity)
+        mAdapter = OrganizationsCategorySearchAdapter(requireContext(), organizationsCategoryList, this)
+        rvCategories.adapter = mAdapter;
+        tvResult?.visibility = View.GONE
+        rvCategories.visibility = View.GONE
+        organizationVM.getOrganizationsByCategory(categoryId, keyWord, categoryIconId, categoryName)
     }
 
     override fun onResume() {
@@ -127,46 +96,42 @@ class ResourcesResultFragment : BaseFragment(), ResourcesResultContract.View,
         )
     }
 
-    override fun loadDataSuccess(list: List<Service>) {
-        activity?.runOnUiThread(Runnable {
-            listCategory.clear()
-            listCategory.addAll(list)
-            if(listCategory.isEmpty()) {
+    fun loadDataSuccess(list: List<OrganizationCategory>) {
+        activity?.runOnUiThread {
+            organizationsCategoryList.clear()
+            organizationsCategoryList.addAll(list)
+            if(organizationsCategoryList.isEmpty()) {
                 tvResult?.visibility = View.VISIBLE
             } else {
-                mListRecyclerView?.visibility = View.VISIBLE
+                rvCategories.visibility = View.VISIBLE
             }
 
-            mAdapter?.notifyDataSetChanged()
-        })
-    }
-
-    override fun clickDetailResource(postId: Int, name: String, isGeneric:Boolean) {
-//        activity!!.supportFragmentManager.beginTransaction()
-//            .addToBackStack(null)
-//            .replace(
-//                R.id.container_fragment,
-//                ServiceDetailFragment().newInstance(),
-//                ServiceDetailFragment.TAG
-//            )
-//            .commit()
-        (activity as MainActivity).openOrganizationProfile("")
-
-    }
-
-    override fun clickScanResource(postId: String) {
-
-    }
-
-    override fun scanNoUserResource(postId: String, name: String, isGeneric: Boolean) {
-
-
+            mAdapter.notifyDataSetChanged()
+        }
     }
 
 
+    override fun onOrganizationCategorySearchClicked(position: Int) {
+        (activity as MainActivity).openOrganizationProfile(organizationsCategoryList[position].organizationId)
+    }
 
     companion object {
-        val TAG: String = "RBCFragment"
+
+        const val TAG = "ResourcesResultFragment"
+        private const val CATEGORY_ID = "category_id"
+        private const val CATEGORY_NAME_ID = "category_name_id"
+        private const val ICON_ID = "icon_id"
+        private const val KEY_WORD_ID = "key_work_id"
+
+        fun newInstance(category: Category, keyWord: String = ""): ResourcesResultFragment =
+            ResourcesResultFragment().apply {
+                this.arguments =  Bundle().apply {
+                    putString(CATEGORY_ID, category.id)
+                    putString(CATEGORY_NAME_ID, category.name)
+                    putInt(ICON_ID, category.iconId)
+                    putString(KEY_WORD_ID, keyWord)
+                }
+        }
     }
 
 }

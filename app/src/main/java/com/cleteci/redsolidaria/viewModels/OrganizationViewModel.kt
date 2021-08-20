@@ -5,15 +5,15 @@ import android.content.res.Resources
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.apollographql.apollo.api.Response
-import com.cleteci.redsolidaria.BaseApp
-import com.cleteci.redsolidaria.GetOrganizationInfoQuery
-import com.cleteci.redsolidaria.GetOrganizationServicesAndCategoriesQuery
+import com.cleteci.redsolidaria.*
 import com.cleteci.redsolidaria.data.LocalDataForUITest
 import com.cleteci.redsolidaria.data.LocalDataForUITest.getOrganizationById
+import com.cleteci.redsolidaria.data.LocalDataForUITest.getOrganizationsList
 import com.cleteci.redsolidaria.models.Category
 import com.cleteci.redsolidaria.models.Organization
 import com.cleteci.redsolidaria.models.Service
 import com.cleteci.redsolidaria.network.GraphQLController
+import com.cleteci.redsolidaria.ui.search.OrganizationsCategorySearchAdapter.OrganizationCategory
 import com.cleteci.redsolidaria.util.SharedPreferences.Companion.getTestDataPreference
 import com.cleteci.redsolidaria.util.SharedPreferences.Companion.putOrganizationAttributes
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -23,6 +23,7 @@ import io.reactivex.schedulers.Schedulers
 class OrganizationViewModel(private val graphQLController: GraphQLController) : BaseViewModel() {
 
     val organizationLists = MutableLiveData<Organization.OrganizationLists>()
+    val organizationsCategoryList = MutableLiveData<ArrayList<OrganizationCategory>>()
 
     fun getOrganization(id: String) {
         status.value = QueryStatus.NOTIFY_LOADING
@@ -102,6 +103,67 @@ class OrganizationViewModel(private val graphQLController: GraphQLController) : 
             )
         }
     }
+
+    fun getOrganizationsByCategory(categoryId: String, keyWord: String, categoryIconId: Int, categoryName: String) {
+        status.value = QueryStatus.NOTIFY_LOADING
+        compositeDisposable.add(
+            graphQLController.getOrganizationsByCategory(categoryId, keyWord)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ response: Response<GetOrganizationsByCategoryQuery.Data> ->
+                    organizationsCategoryList.value =
+                        if (response.data == null || response.data?.byIdOrOrgKeyWord().isNullOrEmpty())
+                            ArrayList()
+                        else
+                            deserializeOrganizationsByCategory(response.data?.byIdOrOrgKeyWord(),
+                                categoryId,
+                                categoryIconId,
+                                categoryName).distinctBy { it.organizationName }  as ArrayList<OrganizationCategory>
+                    status.value = QueryStatus.NOTIFY_SUCCESS
+                }, {
+                    status.value = QueryStatus.NOTIFY_FAILURE
+                    Log.d(TAG, it.message)
+                })
+        )
+    }
+
+    private fun deserializeOrganizationsByCategory(
+        list: List<GetOrganizationsByCategoryQuery.ByIdOrOrgKeyWord>?,
+        categoryId: String,
+        categoryIconId: Int,
+        categoryName: String): ArrayList<OrganizationCategory> {
+        val arrayList = ArrayList<OrganizationCategory>()
+        if (list != null) {
+            for (organization in list) {
+                val service = Service(
+                    organization.id(),
+                    organization.name() ?: "",
+                    Category(id = categoryId, iconId = categoryIconId),
+                    organization.hourHand().toString(),
+                    organization.ranking().toString(),
+                    "",
+                    organization.location()?.name().toString(),
+                    isGeneric = false
+                )
+
+                arrayList.add(
+                    OrganizationCategory(
+                        "0",//organization.id(),
+                        R.drawable.organization_logo_sample,
+                        organization.name() ?: "",
+                        organization.ranking() ?: 0,
+                        organization.hourHand().toString(),
+                        "40Km",// TODO calculate
+                        categoryName,
+                        categoryIconId
+                    )
+                )
+            }
+        }
+
+        return arrayList
+    }
+
 
     private fun deserializeResponse(list: List<GetOrganizationServicesAndCategoriesQuery.User>?): ArrayList<Category> {
         val arrayList = ArrayList<Category>()

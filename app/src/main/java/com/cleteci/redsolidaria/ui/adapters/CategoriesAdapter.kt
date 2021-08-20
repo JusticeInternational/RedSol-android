@@ -38,7 +38,7 @@ class CategoriesAdapter(private val context: Context?, private val list: Mutable
         holder.itemView.setOnClickListener { listener.clickScanCategory(position) }
         holder.title!!.text = category.name
         holder.body!!.setImageResource(category.iconId)
-        if (category.description!=null && category.description.isNotEmpty()) {
+        if (category.description!= null && category.description.isNotEmpty()) {
             holder.tvDescription?.visibility= VISIBLE
             holder.tvDescription?.text = category.description
         } else {
@@ -59,8 +59,14 @@ class CategoriesAdapter(private val context: Context?, private val list: Mutable
             holder.viewLine?.visibility= VISIBLE
         }
 
-        holder.ivArrow?.setOnClickListener {
-            listener.itemDetail(position)
+        if (holder.ivArrow != null) {
+            holder.ivArrow.setOnClickListener {
+                listener.itemDetail(position)
+            }
+        } else {
+            holder.itemView.setOnClickListener {
+                listener.itemDetail(position)
+            }
         }
 
         holder.ivNoUser?.setOnClickListener {
@@ -85,8 +91,8 @@ class CategoriesAdapter(private val context: Context?, private val list: Mutable
 
     class ListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var layout: RelativeLayout? = itemView.findViewById(R.id.relativeCategory)
-        val title: TextView? = itemView.findViewById(R.id.tvName)
-        val body: ImageView? = itemView.findViewById(R.id.imgCategory)
+        val title: TextView? = itemView.findViewById(R.id.tvOrganizationName)
+        val body: ImageView? = itemView.findViewById(R.id.imgOrganization)
         val viewLine: View? = itemView.findViewById<View>(R.id.viewLine)
         val tvDescription: TextView? = itemView.findViewById(R.id.tvDescription)
         val ivArrow: ImageView? = itemView.findViewById(R.id.ivArrow)

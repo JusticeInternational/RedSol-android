@@ -59,7 +59,7 @@ class UserAdapter(
 
     class ListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var layout = itemView.findViewById<RelativeLayout>(R.id.relativeCategory)
-        val title: TextView? = itemView.findViewById<TextView>(R.id.tvName)
+        val title: TextView? = itemView.findViewById<TextView>(R.id.tvOrganizationName)
         val tvEmail: TextView? = itemView.findViewById<TextView>(R.id.tvEmail)
 
 

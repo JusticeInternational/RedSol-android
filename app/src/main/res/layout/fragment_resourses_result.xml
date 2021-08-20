@@ -2,8 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.cleteci.redsolidaria.ui.fragments.basicsearch.BasicSearchFragment"
-    android:background="@color/colorWhite">
+    android:background="@color/colorWhite"
+    tools:context=".ui.fragments.basicsearch.BasicSearchFragment">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -11,15 +11,14 @@
         android:layout_marginTop="15dp"
         android:layout_marginLeft="15dp"
         android:layout_marginBottom="10dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="23dp"
             android:layout_height="23dp"
             android:layout_centerVertical="true"
-
-
             android:scaleType="fitXY"
             android:src="@drawable/ic_transp" />
 
@@ -39,7 +38,6 @@
 
     <TextView
         android:id="@+id/tvResult"
-        android:layout_marginTop="60dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/empty_list"
@@ -49,11 +47,9 @@
         android:textColor="@color/leku_strong_grey"/>
 
     <androidx.recyclerview.widget.RecyclerView
-
         android:id="@+id/rvCategories"
         android:layout_width="match_parent"
         android:layout_height="600dp"
-        android:layout_marginTop="40dp"
         android:background="@color/colorWhite" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

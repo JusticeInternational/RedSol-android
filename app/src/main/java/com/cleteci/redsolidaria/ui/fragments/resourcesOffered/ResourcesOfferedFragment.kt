@@ -1,11 +1,10 @@
 package com.cleteci.redsolidaria.ui.fragments.resourcesOffered
 
-import android.app.AlertDialog
+
 import android.os.Bundle
 import android.view.*
 import android.view.View.GONE
 import android.view.View.VISIBLE
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cleteci.redsolidaria.BaseApp
 import com.cleteci.redsolidaria.R
@@ -19,6 +18,7 @@ import com.cleteci.redsolidaria.ui.adapters.ResourceAdapter
 import com.cleteci.redsolidaria.ui.adapters.CategoriesAdapter
 import com.cleteci.redsolidaria.ui.base.BaseFragment
 import com.cleteci.redsolidaria.ui.base.withArguments
+import com.cleteci.redsolidaria.util.showInfoDialog
 import com.cleteci.redsolidaria.viewModels.BaseViewModel
 import com.cleteci.redsolidaria.viewModels.OrganizationViewModel
 import kotlinx.android.synthetic.main.fragment_resources_offered.*
@@ -75,7 +75,8 @@ class ResourcesOfferedFragment :
                     showLoading(false)
                 }
                 BaseViewModel.QueryStatus.NOTIFY_UNKNOWN_HOST_FAILURE -> {
-                    showDialog(
+                    showInfoDialog(
+                        activity,
                         getString(R.string.error_unknown_host_title),
                         getString(R.string.error_unknown_host)
                     )
@@ -88,35 +89,6 @@ class ResourcesOfferedFragment :
             }
         })
 
-    }
-
-    private fun showLoading(show: Boolean) {
-        progressBar.visibility = if(show) View.VISIBLE else View.GONE
-    }
-
-    fun showError(msg: String) {
-        activity?.runOnUiThread {
-            Toast.makeText(activity, msg, Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    private fun showDialog(title: String, msg: String) {
-        val alertDialog: AlertDialog? = activity?.let {
-            val builder = AlertDialog.Builder(it)
-            builder.apply {
-                setPositiveButton(
-                    R.string.ok
-                ) { dialog, _ ->
-                    dialog.dismiss()
-                }
-            }
-            builder.create()
-        }
-        alertDialog?.let {
-            it.setTitle(title)
-            it.setMessage(msg)
-            it.show()
-        }
     }
 
     override fun onCreateView(

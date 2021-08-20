@@ -38,7 +38,7 @@ class SearchItemsAdapter(private val context: Context?,
     }
 
     class ListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val name: TextView = itemView.findViewById(R.id.tvName)
+        val name: TextView = itemView.findViewById(R.id.tvOrganizationName)
         val icon: ImageView = itemView.findViewById(R.id.icon)
     }
 

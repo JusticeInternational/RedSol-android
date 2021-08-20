@@ -1,4 +1,4 @@
-query loadUsedCategories {
+query getUsedCategories {
     usedCategories(orderBy: [name_asc]) {
         id
         name

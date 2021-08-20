@@ -7,7 +7,7 @@
     android:gravity="center_vertical">
 
     <ImageView
-        android:id="@+id/imgCategory"
+        android:id="@+id/imgOrganization"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_centerVertical="true"
@@ -17,7 +17,7 @@
 
     <LinearLayout
         android:layout_centerVertical="true"
-        android:layout_toRightOf="@id/imgCategory"
+        android:layout_toRightOf="@id/imgOrganization"
         android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
@@ -28,7 +28,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/tvName"
+                android:id="@+id/tvOrganizationName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"

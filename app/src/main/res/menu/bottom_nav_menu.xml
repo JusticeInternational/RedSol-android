@@ -2,17 +2,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-            android:id="@+id/navigation_home"
-            android:icon="@drawable/ic_resources"
-            android:title="@string/my_resources"/>
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/ic_resources"
+        android:title="@string/my_resources" />
 
     <item
-            android:id="@+id/navigation_dashboard"
-            android:icon="@drawable/ic_search"
-            android:title="@string/search"/>
+        android:id="@+id/navigation_search_map_list"
+        android:icon="@drawable/ic_search_map"
+        android:title="@string/search_map" />
+
     <item
         android:id="@+id/navigation_search"
         android:icon="@drawable/ic_search"
-        android:title="@string/search"
-        android:visible="false"/>
+        android:title="@string/search" />
+
 </menu>

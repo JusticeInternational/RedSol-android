@@ -11,12 +11,12 @@
     android:orientation="horizontal"
     android:background="@drawable/bg_border_line_grey">
     <ImageView
-        android:id="@+id/imgCategory"
+        android:id="@+id/imgOrganization"
         android:layout_width="@dimen/height_icon_marker_info"
         android:layout_height="@dimen/height_icon_marker_info"
         app:srcCompat="@drawable/ic_emergency"/>
     <TextView
-        android:id="@+id/tvName"
+        android:id="@+id/tvOrganizationName"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="2dp"

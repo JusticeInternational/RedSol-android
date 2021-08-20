@@ -6,7 +6,7 @@ import com.apollographql.apollo.ApolloCall
 import com.apollographql.apollo.api.Response
 import com.apollographql.apollo.exception.ApolloException
 import com.cleteci.redsolidaria.BaseApp
-import com.cleteci.redsolidaria.LoadUsedCategoriesQuery
+import com.cleteci.redsolidaria.GetUsedCategoriesQuery
 import com.cleteci.redsolidaria.models.Category
 import io.reactivex.disposables.CompositeDisposable
 
@@ -31,7 +31,7 @@ class AdvancedSearchPresenter: AdvancedSearchContract.Presenter {
         view.init() // as default
     }
 
-    private fun deserializeResponse(list: List<LoadUsedCategoriesQuery.UsedCategory>?): ArrayList<Category> {
+    private fun deserializeResponse(list: List<GetUsedCategoriesQuery.UsedCategory>?): ArrayList<Category> {
         val arrayList = ArrayList<Category>()
         for (serviceCategory in list!!) {
             val resources: Resources = BaseApp.instance.resources
@@ -52,9 +52,9 @@ class AdvancedSearchPresenter: AdvancedSearchContract.Presenter {
 
     override fun search(data: String) {
         BaseApp.apolloClient.query(
-            LoadUsedCategoriesQuery.builder().build()
-        ).enqueue(object : ApolloCall.Callback<LoadUsedCategoriesQuery.Data>() {
-            override fun onResponse(response: Response<LoadUsedCategoriesQuery.Data>) {
+            GetUsedCategoriesQuery.builder().build()
+        ).enqueue(object : ApolloCall.Callback<GetUsedCategoriesQuery.Data>() {
+            override fun onResponse(response: Response<GetUsedCategoriesQuery.Data>) {
                 if (response.data() != null) {
                     var arrayList = deserializeResponse(response.data()?.usedCategories())
                     view.loadDataSuccess(arrayList)

@@ -156,7 +156,7 @@ object LocalDataForUITest {
         val list = java.util.ArrayList<Category>()
         list.add(Category("0","Laboratorio", R.drawable.ic_test))
         list.add(Category("1","Vacuna", R.drawable.ic_vaccine))
-        list.add(Category("2","Medicina General", R.drawable.ic_cross))
+        list.add(Category("2","Salud", R.drawable.ic_cross))
         list.add(Category("3","Comida", R.drawable.ic_food))
         list.add(Category("4","Transporte", R.drawable.ic_transport))
         list.add(Category("5","Legal", R.drawable.ic_legal))

@@ -7,7 +7,7 @@
     android:layout_height="@dimen/height_marker"
     android:background="@drawable/bg_marker">
     <ImageView
-        android:id="@+id/imgCategory"
+        android:id="@+id/imgOrganization"
         android:layout_width="@dimen/height_icon_marker"
         android:layout_height="@dimen/height_icon_marker"
         android:layout_marginTop="8dp"
