@@ -11,22 +11,14 @@ import com.cleteci.redsolidaria.ui.fragments.contactUs.ContactUsContract
 import com.cleteci.redsolidaria.ui.fragments.contactUs.ContactUsPresenter
 import com.cleteci.redsolidaria.ui.fragments.createService.CreateServiceContract
 import com.cleteci.redsolidaria.ui.fragments.createService.CreateServicePresenter
-import com.cleteci.redsolidaria.ui.fragments.infoService.InfoServiceContract
-import com.cleteci.redsolidaria.ui.fragments.infoService.InfoServicePresenter
 import com.cleteci.redsolidaria.ui.fragments.infoService.ScanNoUserContract
 import com.cleteci.redsolidaria.ui.fragments.infoService.ScanNoUserPresenter
-import com.cleteci.redsolidaria.ui.fragments.login.LoginFContract
-import com.cleteci.redsolidaria.ui.fragments.login.LoginFPresenter
 import com.cleteci.redsolidaria.ui.search.SearchContract
 import com.cleteci.redsolidaria.ui.search.SearchPresenter
 import com.cleteci.redsolidaria.ui.fragments.myProfile.MyProfileContract
 import com.cleteci.redsolidaria.ui.fragments.myProfile.MyProfilePresenter
 import com.cleteci.redsolidaria.ui.fragments.myProfileProvider.MyProfileProviderContract
 import com.cleteci.redsolidaria.ui.fragments.myProfileProvider.MyProfileProviderPresenter
-import com.cleteci.redsolidaria.ui.fragments.myResources.MyResourcesContract
-import com.cleteci.redsolidaria.ui.fragments.myResources.MyResourcesPresenter
-import com.cleteci.redsolidaria.ui.fragments.resourcesOffered.ResourcesOfferedContract
-import com.cleteci.redsolidaria.ui.fragments.resourcesOffered.ResourcesOfferedPresenter
 import com.cleteci.redsolidaria.ui.fragments.scanCode.ScanCodeContract
 import com.cleteci.redsolidaria.ui.fragments.scanCode.ScanCodePresenter
 import com.cleteci.redsolidaria.ui.fragments.servicedetail.ServiceDetailContract
@@ -50,11 +42,6 @@ class FragmentModule {
     @Provides
     fun providePresenter(): AdvancedSearchContract.Presenter {
         return AdvancedSearchPresenter()
-    }
-
-    @Provides
-    fun provideMyResoursesPresenterPresenter(): MyResourcesContract.Presenter {
-        return MyResourcesPresenter()
     }
 
     @Provides
@@ -95,16 +82,6 @@ class FragmentModule {
     }
 
     @Provides
-    fun provideLoginFPresenter(): LoginFContract.Presenter {
-        return LoginFPresenter()
-    }
-
-    @Provides
-    fun provideResoursesOfferedPresenter(): ResourcesOfferedContract.Presenter {
-        return ResourcesOfferedPresenter()
-    }
-
-    @Provides
     fun provideUsersPresenter(): UsersContract.Presenter {
         return UsersPresenter()
     }
@@ -130,11 +107,6 @@ class FragmentModule {
     }
 
     @Provides
-    fun provideInfoServicePresenter(): InfoServiceContract.Presenter {
-        return InfoServicePresenter()
-    }
-
-    @Provides
     fun provideAttendersPresenter(): AttendersContract.Presenter {
         return AttendersPresenter()
     }
@@ -148,8 +120,4 @@ class FragmentModule {
     fun provideScanNoUserContractPresenter(): ScanNoUserContract.Presenter {
         return ScanNoUserPresenter()
     }
-
-
-
-
 }

@@ -42,8 +42,12 @@
     <dimen name="button_width">260dp</dimen>
     <dimen name="button_default_width">130dp</dimen>
 
-    <dimen name="size_img_category">65dp</dimen>
+    <dimen name="size_img_category">55dp</dimen>
     <dimen name="size_img_category_small">20dp</dimen>
     <dimen name="qr_size">250dp</dimen>
     <dimen name="margin_text_extra_large">100dp</dimen>
+    <dimen name="size_img_scan">30dp</dimen>
+
+    <dimen name="total_number_width">95dp</dimen>
+
 </resources>

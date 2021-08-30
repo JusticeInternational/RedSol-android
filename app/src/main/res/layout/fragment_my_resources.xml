@@ -3,79 +3,103 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingStart="@dimen/activity_horizontal_margin"
-    android:paddingEnd="@dimen/activity_horizontal_margin"
     android:background="@color/colorWhite"
     android:gravity="center"
     android:orientation="vertical">
 
+
     <androidx.core.widget.NestedScrollView
         android:id="@+id/mScrollView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:paddingTop="@dimen/spacing_extra_medium"
-            android:paddingBottom="@dimen/spacing_extra_medium">
+            android:orientation="vertical">
 
             <TextView
-                style="@style/TextBodyBold"
-                android:layout_width="wrap_content"
+                android:id="@+id/tvPending"
+                style="@style/TextBodyRegular"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/spacing_extra_small"
+                android:paddingVertical="@dimen/spacing_extra_small"
                 android:text="@string/pending"
-                android:textColor="@color/colorBlack"
-                android:textSize="@dimen/font_size_medium" />
+                android:textAlignment="center"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/font_size_medium"
+                android:background="@color/colorAccent"
+                android:visibility="gone" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvPending"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/spacing_extra_medium"/>
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
             <TextView
-                style="@style/TextBodyBold"
-                android:layout_width="wrap_content"
+                android:id="@+id/tvSaved"
+                style="@style/TextBodyRegular"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:paddingVertical="@dimen/spacing_extra_small"
                 android:text="@string/saved"
-                android:textColor="@color/colorBlack"
-                android:textSize="@dimen/font_size_medium" />
+                android:textAlignment="center"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/font_size_medium"
+                android:background="@color/colorAccent"
+                android:visibility="gone"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvSaved"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/spacing_extra_medium"/>
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
             <TextView
-                style="@style/TextBodyBold"
-                android:layout_width="wrap_content"
+                android:id="@+id/tvVolunteering"
+                style="@style/TextBodyRegular"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:paddingVertical="@dimen/spacing_extra_small"
                 android:text="@string/volunteering"
-                android:textColor="@color/colorBlack"
-                android:textSize="@dimen/font_size_medium" />
+                android:textAlignment="center"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/font_size_medium"
+                android:background="@color/colorAccent"
+                android:visibility="gone"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvVolunteering"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/spacing_extra_medium"/>
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
             <TextView
-                style="@style/TextBodyBold"
-                android:layout_width="wrap_content"
+                android:id="@+id/tvUsed"
+                style="@style/TextBodyRegular"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:paddingVertical="@dimen/spacing_extra_small"
                 android:text="@string/used"
-                android:textColor="@color/colorBlack"
-                android:textSize="@dimen/font_size_medium" />
+                android:textAlignment="center"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/font_size_medium"
+                android:background="@color/colorAccent"
+                android:visibility="gone"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvUsed"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/spacing_large"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
         </LinearLayout>
 

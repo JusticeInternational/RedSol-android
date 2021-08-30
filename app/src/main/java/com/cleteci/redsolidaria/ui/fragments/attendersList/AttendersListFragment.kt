@@ -1,31 +1,28 @@
-package com.cleteci.redsolidaria.ui.fragments.users
+package com.cleteci.redsolidaria.ui.fragments.attendersList
 
 
 import android.os.Bundle
 import android.view.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-
 import com.cleteci.redsolidaria.R
-
 import com.cleteci.redsolidaria.di.component.DaggerFragmentComponent
 import com.cleteci.redsolidaria.di.module.FragmentModule
-import com.cleteci.redsolidaria.models.Service
-import com.cleteci.redsolidaria.models.Category
+import com.cleteci.redsolidaria.models.Resource
 import com.cleteci.redsolidaria.models.User
 import com.cleteci.redsolidaria.ui.activities.main.MainActivity
 import com.cleteci.redsolidaria.ui.adapters.UserAdapter
 import com.cleteci.redsolidaria.ui.base.BaseFragment
+import com.cleteci.redsolidaria.ui.fragments.users.AttendersFragment
+import com.cleteci.redsolidaria.ui.fragments.users.AttendersListContract
 import javax.inject.Inject
 
 
 class AttendersListFragment : BaseFragment(), AttendersListContract.View {
 
-
-    var catService: Category? = null
-    var service: Service? = null
-    var type: Int? = null
-
+    private var resourceId: String = ""
+    private var resourceType: String = ""
+    private var type: Int = 0
     var rvUsers: RecyclerView? = null
     private val listUsers = ArrayList<User>()
     var usersAdapter: UserAdapter? = null
@@ -35,13 +32,12 @@ class AttendersListFragment : BaseFragment(), AttendersListContract.View {
 
     private lateinit var rootView: View
 
-    fun newInstance(type: Int, serviceId: Service?, catId: Category?): AttendersListFragment {
-
+    fun newInstance(type: Int, resourceId: String, resourceType: String): AttendersListFragment {
         val fragment = AttendersListFragment()
         val args = Bundle()
         args.putInt("type", type)
-        args.putSerializable("service", serviceId)
-        args.putSerializable("cat", catId)
+        args.putString("resourceId", resourceId)
+        args.putString("resourceType", resourceType)
         fragment.setArguments(args)
         return fragment
 
@@ -52,12 +48,8 @@ class AttendersListFragment : BaseFragment(), AttendersListContract.View {
         super.onCreate(savedInstanceState)
         if (arguments != null) {
             type = arguments!!.getInt("type")
-            if (arguments!!.getSerializable("service") != null) {
-                service = arguments!!.getSerializable("service") as Service
-            } else {
-                catService = arguments!!.getSerializable("cat") as Category
-            }
-
+            resourceId = arguments!!.getString("resourceId", "")
+            resourceType = arguments!!.getString("resourceType", "")
         }
         injectDependency()
     }
@@ -91,6 +83,14 @@ class AttendersListFragment : BaseFragment(), AttendersListContract.View {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        (activity as MainActivity).setTextToolbar(
+            getText(R.string.attenders).toString(),
+            activity!!.resources.getColor(R.color.colorWhite)
+        )
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         presenter.unsubscribe()
@@ -109,16 +109,14 @@ class AttendersListFragment : BaseFragment(), AttendersListContract.View {
     }
 
     private fun initView() {
-        if (service != null) {
-            presenter.loadDataService(service!!.id, type!!)
+        if (Resource.Type.valueOf(resourceType) == Resource.Type.CATEGORY) {
+            presenter.loadDataCategory(resourceId!!, type)
         } else {
-            presenter.loadDataCategory(catService!!.id, type!!)
+            presenter.loadDataService(resourceId!!, type)
         }
-
     }
 
     override fun showUsers(users: List<User>) {
-
         activity?.runOnUiThread(Runnable {
             listUsers.clear()
             listUsers.addAll(users)
@@ -131,26 +129,14 @@ class AttendersListFragment : BaseFragment(), AttendersListContract.View {
                 //AttendersFragment.countB= listUsers.size
                 parentFrag.updateTabB(listUsers.size)
             }
-
-
-
-
         })
 
     }
 
     companion object {
-        val TAG: String = "AttendersListFragment"
-    }
 
-    override fun onResume() {
-        super.onResume()
-        (activity as MainActivity).setTextToolbar(
-            getText(R.string.attenders).toString(),
-            activity!!.resources.getColor(R.color.colorWhite)
-        )
+        const val TAG: String = "AttendersListFragment"
 
     }
-
 
 }

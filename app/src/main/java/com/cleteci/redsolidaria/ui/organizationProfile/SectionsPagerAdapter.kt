@@ -1,4 +1,4 @@
-package com.cleteci.redsolidaria.ui.organization
+package com.cleteci.redsolidaria.ui.organizationProfile
 
 import android.content.Context
 import androidx.fragment.app.Fragment

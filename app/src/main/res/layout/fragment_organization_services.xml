@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        tools:context=".ui.organization.ServicesFragment">
+        tools:context=".ui.organizationProfile.ServicesFragment">
         <TextView
             android:id="@+id/etTitle"
             style="@style/TitleDefault"

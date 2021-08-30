@@ -1,4 +1,4 @@
-package com.cleteci.redsolidaria.ui.fragments.infoService
+package com.cleteci.redsolidaria.ui.fragments.scanNoUser
 
 import android.app.Dialog
 import android.os.Bundle
@@ -10,6 +10,7 @@ import com.cleteci.redsolidaria.di.component.DaggerFragmentComponent
 import com.cleteci.redsolidaria.di.module.FragmentModule
 import com.cleteci.redsolidaria.ui.activities.main.MainActivity
 import com.cleteci.redsolidaria.ui.base.BaseFragment
+import com.cleteci.redsolidaria.ui.fragments.infoService.ScanNoUserContract
 import javax.inject.Inject
 
 class ScanNoUserFragment : BaseFragment(), ScanNoUserContract.View {
@@ -182,9 +183,6 @@ class ScanNoUserFragment : BaseFragment(), ScanNoUserContract.View {
             showAlert(R.drawable.ic_check_green, msg)
             (activity as MainActivity).onBackPressed()
         })
-
-
-
     }
 
     override fun loadDataError(msg: String) {

@@ -1,4 +1,4 @@
-package com.cleteci.redsolidaria.ui.organization
+package com.cleteci.redsolidaria.ui.organizationProfile
 
 import android.content.Context
 import android.content.Intent
@@ -21,6 +21,7 @@ import java.util.*
 
 class OrganizationProfileActivity : AppCompatActivity() {
 
+    private val organizationVM by viewModel<OrganizationViewModel>()
     private var sectionId: Int = 0
     private var isoOrganizationSaved = false
     private var organizationId: String = ""
@@ -35,6 +36,7 @@ class OrganizationProfileActivity : AppCompatActivity() {
             organizationId = getString(ORGANIZATION_ID, "")
             userId = getString(USER_ID, "")
         }
+
 
         if (organizationId.isBlank() && userId.isBlank()) return
 

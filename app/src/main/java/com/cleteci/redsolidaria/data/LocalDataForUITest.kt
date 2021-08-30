@@ -154,12 +154,13 @@ object LocalDataForUITest {
 
     fun getCategoriesList(): ArrayList<Category> {
         val list = java.util.ArrayList<Category>()
-        list.add(Category("0","Laboratorio", R.drawable.ic_test))
+        list.add(Category("0","General", R.drawable.ic_general_category))
         list.add(Category("1","Vacuna", R.drawable.ic_vaccine))
         list.add(Category("2","Salud", R.drawable.ic_cross))
         list.add(Category("3","Comida", R.drawable.ic_food))
         list.add(Category("4","Transporte", R.drawable.ic_transport))
         list.add(Category("5","Legal", R.drawable.ic_legal))
+        list.add(Category("6","Laboratorio", R.drawable.ic_test))
         return list
     }
 
@@ -170,4 +171,7 @@ object LocalDataForUITest {
         }
         return null
     }
+
+    fun getGeneralCategory(): Category = getCategoriesList()[0]
+
 }

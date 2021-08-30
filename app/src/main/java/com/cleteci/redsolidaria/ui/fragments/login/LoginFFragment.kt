@@ -7,12 +7,9 @@ import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import com.cleteci.redsolidaria.BaseApp
 import com.cleteci.redsolidaria.R
-import com.cleteci.redsolidaria.di.component.DaggerFragmentComponent
-import com.cleteci.redsolidaria.di.module.FragmentModule
 import com.cleteci.redsolidaria.ui.activities.login.LoginActivity
 import com.cleteci.redsolidaria.ui.base.BaseFragment
 import com.cleteci.redsolidaria.util.showInfoDialog
@@ -21,16 +18,12 @@ import com.cleteci.redsolidaria.viewModels.OrganizationViewModel
 import com.cleteci.redsolidaria.viewModels.UserAccountViewModel
 import kotlinx.android.synthetic.main.fragment_login.*
 import org.koin.android.viewmodel.ext.android.viewModel
-import javax.inject.Inject
 
 
-class LoginFFragment : BaseFragment(), LoginFContract.View {
+class LoginFFragment : BaseFragment() {
 
     private val userAccountVM by viewModel<UserAccountViewModel>()
     private val organizationVM by viewModel<OrganizationViewModel>()
-
-    @Inject
-    lateinit var presenter: LoginFContract.Presenter
 
     fun newInstance(): LoginFFragment {
         return LoginFFragment()
@@ -38,7 +31,6 @@ class LoginFFragment : BaseFragment(), LoginFContract.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        injectDependency()
         userAccountVM.status.observe(this, androidx.lifecycle.Observer { status: QueryStatus? ->
             when (status) {
                 QueryStatus.NOTIFY_LOADING -> showLoading(true)
@@ -109,24 +101,8 @@ class LoginFFragment : BaseFragment(), LoginFContract.View {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        presenter.attach(this)
-        presenter.subscribe()
         initView()
     }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        presenter.unsubscribe()
-    }
-
-    private fun injectDependency() {
-        val aboutComponent = DaggerFragmentComponent.builder()
-            .fragmentModule(FragmentModule())
-            .build()
-        aboutComponent.inject(this)
-    }
-
-    override fun init() {}
 
     private fun initView() {
         btFacebook!!.setOnClickListener {
@@ -166,10 +142,6 @@ class LoginFFragment : BaseFragment(), LoginFContract.View {
         } else {
             userAccountVM.login(email, pass)
         }
-    }
-
-    override fun validEmailPass() {
-        (activity as LoginActivity).loginEmailPass()
     }
 
     private fun hideSoftKeyboard(activity: FragmentActivity?) {

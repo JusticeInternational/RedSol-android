@@ -19,10 +19,11 @@ data class Organization(
     val servicesDesc: String? = "",
     val whatWeNeedDesc: String? = ""
 ) : Serializable {
+
     enum class Attribute { NAME, SCHEDULE, LOCATION, PAGE, PHONE, EMAIL, LAT, LNG }
+
     class OrganizationLists(
-        val servicesList: ArrayList<Service>,
-        val serviceCategories: ArrayList<Category>,
-        val genericServices: ArrayList<Service>
+        val offeredServices: ArrayList<Service>,
+        val offeredCategories: ArrayList<Category>
     )
 }

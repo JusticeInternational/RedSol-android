@@ -1,12 +1,11 @@
 package com.cleteci.redsolidaria.viewModels
 
 
-import android.content.res.Resources
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.apollographql.apollo.api.Response
 import com.cleteci.redsolidaria.*
-import com.cleteci.redsolidaria.data.LocalDataForUITest
+import com.cleteci.redsolidaria.data.LocalDataForUITest.getGeneralCategory
 import com.cleteci.redsolidaria.data.LocalDataForUITest.getOrganizationById
 import com.cleteci.redsolidaria.data.LocalDataForUITest.getOrganizationsList
 import com.cleteci.redsolidaria.models.Category
@@ -24,6 +23,8 @@ class OrganizationViewModel(private val graphQLController: GraphQLController) : 
 
     val organizationLists = MutableLiveData<Organization.OrganizationLists>()
     val organizationsCategoryList = MutableLiveData<ArrayList<OrganizationCategory>>()
+    val totalCategoryAttentions = MutableLiveData<Int>()
+    val totalServiceAttentions = MutableLiveData<Int>()
 
     fun getOrganization(id: String) {
         status.value = QueryStatus.NOTIFY_LOADING
@@ -39,7 +40,7 @@ class OrganizationViewModel(private val graphQLController: GraphQLController) : 
 
                         if (getTestDataPreference()) {
                             val organization =
-                                LocalDataForUITest.getOrganizationsList()[0]// Using test data
+                                getOrganizationsList()[0]// Using test data
                             BaseApp.sharedPreferences.currentOrganizationId = organization.id
                             putOrganizationAttributes(organization)
                         }
@@ -66,7 +67,7 @@ class OrganizationViewModel(private val graphQLController: GraphQLController) : 
             for (service in services) {
                 categories.add(service.category)
             }
-            organizationLists.value = Organization.OrganizationLists(services, categories, services)
+            organizationLists.value = Organization.OrganizationLists(services, categories)
             status.value = QueryStatus.NOTIFY_SUCCESS
         } else {
             compositeDisposable.add(
@@ -79,20 +80,12 @@ class OrganizationViewModel(private val graphQLController: GraphQLController) : 
                         ) {
                             organizationLists.value = Organization.OrganizationLists(
                                 ArrayList(),
-                                ArrayList(),
                                 ArrayList()
                             )
                         } else {
-                            val user = response.data?.User()
-                            val arrayListServices =
-                                deserializeResponseServices(response.data?.User())
-                            val arrayList = deserializeResponse(response.data?.User())
-                            val arrayListGenericServices =
-                                deserializeResponseGeneric(response.data?.User())
                             organizationLists.value = Organization.OrganizationLists(
-                                arrayListServices,
-                                arrayList,
-                                arrayListGenericServices
+                                deserializeOfferedServices(response.data?.User()),
+                                deserializeOfferedCategories(response.data?.User())
                             )
                         }
                         status.value = QueryStatus.NOTIFY_SUCCESS
@@ -104,7 +97,12 @@ class OrganizationViewModel(private val graphQLController: GraphQLController) : 
         }
     }
 
-    fun getOrganizationsByCategory(categoryId: String, keyWord: String, categoryIconId: Int, categoryName: String) {
+    fun getOrganizationsByCategory(
+        categoryId: String,
+        keyWord: String,
+        categoryIconId: Int,
+        categoryName: String
+    ) {
         status.value = QueryStatus.NOTIFY_LOADING
         compositeDisposable.add(
             graphQLController.getOrganizationsByCategory(categoryId, keyWord)
@@ -115,10 +113,46 @@ class OrganizationViewModel(private val graphQLController: GraphQLController) : 
                         if (response.data == null || response.data?.byIdOrOrgKeyWord().isNullOrEmpty())
                             ArrayList()
                         else
-                            deserializeOrganizationsByCategory(response.data?.byIdOrOrgKeyWord(),
+                            deserializeOrganizationsByCategory(
+                                response.data?.byIdOrOrgKeyWord(),
                                 categoryId,
                                 categoryIconId,
-                                categoryName).distinctBy { it.organizationName }  as ArrayList<OrganizationCategory>
+                                categoryName
+                            ).distinctBy { it.organizationName } as ArrayList<OrganizationCategory>
+                    status.value = QueryStatus.NOTIFY_SUCCESS
+                }, {
+                    status.value = QueryStatus.NOTIFY_FAILURE
+                    Log.d(TAG, it.message)
+                })
+        )
+    }
+
+    fun getTotalCategoryAttentions(categoryId: String) {
+        status.value = QueryStatus.NOTIFY_LOADING
+        compositeDisposable.add(
+            graphQLController.getTotalCategoryAttentions(categoryId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ response: Response<GetTotalCategoryAttentionsQuery.Data> ->
+                    val total = response.data?.totalAtentionCategory()?: 0
+                    totalCategoryAttentions.value = if (total != 0 && total >= 4) total/4 else total
+                    status.value = QueryStatus.NOTIFY_SUCCESS
+                }, {
+                    status.value = QueryStatus.NOTIFY_FAILURE
+                    Log.d(TAG, it.message)
+                })
+        )
+    }
+
+    fun getTotalServiceAttentions(categoryId: String) {
+        status.value = QueryStatus.NOTIFY_LOADING
+        compositeDisposable.add(
+            graphQLController.getTotalServiceAttentions(categoryId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ response: Response<GetTotalServiceAttentionsQuery.Data> ->
+                    val total = response.data?.totalAtentionService()?: 0
+                    totalServiceAttentions.value = if (total != 0 && total >= 4) total/4 else total
                     status.value = QueryStatus.NOTIFY_SUCCESS
                 }, {
                     status.value = QueryStatus.NOTIFY_FAILURE
@@ -131,29 +165,18 @@ class OrganizationViewModel(private val graphQLController: GraphQLController) : 
         list: List<GetOrganizationsByCategoryQuery.ByIdOrOrgKeyWord>?,
         categoryId: String,
         categoryIconId: Int,
-        categoryName: String): ArrayList<OrganizationCategory> {
+        categoryName: String
+    ): ArrayList<OrganizationCategory> {
         val arrayList = ArrayList<OrganizationCategory>()
         if (list != null) {
             for (organization in list) {
-                val service = Service(
-                    organization.id(),
-                    organization.name() ?: "",
-                    Category(id = categoryId, iconId = categoryIconId),
-                    organization.hourHand().toString(),
-                    organization.ranking().toString(),
-                    "",
-                    organization.location()?.name().toString(),
-                    isGeneric = false
-                )
-
                 arrayList.add(
                     OrganizationCategory(
-                        "0",//organization.id(),
+                        organization.id(),
                         R.drawable.organization_logo_sample,
                         organization.name() ?: "",
                         organization.ranking() ?: 0,
                         organization.hourHand().toString(),
-                        "40Km",// TODO calculate
                         categoryName,
                         categoryIconId
                     )
@@ -164,97 +187,78 @@ class OrganizationViewModel(private val graphQLController: GraphQLController) : 
         return arrayList
     }
 
-
-    private fun deserializeResponse(list: List<GetOrganizationServicesAndCategoriesQuery.User>?): ArrayList<Category> {
+    private fun deserializeOfferedCategories(list: List<GetOrganizationServicesAndCategoriesQuery.User>?): ArrayList<Category> {
         val arrayList = ArrayList<Category>()
-        val resources: Resources = BaseApp.instance.resources
         val categories = if (!list.isNullOrEmpty()) list[0].ownerOf()?.serviceCategories()
             .orEmpty() else emptyList()
 
         for (serviceCategory in categories) {
-            val resourceId: Int = resources.getIdentifier(
-                serviceCategory?.icon(), "drawable",
-                BaseApp.instance.packageName
-            )
-            arrayList.add(
-                Category(
-                    serviceCategory.id(),
-                    serviceCategory.name(),
-                    resourceId,
-                    0,
-                    serviceCategory.description(),
-                    serviceCategory.icon()
-                )
-            )
-
+            arrayList.add(getCategory(serviceCategory))
         }
         return arrayList
     }
 
-    private fun deserializeResponseGeneric(list: List<GetOrganizationServicesAndCategoriesQuery.User>?): ArrayList<Service> {
+
+    private fun deserializeOfferedServices(list: List<GetOrganizationServicesAndCategoriesQuery.User>?): ArrayList<Service> {
         val arrayList = ArrayList<Service>()
-        val resources: Resources = BaseApp.instance.resources
-
-        val services =
-            if (!list.isNullOrEmpty()) list[0].ownerOf()?.services().orEmpty() else emptyList()
-        for (service in services) {
-            if (service.isGeneral == true) {
-                val resourceId: Int = resources.getIdentifier(
-                    "ic_check_green",
-                    "drawable",
-                    BaseApp.instance.packageName
-                )
-                arrayList.add(
-                    Service(
-                        service.id(),
-                        service.name()!!,
-                        LocalDataForUITest.getCategoryById("0")!!,
-                        "",
-                        "0",
-                        "",
-                        "",
-                        service.description(),
-                        service.isGeneral!!
-                    )
-                )
-            }
-        }
-
-        return arrayList
-    }
-
-    private fun deserializeResponseServices(list: List<GetOrganizationServicesAndCategoriesQuery.User>?): ArrayList<Service> {
-        val arrayList = ArrayList<Service>()
-        val resources: Resources = BaseApp.instance.resources
 
         val services =
             if (!list.isNullOrEmpty()) list[0].ownerOf()?.services().orEmpty() else emptyList()
         for (service in services) {
             val serviceCategory = service.serviceCategory()
-            if (serviceCategory != null && service.isGeneral == false) {
-
-                var resourceId: Int = resources.getIdentifier(
-                    serviceCategory.icon(), "drawable",
-                    BaseApp.instance.packageName
-                )
-
+            if (serviceCategory != null) {
                 arrayList.add(
                     Service(
                         service.id(),
                         service.name()!!,
-                        LocalDataForUITest.getCategoryById("0")!!,
+                        getCategory(serviceCategory),
                         "",
                         serviceCategory.id(),
                         "",
                         "",
                         service.description(),
-                        service.isGeneral!!
+                        service.isGeneral ?: false
                     )
-
                 )
             }
         }
         return arrayList
+    }
+
+    private fun getCategory(anyObject: Any): Category {
+        return when (anyObject) {
+            is GetOrganizationServicesAndCategoriesQuery.ServiceCategory -> {
+                Category(
+                    anyObject.id(),
+                    anyObject.name(),
+                    getCategoryIconByIconString(anyObject.icon()),
+                    0,
+                    anyObject.description(),
+                    anyObject.icon()
+                )
+            }
+            is GetOrganizationServicesAndCategoriesQuery.ServiceCategory1 -> {
+                Category(
+                    anyObject.id(),
+                    anyObject.name(),
+                    getCategoryIconByIconString(anyObject.icon()),
+                    0,
+                    anyObject.description(),
+                    anyObject.icon()
+                )
+            }
+            else -> getGeneralCategory()
+        }
+    }
+
+    private fun getCategoryIconByIconString(name: String): Int {
+        return when (name) {
+            "food" -> R.drawable.ic_food
+            "cross" -> R.drawable.ic_cross
+            "transport" -> R.drawable.ic_transport
+            "education" -> R.drawable.ic_education
+            else -> R.drawable.ic_general_category
+        }
     }
 
     companion object {

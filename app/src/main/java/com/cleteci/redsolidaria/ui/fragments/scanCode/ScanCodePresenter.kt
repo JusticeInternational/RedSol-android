@@ -40,7 +40,7 @@ class ScanCodePresenter : ScanCodeContract.Presenter {
             override fun onResponse(response: Response<ProvideAtentionServiceMutation.Data>) {
 
                 if (response.data() != null && response.data()?.provideAtentionService() != null ) {
-                    var name= response.data()?.provideAtentionService()!!.recipient()!!.name()
+                    var name = response.data()?.provideAtentionService()!!.recipient()!!.name()
 
                     if (isGeneric){
                         view.showSuccessMsg( String.format(BaseApp.instance.getResources().getString(R.string.posted_service_2),name ))

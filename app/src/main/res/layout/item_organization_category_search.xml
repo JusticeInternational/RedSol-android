@@ -6,8 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="95dp"
     android:gravity="center_vertical"
-    android:layout_marginStart="@dimen/activity_horizontal_margin"
-    android:layout_marginEnd="@dimen/activity_horizontal_margin"
+    android:layout_marginStart="@dimen/spacing_extra_small"
+    android:layout_marginEnd="@dimen/spacing_extra_small"
     style="@style/cardBorder2">
 
     <RelativeLayout
@@ -42,11 +42,15 @@
                 android:textColor="@color/colorBlack"
                 android:textStyle="bold" />
 
-            <include
-                android:id="@+id/ranking"
+            <TextView
+                android:id="@+id/tvServiceName"
+                style="@style/TextBodyBold"
                 android:layout_width="wrap_content"
-                android:layout_height="20dp"
-                layout="@layout/fragment_ranking"/>
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="Almuerzo"
+                android:textColor="@color/colorBlack" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -79,19 +83,6 @@
                 </LinearLayout>
 
                 <TextView
-                    android:id="@+id/tvDistance"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/spacing_small"
-                    android:text="57 Km"
-                    android:textColor="@color/text_default"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    app:drawableStartCompat="@drawable/ic_baseline_directions_walk_24"
-                    android:layout_toEndOf="@+id/linearCategory"
-                    android:layout_centerVertical="true"/>
-
-                <TextView
                     android:id="@+id/tvSchedule"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -99,7 +90,7 @@
                     android:textColor="@color/text_default"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:layout_toEndOf="@+id/tvDistance"
+                    android:layout_toEndOf="@+id/linearCategory"
                     android:layout_centerVertical="true"/>
 
             </RelativeLayout>
@@ -107,4 +98,5 @@
         </LinearLayout>
 
     </RelativeLayout>
+
 </androidx.cardview.widget.CardView>

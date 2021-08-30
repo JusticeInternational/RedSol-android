@@ -21,6 +21,7 @@ import com.cleteci.redsolidaria.R
 import com.cleteci.redsolidaria.di.component.DaggerActivityComponent
 import com.cleteci.redsolidaria.di.module.ActivityModule
 import com.cleteci.redsolidaria.models.Category
+import com.cleteci.redsolidaria.models.Resource
 import com.cleteci.redsolidaria.models.Service
 import com.cleteci.redsolidaria.ui.activities.login.LoginActivity
 import com.cleteci.redsolidaria.ui.activities.splash.SplashActivity
@@ -32,15 +33,15 @@ import com.cleteci.redsolidaria.ui.fragments.configuration.ConfigurationFragment
 import com.cleteci.redsolidaria.ui.fragments.contactUs.ContactUsFragment
 import com.cleteci.redsolidaria.ui.fragments.createService.CreateServiceFragment
 import com.cleteci.redsolidaria.ui.fragments.infoService.InfoServiceFragment
-import com.cleteci.redsolidaria.ui.fragments.infoService.ScanNoUserFragment
 import com.cleteci.redsolidaria.ui.fragments.myProfile.MyProfileFragment
-import com.cleteci.redsolidaria.ui.fragments.myResources.MyResourcesFragment
-import com.cleteci.redsolidaria.ui.fragments.resourcesOffered.ResourcesOfferedFragment
+import com.cleteci.redsolidaria.ui.resources.BeneficiaryResourcesFragment
+import com.cleteci.redsolidaria.ui.resources.ResourcesOfferedFragment
 import com.cleteci.redsolidaria.ui.fragments.scanCode.ScanCodeFragment
+import com.cleteci.redsolidaria.ui.fragments.scanNoUser.ScanNoUserFragment
 import com.cleteci.redsolidaria.ui.fragments.suggestService.SuggestServiceFragment
 import com.cleteci.redsolidaria.ui.fragments.users.AttendersFragment
 import com.cleteci.redsolidaria.ui.fragments.users.UsersFragment
-import com.cleteci.redsolidaria.ui.organization.OrganizationProfileActivity
+import com.cleteci.redsolidaria.ui.organizationProfile.OrganizationProfileActivity
 import com.cleteci.redsolidaria.ui.search.SearchFragment
 import com.cleteci.redsolidaria.ui.search.SearchItemsActivity
 import com.cleteci.redsolidaria.ui.search.SearchItemsActivity.Companion.SEARCH_REQUEST_CODE
@@ -273,12 +274,12 @@ class MainActivity : AppCompatActivity(), MainContract.View,
 
         if (isGeneric) {
             tvAlertMsg.text = String.format(
-                BaseApp.instance.getResources().getString(R.string.count_question_1),
+                getString(R.string.count_question_1),
                 name
             )
         } else {
             tvAlertMsg.text = String.format(
-                BaseApp.instance.getResources().getString(R.string.count_question_2),
+                getString(R.string.count_question_2),
                 name
             )
         }
@@ -375,48 +376,26 @@ class MainActivity : AppCompatActivity(), MainContract.View,
             .commit()
     }
 
-    fun openAttendFragment(service: Service) {
+    fun openAttendFragment(resourceId: String, resourceType: Resource.Type) {
         supportFragmentManager.beginTransaction()
             .addToBackStack(null)
             .replace(
                 R.id.container_fragment,
-                AttendersFragment().newInstance(service),
+                AttendersFragment().newInstance(resourceId, resourceType),
                 CreateServiceFragment.TAG
             )
             .commit()
     }
 
-    fun openAttendFragment(category: Category) {
+    fun openInfoFragment(resource: Resource) {
         supportFragmentManager.beginTransaction()
             .addToBackStack(null)
             .replace(
                 R.id.container_fragment,
-                AttendersFragment().newInstance(category),
-                CreateServiceFragment.TAG
+                InfoServiceFragment.newInstance(resource),
+                InfoServiceFragment.TAG
             )
             .commit()
-    }
-
-    fun openInfoFragment(category: Category?, service: Service?) {
-        if (category != null) {
-            supportFragmentManager.beginTransaction()
-                .addToBackStack(null)
-                .replace(
-                    R.id.container_fragment,
-                    InfoServiceFragment().newInstance(category, null),
-                    InfoServiceFragment.TAG
-                )
-                .commit()
-        } else {
-            supportFragmentManager.beginTransaction()
-                .addToBackStack(null)
-                .replace(
-                    R.id.container_fragment,
-                    InfoServiceFragment().newInstance(null, service),
-                    InfoServiceFragment.TAG
-                )
-                .commit()
-        }
     }
 
     fun showChangePassFragment() {
@@ -518,7 +497,7 @@ class MainActivity : AppCompatActivity(), MainContract.View,
         appBarTitle.text = getString(R.string.my_resources)
         supportFragmentManager.beginTransaction()
             .addToBackStack(null)
-            .replace(R.id.container_fragment, MyResourcesFragment(), MyResourcesFragment.TAG)
+            .replace(R.id.container_fragment, BeneficiaryResourcesFragment(), BeneficiaryResourcesFragment.TAG)
             .commit()
     }
 
@@ -598,10 +577,10 @@ class MainActivity : AppCompatActivity(), MainContract.View,
             when (index) {
 
                 FragNavController.TAB1 -> {
-                    if (currentFragment == null || currentFragment !is MyResourcesFragment) {
-                        currentFragment = MyResourcesFragment()
+                    if (currentFragment == null || currentFragment !is BeneficiaryResourcesFragment) {
+                        currentFragment = BeneficiaryResourcesFragment()
                     }
-                    return currentFragment as MyResourcesFragment
+                    return currentFragment as BeneficiaryResourcesFragment
                 }
                 FragNavController.TAB2 -> {
                     if (currentFragment == null || currentFragment !is SearchFragment) {

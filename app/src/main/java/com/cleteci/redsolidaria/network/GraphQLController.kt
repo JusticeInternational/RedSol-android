@@ -41,8 +41,24 @@ class GraphQLController(private val apolloClient: ApolloClient) {
         }
     }
 
-    fun getOrganizationsByCategory(id: String, keyWord: String): Observable<Response<GetOrganizationsByCategoryQuery.Data>> {
+    fun getOrganizationsByCategory(id: String, keyWord: String):Observable<Response<GetOrganizationsByCategoryQuery.Data>> {
         val query = GetOrganizationsByCategoryQuery(id, keyWord)
+        return apolloClient.rxQuery(query) {
+            cacheHeaders(CacheHeaders.NONE)
+        }
+    }
+
+    fun getTotalCategoryAttentions(categoryId: String): Observable<Response<GetTotalCategoryAttentionsQuery.Data>> {
+        val query = GetTotalCategoryAttentionsQuery(categoryId,
+            BaseApp.sharedPreferences.currentOrganizationId.toString())
+        return apolloClient.rxQuery(query) {
+            cacheHeaders(CacheHeaders.NONE)
+        }
+    }
+
+    fun getTotalServiceAttentions(serviceId: String): Observable<Response<GetTotalServiceAttentionsQuery.Data>> {
+        val query = GetTotalServiceAttentionsQuery(serviceId,
+            BaseApp.sharedPreferences.currentOrganizationId.toString())
         return apolloClient.rxQuery(query) {
             cacheHeaders(CacheHeaders.NONE)
         }

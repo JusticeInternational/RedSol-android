@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/relativeCategory"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:layout_marginStart="@dimen/spacing_extra_small"
+    android:layout_marginEnd="@dimen/spacing_extra_small"
+    style="@style/cardBorder2">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/spacing_small">
+
+        <ImageView
+            android:id="@+id/imgCategory"
+            android:layout_width="@dimen/size_img_category"
+            android:layout_height="@dimen/size_img_category"
+            android:padding="@dimen/spacing_extra_small"
+            app:srcCompat="@drawable/ic_food"
+            android:background="@drawable/bg_border_line_grey"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:paddingTop="@dimen/spacing_extra_small"
+            android:paddingStart="@dimen/spacing_small"
+            android:paddingEnd="@dimen/spacing_small"
+            android:orientation="vertical"
+            android:gravity="center_vertical"
+            app:layout_constraintStart_toEndOf="@+id/imgCategory"
+            app:layout_constraintEnd_toStartOf="@+id/imgNoUser"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <TextView
+                android:id="@+id/tvName"
+                style="@style/TextBodyBold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="Almuerzo"
+                android:textColor="@color/colorBlack"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/tvCategory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Comida"
+                android:textColor="@color/text_default"/>
+
+            <TextView
+                android:id="@+id/tvDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="Comida completa"
+                android:textColor="@color/text_default" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/imgNoUser"
+            android:layout_width="@dimen/size_img_scan"
+            android:layout_height="@dimen/size_img_scan"
+            android:padding="@dimen/spacing_super_small"
+            android:layout_marginEnd="@dimen/spacing_small"
+            android:background="@drawable/bg_border_line_grey"
+            app:srcCompat="@drawable/ic_filled_person_24"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/imgScan"/>
+
+        <ImageView
+            android:id="@+id/imgScan"
+            android:layout_width="@dimen/size_img_scan"
+            android:layout_height="@dimen/size_img_scan"
+            android:padding="@dimen/spacing_extra_small"
+            android:background="@drawable/bg_border_line_grey"
+            app:srcCompat="@drawable/ic_scan"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

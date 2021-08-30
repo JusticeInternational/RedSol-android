@@ -34,10 +34,8 @@ import uk.co.chrisjenx.calligraphy.CalligraphyConfig
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper
 
 
-class LoginActivity : AppCompatActivity(), LoginContract.View {
+class LoginActivity : AppCompatActivity(){
 
-    @Inject
-    lateinit var presenter: LoginContract.Presenter
     private lateinit var mGoogleSignInClient: GoogleSignInClient
     private lateinit var mGoogleSignInOptions: GoogleSignInOptions
     private lateinit var firebaseAuth: FirebaseAuth
@@ -48,7 +46,8 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        injectDependency()
+
+        init()
         configureGoogleSignIn()
         firebaseAuth = FirebaseAuth.getInstance()
         FacebookSdk.sdkInitialize(applicationContext)
@@ -62,17 +61,9 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
 
             override fun onError(error: FacebookException) {}
         })
-        presenter.attach(this)
     }
 
-    private fun injectDependency() {
-        val activityComponent = DaggerActivityComponent.builder()
-            .activityModule(ActivityModule(this))
-            .build()
-        activityComponent.inject(this)
-    }
-
-    override fun init() {
+    fun init() {
         CalligraphyConfig.initDefault(
             CalligraphyConfig.Builder()
                 .setDefaultFontPath("fonts/Roboto-Light.ttf")

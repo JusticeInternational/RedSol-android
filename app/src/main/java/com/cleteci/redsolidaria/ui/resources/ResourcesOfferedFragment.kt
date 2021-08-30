@@ -1,4 +1,4 @@
-package com.cleteci.redsolidaria.ui.fragments.resourcesOffered
+package com.cleteci.redsolidaria.ui.resources
 
 
 import android.os.Bundle
@@ -13,9 +13,9 @@ import com.cleteci.redsolidaria.di.module.FragmentModule
 import com.cleteci.redsolidaria.models.Service
 import com.cleteci.redsolidaria.models.Category
 import com.cleteci.redsolidaria.models.Organization
+import com.cleteci.redsolidaria.models.Resource
 import com.cleteci.redsolidaria.ui.activities.main.MainActivity
-import com.cleteci.redsolidaria.ui.adapters.ResourceAdapter
-import com.cleteci.redsolidaria.ui.adapters.CategoriesAdapter
+import com.cleteci.redsolidaria.ui.adapters.ResourcesAdapter
 import com.cleteci.redsolidaria.ui.base.BaseFragment
 import com.cleteci.redsolidaria.ui.base.withArguments
 import com.cleteci.redsolidaria.util.showInfoDialog
@@ -23,28 +23,16 @@ import com.cleteci.redsolidaria.viewModels.BaseViewModel
 import com.cleteci.redsolidaria.viewModels.OrganizationViewModel
 import kotlinx.android.synthetic.main.fragment_resources_offered.*
 import org.koin.android.viewmodel.ext.android.viewModel
-import javax.inject.Inject
 
 
-class ResourcesOfferedFragment :
-        BaseFragment(),
-        ResourcesOfferedContract.View,
-        CategoriesAdapter.OnItemClickListener,
-        ResourceAdapter.OnItemClickListener {
+class ResourcesOfferedFragment : BaseFragment(), ResourcesAdapter.OnResourceClickListener {
 
     private val organizationVM by viewModel<OrganizationViewModel>()
-
-    @Inject
-    lateinit var presenter: ResourcesOfferedContract.Presenter
-
-    private lateinit var genericResourcesAdapter: ResourceAdapter
-    private lateinit var resourcesAdapter: ResourceAdapter
-    private lateinit var mAdapter: CategoriesAdapter
-    private val listResources = ArrayList<Service>()
-    private val listCategories = ArrayList<Category>()
-    private val listGenericResources = ArrayList<Service>()
+    private lateinit var mServicesAdapter: ResourcesAdapter
+    private lateinit var mCategoriesAdapter: ResourcesAdapter
+    private val listCategories = ArrayList<Resource>()
+    private val listServices = ArrayList<Resource>()
     private var isFromScan = false
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,15 +41,13 @@ class ResourcesOfferedFragment :
 
         injectDependency()
 
-        mAdapter = CategoriesAdapter(context, listCategories, this, 4, isFromScan)
-        resourcesAdapter = ResourceAdapter(context, listResources, this, 3, isFromScan)
-        genericResourcesAdapter = ResourceAdapter(context, listGenericResources, this, 3, isFromScan)
+        mCategoriesAdapter = ResourcesAdapter(requireContext(), listCategories, this, isFromScan)
+        mServicesAdapter = ResourcesAdapter(requireContext(), listServices, this, isFromScan)
 
         organizationVM.organizationLists.observe(this,
             androidx.lifecycle.Observer { organizationLists: Organization.OrganizationLists ->
-                loadDataSuccess(organizationLists.serviceCategories,
-                    organizationLists.servicesList,
-                    organizationLists.genericServices
+                loadDataSuccess(organizationLists.offeredCategories,
+                    organizationLists.offeredServices
                 )
         })
         organizationVM.status.observe(this, androidx.lifecycle.Observer { status: BaseViewModel.QueryStatus? ->
@@ -99,56 +85,43 @@ class ResourcesOfferedFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        presenter.attach(this)
-        presenter.subscribe()
 
         val organizationId = BaseApp.sharedPreferences.currentOrganizationId
-        if (organizationId.isNullOrEmpty()){
-            lyEmpty.visibility = VISIBLE
-            scrollView.visibility = GONE
-        } else {
+        val userId = BaseApp.sharedPreferences.userSaved
+        if (!userId.isNullOrEmpty() && !organizationId.isNullOrEmpty()) {
             lyEmpty.visibility = GONE
             scrollView.visibility = VISIBLE
-            organizationVM.getServicesAndCategories(organizationId)
+            organizationVM.getServicesAndCategories(userId)
+        } else {
+            lyEmpty.visibility = VISIBLE
+            scrollView.visibility = GONE
         }
         
         initView()
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        presenter.unsubscribe()
-    }
-
-    override fun init() {
-
-    }
-
-    override fun loadDataSuccess(
-            pending: List<Category>,
-            services: List<Service>,
-            genericServices: List<Service>
-    ) {
-         if (pending.isNullOrEmpty() && services.isNullOrEmpty() && genericServices.isNullOrEmpty()) {
+    fun loadDataSuccess(categories: List<Category>, services: List<Service>) {
+         if (categories.isNullOrEmpty() && services.isNullOrEmpty()) {
              lyEmpty.visibility = VISIBLE
              scrollView.visibility = GONE
          } else {
              lyEmpty.visibility = GONE
              scrollView.visibility = VISIBLE
+
              activity?.runOnUiThread {
                  listCategories.clear()
-                 listCategories.addAll(pending)
-                 mAdapter.notifyDataSetChanged()
+                 categories.forEach {
+                     listCategories.add(Resource(category = it))
+                 }
+                 mCategoriesAdapter.notifyDataSetChanged()
 
-                 listResources.clear()
-                 listResources.addAll(services)
-                 resourcesAdapter.notifyDataSetChanged()
+                 listServices.clear()
+                 services.forEach {
+                     listServices.add(Resource(service = it))
+                 }
+                 mServicesAdapter.notifyDataSetChanged()
 
                  setupLabels()
-
-                 listGenericResources.clear()
-                 listGenericResources.addAll(genericServices)
-                 genericResourcesAdapter.notifyDataSetChanged()
              }
          }
     }
@@ -172,15 +145,11 @@ class ResourcesOfferedFragment :
             fab.visibility = VISIBLE
         }
 
-        setupLabels()
-
         rvMyCategories.layoutManager = LinearLayoutManager(activity)
         rvCategories.layoutManager = LinearLayoutManager(activity)
-        rvResourcesGeneric.layoutManager = LinearLayoutManager(activity)
 
-        rvMyCategories.adapter = mAdapter
-        rvCategories.adapter = resourcesAdapter
-        rvResourcesGeneric.adapter = genericResourcesAdapter
+        rvMyCategories.adapter = mCategoriesAdapter
+        rvCategories.adapter = mServicesAdapter
     }
 
     private fun injectDependency() {
@@ -192,44 +161,57 @@ class ResourcesOfferedFragment :
     }
 
     private fun setupLabels() {
-        tvLabelResources?.visibility = if (listResources.isEmpty()) GONE else VISIBLE
+        tvLabelResources?.visibility = if (listServices.isEmpty()) GONE else VISIBLE
         tvLabelCategories?.visibility = if (listCategories.isEmpty()) GONE else VISIBLE
     }
 
-    override fun itemDetail(postId: Int) {
-        val mainActivity = activity as MainActivity
-        if (isFromScan) {
-            mainActivity.showScanFragment(null, listCategories[postId].id, listCategories[postId].name, true)
-        } else {
-            mainActivity.openInfoFragment(listCategories[postId], null)
+    override fun resourceDetail(position: Int, type: Resource.Type) {
+        val activity = activity as MainActivity
+        when (type) {
+            Resource.Type.CATEGORY ->
+                activity.openInfoFragment(Resource(category = listCategories[position].category))
+            Resource.Type.SERVICE ->
+                activity.openInfoFragment(Resource(service = listServices[position].service))
         }
     }
 
-    override fun clickDetailResource(postId: Int, name: String, isGeneric: Boolean) {
+    override fun resourceScan(position: Int, type: Resource.Type) {
         val activity = activity as MainActivity
-        if (isFromScan) {
-            activity.showScanFragment(listResources[postId].id, null, name, isGeneric)
-        } else {
-            if (isGeneric) {
-                activity.openInfoFragment(null, listGenericResources[postId])
-            } else {
-                activity.openInfoFragment(null, listResources[postId])
+        when (type) {
+            Resource.Type.CATEGORY -> {
+                val category = listCategories[position].category!!
+                activity.showScanFragment(null, category.id, category.name, true)
+            }
+            Resource.Type.SERVICE -> {
+                val service = listServices[position].service!!
+                activity.showScanFragment(service.id, null, service.name, service.isGeneric)
             }
         }
     }
 
-    override fun scanNoUserCategory(position: Int) {
-        (activity as MainActivity).openScanNoUserFragment(null, listCategories[position].id, listCategories[position].name, false)
+    override fun resourceScanNoUser(position: Int, type: Resource.Type) {
+        val activity = activity as MainActivity
+        when (type) {
+            Resource.Type.CATEGORY -> {
+                val category = listCategories[position].category!!
+                activity.openScanNoUserFragment(null, category.id, category.name, false)
+            }
+            Resource.Type.SERVICE -> {
+                val service = listServices[position].service!!
+                activity.openScanNoUserFragment(service.id, null, service.name, service.isGeneric)
+            }
+        }
     }
 
-    override fun scanNoUserResource(postId: String, name: String, isGeneric: Boolean) {
-        (activity as MainActivity).openScanNoUserFragment(postId, null, name, isGeneric)
 
-    }
+//    override fun scanNoUserCategory(position: Int) {
+//        (activity as MainActivity).openScanNoUserFragment(null, listCategories[position].id, listCategories[position].name, false)
+//    }
 
-    override fun clickScanResource(postId: String) {}
-
-    override fun clickScanCategory(position: Int) {}
+//    override fun scanNoUserResource(postId: String, name: String, isGeneric: Boolean) {
+//        (activity as MainActivity).openScanNoUserFragment(postId, null, name, isGeneric)
+//
+//    }
 
 
     companion object {

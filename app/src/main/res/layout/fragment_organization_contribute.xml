@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        tools:context=".ui.organization.InfoFragment">
+        tools:context=".ui.organizationProfile.InfoFragment">
         <TextView
             android:id="@+id/etTitle"
             style="@style/TitleDefault"

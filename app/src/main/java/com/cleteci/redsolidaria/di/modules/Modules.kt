@@ -2,6 +2,7 @@ package com.cleteci.redsolidaria.di.modules
 
 import com.cleteci.redsolidaria.network.GraphQLController
 import com.cleteci.redsolidaria.network.GraphQLFactory
+import com.cleteci.redsolidaria.viewModels.BeneficiaryViewModel
 import com.cleteci.redsolidaria.viewModels.GeneralViewModel
 import com.cleteci.redsolidaria.viewModels.OrganizationViewModel
 import com.cleteci.redsolidaria.viewModels.UserAccountViewModel
@@ -22,7 +23,9 @@ val controllersModule = module {
 
 //Don't forget to add the constructor dependencies to viewModels (Crash will occur on release build)
 val viewModelsModule = module {
+    viewModel { BeneficiaryViewModel(get()) }
     viewModel { GeneralViewModel(get()) }
-    viewModel { UserAccountViewModel(get()) }
     viewModel { OrganizationViewModel(get()) }
+    viewModel { UserAccountViewModel(get()) }
+
 }

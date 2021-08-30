@@ -34,12 +34,10 @@ class ServicesSearchAdapter(private val context: Context?,
     }
 
     class ListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val name: TextView = itemView.findViewById(R.id.tvOrganizationName)
-        val icon: ImageView = itemView.findViewById(R.id.imgOrganization)
+        val name: TextView = itemView.findViewById(R.id.tvName)
+        val icon: ImageView = itemView.findViewById(R.id.imgCategory)
         val categoryName: TextView = itemView.findViewById(R.id.tvCategory)
         val organizationName: TextView = itemView.findViewById(R.id.tvOrganizationName)
-
-
     }
 
     class ServiceSearch (val service: Service,

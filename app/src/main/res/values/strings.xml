@@ -225,8 +225,10 @@
     <string name="error_unknown_host_title">Ups! Lo sentimos</string>
     <string name="error_unknown_host">Ocurrió un error conectando con el host, porfavor intente de nuevo mas tarde.</string>
     <string name="error_getting_organization">Error obteninendo data de la organización</string>
-    <string name="error_organization_not_found">Usuario no tiene organización asociada</string>
+    <string name="error_organization_not_found">No se encontró organización</string>
     <string name="error_getting_categories">Error obteninendo data de categorías</string>
+    <string name="error_getting_user_resources">Error obteninendo recursos</string>
+    <string name="error_getting_information">Error obteninendo información</string>
 
     <string name="loremipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
     <string name="be_volunteer">¿Quieres ser voluntario? ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmo.</string>

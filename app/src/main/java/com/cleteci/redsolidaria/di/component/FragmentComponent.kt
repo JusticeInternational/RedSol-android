@@ -7,20 +7,20 @@ import com.cleteci.redsolidaria.ui.fragments.configuration.ConfigurationFragment
 import com.cleteci.redsolidaria.ui.fragments.contactUs.ContactUsFragment
 import com.cleteci.redsolidaria.ui.fragments.createService.CreateServiceFragment
 import com.cleteci.redsolidaria.ui.fragments.infoService.InfoServiceFragment
-import com.cleteci.redsolidaria.ui.fragments.infoService.ScanNoUserFragment
 import com.cleteci.redsolidaria.ui.fragments.login.LoginFFragment
 import com.cleteci.redsolidaria.ui.search.SearchFragment
 import com.cleteci.redsolidaria.ui.fragments.myProfile.MyProfileFragment
 import com.cleteci.redsolidaria.ui.fragments.myProfileProvider.MyProfileProviderFragment
-import com.cleteci.redsolidaria.ui.fragments.myResources.MyResourcesFragment
-import com.cleteci.redsolidaria.ui.fragments.resourcesOffered.ResourcesOfferedFragment
+import com.cleteci.redsolidaria.ui.resources.BeneficiaryResourcesFragment
+import com.cleteci.redsolidaria.ui.resources.ResourcesOfferedFragment
 import com.cleteci.redsolidaria.ui.fragments.resourcesResult.ResourcesResultFragment
 import com.cleteci.redsolidaria.ui.fragments.scanCode.ScanCodeFragment
+import com.cleteci.redsolidaria.ui.fragments.scanNoUser.ScanNoUserFragment
 import com.cleteci.redsolidaria.ui.fragments.servicedetail.ServiceDetailFragment
 import com.cleteci.redsolidaria.ui.fragments.suggestService.SuggestServiceFragment
 import com.cleteci.redsolidaria.ui.fragments.users.AttendersFragment
 import com.cleteci.redsolidaria.ui.fragments.users.UsersFragment
-import com.cleteci.redsolidaria.ui.fragments.users.AttendersListFragment
+import com.cleteci.redsolidaria.ui.fragments.attendersList.AttendersListFragment
 import com.cleteci.redsolidaria.ui.fragments.welcome.WelcomeFragment
 import dagger.Component
 
@@ -34,7 +34,7 @@ interface FragmentComponent {
 
     fun inject(resourcesResultFragment: ResourcesResultFragment)
 
-    fun inject(myResourcesFragment: MyResourcesFragment)
+    fun inject(beneficiaryResourcesFragment: BeneficiaryResourcesFragment)
 
     fun inject(searchFragment: SearchFragment)
 

@@ -1,4 +1,4 @@
-package com.cleteci.redsolidaria.ui.organization
+package com.cleteci.redsolidaria.ui.organizationProfile
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -7,8 +7,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.cleteci.redsolidaria.R
 import com.cleteci.redsolidaria.models.Post
 

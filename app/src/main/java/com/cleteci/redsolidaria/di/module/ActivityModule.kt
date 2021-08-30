@@ -1,8 +1,6 @@
 package com.cleteci.redsolidaria.di.module
 
 import android.app.Activity
-import com.cleteci.redsolidaria.ui.activities.login.LoginContract
-import com.cleteci.redsolidaria.ui.activities.login.LoginPresenter
 import com.cleteci.redsolidaria.ui.activities.main.MainContract
 import com.cleteci.redsolidaria.ui.activities.main.MainPresenter
 import com.cleteci.redsolidaria.ui.activities.register.RegisterContract
@@ -11,10 +9,6 @@ import com.cleteci.redsolidaria.ui.activities.resetPassword.ResetPasswordContrac
 import com.cleteci.redsolidaria.ui.activities.resetPassword.ResetPasswordPresenter
 import com.cleteci.redsolidaria.ui.activities.splash.SplashContract
 import com.cleteci.redsolidaria.ui.activities.splash.SplashPresenter
-import com.cleteci.redsolidaria.ui.fragments.scanCode.ScanCodeContract
-import com.cleteci.redsolidaria.ui.fragments.scanCode.ScanCodePresenter
-import com.cleteci.redsolidaria.ui.fragments.users.UsersContract
-import com.cleteci.redsolidaria.ui.fragments.users.UsersPresenter
 
 import dagger.Module
 import dagger.Provides
@@ -38,11 +32,6 @@ class ActivityModule(private var activity: Activity) {
     @Provides
     fun provideSplashPresenter(): SplashContract.Presenter {
         return SplashPresenter()
-    }
-
-    @Provides
-    fun provideLoginPresenter(): LoginContract.Presenter {
-        return LoginPresenter()
     }
 
     @Provides
