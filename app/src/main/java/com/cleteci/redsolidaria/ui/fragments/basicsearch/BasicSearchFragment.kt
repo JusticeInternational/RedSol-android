@@ -23,7 +23,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 class BasicSearchFragment : BaseFragment(), CategoriesAdapter.OnItemClickListener {
 
     private val generalVM by viewModel<GeneralViewModel>()
-    var mAdapter: CategoriesAdapter? = null
+    private var mAdapter: CategoriesAdapter? = null
     private var keyWord: String = ""
     private val listCategory = ArrayList<Category>()
 
@@ -77,10 +77,9 @@ class BasicSearchFragment : BaseFragment(), CategoriesAdapter.OnItemClickListene
         )
     }
 
-    fun setSearchParameter() {
-        val query = searchView.query.toString()
+    fun setSearchParameter(query: String) {
         if (query.isNotEmpty()) {
-            this.keyWord = query
+            keyWord = query
             tvResult?.visibility = View.VISIBLE
         }
     }
@@ -88,10 +87,10 @@ class BasicSearchFragment : BaseFragment(), CategoriesAdapter.OnItemClickListene
     fun cleanLayout() {
         val query = searchView?.query.toString()
         if (query.isEmpty()) {
-            this.keyWord = ""
+            keyWord = ""
             tvResult?.visibility = View.GONE
         } else {
-            this.keyWord = query
+            keyWord = query
         }
     }
 
@@ -104,7 +103,7 @@ class BasicSearchFragment : BaseFragment(), CategoriesAdapter.OnItemClickListene
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
-                setSearchParameter()
+                setSearchParameter(query)
                 return false
             }
 

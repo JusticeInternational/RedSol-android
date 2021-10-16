@@ -2,8 +2,11 @@ package com.cleteci.redsolidaria.viewModels
 
 
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
+import com.apollographql.apollo.ApolloCall
 import com.apollographql.apollo.api.Response
+import com.apollographql.apollo.exception.ApolloException
 import com.cleteci.redsolidaria.*
 import com.cleteci.redsolidaria.data.LocalDataForUITest.getGeneralCategory
 import com.cleteci.redsolidaria.data.LocalDataForUITest.getOrganizationById
@@ -15,6 +18,8 @@ import com.cleteci.redsolidaria.network.GraphQLController
 import com.cleteci.redsolidaria.ui.search.OrganizationsCategorySearchAdapter.OrganizationCategory
 import com.cleteci.redsolidaria.util.SharedPreferences.Companion.getTestDataPreference
 import com.cleteci.redsolidaria.util.SharedPreferences.Companion.putOrganizationAttributes
+import com.cleteci.redsolidaria.util.isValidEmail
+import com.cleteci.redsolidaria.util.isValidPhone
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
@@ -250,6 +255,57 @@ class OrganizationViewModel(private val graphQLController: GraphQLController) : 
             else -> getGeneralCategory()
         }
     }
+
+    fun createUnregisteredUserAttention(request: CreateAttentionRequest) {
+        status.value = QueryStatus.NOTIFY_LOADING
+        val disposable = if (request.categoryId.isNotEmpty()) {
+            graphQLController.createAttentionCategory(request)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ response: Response<ProvideAtentionUnregisteredCategoryMutation.Data> ->
+                    if (response.data != null) {
+                        status.value = QueryStatus.NOTIFY_SUCCESS
+                    } else {
+                        status.value = QueryStatus.NOTIFY_FAILURE
+                    }
+                }, {
+                    status.value = QueryStatus.NOTIFY_FAILURE
+                    Log.d(TAG, it.message)
+                })
+        } else {
+            graphQLController.createAttentionService(request)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ response: Response<ProvideAtentionUnregisteredServiceMutation.Data> ->
+                    if (response.data != null) {
+                        status.value = QueryStatus.NOTIFY_SUCCESS
+                    } else {
+                        status.value = QueryStatus.NOTIFY_FAILURE
+                    }
+                }, {
+                    status.value = QueryStatus.NOTIFY_FAILURE
+                    Log.d(TAG, it.message)
+                })
+        }
+        compositeDisposable.add(disposable)
+
+    }
+
+    class CreateAttentionRequest(
+        val serviceId: String = "",
+        val categoryId: String = "",
+        val name: String,
+        val lastName: String,
+        val identification: String = "",
+        val gender: Int = 0,
+        val country: String = "",
+        val age: Int = 0,
+        val phone: String = "",
+        val email: String = "",
+        val otherInfo: String = "",
+        val nameService: String = "",
+        val isGeneric: Boolean
+    )
 
     private fun getCategoryIconByIconString(name: String): Int {
         return when (name) {

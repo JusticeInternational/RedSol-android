@@ -6,10 +6,13 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.util.Patterns
 import android.view.View
 import android.widget.Toast
 import com.cleteci.redsolidaria.R
 import kotlinx.android.synthetic.main.fragment_resources_offered.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class Constants {
@@ -18,6 +21,7 @@ class Constants {
         const val ORGANIZATION_EMAIL = "redsol.app@gmail.com"
         const val ORGANIZATION_PHONE = "0123456789"
         const val SLASH = "/"
+        const val DEFAULT_PASSWORD = "1234"
     }
 }
 
@@ -96,3 +100,20 @@ fun showInfoDialog(context: Context?, title: String, msg: String) {
         it.show()
     }
 }
+
+fun getCountries() : ArrayList<String> {
+    val locales: Array<Locale> = Locale.getAvailableLocales()
+    val countries = ArrayList<String>()
+    for (locale in locales) {
+        val country: String = locale.displayCountry
+        if (country.trim { it <= ' ' }.isNotEmpty() && !countries.contains(country)) {
+            countries.add(country)
+        }
+    }
+    countries.sort()
+    return countries
+}
+
+fun CharSequence?.isValidEmail() = !isNullOrEmpty() && Patterns.EMAIL_ADDRESS.matcher(this).matches()
+
+fun CharSequence?.isValidPhone() = !isNullOrEmpty() && Patterns.PHONE.matcher(this).matches()

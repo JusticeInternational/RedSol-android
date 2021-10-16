@@ -37,9 +37,7 @@ class LoginFFragment : BaseFragment() {
                 QueryStatus.NOTIFY_SUCCESS -> {
                     if (BaseApp.sharedPreferences.isProviderService) {
                         BaseApp.sharedPreferences.userSaved?.let {
-                            organizationVM.getOrganization(
-                                it
-                            )
+                            organizationVM.getOrganization(it)
                         }
                     } else {
                         showLoading(false)

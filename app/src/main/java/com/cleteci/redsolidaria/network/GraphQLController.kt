@@ -1,17 +1,24 @@
 package com.cleteci.redsolidaria.network
 
-
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.Response
 import com.apollographql.apollo.cache.CacheHeaders
 import com.apollographql.apollo.rx2.rxMutate
 import com.apollographql.apollo.rx2.rxQuery
 import com.cleteci.redsolidaria.*
+import com.cleteci.redsolidaria.viewModels.OrganizationViewModel
 import io.reactivex.Observable
 import io.reactivex.Single
 
-
 class GraphQLController(private val apolloClient: ApolloClient) {
+
+    fun createUser(name: String, lastName: String, email: String, password: String):
+        Single<Response<RegisterUserMutation.Data>> {
+        val mutation = RegisterUserMutation(name, lastName, email, password)
+        return apolloClient.rxMutate(mutation) {
+            cacheHeaders(CacheHeaders.NONE)
+        }
+    }
 
     fun login(email: String, password: String): Single<Response<LoginUserMutation.Data>> {
         val loginMutation = LoginUserMutation(email, password)
@@ -64,4 +71,43 @@ class GraphQLController(private val apolloClient: ApolloClient) {
         }
     }
 
+    fun createAttentionCategory(request: OrganizationViewModel.CreateAttentionRequest):
+        Single<Response<ProvideAtentionUnregisteredCategoryMutation.Data>> {
+        val mutation = ProvideAtentionUnregisteredCategoryMutation(
+            BaseApp.sharedPreferences.currentOrganizationId.toString(),
+            request.categoryId,
+            request.name,
+            request.lastName,
+            request.identification,
+            request.gender,
+            request.country,
+            request.age,
+            request.phone,
+            request.email,
+            request.otherInfo
+        )
+        return apolloClient.rxMutate(mutation) {
+            cacheHeaders(CacheHeaders.NONE)
+        }
+    }
+
+    fun createAttentionService(request: OrganizationViewModel.CreateAttentionRequest):
+        Single<Response<ProvideAtentionUnregisteredServiceMutation.Data>> {
+        val mutation = ProvideAtentionUnregisteredServiceMutation(
+            BaseApp.sharedPreferences.currentOrganizationId.toString(),
+            request.serviceId,
+            request.name,
+            request.lastName,
+            request.identification,
+            request.gender,
+            request.country,
+            request.age,
+            request.phone,
+            request.email,
+            request.otherInfo
+        )
+        return apolloClient.rxMutate(mutation) {
+            cacheHeaders(CacheHeaders.NONE)
+        }
+    }
 }

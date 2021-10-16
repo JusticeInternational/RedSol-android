@@ -370,7 +370,7 @@ class MainActivity : AppCompatActivity(), MainContract.View,
             .addToBackStack(null)
             .replace(
                 R.id.container_fragment,
-                ScanNoUserFragment().newInstance(serviceID, catId, name, isGeneric),
+                ScanNoUserFragment.newInstance(serviceID, catId, name, isGeneric),
                 ScanNoUserFragment.TAG
             )
             .commit()

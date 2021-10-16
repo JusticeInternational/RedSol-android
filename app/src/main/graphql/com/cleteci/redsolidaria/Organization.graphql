@@ -49,7 +49,7 @@ mutation provideAtentionCategory($orgID:ID!, $userID: ID!,  $categoryID:ID!) {
     }
 }
 
-mutation provideAtentionUnregisteredCategory($orgID:ID!, $categoryID:ID!, $name: String!, $lastName: String!, $identification: String, $gender: Int, $country: String, $age: Int, $phone: String, $email: String, $otherInfo: String) {
+mutation provideAtentionUnregisteredCategory($orgID:ID!, $categoryID:ID!, $name: String!, $lastName: String!, $identification: String!, $gender: Int!, $country: String!, $age: Int!, $phone: String!, $email: String!, $otherInfo: String!) {
     provideAtentionUnregisteredCategory(orgID: $orgID, categoryID: $categoryID, name: $name, lastName: $lastName, identification: $identification, gender:  $gender, country: $country, age: $age, phone: $phone, email: $email, otherInfo: $otherInfo){
      recipientUnregistered {
       name
@@ -58,7 +58,7 @@ mutation provideAtentionUnregisteredCategory($orgID:ID!, $categoryID:ID!, $name:
     }
 }
 
-mutation provideAtentionUnregisteredService($orgID:ID!, $serviceID:ID!, $name: String!, $lastName: String!, $identification: String, $gender: Int, $country: String, $age: Int, $phone: String, $email: String, $otherInfo: String) {
+mutation provideAtentionUnregisteredService($orgID:ID!, $serviceID:ID!, $name: String!, $lastName: String!, $identification: String!, $gender: Int!, $country: String!, $age: Int!, $phone: String!, $email: String!, $otherInfo: String!) {
     provideAtentionUnregisteredService(orgID: $orgID, serviceID: $serviceID, name: $name, lastName: $lastName, identification: $identification, gender:  $gender, country: $country, age: $age, phone: $phone, email: $email, otherInfo: $otherInfo){
      recipientUnregistered {
       name

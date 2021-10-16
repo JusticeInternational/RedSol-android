@@ -5,7 +5,9 @@ import android.util.Base64
 import android.util.Log
 import com.apollographql.apollo.api.Response
 import com.cleteci.redsolidaria.BaseApp
+import com.cleteci.redsolidaria.GetTotalCategoryAttentionsQuery
 import com.cleteci.redsolidaria.LoginUserMutation
+import com.cleteci.redsolidaria.RegisterUserMutation
 import com.cleteci.redsolidaria.models.User
 import com.cleteci.redsolidaria.network.GraphQLController
 import com.google.gson.Gson
@@ -17,13 +19,27 @@ import java.nio.charset.Charset
 
 class UserAccountViewModel(private val graphQLController: GraphQLController) : BaseViewModel() {
 
-    private var email: String? = null
-    private var password: String? = null
+    fun createUser(name: String, lastName: String, email: String, password: String){
+        status.value = QueryStatus.NOTIFY_LOADING
+        compositeDisposable.add(
+            graphQLController.createUser(name, lastName, email, password)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ response: Response<RegisterUserMutation.Data> ->
+                   if (response.data?.CreateUser() == true) {
+                       status.value = QueryStatus.NOTIFY_SUCCESS
+                   } else {
+                       status.value = QueryStatus.NOTIFY_FAILURE
+                   }
+                }, {
+                    status.value = QueryStatus.NOTIFY_FAILURE
+                    Log.d(TAG, it.message)
+                })
+        )
+    }
 
     fun login(email: String?, password: String?) {
         status.value = QueryStatus.NOTIFY_LOADING
-        this.email = email
-        this.password = password
         compositeDisposable.add(
             graphQLController.login(email!!, password!!)
                 .subscribeOn(Schedulers.io())
@@ -39,9 +55,6 @@ class UserAccountViewModel(private val graphQLController: GraphQLController) : B
                         BaseApp.sharedPreferences.userSaved = user.id
                         BaseApp.sharedPreferences.token = token
 
-                        if (user.role == "admin") {
-                            //getInfoOrganization()
-                        }
                         status.value = QueryStatus.NOTIFY_SUCCESS
                     }
                 },
