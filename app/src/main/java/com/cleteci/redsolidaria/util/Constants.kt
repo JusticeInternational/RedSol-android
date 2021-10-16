@@ -22,6 +22,7 @@ class Constants {
         const val ORGANIZATION_PHONE = "0123456789"
         const val SLASH = "/"
         const val DEFAULT_PASSWORD = "1234"
+        const val DEFAULT_PASSWORD_LENGTH = 4
     }
 }
 

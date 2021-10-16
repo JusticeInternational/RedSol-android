@@ -136,7 +136,10 @@
     <string name="terms_conditions">Términos y condiciones</string>
     <string name="understand_and_accept">Entiendo y acepto las</string>
     <string name="policies">Politicas de privacidad</string>
-    <string name="welcome_success">Bienvenido, ya puedes iniciar sesión</string>
+    <string name="welcome_success">Bienvenido %1$s, ya puedes iniciar sesión</string>
+    <string name="go_to_login">Iniciar sesión</string>
+    <string name="error_creating_user">Ups! Lo sentimos, ocurrió un error registrando nuevo usuario</string>
+    <string name="error_creating_user_email_exist">Ups! Lo sentimos, el email ya existe. Puede intentar con otro email, o reestablecer la contraseña</string>
     <string name="failed_register">Error, el email ya existe. Puede intentar con otro email, o reestablecer la contraseña</string>
     <string name="register_new_user">Registro nuevo usuario</string>
     <string name="reset_pass">Reseteo de contraseña</string>
@@ -157,7 +160,7 @@
     <string name="volunteering">Voluntariado</string>
     <string name="used">Utilizados</string>
     <string name="near_to">Cerca de</string>
-    <string name="near_to_location">Cerca de %s1</string>
+    <string name="near_to_location">Cerca de %1$s</string>
     <string name="next">Siguiente</string>
     <string name="name">Nombre</string>
     <string name="name_2">Nombre*</string>

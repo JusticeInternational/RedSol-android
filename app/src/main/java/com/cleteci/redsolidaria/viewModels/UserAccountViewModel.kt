@@ -29,7 +29,7 @@ class UserAccountViewModel(private val graphQLController: GraphQLController) : B
                    if (response.data?.CreateUser() == true) {
                        status.value = QueryStatus.NOTIFY_SUCCESS
                    } else {
-                       status.value = QueryStatus.NOTIFY_FAILURE
+                       status.value = QueryStatus.EMAIL_ALREADY_REGISTERED
                    }
                 }, {
                     status.value = QueryStatus.NOTIFY_FAILURE

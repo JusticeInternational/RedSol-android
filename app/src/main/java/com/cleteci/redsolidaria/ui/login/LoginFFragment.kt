@@ -1,4 +1,4 @@
-package com.cleteci.redsolidaria.ui.fragments.login
+package com.cleteci.redsolidaria.ui.login
 
 
 import android.content.Context
@@ -10,7 +10,6 @@ import android.widget.TextView
 import androidx.fragment.app.FragmentActivity
 import com.cleteci.redsolidaria.BaseApp
 import com.cleteci.redsolidaria.R
-import com.cleteci.redsolidaria.ui.activities.login.LoginActivity
 import com.cleteci.redsolidaria.ui.base.BaseFragment
 import com.cleteci.redsolidaria.util.showInfoDialog
 import com.cleteci.redsolidaria.viewModels.BaseViewModel.QueryStatus

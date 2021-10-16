@@ -1,4 +1,4 @@
-package com.cleteci.redsolidaria.ui.activities.login
+package com.cleteci.redsolidaria.ui.login
 
 import android.os.Bundle
 import android.content.Context
@@ -7,13 +7,10 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.cleteci.redsolidaria.BaseApp
-import com.cleteci.redsolidaria.di.component.DaggerActivityComponent
-import com.cleteci.redsolidaria.di.module.ActivityModule
 import com.cleteci.redsolidaria.R
 import com.cleteci.redsolidaria.ui.activities.main.MainActivity
-import com.cleteci.redsolidaria.ui.activities.register.RegisterActivity
+import com.cleteci.redsolidaria.ui.register.RegisterActivity
 import com.cleteci.redsolidaria.ui.activities.resetPassword.ResetPasswordActivity
-import com.cleteci.redsolidaria.ui.fragments.login.LoginFFragment
 import com.cleteci.redsolidaria.ui.fragments.welcome.WelcomeFragment
 import com.facebook.*
 import com.facebook.login.LoginManager
@@ -29,7 +26,6 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.FacebookAuthProvider
 import kotlinx.android.synthetic.main.fragment_login.*
 import java.util.*
-import javax.inject.Inject
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper
 

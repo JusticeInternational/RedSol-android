@@ -11,7 +11,7 @@ import com.cleteci.redsolidaria.BaseApp
 import com.cleteci.redsolidaria.R
 import com.cleteci.redsolidaria.di.component.DaggerFragmentComponent
 import com.cleteci.redsolidaria.di.module.FragmentModule
-import com.cleteci.redsolidaria.ui.activities.login.LoginActivity
+import com.cleteci.redsolidaria.ui.login.LoginActivity
 import com.cleteci.redsolidaria.ui.activities.main.MainActivity
 import com.cleteci.redsolidaria.ui.base.BaseFragment
 

@@ -52,5 +52,6 @@
     <dimen name="size_img_scan">30dp</dimen>
 
     <dimen name="total_number_width">95dp</dimen>
+    <dimen name="label_width">100dp</dimen>
 
 </resources>

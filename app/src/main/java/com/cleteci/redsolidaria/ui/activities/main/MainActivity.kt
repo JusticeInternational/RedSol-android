@@ -20,10 +20,8 @@ import com.cleteci.redsolidaria.BaseApp
 import com.cleteci.redsolidaria.R
 import com.cleteci.redsolidaria.di.component.DaggerActivityComponent
 import com.cleteci.redsolidaria.di.module.ActivityModule
-import com.cleteci.redsolidaria.models.Category
 import com.cleteci.redsolidaria.models.Resource
-import com.cleteci.redsolidaria.models.Service
-import com.cleteci.redsolidaria.ui.activities.login.LoginActivity
+import com.cleteci.redsolidaria.ui.login.LoginActivity
 import com.cleteci.redsolidaria.ui.activities.splash.SplashActivity
 import com.cleteci.redsolidaria.ui.customUIComponents.FragNavController
 import com.cleteci.redsolidaria.ui.customUIComponents.FragmentHistory
