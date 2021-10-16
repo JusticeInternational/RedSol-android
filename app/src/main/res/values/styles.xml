@@ -6,7 +6,6 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -43,6 +42,53 @@
     <style name="TextBodyBold" parent="android:Widget.TextView">
         <item name="fontPath">fonts/Roboto-Bold.ttf</item>
         <item name="android:includeFontPadding">false</item>
+        <item name="android:textColor">@color/colorBlack</item>
+        <item name="android:textSize">@dimen/font_size_small</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextLabel" parent="android:Widget.TextView">
+        <item name="fontPath">fonts/Roboto-Bold.ttf</item>
+        <item name="android:textColor">@color/colorBlack</item>
+        <item name="android:textSize">@dimen/font_size_medium</item>
+    </style>
+
+    <style name="TitleBodyBold" parent="android:Widget.TextView">
+        <item name="fontPath">fonts/Roboto-Bold.ttf</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:textSize">@dimen/font_size_large</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TitleDefault" parent="TextAppearance.AppCompat.Title">
+        <item name="fontPath">fonts/Roboto-Bold.ttf</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textSize">@dimen/font_size_large</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="BodyDefault" parent="TextAppearance.AppCompat.Body1">
+        <item name="fontPath">fonts/Roboto-Bold.ttf</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textColor">@color/text_default</item>
+        <item name="android:textSize">@dimen/font_size_medium</item>
+    </style>
+
+    <style name="TabAppearance" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">@dimen/font_size_medium</item>
+        <item name="tabSelectedTextColor">@color/colorWhite</item>
+        <item name="tabTextAppearance">@style/TabTextAppearance</item>
+    </style>
+
+    <style name="TabTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="fontPath">fonts/Roboto-Bold.ttf</item>
+        <item name="android:textSize">@dimen/font_size_medium</item>
+        <item name="android:textColor">@color/White_transparent</item>
+        <item name="textAllCaps">false</item>
     </style>
 
     <style name="cardBorder" parent="CardView">

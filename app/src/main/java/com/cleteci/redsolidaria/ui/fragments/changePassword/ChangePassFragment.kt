@@ -18,13 +18,11 @@ import com.cleteci.redsolidaria.ui.activities.main.MainActivity
 import com.cleteci.redsolidaria.ui.base.BaseFragment
 import javax.inject.Inject
 import com.ybs.passwordstrengthmeter.PasswordStrength
-import android.widget.TextView
 import android.widget.Toast
-import com.cleteci.redsolidaria.ui.activities.login.LoginActivity
 import com.google.android.material.textfield.TextInputEditText
 
 
-class ChangePassFragment : BaseFragment() , ChangePassContract.View , TextWatcher {
+class ChangePassFragment : BaseFragment(), ChangePassContract.View, TextWatcher {
 
     var progressBar:ProgressBar?=null
     var etPass : TextInputEditText?=null
@@ -88,11 +86,12 @@ class ChangePassFragment : BaseFragment() , ChangePassContract.View , TextWatche
 
     private fun injectDependency() {
         val aboutComponent = DaggerFragmentComponent.builder()
-            .fragmentModule(FragmentModule())
-            .build()
+                .fragmentModule(FragmentModule())
+                .build()
 
         aboutComponent.inject(this)
     }
+
     override fun init() {
 
     }
@@ -111,14 +110,10 @@ class ChangePassFragment : BaseFragment() , ChangePassContract.View , TextWatche
         //presenter.loadMessage()
     }
 
-    companion object {
-        val TAG: String = "ChangePassFragment"
-    }
-
     override fun onResume() {
         super.onResume()
         (activity as MainActivity).setTextToolbar(getText(R.string.change_pass).toString(),activity!!.resources.getColor(R.color.colorWhite))
-        if (BaseApp.prefs.login_later) {
+        if (BaseApp.sharedPreferences.loginLater) {
             showDialog();
         }
     }
@@ -142,7 +137,6 @@ class ChangePassFragment : BaseFragment() , ChangePassContract.View , TextWatche
         }
 
         dialog.show()
-
     }
 
     private fun updatePasswordStrengthView(password: String) {
@@ -168,4 +162,10 @@ class ChangePassFragment : BaseFragment() , ChangePassContract.View , TextWatche
         }
     }
 
+
+    companion object {
+
+        const val TAG: String = "ChangePassFragment"
+
+    }
 }

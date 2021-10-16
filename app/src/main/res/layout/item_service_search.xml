@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/relativeCategory"
+    android:layout_width="match_parent"
+    android:layout_height="95dp"
+    android:gravity="center_vertical"
+    android:layout_marginStart="@dimen/spacing_extra_small"
+    android:layout_marginEnd="@dimen/spacing_extra_small"
+    style="@style/cardBorder2">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/spacing_small">
+
+        <ImageView
+            android:id="@+id/imgCategory"
+            android:layout_width="@dimen/size_img_category"
+            android:layout_height="@dimen/size_img_category"
+            android:padding="@dimen/spacing_extra_small"
+            app:srcCompat="@drawable/ic_food"
+            android:background="@drawable/bg_border_line_grey"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/spacing_small"
+            android:layout_toEndOf="@id/imgCategory"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvName"
+                style="@style/TextBodyBold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="Almuerzo"
+                android:textColor="@color/colorBlack"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvCategory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Comida"
+                android:textColor="@color/text_default" />
+
+            <TextView
+                android:id="@+id/tvOrganizationName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_extra_small"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="Santa Clara Valley Medical Center wqertyuio ertyuio"
+                android:textColor="@color/text_default" />
+        </LinearLayout>
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

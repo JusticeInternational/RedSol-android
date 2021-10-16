@@ -27,18 +27,19 @@ import com.cleteci.redsolidaria.R
 
 import com.cleteci.redsolidaria.di.component.DaggerFragmentComponent
 import com.cleteci.redsolidaria.di.module.FragmentModule
-import com.cleteci.redsolidaria.models.ResourceCategory
-import com.cleteci.redsolidaria.ui.adapters.ResourseCategoryAdapter
+import com.cleteci.redsolidaria.models.Category
+import com.cleteci.redsolidaria.ui.adapters.CategoriesAdapter
 import com.cleteci.redsolidaria.ui.base.BaseFragment
 import com.cleteci.redsolidaria.ui.fragments.resourcesResult.ResourcesResultFragment
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.model.LatLng
 import com.schibstedspain.leku.*
 import javax.inject.Inject
 
 
 class AdvancedSearchFragment : BaseFragment(), AdvancedSearchContract.View,
-    ResourseCategoryAdapter.onItemClickListener {
+    CategoriesAdapter.OnItemClickListener {
 
 
 
@@ -50,8 +51,8 @@ class AdvancedSearchFragment : BaseFragment(), AdvancedSearchContract.View,
     var lyContainer: LinearLayout? = null
     var tvMyLocation: TextView? = null
     var searchView: SearchView? = null
-    var mAdapter: ResourseCategoryAdapter? = null
-    private val listCategory = ArrayList<ResourceCategory>()
+    var mAdapter: CategoriesAdapter? = null
+    private val listCategory = ArrayList<Category>()
 
     @Inject
     lateinit var presenter: AdvancedSearchContract.Presenter
@@ -80,7 +81,7 @@ class AdvancedSearchFragment : BaseFragment(), AdvancedSearchContract.View,
         searchView = rootView?.findViewById(R.id.searchView);
         searchView!!.setIconified(false)
         var imm: InputMethodManager = context!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        if (imm != null) {
+        if (imm != null && view != null) {
             imm.showSoftInput(view, 0)
         }
         searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -112,15 +113,15 @@ class AdvancedSearchFragment : BaseFragment(), AdvancedSearchContract.View,
         lyLocation = rootView?.findViewById(R.id.lyLocation);
         lyLocation!!.setOnClickListener {
             val locationPickerIntent = LocationPickerActivity.Builder()
-                .withLocation(41.4036299, 2.1743558)
+                .withLocation(25.7617,-80.1918)
                 .withGeolocApiKey(getString(R.string.google_maps_key))
-                .withSearchZone("es_ES")
+                .withSearchZone("US")
                 .build(context!!)
 
             startActivityForResult(locationPickerIntent, MAP_BUTTON_REQUEST_CODE)
         }
         mListRecyclerView?.setLayoutManager(LinearLayoutManager(getActivity()))
-        mAdapter = ResourseCategoryAdapter(activity?.applicationContext, listCategory, this, 2,  false)
+        mAdapter = CategoriesAdapter(activity?.applicationContext, listCategory, this, 2,  false)
         mListRecyclerView?.setAdapter(mAdapter)
         return rootView
     }
@@ -176,7 +177,7 @@ class AdvancedSearchFragment : BaseFragment(), AdvancedSearchContract.View,
         }
     }
 
-    override fun loadDataSuccess(list: List<ResourceCategory>) {
+    override fun loadDataSuccess(list: List<Category>) {
         activity?.runOnUiThread(Runnable {
             listCategory.clear()
             listCategory.addAll(list)
@@ -288,12 +289,13 @@ class AdvancedSearchFragment : BaseFragment(), AdvancedSearchContract.View,
     override fun itemDetail(postId: Int) {
         activity!!.supportFragmentManager.beginTransaction()
             .addToBackStack(null)
-            // .setCustomAnimations(AnimType.FADE.getAnimPair().first, AnimType.FADE.getAnimPair().second)
-            .replace(R.id.container_fragment, ResourcesResultFragment().newInstance(this.listCategory[postId], "asdf"), ResourcesResultFragment.TAG)
+            .replace(R.id.container_fragment,
+                ResourcesResultFragment.newInstance(this.listCategory[postId], "asdf"),
+                ResourcesResultFragment.TAG)
             .commit()
     }
 
-    override fun clickScanCategory(postId: String) {
+    override fun clickScanCategory(postId: Int) {
 
 
     }

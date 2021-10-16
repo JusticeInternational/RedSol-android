@@ -25,12 +25,16 @@ class MainPresenter: MainContract.Presenter {
         view.init() // as default
     }
 
+    override fun onDrawerHomeOption() {
+        view.showHomeFragment()
+    }
+
     override fun onNavSearchOption() {
-        view.showSearchFragment()
+        view.showSearchWithMapFragment()
     }
 
     override fun onNavResourcesOption() {
-        view.showResoursesFragment()
+        view.showResourcesFragment()
     }
 
     override fun onNavMapOption() {
@@ -61,8 +65,8 @@ class MainPresenter: MainContract.Presenter {
         view.showScanListFragment()
     }
 
-    override fun onNavResoursesProviderOption() {
-        view.showResoursesProviderFragment()
+    override fun onNavResourcesProviderOption() {
+        view.showResourcesProviderFragment()
 
     }
 

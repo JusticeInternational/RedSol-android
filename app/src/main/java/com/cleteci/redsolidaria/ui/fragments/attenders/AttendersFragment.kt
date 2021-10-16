@@ -2,7 +2,6 @@ package com.cleteci.redsolidaria.ui.fragments.users
 
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -15,9 +14,9 @@ import com.cleteci.redsolidaria.R
 import com.cleteci.redsolidaria.di.component.DaggerFragmentComponent
 import com.cleteci.redsolidaria.di.module.FragmentModule
 import com.cleteci.redsolidaria.models.Resource
-import com.cleteci.redsolidaria.models.ResourceCategory
 import com.cleteci.redsolidaria.ui.activities.main.MainActivity
 import com.cleteci.redsolidaria.ui.base.BaseFragment
+import com.cleteci.redsolidaria.ui.fragments.attendersList.AttendersListFragment
 import com.google.android.material.tabs.TabLayout
 import javax.inject.Inject
 
@@ -27,26 +26,18 @@ class AttendersFragment : BaseFragment() , AttendersContract.View  {
 
     @Inject lateinit var presenter: AttendersContract.Presenter
      var mSectionsPagerAdapter:SectionsPagerAdapter? = null
-    var catService: ResourceCategory? = null
-    var service: Resource? = null
-    var tabs: TabLayout?=null
+    var resourceId: String = ""
+    var resourceType: String = ""
+    var tabs: TabLayout? = null
     var mViewPager: ViewPager?=null
     private lateinit var rootView: View
 
-    fun newInstance(service: Resource): AttendersFragment {
 
+    fun newInstance(resourceId: String, resourceType: Resource.Type): AttendersFragment {
         val fragment = AttendersFragment()
         val args = Bundle()
-        args.putSerializable("service", service)
-        fragment.setArguments(args)
-        return fragment
-
-    }
-
-    fun newInstance(category: ResourceCategory): AttendersFragment {
-        val fragment = AttendersFragment()
-        val args = Bundle()
-        args.putSerializable("category", category)
+        args.putString("resourceId", resourceId)
+        args.putString("resourceType", resourceType.name)
         fragment.setArguments(args)
         return fragment
     }
@@ -54,10 +45,9 @@ class AttendersFragment : BaseFragment() , AttendersContract.View  {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (arguments != null && arguments?.getSerializable("category") != null) {
-            catService = arguments?.getSerializable("category") as ResourceCategory
-        } else {
-            service = arguments?.getSerializable("service") as Resource
+        if (arguments != null) {
+            resourceId = arguments!!.getString("resourceId", "")
+            resourceType = arguments!!.getString("resourceType", "")
         }
         injectDependency()
     }
@@ -71,7 +61,7 @@ class AttendersFragment : BaseFragment() , AttendersContract.View  {
         tabs=rootView.findViewById(R.id.tabs)
         mViewPager=rootView.findViewById(R.id.container)
 
-        mSectionsPagerAdapter = SectionsPagerAdapter(childFragmentManager,  catService, service)
+        mSectionsPagerAdapter = SectionsPagerAdapter(childFragmentManager,  resourceId, resourceType)
         mViewPager?.setCurrentItem(2, true)
         mViewPager?.setAdapter(mSectionsPagerAdapter)
         tabs?.setupWithViewPager(mViewPager)
@@ -136,12 +126,12 @@ class AttendersFragment : BaseFragment() , AttendersContract.View  {
     }
 
 
-    class SectionsPagerAdapter(fm: FragmentManager, catService: ResourceCategory?,service: Resource? ) : FragmentPagerAdapter(fm) {
+    class SectionsPagerAdapter(fm: FragmentManager, resourceId: String, resourceType: String) : FragmentPagerAdapter(fm) {
        /* var catService:ResourceCategory?=catService
         var service:Resource?=service*/
 
-        var frag1=AttendersListFragment().newInstance(1, service, catService)
-        var frag2=AttendersListFragment().newInstance(2, service, catService)
+        var frag1= AttendersListFragment().newInstance(1, resourceId, resourceType)
+        var frag2= AttendersListFragment().newInstance(2, resourceId, resourceType)
 
         override fun getItem(position: Int): Fragment {
 

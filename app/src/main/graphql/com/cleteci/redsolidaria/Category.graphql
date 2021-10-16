@@ -1,15 +1,15 @@
-query loadUsedCategories {
-    usedCategories(orderBy: name_asc) {
+query getUsedCategories {
+    usedCategories(orderBy: [name_asc]) {
         id
         name
         icon
     }
 }
 
-query loadTotalServedCategory($id: ID, $orgID: ID) {
-    totalAtentionCategory(id: $id, orgID: $orgID)
+query getTotalCategoryAttentions($categoryId: ID!, $orgabizationId: ID!) {
+    totalAtentionCategory(id: $categoryId, orgID: $orgabizationId)
 }
 
-query loadTotalServedService($id: ID, $orgID: ID) {
-    totalAtentionService(id: $id, orgID: $orgID)
+query getTotalServiceAttentions($serviceId: ID!, $orgabizationId: ID!) {
+    totalAtentionService(id: $serviceId, orgID: $orgabizationId)
 }

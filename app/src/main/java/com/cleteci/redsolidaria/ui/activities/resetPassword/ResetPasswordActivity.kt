@@ -18,15 +18,11 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import androidx.appcompat.widget.Toolbar
-import com.cleteci.redsolidaria.ui.activities.login.LoginActivity
-
-import com.github.glomadrian.codeinputlib.CodeInput
-import java.util.*
+import com.cleteci.redsolidaria.ui.login.LoginActivity
 
 
 /**
@@ -85,7 +81,7 @@ class ResetPasswordActivity : AppCompatActivity(), ResetPasswordContract.View {
 
         lyEmail = findViewById(R.id.lyEmail)
 
-        lyVerify = findViewById(R.id.lyVerify)
+        lyVerify = findViewById(R.id.lyRegisterSuccess)
 
         etEmail = findViewById(R.id.etEmail)
 

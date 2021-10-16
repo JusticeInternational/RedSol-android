@@ -1,141 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-
-    >
+    android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         style="@style/cardBorder">
 
-
-
         <LinearLayout
-
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="10dp">
-
-
-            <TextView
-                style="@style/TextBodyBold"
-                android:id="@+id/tvName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-
-                android:layout_marginBottom="5dp"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:padding="3dp"
-                android:singleLine="true"
-                android:text="Justice International"
-                android:textColor="@color/colorBlack"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:padding="@dimen/spacing_extra_small">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
+                android:layout_marginBottom="@dimen/spacing_extra_small"
                 android:orientation="horizontal">
 
-
                 <ImageView
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
+                    android:id="@+id/imgService"
+                    android:layout_width="@dimen/height_icon_marker_info"
+                    android:layout_height="@dimen/height_icon_marker_info"
                     android:layout_gravity="center_vertical"
-
-                    android:src="@drawable/ic_walker" />
+                    android:layout_marginEnd="@dimen/spacing_extra_small"
+                    app:srcCompat="@drawable/ic_food"/>
 
                 <TextView
-
-                    android:layout_width="wrap_content"
+                    android:id="@+id/tvServicesTitle"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="8dp"
-
-                    android:layout_marginBottom="5dp"
-                    android:ellipsize="end"
-                    android:gravity="center_vertical"
-                    android:maxLines="1"
-                    android:padding="3dp"
-                    android:singleLine="true"
-                    android:text="8km"
-                    android:textColor="@color/colorBlack" />
-
-                <ImageView
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="8dp"
-                    android:src="@drawable/ic_clock" />
-
-                <TextView
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="8dp"
-
-                    android:layout_marginBottom="5dp"
-                    android:ellipsize="end"
-                    android:gravity="center_vertical"
-                    android:maxLines="1"
-                    android:padding="3dp"
-                    android:singleLine="true"
-                    android:text="10min"
-                    android:textColor="@color/colorBlack" />
-
-                <TextView
-                    style="@style/TextBodyBold"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginBottom="5dp"
-                    android:ellipsize="end"
-                    android:gravity="center_vertical"
-                    android:maxLines="1"
-                    android:padding="3dp"
-                    android:singleLine="true"
-                    android:text="@string/capacity"
-                    android:textColor="@color/colorBlack"
-                    android:textStyle="bold" />
-
-                <TextView
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-
-                    android:layout_marginRight="8dp"
-                    android:layout_marginBottom="5dp"
-                    android:ellipsize="end"
-                    android:gravity="center_vertical"
-                    android:maxLines="1"
-                    android:padding="3dp"
-                    android:singleLine="true"
-                    android:text="200"
-                    android:textColor="@color/colorBlack" />
-
-
+                    android:text="Almuerzo"
+                    android:textColor="@color/text_default"
+                    android:textSize="@dimen/font_size_medium" />
             </LinearLayout>
 
-            <Button
-                android:text="@string/detail"
-                android:paddingHorizontal="20dp"
-                android:layout_marginTop="10dp"
-                android:textColor="@color/colorWhite"
-                android:background="@drawable/bg_color_primary_round_corner"
-                android:layout_gravity="center_horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tvOrganizationName"
+                style="@style/TextBodyBold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginBottom="@dimen/spacing_extra_small"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:text="Santa Clara Valley Medical Center"
+                android:textColor="@color/colorBlack"
+                android:textStyle="bold" />
 
+            <TextView
+                android:id="@+id/tvSeeDetails"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/see_details"
+                android:textColor="@color/colorPrimary" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 </LinearLayout>

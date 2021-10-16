@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'com.apollographql.android'
+apply plugin: 'com.apollographql.apollo'
 
 android {
     compileSdkVersion 28
@@ -13,6 +13,7 @@ android {
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
+        vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -23,9 +24,14 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
 }
 
@@ -33,12 +39,8 @@ repositories {
 
     mavenCentral()
     maven { url "https://jitpack.io" }
-    maven {
-        url "http://dl.bintray.com/glomadrian/maven"
-    }
 
 }
-
 
 ext {
 
@@ -49,13 +51,17 @@ ext {
     glideVersion = '4.4.0'
     googleServices = '16.0.0'
     googleMapLibServices='0.9.4'
+    koinVersion = '1.0.2'
+    okHttpVersion = '4.5.0'
 
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.core:core-ktx:1.1.0'
+    implementation ('androidx.core:core-ktx:1.3.2')  {
+        exclude group:'com.google.android.libraries.places:places-compat'
+    }
 
     // retrofit + gson
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
@@ -67,27 +73,34 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxandroid:$rxandroid_version"
     implementation "io.reactivex.rxjava2:rxkotlin:2.4.0"
 
+    //Kotlin Injection
+    implementation "org.koin:koin-java:$koinVersion"
+    implementation "org.koin:koin-android:$koinVersion"
+    implementation "org.koin:koin-android-viewmodel:$koinVersion"
+    testImplementation "org.koin:koin-test:$koinVersion"
+
+    //OKHttp
+    implementation "com.squareup.okhttp3:okhttp:$okHttpVersion"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okHttpVersion"
+    implementation "com.squareup.okhttp3:okhttp-urlconnection:$okHttpVersion"
+
     // dependency injection
     implementation "com.google.dagger:dagger:$dagger2_version"
     implementation "com.google.dagger:dagger-android:$dagger2_version"
     implementation "com.google.dagger:dagger-android-support:$dagger2_version"
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     kapt "com.google.dagger:dagger-compiler:$dagger2_version"
     kapt "com.google.dagger:dagger-android-processor:$dagger2_version"
     annotationProcessor "com.google.dagger:dagger-compiler:$dagger2_version"
     compileOnly 'javax.annotation:jsr250-api:1.0'
     implementation 'javax.inject:javax.inject:1'
 
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'com.google.android.material:material:1.0.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'com.google.android.material:material:1.3.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.2.0'
     implementation 'androidx.cardview:cardview:1.0.0'
-    /*implementation("com.github.bumptech.glide:glide:$glideVersion") {
-        exclude group: "com.android.support"
-    }*/
-
     implementation "com.github.bumptech.glide:glide:$glideVersion"
     kapt "com.github.bumptech.glide:compiler:$glideVersion"
 
@@ -95,17 +108,20 @@ dependencies {
 
     implementation 'uk.co.chrisjenx:calligraphy:2.3.0'
     implementation 'com.afollestad:viewpagerdots:1.0.0'
-    implementation 'com.github.glomadrian:CodeInput:1.1@aar'
     implementation 'com.github.yesterselga:password-strength-checker-android:v1.0'
+
+    implementation("com.apollographql.apollo:apollo-runtime:2.2.0")
+    implementation("com.apollographql.apollo:apollo-coroutines-support:2.2.0")
+    implementation 'com.apollographql.apollo:apollo-rx2-support:2.2.0'
 
     //google
     implementation "com.google.android.gms:play-services-auth:$googleServices"
     implementation "com.google.android.gms:play-services-maps:$googleServices"
     implementation "com.google.android.gms:play-services-location:$googleServices"
-    //implementation 'com.google.android.libraries.places:places:2.0.0'
+//    implementation 'com.google.android.libraries.places:places:2.4.0'
     implementation "com.google.android.gms:play-services-gcm:$googleServices"
     implementation "com.google.maps:google-maps-services:$googleMapLibServices"
-    implementation "com.google.android.gms:play-services-places:$googleServices"
+    //implementation "com.google.android.gms:play-services-places:$googleServices"
 
     implementation 'com.google.firebase:firebase-analytics:17.2.0'
     implementation 'com.google.firebase:firebase-core:17.2.1'
@@ -131,7 +147,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
     // just for testing
-    implementation("com.apollographql.apollo:apollo-runtime:1.2.0")
+    implementation("com.apollographql.apollo:apollo-runtime:2.2.0")
     compileOnly 'org.jetbrains:annotations:13.0'
     testCompileOnly 'org.jetbrains:annotations:13.0'
     implementation 'com.orhanobut:logger:2.2.0'

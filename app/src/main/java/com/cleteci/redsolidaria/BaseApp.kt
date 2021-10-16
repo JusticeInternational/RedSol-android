@@ -7,14 +7,16 @@ import com.apollographql.apollo.ApolloClient
 import com.cleteci.redsolidaria.di.component.ApplicationComponent
 import com.cleteci.redsolidaria.di.component.DaggerApplicationComponent
 import com.cleteci.redsolidaria.di.module.ApplicationModule
+import com.cleteci.redsolidaria.di.modules.appModule
+import com.cleteci.redsolidaria.di.modules.controllersModule
+import com.cleteci.redsolidaria.di.modules.viewModelsModule
 import com.cleteci.redsolidaria.util.Constants
-import com.cleteci.redsolidaria.util.Prefs
+import com.cleteci.redsolidaria.util.SharedPreferences
 import com.facebook.FacebookSdk
 import com.facebook.appevents.AppEventsLogger
+import org.koin.android.ext.android.startKoin
 
-/**
- * Created by ogulcan on 07/02/2018.
- */
+
 class BaseApp : Application() {
 
 
@@ -26,36 +28,37 @@ class BaseApp : Application() {
         instance = this
         setup()
 
-        if (BuildConfig.DEBUG) {
-
-        }
         apolloClient = ApolloClient.builder().serverUrl(Constants.BASE_URL).build()
-        FacebookSdk.sdkInitialize(getApplicationContext());
+        FacebookSdk.sdkInitialize(applicationContext);
         AppEventsLogger.activateApp(this);
 
-        prefs = Prefs(applicationContext)
+        sharedPreferences = SharedPreferences(applicationContext)
+        startModules()
     }
 
-    fun setup() {
+    private fun setup() {
         component = DaggerApplicationComponent.builder()
             .applicationModule(ApplicationModule(this)).build()
         component.inject(this)
     }
 
-    fun getApplicationComponent(): ApplicationComponent {
-        return component
+    private fun startModules() {
+        startKoin(
+            this, listOf(
+                appModule,
+                controllersModule,
+                viewModelsModule
+            )
+        )
     }
-
-    fun getApolloApi(): ApolloClient {
-        return apolloClient
-    }
-
-
 
     companion object {
         lateinit var apolloClient: ApolloClient
-
         lateinit var instance: BaseApp private set
-        lateinit var prefs: Prefs
+        lateinit var sharedPreferences: SharedPreferences
+
+        @JvmStatic
+        fun getContext(): Context = instance.applicationContext
     }
+
 }

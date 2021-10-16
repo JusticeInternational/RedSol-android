@@ -15,17 +15,14 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper
 
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.LinearLayout
-import androidx.appcompat.widget.Toolbar
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.afollestad.viewpagerdots.DotsIndicator
-import com.cleteci.redsolidaria.ui.activities.login.LoginActivity
+import com.cleteci.redsolidaria.ui.login.LoginActivity
 
 
 /**

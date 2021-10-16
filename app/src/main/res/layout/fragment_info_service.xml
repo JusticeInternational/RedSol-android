@@ -1,154 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/cardBorder2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorWhite"
-    android:gravity="center"
-    android:orientation="vertical">
+    android:layout_margin="@dimen/spacing_small"
+    android:padding="@dimen/spacing_extra_small">
 
-    <androidx.cardview.widget.CardView
-        style="@style/cardBorder2"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="20dp">
+        android:gravity="center">
 
-        <RelativeLayout
+        <ImageView
+            android:id="@+id/imgIconResource"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_centerHorizontal="true"
+            android:padding="20dp"
+            android:background="@drawable/bg_border_line_grey"
+            app:srcCompat="@drawable/ic_education"/>
+
+        <TextView
+            android:id="@+id/tvName"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center">
+            android:layout_height="wrap_content"
+            android:layout_below="@id/imgIconResource"
+            android:layout_marginTop="@dimen/font_size_medium"
+            android:text="Salud"
+            android:textAlignment="center"
+            android:textColor="@color/colorBlack"
+            android:textSize="24sp" />
 
-            <FrameLayout
-                android:id="@+id/lyImage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-
-                android:layout_centerHorizontal="true"
-                android:background="@drawable/bg_border_line_grey"
-                android:padding="20dp">
-
-                <ImageView
-                    android:id="@+id/ivService"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:src="@drawable/ic_education" />
-
-            </FrameLayout>
-
-            <TextView
-                android:id="@+id/tvName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/lyImage"
-                android:layout_marginTop="20dp"
-                android:text="Salud"
-                android:textAlignment="center"
-                android:textColor="@color/colorBlack"
-                android:textSize="24dp" />
+        <LinearLayout
+            android:id="@+id/lyCards"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvName"
+            android:layout_marginTop="@dimen/font_size_medium"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="2">
 
             <LinearLayout
-                android:id="@+id/lyCards"
-                android:layout_width="match_parent"
+                android:layout_width="@dimen/total_number_width"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tvName"
+                android:padding="@dimen/spacing_small"
+                android:layout_marginEnd="@dimen/spacing_small"
                 android:gravity="center"
-                android:orientation="horizontal"
-                android:weightSum="2">
+                android:orientation="vertical"
+                android:background="@drawable/bg_border_line_grey">
 
-                <androidx.cardview.widget.CardView
-                    style="@style/cardBorder2"
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginRight="20dp">
+                <TextView
+                    android:id="@+id/totalInterest"
+                    style="@style/TextBodyBold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="45sp" />
 
-                    <LinearLayout
-                        android:orientation="vertical"
-                        android:gravity="center"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-                        <TextView
-                            android:id="@+id/totalInterest"
-                            android:textSize="45sp"
-                            android:textColor="@color/colorBlack"
-                            style="@style/TextBodyBold"
-                            android:text="0"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-
-                        <TextView
-                            android:textSize="14sp"
-                            android:textColor="@color/colorBlack"
-
-                            android:text="@string/interested"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-                    </LinearLayout>
-
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    style="@style/cardBorder2"
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:layout_marginTop="20dp">
-
-                    <LinearLayout
-                        android:orientation="vertical"
-                        android:gravity="center"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-                        <TextView
-                            android:id="@+id/totalServed"
-                            android:textSize="45sp"
-                            android:textColor="@color/colorBlack"
-                            style="@style/TextBodyBold"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-
-                        <TextView
-                            android:textSize="14sp"
-                            android:textColor="@color/colorBlack"
-
-                            android:text="@string/attend"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-                    </LinearLayout>
-
-                </androidx.cardview.widget.CardView>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/interested"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="14sp" />
 
             </LinearLayout>
 
-            <Button
-              android:id="@+id/btInterest"
-                android:layout_width="wrap_content"
-                android:layout_centerHorizontal="true"
+            <LinearLayout
+                android:layout_width="@dimen/total_number_width"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/lyCards"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="30dp"
-                android:background="@drawable/bg_border_line_primary"
-                android:minWidth="130dp"
-                android:text="@string/interested"
-                android:textAllCaps="false"
-                android:textColor="@color/colorPrimary" />
+                android:padding="@dimen/spacing_small"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:background="@drawable/bg_border_line_grey">
 
-            <Button
-                    android:id="@+id/btAttend"
-                android:layout_width="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/btInterest"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/bg_border_line_primary"
-                android:minWidth="130dp"
-                android:text="@string/attend"
-                android:textAllCaps="false"
-                android:textColor="@color/colorPrimary" />
+                <TextView
+                    android:id="@+id/totalServed"
+                    style="@style/TextBodyBold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="45sp" />
 
-        </RelativeLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
 
+                    android:text="@string/attend"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="14sp" />
+            </LinearLayout>
 
-    </androidx.cardview.widget.CardView>
+        </LinearLayout>
 
-</LinearLayout>
+        <Button
+            android:id="@+id/btInterest"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/lyCards"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:background="@drawable/bg_border_line_primary"
+            android:text="@string/interested"
+            android:textAllCaps="false"
+            android:textColor="@color/colorPrimary" />
+
+        <Button
+            android:id="@+id/btAttend"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/btInterest"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:background="@drawable/bg_border_line_primary"
+            android:text="@string/attend"
+            android:textAllCaps="false"
+            android:textColor="@color/colorPrimary" />
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

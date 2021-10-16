@@ -6,6 +6,10 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
+            android:icon="@drawable/ic_baseline_home_24"
+            android:title="@string/home" />
+        <item
+            android:id="@+id/nav_profile"
             android:icon="@drawable/ic_filled_person_24"
             android:title="@string/my_profile" />
         <item

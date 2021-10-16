@@ -1,5 +1,5 @@
-query getOrganizationsByCategory($id: ID, $keyWord: String) {
-    byIdOrOrgKeyWord(id:$id, keyWord:$keyWord, orderBy: ranking_desc){
+query getOrganizationsByCategory($id: ID!, $keyWord: String!) {
+    byIdOrOrgKeyWord(id:$id, keyWord:$keyWord, orderBy: [ranking_desc]){
         id
         name
         hourHand
@@ -49,7 +49,7 @@ mutation provideAtentionCategory($orgID:ID!, $userID: ID!,  $categoryID:ID!) {
     }
 }
 
-mutation provideAtentionUnregisteredCategory($orgID:ID!, $categoryID:ID!, $name: String!, $lastName: String!, $identification: String, $gender: Int, $country: String, $age: Int, $phone: String, $email: String, $otherInfo: String) {
+mutation provideAtentionUnregisteredCategory($orgID:ID!, $categoryID:ID!, $name: String!, $lastName: String!, $identification: String!, $gender: Int!, $country: String!, $age: Int!, $phone: String!, $email: String!, $otherInfo: String!) {
     provideAtentionUnregisteredCategory(orgID: $orgID, categoryID: $categoryID, name: $name, lastName: $lastName, identification: $identification, gender:  $gender, country: $country, age: $age, phone: $phone, email: $email, otherInfo: $otherInfo){
      recipientUnregistered {
       name
@@ -58,7 +58,7 @@ mutation provideAtentionUnregisteredCategory($orgID:ID!, $categoryID:ID!, $name:
     }
 }
 
-mutation provideAtentionUnregisteredService($orgID:ID!, $serviceID:ID!, $name: String!, $lastName: String!, $identification: String, $gender: Int, $country: String, $age: Int, $phone: String, $email: String, $otherInfo: String) {
+mutation provideAtentionUnregisteredService($orgID:ID!, $serviceID:ID!, $name: String!, $lastName: String!, $identification: String!, $gender: Int!, $country: String!, $age: Int!, $phone: String!, $email: String!, $otherInfo: String!) {
     provideAtentionUnregisteredService(orgID: $orgID, serviceID: $serviceID, name: $name, lastName: $lastName, identification: $identification, gender:  $gender, country: $country, age: $age, phone: $phone, email: $email, otherInfo: $otherInfo){
      recipientUnregistered {
       name
@@ -69,7 +69,9 @@ mutation provideAtentionUnregisteredService($orgID:ID!, $serviceID:ID!, $name: S
 
 query getServedBeneficiariesService($id: ID, $orgID:ID!) {
     servedBeneficiariesService(id:$id, orgID: $orgID) {
+        id
         name
+        lastName
         email
     }
 }
@@ -84,6 +86,7 @@ query getServedBeneficiariesCategory($id: ID, $orgID:ID!) {
 
 query getServedUnregisteredService($id: ID, $orgID:ID!) {
     servedUnregisteredService(id:$id, orgID: $orgID) {
+        id
         name
         lastName
         email
@@ -99,7 +102,7 @@ query getServedUnregisteredCategory($id: ID, $orgID:ID!) {
 }
 
 
-query getOrganizationServicesAndCategories($id: ID) {
+query getOrganizationServicesAndCategories($id: ID!) {
     User(id: $id) {
         ownerOf {
             services {
@@ -125,7 +128,7 @@ query getOrganizationServicesAndCategories($id: ID) {
     }
 }
 
-query getOrganizationInfo($id: ID) {
+query getOrganizationInfo($id: ID!) {
     User(id: $id) {
         ownerOf {
             id

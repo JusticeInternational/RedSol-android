@@ -1,38 +1,24 @@
 package com.cleteci.redsolidaria.ui.fragments.myProfile
 
-
 import android.app.Dialog
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.*
-import androidx.fragment.app.Fragment
 import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
 import com.cleteci.redsolidaria.BaseApp
-
 import com.cleteci.redsolidaria.R
-
 import com.cleteci.redsolidaria.di.component.DaggerFragmentComponent
 import com.cleteci.redsolidaria.di.module.FragmentModule
 import com.cleteci.redsolidaria.ui.activities.main.MainActivity
 import com.cleteci.redsolidaria.ui.base.BaseFragment
-import kotlinx.android.synthetic.main.comp_alert_succes_suggest_resource.*
+import kotlinx.android.synthetic.main.fragment_my_profile.*
 import javax.inject.Inject
 
 
-class MyProfileFragment : BaseFragment() , MyProfileContract.View  {
+class MyProfileFragment : BaseFragment(), MyProfileContract.View {
 
-    var ivQR: ImageView? = null
-    var tvQR: TextView? = null
-
-    @Inject lateinit var presenter: MyProfileContract.Presenter
-
-    private lateinit var rootView: View
-
-    fun newInstance(): MyProfileFragment {
-        return MyProfileFragment()
-    }
+    @Inject
+    lateinit var presenter: MyProfileContract.Presenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,19 +26,9 @@ class MyProfileFragment : BaseFragment() , MyProfileContract.View  {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        rootView = inflater.inflate(R.layout.fragment_my_profile, container, false)
-
-        ivQR = rootView.findViewById(R.id.ivQR)
-
-        tvQR = rootView.findViewById(R.id.tvQR)
-
-
-
-        return rootView
-    }
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
+    ): View = inflater.inflate(R.layout.fragment_my_profile, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -66,21 +42,28 @@ class MyProfileFragment : BaseFragment() , MyProfileContract.View  {
         presenter.unsubscribe()
     }
 
-
-
     private fun injectDependency() {
         val aboutComponent = DaggerFragmentComponent.builder()
-            .fragmentModule(FragmentModule())
-            .build()
-
+                .fragmentModule(FragmentModule())
+                .build()
         aboutComponent.inject(this)
     }
-    override fun init() {
 
-    }
+    override fun init() {}
 
     private fun initView() {
-        tvQR?.text="ID "+BaseApp.prefs.user_saved.toString()
+        (activity as MainActivity).setTextToolbar(getString(R.string.my_profile), activity!!.resources.getColor(R.color.colorWhite))
+        if (BaseApp.sharedPreferences.loginLater) {
+            showDialog()
+            ivQR.visibility = View.GONE
+            tvQR.visibility = View.GONE
+        } else {
+            ivQR.visibility = View.VISIBLE
+            tvQR.visibility = View.VISIBLE
+            val id = "ID " + BaseApp.sharedPreferences.userSaved
+            tvQR.text = id
+        }
+
         presenter.getQR()
     }
 
@@ -88,28 +71,12 @@ class MyProfileFragment : BaseFragment() , MyProfileContract.View  {
         val TAG: String = "MyProfileFragment"
     }
 
-    override fun onResume() {
-        super.onResume()
-        (activity as MainActivity).setTextToolbar(getText(R.string.my_profile).toString(),activity!!.resources.getColor(R.color.colorWhite))
-        if (BaseApp.prefs.login_later) {
-            showDialog();
-            ivQR?.visibility=View.GONE
-            tvQR?.visibility=View.GONE
-
-        }else{
-            ivQR?.visibility=View.VISIBLE
-            tvQR?.visibility=View.VISIBLE
-
-
-        }
-    }
-
     private fun showDialog() {
         val dialog = Dialog(activity!!)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.window!!.setLayout(
-            WindowManager.LayoutParams.FLAG_FULLSCREEN,
-            WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN
+                WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN
         )
         dialog.setCancelable(false)
         dialog.setContentView(R.layout.comp_alert_go_to_login)
@@ -131,13 +98,9 @@ class MyProfileFragment : BaseFragment() , MyProfileContract.View  {
         }
 
         dialog.show()
-
     }
 
     override fun showQR(bitmap: Bitmap) {
-
         ivQR?.setImageBitmap(bitmap)
     }
-
-
 }

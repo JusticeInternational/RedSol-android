@@ -1,7 +1,6 @@
 package com.cleteci.redsolidaria.ui.fragments.myProfileProvider
 
 import com.cleteci.redsolidaria.models.Organization
-import com.cleteci.redsolidaria.models.ResourceCategory
 import com.cleteci.redsolidaria.ui.base.BaseContract
 
 /**

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/relativeCategory"
+    android:layout_width="match_parent"
+    android:layout_height="95dp"
+    android:gravity="center_vertical"
+    android:layout_marginStart="@dimen/spacing_extra_small"
+    android:layout_marginEnd="@dimen/spacing_extra_small"
+    style="@style/cardBorder2">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/spacing_small">
+
+        <ImageView
+            android:id="@+id/imgOrganization"
+            android:layout_width="@dimen/size_img_category"
+            android:layout_height="@dimen/size_img_category"
+            android:padding="@dimen/spacing_extra_small"
+            app:srcCompat="@drawable/organization_logo_sample"
+            android:background="@drawable/bg_border_line_grey"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/spacing_small"
+            android:layout_toEndOf="@id/imgOrganization"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvOrganizationName"
+                style="@style/TextBodyBold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="Santa Clara Valley Medical Center wqertyuio ertyuio"
+                android:textColor="@color/colorBlack"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvServiceName"
+                style="@style/TextBodyBold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="Almuerzo"
+                android:textColor="@color/colorBlack" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:id="@+id/linearCategory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/spacing_small"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true">
+
+                    <ImageView
+                        android:id="@+id/imgCategory"
+                        android:layout_width="@dimen/size_img_category_small"
+                        android:layout_height="@dimen/size_img_category_small"
+                        android:layout_marginEnd="@dimen/spacing_super_small"
+                        app:srcCompat="@drawable/ic_cross" />
+
+                    <TextView
+                        android:id="@+id/tvCategoryName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Salud"
+                        android:textColor="@color/text_default"
+                        android:ellipsize="end"
+                        android:maxLines="1" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tvSchedule"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="8:00am a 5:00pm"
+                    android:textColor="@color/text_default"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:layout_toEndOf="@+id/linearCategory"
+                    android:layout_centerVertical="true"/>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

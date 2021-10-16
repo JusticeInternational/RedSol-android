@@ -33,7 +33,7 @@ class MyProfilePresenter: MyProfileContract.Presenter {
 
     override fun getQR() {
         try {
-            val bitmap = textToQRBitmap(BaseApp.prefs.user_saved.toString())
+            val bitmap = textToQRBitmap(BaseApp.sharedPreferences.userSaved.toString())
             if (bitmap!=null){
                 view.showQR(bitmap)
             }

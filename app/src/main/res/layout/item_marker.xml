@@ -1,51 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:layout_width="60dp"
-    android:layout_height="wrap_content"
-    android:layout_margin="10dp"
-    android:id="@+id/parentr">
-
-    <RelativeLayout
-        android:id="@+id/lyConst"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bg_border_line_grey"
-        android:orientation="vertical"
-        android:padding="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-
-        app:layout_constraintStart_toStartOf="parent"
-
-        >
-
-        <ImageView
-            android:id="@+id/imageview"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:scaleType="fitXY"
-
-            />
-
-    </RelativeLayout>
-
-    <TextView
-        android:visibility="gone"
-        android:id="@+id/tvNameM"
-        android:text="dsdsdsdsdsdsds"
-        android:textSize="8sp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/lyConst"
-        android:layout_marginBottom="5dp"
-
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:padding="2dp"
-        android:singleLine="true"
-        android:textAlignment="center"
-        android:textColor="@color/colorBlack" />
-
-</RelativeLayout>
+    android:id="@+id/customMarkerView"
+    android:layout_width="@dimen/width_marker"
+    android:layout_height="@dimen/height_marker"
+    android:background="@drawable/bg_marker">
+    <ImageView
+        android:id="@+id/imgOrganization"
+        android:layout_width="@dimen/height_icon_marker"
+        android:layout_height="@dimen/height_icon_marker"
+        android:layout_marginTop="8dp"
+        android:layout_gravity="center_horizontal"
+        app:srcCompat="@drawable/ic_test"/>
+</FrameLayout>

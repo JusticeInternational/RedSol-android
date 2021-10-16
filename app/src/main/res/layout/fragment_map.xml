@@ -1,44 +1,56 @@
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:map="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorWhite"
-    tools:context="com.cleteci.redsolidaria.ui.fragments.basicsearch.BasicSearchFragment">
-
-    <!-- TODO: Update blank fragment layout -->
-
+    tools:context=".ui.fragments.basicsearch.BasicSearchFragment">
 
     <com.google.android.gms.maps.MapView
-        android:id="@+id/map"
-
+        android:id="@+id/mapView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="110dp" />
+        map:uiMapToolbar="false" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvServices"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_medium"
+        android:background="@color/colorWhite"
+        android:orientation="vertical"
+        android:visibility="gone"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvCategories"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_extra_small"
+        android:orientation="horizontal"
+        android:background="@android:color/transparent" />
 
     <FrameLayout
         android:id="@+id/bottom_sheet"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorWhite"
-android:minHeight="70dp"
-
+        android:minHeight="70dp"
         app:behavior_hideable="false"
         app:behavior_peekHeight="100dp"
+        android:visibility="gone"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
         <RelativeLayout
             android:id="@+id/headerB"
             android:layout_width="match_parent"
             android:layout_height="25dp">
-
             <ImageView
                 android:layout_width="50dp"
                 android:layout_height="4dp"
                 android:layout_centerInParent="true"
                 android:background="@drawable/bg_grey_rectangle_round_corner" />
-
         </RelativeLayout>
 
         <TextView
@@ -46,28 +58,15 @@ android:minHeight="70dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="18dp"
-            android:text="@string/near_services"
+            android:text="@string/categories_of_services"
             android:textAlignment="center"
-            android:textColor="@color/colorBlack" />
-
-        <androidx.recyclerview.widget.RecyclerView
-
-            android:id="@+id/rvResourses"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="48dp"
-            android:background="@color/colorWhite"
-            android:layout_marginBottom="57dp"/>
-
-
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/font_size_large"/>
     </FrameLayout>
 
     <RelativeLayout
         android:id="@+id/advancedContainer"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-    </RelativeLayout>
-
-
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

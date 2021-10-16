@@ -31,15 +31,13 @@
 
     <!--NO DATA-->
     <string name="progress">En Progreso!</string>
-    <string name="no_resourses">No hay recursos para mostrar</string>
+    <string name="no_resources">No hay recursos para mostrar</string>
     <string name="missing_data">Por favor complete el formulario</string>
 
     <!--BOTTOM BAR-->
-    <string name="my_categories">Mis categorias</string>
-    <string name="my_resourse">Mis recursos</string>
-    <string name="count_resourses">Contabilizar recursos</string>
-
-
+    <string name="my_categories">Mis Categorías</string>
+    <string name="my_resources">Mis Recursos</string>
+    <string name="count_resources">Contabilizar recursos</string>
 
 
     <string name="count_question_1">Usted está solicitando contabilizar para la categoría o servicio genérico: %1$s? , le recomendamos contabilizar recursos en servicios detallados, si no los ha definido puede definirlos en "Mis Recursos". Si aún así desea continuar esta contabilización por favor seleccione "Aceptar"</string>
@@ -49,7 +47,7 @@
     <string name="service_count_question">¿Desea contabilizar este servicio?</string>
     <string name="service">Servicio</string>
 
-    <string name="category_count_question">¿Desea contabilizar esta categoria?</string>
+    <string name="category_count_question">¿Desea contabilizar esta categoría?</string>
 
     <string name="the_1">la</string>
 
@@ -60,9 +58,12 @@
     <string name="offered_2">ofrecido</string>
 
 
+    <string name="user_attention_success">El usuario %1$s ha sido registrado como atendido</string>
+    <string name="no_user_create_account_success">%1$s ha sido registrado como nuevo usuario con una contraseña provisional</string>
+    <string name="user_attention_error">Ha ocurrido un error registrando el usuario %1$s</string>
     <string name="posted_category">El usuario %1$s ha sido atendido para un servicio
         no detallado de la categoría %2$s</string>
-    <string name="error_posted_category">Error al contabilizar categoria</string>
+    <string name="error_posted_category">Error al contabilizar categoría</string>
 
     <string name="posted_service_2">El usuario %1$s ha sido atendido para un servicio genérico no categorizado</string>
     <string name="posted_service">El usuario %1$s ha sido atendido para el servicio %2$s </string>
@@ -119,7 +120,7 @@
     <string name="intro_email_acount">Para reiniciar su contraseña, por favor introduzca el correo electrónico asociado a su cuenta</string>
     <string name="register_later">Registrarme luego</string>
     <string name="login">Iniciar sesión</string>
-    <string name="logout">Salir</string>
+    <string name="logout">Cerrar sesión</string>
     <string name="google">Google</string>
     <string name="facebook">Facebook</string>
     <string name="user">Usuario</string>
@@ -135,7 +136,10 @@
     <string name="terms_conditions">Términos y condiciones</string>
     <string name="understand_and_accept">Entiendo y acepto las</string>
     <string name="policies">Politicas de privacidad</string>
-    <string name="welcome_success">Bienvenido, ya puedes iniciar sesión</string>
+    <string name="welcome_success">Bienvenido %1$s, ya puedes iniciar sesión</string>
+    <string name="go_to_login">Iniciar sesión</string>
+    <string name="error_creating_user">Ups! Lo sentimos, ocurrió un error registrando nuevo usuario</string>
+    <string name="error_creating_user_email_exist">Ups! Lo sentimos, el email ya existe. Puede intentar con otro email, o reestablecer la contraseña</string>
     <string name="failed_register">Error, el email ya existe. Puede intentar con otro email, o reestablecer la contraseña</string>
     <string name="register_new_user">Registro nuevo usuario</string>
     <string name="reset_pass">Reseteo de contraseña</string>
@@ -156,6 +160,7 @@
     <string name="volunteering">Voluntariado</string>
     <string name="used">Utilizados</string>
     <string name="near_to">Cerca de</string>
+    <string name="near_to_location">Cerca de %1$s</string>
     <string name="next">Siguiente</string>
     <string name="name">Nombre</string>
     <string name="name_2">Nombre*</string>
@@ -167,21 +172,13 @@
     <string name="from_red_solidaria_team">De parte del equipo de Red Solidaria nos gustaría conocer como ayudarte, puedes dejar aquí cualquier comentario, duda o sugerencia</string>
     <string name="web_site">Página web</string>
     <string name="email">Correo</string>
+    <string name="email_attention">Correo*</string>
     <string name="sex">Género</string>
     <string name="age">Edad</string>
     <string name="or">ó</string>
 
-    <string-array name="countries">
-        <item>Venezuela</item>
-        <item>Colombia</item>
-        <item>EEUU</item>
-        <item>Brasil</item>
-        <item>Otro</item>
-
-    </string-array>
-
-    <string name="random_prompt">Seleccione</string>
-
+    <string name="countries_prompt">Seleccione un país de origen</string>
+    <string name="countries_hint">Seleccione un país</string>
 
     <!--DETAIL SERVICE-->
     <string name="here">aquí</string>
@@ -193,7 +190,7 @@
     <string name="services_desc">Descripción de Servicios</string>
     <string name="about_us">Acerca de la Organización</string>
     <string name="service_plan">Plan de servicio</string>
-    <string name="change_plan">Cambiar de plan</string>
+    <string name="change_plan">Cambiar Plan</string>
     <string name="change_plan_inf">Para cambiar el plan, agregue servicios detallados</string>
     <string name="we_are">¿Quienes somos?</string>
     <string name="send">Enviar</string>
@@ -223,8 +220,13 @@
     <string name="wrong_login">Inicio de sesión incorrecto</string>
     <string name="error_login">Error al iniciar sesión</string>
     <string name="error_server">Ups! Ocurrió un error.</string>
-
-
+    <string name="error_unknown_host_title">Ups! Lo sentimos</string>
+    <string name="error_unknown_host">Ocurrió un error conectando con el host, porfavor intente de nuevo mas tarde.</string>
+    <string name="error_getting_organization">Error obteninendo data de la organización</string>
+    <string name="error_organization_not_found">No se encontró organización</string>
+    <string name="error_getting_categories">Error obteninendo data de categorías</string>
+    <string name="error_getting_user_resources">Error obteninendo recursos</string>
+    <string name="error_getting_information">Error obteninendo información</string>
 
     <string name="loremipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
     <string name="be_volunteer">¿Quieres ser voluntario? ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmo.</string>
@@ -243,8 +245,8 @@
     <string name="call_to_number">Llamar a los números:</string>
 
     <!--CATEGORIES-->
-    <string name="resourses_categories">Categorias de nuestros recursos de apoyo</string>
-    <string name="category">Categoria</string>
+    <string name="resourses_categories">Categorías de nuestros recursos de apoyo</string>
+    <string name="category">Categoría</string>
     <string name="validate_with_code">Validar con código ID</string>
     <string name="to_scan">Para contabilizar el código de otro usuario a %1$s %2$s %3$s por usted, deberá escanear el código QR del usuario colocándolo centrado en el recuadro a continuación</string>
     <string name="general_desc">Descripción general</string>
@@ -253,7 +255,7 @@
     <string name="near_services">Servicios cerca</string>
     <string name="we_are_volunteer_desc">Si quieres ser voluntario, ubica la iniciativa de tu preferencia y ofrece tu apoyo a través de esta aplicación</string>
     <string name="search_resourses">Busca los recursos de aoyo mas cercanos a ti o en una ciudad particular</string>
-    <string name="search_resourses_desc">La aplicación Red Solidaria te permite hacer búsquedas geolocalizadas. Podrás seleccionar los recursos de acuerdo a las categorias de los proveedores de servicios comunitarios: Agua y comida, refugio, salud, educación, trabajo, entre otros. Bienvenido, registrate ya!</string>
+    <string name="search_resourses_desc">La aplicación Red Solidaria te permite hacer búsquedas geolocalizadas. Podrás seleccionar los recursos de acuerdo a las categorías de los proveedores de servicios comunitarios: Agua y comida, refugio, salud, educación, trabajo, entre otros. Bienvenido, registrate ya!</string>
     <string name="explore">Navega a través de los cientos de iniciativas de apoyo existentes en Red Solidaria, organizaciones de caridad, ONGs, lideres comunitarios, voluntarios. Registrate ya!</string>
     <string name="capacity">Capacidad</string>
 
@@ -268,4 +270,46 @@
     <string name="call">Llamar</string>
     <string name="how_can_help">¿Cómo podemos ayudar?</string>
     <string name="error_email_app_not_found">Disculpe, no hemos connseguido una App para enviar correo.</string>
+    <string name="title_activity_organization_profile">OrganizationProfile</string>
+    <string name="title_activity_user_profile">Mi perfil</string>
+    <string name="title_activity_user_configuration">Configuración</string>
+    <string name="title_activity_search">Search</string>
+    <string name="tab_text_1">Info</string>
+    <string name="tab_text_2">Servicios</string>
+    <string name="tab_text_3">Anuncios</string>
+    <string name="tab_text_4">Contribuye</string>
+    <string name="how_we_are">¿Quienes somos?</string>
+    <string name="what_we_need">¿Que Necesitamos?</string>
+    <string name="voluntary">Ser voluntario</string>
+    <string name="desc_our_services">Descripción de Nuestros Servicios</string>
+    <string name="categories_of_services">Categorías de Nuestros Servicios</string>
+    <string name="services_details">Servicios Detallados</string>
+    <string name="health">Salud</string>
+    <string name="tests_covid_19">Pruebas Covid-19</string>
+    <string name="vaccines_covid_19">Vacunas Covid-19</string>
+    <string name="publish">Publicar</string>
+    <string name="interested_on_services">Me Interesan los servicios  de este proveedor</string>
+    <string name="my_services">Mis Servicios</string>
+    <string name="see_details"><![CDATA[<u>Ver Detalle</u>]]></string>
+    <string name="current_location_text">Ubicación actual</string>
+    <string name="empty_image_description">Empty image</string>
+    <string name="user_id">ID: %1$s</string>
+    <string name="home">Principal</string>
+    <string name="ok">ok</string>
+    <string name="organization_empty_resources">No tiene recursos asociados!</string>
+    <string name="on_off_test_data">Mostrar data de prueba para organización</string>
+    <string name="search_map">Buscar en mapa</string>
+    <string name="male">Masculino</string>
+    <string name="female">Femenino</string>
+    <string name="suggest_organization_subject">Sugerancia de Organización</string>
+    <string name="suggest_organization_body">
+        <![CDATA[Hola, quisiera sugerir la creación de una nueva organización con los siguientes datos:<br/><br/>
+        Nombre: %1$s.<br/>
+        Página web: %2$s<br/>
+        Ubicación: %3$s.<br/>
+        Teléfono: %4$s<br/>
+        Descripción: %5$s.]]></string>
+    <string name="enter_valid_web_page">Introduzca una página web  válida</string>
+    <string name="enter_valid_location">Introduzca una ubicación válida</string>
+    <string name="enter_some_description">Introduzca alguna descripción</string>
 </resources>
