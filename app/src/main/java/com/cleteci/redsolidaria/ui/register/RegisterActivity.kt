@@ -162,18 +162,18 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun validateRegister(term: Boolean, policies: Boolean, name: String, lastName: String, email: String, password: String) {
-        if (name.isEmpty() || name.isEmpty()) {
-            showError(BaseApp.instance.applicationContext!!.getString(R.string.enter_valid_name))
-        } else if (lastName.isEmpty() || lastName.isEmpty()) {
-            showError(BaseApp.instance.applicationContext!!.getString(R.string.enter_valid_last_name))
-        } else if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email.replace(" ", "")).matches()) {
-            showError(BaseApp.instance.applicationContext!!.getString(R.string.enter_valid_email))
+        if (name.isEmpty()) {
+            showError(getString(R.string.enter_valid_name))
+        } else if (lastName.isEmpty()) {
+            showError(getString(R.string.enter_valid_last_name))
+        } else if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email.trim()).matches()) {
+            showError(getString(R.string.enter_valid_email))
         } else if (password.isEmpty() || password.length < DEFAULT_PASSWORD_LENGTH) {
-            showError(BaseApp.instance.applicationContext!!.getString(R.string.enter_valid_pass))
+            showError(getString(R.string.enter_valid_pass))
         } else if (!term) {
-            showError(BaseApp.instance.applicationContext!!.getString(R.string.accept_term_condition))
+            showError(getString(R.string.accept_term_condition))
         } else if (!policies) {
-            showError(BaseApp.instance.applicationContext!!.getString(R.string.accept_privacy_policies))
+            showError(getString(R.string.accept_privacy_policies))
         } else {
             userAccountVM.createUser(name, lastName, email, password)
         }

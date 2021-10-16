@@ -471,7 +471,7 @@ class MainActivity : AppCompatActivity(), MainContract.View,
             .addToBackStack(null)
             .replace(
                 R.id.container_fragment,
-                ContactUsFragment().newInstance(),
+                ContactUsFragment(),
                 ContactUsFragment.TAG
             )
             .commit()

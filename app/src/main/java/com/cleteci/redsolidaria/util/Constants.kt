@@ -6,11 +6,10 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.text.Spanned
 import android.util.Patterns
-import android.view.View
 import android.widget.Toast
 import com.cleteci.redsolidaria.R
-import kotlinx.android.synthetic.main.fragment_resources_offered.*
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -43,12 +42,15 @@ fun openDialerClient(context: Context, phone: String) {
 
 }
 
-fun openEmailClient(context: Context, email: String) {
+fun openEmailClient(context: Context, email: String, subject: String = "", body: Spanned? = null) {
     try {
-        val emailIntent =
-            Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", email, null))
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "")
-        emailIntent.putExtra(Intent.EXTRA_TEXT, "")
+        val emailIntent = Intent(Intent.ACTION_SENDTO)
+        emailIntent.data = Uri.parse("mailto:")
+        emailIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf(email))
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject)
+        if (body != null) {
+            emailIntent.putExtra(Intent.EXTRA_TEXT, body)
+        }
 
         if (emailIntent.resolveActivity(context.packageManager) != null) {
             context.startActivity(
@@ -57,6 +59,11 @@ fun openEmailClient(context: Context, email: String) {
                     context.getString(R.string.select_email_client)
                 )
             )
+        } else {
+            Toast.makeText(
+                context, context.getString(R.string.error_email_app_not_found),
+                Toast.LENGTH_SHORT
+            ).show()
         }
     } catch (ex: ActivityNotFoundException) {
         Toast.makeText(

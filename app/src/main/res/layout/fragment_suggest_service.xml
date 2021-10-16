@@ -4,10 +4,9 @@
     android:layout_height="match_parent"
     android:background="@color/colorWhite"
     android:orientation="vertical"
-    android:paddingHorizontal="20dp"
-    android:paddingTop="60dp">
+    android:padding="@dimen/activity_horizontal_margin">
 
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true">
@@ -26,26 +25,13 @@
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
-
-            <FrameLayout
+            <EditText
+                android:id="@+id/etName"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-
-                android:layout_centerVertical="true"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/bg_border_line_grey">
-
-                <EditText
-
-                    android:id="@+id/etName"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_centerVertical="true"
-                    android:background="@android:color/transparent"
-
-                    />
-
-            </FrameLayout>
+                android:layout_height="@dimen/height_edit_text"
+                android:padding="@dimen/spacing_small"
+                android:background="@drawable/bg_border_line_grey"
+                android:inputType="textCapWords" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -56,26 +42,13 @@
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
-
-            <FrameLayout
+            <EditText
+                android:id="@+id/etWeb"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-
-                android:layout_centerVertical="true"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/bg_border_line_grey">
-
-                <EditText
-
-                    android:id="@+id/etWeb"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_centerVertical="true"
-                    android:background="@android:color/transparent"
-
-                    />
-
-            </FrameLayout>
+                android:layout_height="@dimen/height_edit_text"
+                android:padding="@dimen/spacing_small"
+                android:background="@drawable/bg_border_line_grey"
+                android:inputType="textWebEditText" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -86,29 +59,14 @@
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
-
-            <FrameLayout
+            <TextView
+                android:id="@+id/etLocation"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-
-                android:layout_centerVertical="true"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/bg_border_line_grey">
-
-                <EditText
-                    android:maxLines="1"
-                    android:ellipsize="end"
-                    android:id="@+id/etLocation"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_centerVertical="true"
-                    android:background="@android:color/transparent"
-                    android:editable="false"
-                    android:focusable="false"
-
-                    />
-
-            </FrameLayout>
+                android:layout_height="@dimen/height_edit_text"
+                android:padding="@dimen/spacing_small"
+                android:background="@drawable/bg_border_line_grey"
+                android:ellipsize="end"
+                android:maxLines="1" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -119,26 +77,13 @@
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
-
-            <FrameLayout
+            <EditText
+                android:id="@+id/etPhone"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-
-                android:layout_centerVertical="true"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/bg_border_line_grey">
-
-                <EditText
-
-                    android:id="@+id/etphome"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_centerVertical="true"
-                    android:background="@android:color/transparent"
-
-                    />
-
-            </FrameLayout>
+                android:layout_height="@dimen/height_edit_text"
+                android:padding="@dimen/spacing_small"
+                android:background="@drawable/bg_border_line_grey"
+                android:inputType="phone" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -149,55 +94,41 @@
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
-
-            <FrameLayout
+            <EditText
+                android:id="@+id/etDesc"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-
-                android:layout_centerVertical="true"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/bg_border_line_grey">
-
-                <EditText
-
-                    android:id="@+id/etDesc"
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:layout_centerVertical="true"
-                    android:background="@android:color/transparent"
-
-                    />
-
-            </FrameLayout>
-
+                android:layout_height="@dimen/height_edit_text_info"
+                android:padding="@dimen/spacing_small"
+                android:background="@drawable/bg_border_line_grey"
+                android:inputType="textMultiLine"
+                android:maxLength="100"/>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="@dimen/spacing_medium"
+                android:layout_marginBottom="@dimen/spacing_medium"
                 android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/btSend"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:background="@drawable/bg_color_primary"
-                    android:minWidth="130dp"
                     android:text="@string/send"
                     android:textColor="@color/colorWhite" />
 
                 <Button
                     android:id="@+id/btCancel"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="@dimen/spacing_small"
                     android:background="@drawable/bg_border_line_primary"
-                    android:minWidth="130dp"
                     android:text="@string/cancel"
                     android:textColor="@color/colorPrimary" />
-
-
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

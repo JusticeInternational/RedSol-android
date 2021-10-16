@@ -301,4 +301,15 @@
     <string name="search_map">Buscar en mapa</string>
     <string name="male">Masculino</string>
     <string name="female">Femenino</string>
+    <string name="suggest_organization_subject">Sugerancia de Organización</string>
+    <string name="suggest_organization_body">
+        <![CDATA[Hola, quisiera sugerir la creación de una nueva organización con los siguientes datos:<br/><br/>
+        Nombre: %1$s.<br/>
+        Página web: %2$s<br/>
+        Ubicación: %3$s.<br/>
+        Teléfono: %4$s<br/>
+        Descripción: %5$s.]]></string>
+    <string name="enter_valid_web_page">Introduzca una página web  válida</string>
+    <string name="enter_valid_location">Introduzca una ubicación válida</string>
+    <string name="enter_some_description">Introduzca alguna descripción</string>
 </resources>
