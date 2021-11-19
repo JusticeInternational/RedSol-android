@@ -24,6 +24,10 @@
             android:id="@+id/nav_tools"
             android:icon="@drawable/ic_filled_campaign_24"
             android:title="@string/suggest_resources" />
+        <item
+            android:id="@+id/nav_create_organization"
+            android:icon="@drawable/ic_filled_create_organization_24"
+            android:title="@string/create_organization" />
     </group>
 
 

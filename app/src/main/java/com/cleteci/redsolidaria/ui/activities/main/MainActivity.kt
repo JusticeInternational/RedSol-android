@@ -37,6 +37,8 @@ import com.cleteci.redsolidaria.ui.resources.ResourcesOfferedFragment
 import com.cleteci.redsolidaria.ui.fragments.scanCode.ScanCodeFragment
 import com.cleteci.redsolidaria.ui.fragments.scanNoUser.ScanNoUserFragment
 import com.cleteci.redsolidaria.ui.fragments.suggestService.SuggestServiceFragment
+import com.cleteci.redsolidaria.ui.fragments.createOrganization.CreateOrganizationFragment
+
 import com.cleteci.redsolidaria.ui.fragments.users.AttendersFragment
 import com.cleteci.redsolidaria.ui.fragments.users.UsersFragment
 import com.cleteci.redsolidaria.ui.organizationProfile.OrganizationProfileActivity
@@ -68,6 +70,7 @@ class MainActivity : AppCompatActivity(), MainContract.View,
     private var mNavController: FragNavController? = null
     private var fragmentHistory: FragmentHistory? = null
     private var currentFragment: Fragment? = null
+    private lateinit var register: MenuItem
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -150,6 +153,8 @@ class MainActivity : AppCompatActivity(), MainContract.View,
         }
 
         if (BaseApp.sharedPreferences.loginLater) {
+            val item: MenuItem = navView.menu.findItem(R.id.nav_create_organization)
+            if (item != null) item.isVisible = false
             tvLoginLogout!!.setText(R.string.login)
             icLoginLogout.setImageDrawable(
                 AppCompatResources.getDrawable(
@@ -413,6 +418,16 @@ class MainActivity : AppCompatActivity(), MainContract.View,
             )
             .commit()
     }
+    private fun openCreateOrganizationFragment() {
+        supportFragmentManager.beginTransaction()
+            .addToBackStack(null)
+            .replace(
+                R.id.container_fragment,
+                CreateOrganizationFragment().newInstance(),
+                CreateOrganizationFragment.TAG
+            )
+            .commit()
+    }
 
     private fun openProfileFragment() {
         if (BaseApp.sharedPreferences.loginLater) {
@@ -519,7 +534,9 @@ class MainActivity : AppCompatActivity(), MainContract.View,
     override fun showSuggestFragment() {
         openSuggestFragment()
     }
-
+    override fun showCreateOrganizationFragment() {
+        openCreateOrganizationFragment()
+    }
     override fun showConfigFragment() {
         openConfigFragment()
     }
@@ -617,6 +634,7 @@ class MainActivity : AppCompatActivity(), MainContract.View,
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
+
         when (item.itemId) {
             R.id.nav_home -> {
                 presenter.onDrawerHomeOption()
@@ -636,6 +654,11 @@ class MainActivity : AppCompatActivity(), MainContract.View,
             R.id.nav_tools -> {
                 presenter.onDrawerSuggestOption()
                 bottomNavView.visibility = View.GONE
+            }
+            R.id.nav_create_organization -> {
+                presenter.onDrawerCreateOrganizationOption()
+                bottomNavView.visibility = View.GONE
+
             }
         }
         drawerLayout.closeDrawer(GravityCompat.START)

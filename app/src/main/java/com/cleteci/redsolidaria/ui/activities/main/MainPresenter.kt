@@ -44,7 +44,9 @@ class MainPresenter: MainContract.Presenter {
     override fun onDrawerSuggestOption() {
         view.showSuggestFragment()
     }
-
+    override fun onDrawerCreateOrganizationOption() {
+        view.showCreateOrganizationFragment()
+    }
     override fun onDrawerConfigOption() {
         view.showConfigFragment()
     }

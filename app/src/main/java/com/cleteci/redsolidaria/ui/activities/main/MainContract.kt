@@ -17,6 +17,8 @@ class MainContract {
 
         fun showSuggestFragment()
 
+        fun showCreateOrganizationFragment()
+
         fun showConfigFragment()
 
         fun showProfileFragment()
@@ -49,6 +51,8 @@ class MainContract {
         fun onNavResourcesOption()
 
         fun onDrawerSuggestOption()
+
+        fun onDrawerCreateOrganizationOption()
 
         fun onDrawerConfigOption()
 

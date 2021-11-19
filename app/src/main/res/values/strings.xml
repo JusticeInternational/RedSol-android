@@ -28,6 +28,7 @@
     <string name="config">Configuración</string>
     <string name="contact_us">Contáctanos</string>
     <string name="suggest_resources">Sugerir recursos</string>
+    <string name="create_organization">Crear Organización</string>
 
     <!--NO DATA-->
     <string name="progress">En Progreso!</string>
@@ -194,6 +195,8 @@
     <string name="change_plan_inf">Para cambiar el plan, agregue servicios detallados</string>
     <string name="we_are">¿Quienes somos?</string>
     <string name="send">Enviar</string>
+    <string name="create">Crear</string>
+
     <string name="register_count">Registrar y contar</string>
     <string name="cancel">Cancelar</string>
     <string name="interested">Interesados</string>
