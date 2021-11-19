@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorWhite"
@@ -8,8 +9,9 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:layout_height="wrap_content"
+        android:fillViewport="true"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -102,14 +104,42 @@
                 android:inputType="textMultiLine"
                 android:maxLength="100"
                 android:padding="@dimen/spacing_small" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/spacing_super_small"
+                android:layout_marginVertical="@dimen/spacing_extra_medium"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
+                <TextView
+                    style="@style/TextBodyBold"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="@dimen/spacing_extra_small"
+                    android:layout_marginVertical="@dimen/spacing_extra_small"
+                    android:text="@string/category" />
+
+                <TextView
+                    android:id="@+id/selectCategory"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/height_edit_text"
+                    android:layout_weight="2"
+                    android:background="@drawable/bg_border_line_grey"
+                    android:gravity="center"
+                    android:text="@string/select_category_Create"
+                    android:textSize="@dimen/font_size_small"
+                    app:drawableEndCompat="@drawable/ic_arrow_down"
+                    android:padding="@dimen/spacing_extra_small"/>
+            </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/spacing_medium"
-                android:layout_marginBottom="@dimen/spacing_medium"
+                android:layout_marginBottom="@dimen/spacing_small"
                 android:orientation="horizontal">
+
 
                 <Button
                     android:id="@+id/btCreate"

@@ -250,6 +250,8 @@
     <!--CATEGORIES-->
     <string name="resourses_categories">Categorías de nuestros recursos de apoyo</string>
     <string name="category">Categoría</string>
+    <string name="select_category_Create">Seleccione una Categoría</string>
+
     <string name="validate_with_code">Validar con código ID</string>
     <string name="to_scan">Para contabilizar el código de otro usuario a %1$s %2$s %3$s por usted, deberá escanear el código QR del usuario colocándolo centrado en el recuadro a continuación</string>
     <string name="general_desc">Descripción general</string>

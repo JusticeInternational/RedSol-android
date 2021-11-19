@@ -1,12 +1,14 @@
 package com.cleteci.redsolidaria.ui.fragments.createOrganization
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
 import android.location.Address
 import android.os.Bundle
 import android.text.Html
 import android.util.Log
 import android.view.*
+import android.widget.*
 import com.cleteci.redsolidaria.R
 import com.cleteci.redsolidaria.ui.activities.main.MainActivity
 import com.cleteci.redsolidaria.ui.base.BaseFragment
@@ -15,8 +17,24 @@ import com.cleteci.redsolidaria.util.openEmailClient
 import com.schibstedspain.leku.*
 import kotlinx.android.synthetic.main.fragment_create_organization.*
 import android.widget.Toast
+import com.cleteci.redsolidaria.models.Category
+import com.cleteci.redsolidaria.models.Resource
+import com.cleteci.redsolidaria.ui.adapters.CategoriesAdapter
+import com.cleteci.redsolidaria.util.getCountries
+import com.cleteci.redsolidaria.util.showInfoDialog
+import com.cleteci.redsolidaria.viewModels.BaseViewModel
+import com.cleteci.redsolidaria.viewModels.GeneralViewModel
+import kotlinx.android.synthetic.main.fragment_create_organization.btCancel
+import kotlinx.android.synthetic.main.fragment_create_organization.etName
+import kotlinx.android.synthetic.main.fragment_create_organization.etPhone
+import kotlinx.android.synthetic.main.fragment_scan_no_user.*
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class CreateOrganizationFragment : BaseFragment() {
+
+    private var categoryList: ArrayList<String> = ArrayList()
+    private val generalVM by viewModel<GeneralViewModel>()
+    private var mAdapter: CategoriesAdapter? = null
 
     fun newInstance(): CreateOrganizationFragment {
         return CreateOrganizationFragment()
@@ -25,6 +43,13 @@ class CreateOrganizationFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+
+        generalVM.usedCategories.observe(this,
+            androidx.lifecycle.Observer { usedCategories: ArrayList<Category> ->
+                loadDataSuccess(usedCategories)
+            })
+
+        generalVM.getUsedCategories()
     }
 
     override fun onCreateView(
@@ -37,12 +62,30 @@ class CreateOrganizationFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         init()
     }
-
+    fun loadDataSuccess(list: List<Category>) {
+        activity?.runOnUiThread {
+            categoryList.clear()
+            list.forEach {
+                categoryList.add(it.name)
+            }
+        }
+    }
     fun init() {
+
         btCancel.setOnClickListener {
             activity?.onBackPressed()
         }
-
+        selectCategory.setOnClickListener {
+            val adapter = ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_dropdown_item, categoryList)
+            AlertDialog.Builder(requireContext())
+                .setTitle(getString(R.string.select_category))
+                .setAdapter(adapter) { dialog, which ->
+                    selectCategory.text = categoryList[which]
+                    dialog.dismiss()
+                }
+                .create()
+                .show()
+        }
         etLocation.setOnClickListener {
             val locationPickerIntent = LocationPickerActivity.Builder()
                 .withLocation(41.4036299, 2.1743558)
