@@ -1,6 +1,7 @@
 package com.cleteci.redsolidaria.util
 
 import android.app.AlertDialog
+import android.app.Dialog
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
@@ -8,6 +9,11 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.text.Spanned
 import android.util.Patterns
+import android.view.Window
+import android.view.WindowManager
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import com.cleteci.redsolidaria.R
 import java.util.*
@@ -16,7 +22,7 @@ import kotlin.collections.ArrayList
 
 class Constants {
     companion object {
-        const val BASE_URL = "http://redsol.eastus.cloudapp.azure.com/graphql"
+        const val BASE_URL = "http://redsol.eastus.cloudapp.azure.com/backend/graphql"
         const val ORGANIZATION_EMAIL = "redsol.app@gmail.com"
         const val ORGANIZATION_PHONE = "0123456789"
         const val SLASH = "/"
@@ -125,3 +131,27 @@ fun getCountries() : ArrayList<String> {
 fun CharSequence?.isValidEmail() = !isNullOrEmpty() && Patterns.EMAIL_ADDRESS.matcher(this).matches()
 
 fun CharSequence?.isValidPhone() = !isNullOrEmpty() && Patterns.PHONE.matcher(this).matches()
+
+fun showAlert(context: Context, icon: Int, msg: String, buttonText: String) {
+    val dialog = Dialog(context)
+    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+    dialog.window!!.setLayout(
+        WindowManager.LayoutParams.FLAG_FULLSCREEN,
+        WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN
+    )
+    dialog.setCancelable(false)
+    dialog.setContentView(R.layout.comp_alert_succes_suggest_resource)
+
+    val ivIcon = dialog.findViewById(R.id.ivIcon) as ImageView
+    val tvAlertMsg = dialog.findViewById(R.id.tvAlertMsg) as TextView
+    ivIcon.setImageResource(icon)
+    tvAlertMsg.text = msg
+    val yesBtn = dialog.findViewById(R.id.btCont) as Button
+
+    yesBtn.text = buttonText
+    yesBtn.setOnClickListener {
+        dialog.dismiss()
+    }
+
+    dialog.show()
+}

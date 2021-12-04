@@ -153,3 +153,39 @@ mutation updateOrganization($id: ID!, $name: String, $webPage: String, $phone: S
     }
 }
 
+mutation createOrganization(
+    $id: ID!,
+    $name: String,
+    $webPage: String,
+    $phone: String,
+    $ranking: String,
+    $hourHand: String,
+    $description: String,
+    $servicesDesc: String,
+    $iconName: String,
+    $urlIcon: String){
+
+    CreateOrganization(
+        id: $id,
+        name: $name,
+        webPage: $webPage,
+        phone: $phone,
+        ranking: $ranking,
+        hourHand: $hourHand,
+        description: $description,
+        servicesDesc: $servicesDesc,
+        iconName: $iconName,
+        urlIcon: $urlIcon) {
+            id
+            name
+    }
+}
+
+
+mutation associateOrganizationToUser($userId: ID!, $organizationId: ID!) {
+    AssociateOrganizationToUser(userId: $userId,organizationId: $organizationId) {
+        id
+        name
+    }
+}
+

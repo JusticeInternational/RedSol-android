@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.apollographql.apollo.api.Response
 import com.cleteci.redsolidaria.BaseApp
+import com.cleteci.redsolidaria.GetCategoriesQuery
 import com.cleteci.redsolidaria.GetUsedCategoriesQuery
 import com.cleteci.redsolidaria.R
 import com.cleteci.redsolidaria.data.LocalDataForUITest.getCategoriesList
@@ -16,6 +17,7 @@ import io.reactivex.schedulers.Schedulers
 class GeneralViewModel(private val graphQLController: GraphQLController) : BaseViewModel() {
 
     val usedCategories = MutableLiveData<ArrayList<Category>>()
+    val categories = MutableLiveData<ArrayList<Category>>()
 
     fun getUsedCategories() {
         status.value = QueryStatus.NOTIFY_LOADING
@@ -33,39 +35,92 @@ class GeneralViewModel(private val graphQLController: GraphQLController) : BaseV
                     status.value = QueryStatus.NOTIFY_SUCCESS
                 }, {
                     status.value = QueryStatus.NOTIFY_FAILURE
-                    Log.d(OrganizationViewModel.TAG, it.message)
+                    Log.d(TAG, it.message)
                 })
         )
 
     }
 
-    private fun deserializeResponse(list: List<GetUsedCategoriesQuery.UsedCategory>?): ArrayList<Category> {
-        val arrayList = ArrayList<Category>()
-        for (serviceCategory in list!!) {
-            val resources: Resources = BaseApp.instance.resources
-            var resourceId = resources.getIdentifier(
-                serviceCategory.icon(), "drawable",
-                BaseApp.instance.packageName)
+    fun getCategories() {
+        status.value = QueryStatus.NOTIFY_LOADING
+        compositeDisposable.add(
+            graphQLController.getCategories()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ response: Response<GetCategoriesQuery.Data> ->
+                    categories.value = if (response.data == null ||
+                        response.data?.Categories().isNullOrEmpty()) {
+                        ArrayList()
+                    } else {
+                        deserializeResponse(response.data!!.Categories())
+                    }.distinct() as ArrayList<Category>
+                    status.value = QueryStatus.NOTIFY_SUCCESS
+                }, {
+                    status.value = QueryStatus.NOTIFY_FAILURE
+                    Log.d(TAG, it.message)
+                })
+        )
 
-            if (resourceId == 0) {
-                resourceId =  R.drawable.ic_general_category
-                for (localCategory in getCategoriesList()) {
-                    if (serviceCategory.name().equals(localCategory.name, ignoreCase = true)) {
-                        resourceId = localCategory.iconId
-                        break
+    }
+
+    private fun deserializeResponse(categories: List<Any>?): java.util.ArrayList<Category> {
+        val resources: Resources = BaseApp.instance.resources
+        val arrayList = ArrayList<Category>()
+            for (category in categories!!) {
+                if (category is GetCategoriesQuery.Category ) {
+                    var resourceId = resources.getIdentifier(
+                        category.icon(), "drawable",
+                        BaseApp.instance.packageName)
+
+                    if (resourceId == 0) {
+                        resourceId =  R.drawable.ic_general_category
+                        for (localCategory in getCategoriesList()) {
+                            if (category.name().equals(localCategory.name, ignoreCase = true)) {
+                                resourceId = localCategory.iconId
+                                break
+                            }
+                        }
                     }
+
+                    arrayList.add(
+                        Category(
+                            category.id(),
+                            category.name(),
+                            resourceId,
+                            icon = category.icon()
+                        )
+                    )
+                } else if (category  is GetUsedCategoriesQuery.UsedCategory) {
+                    var resourceId = resources.getIdentifier(
+                        category.icon(), "drawable",
+                        BaseApp.instance.packageName)
+
+                    if (resourceId == 0) {
+                        resourceId =  R.drawable.ic_general_category
+                        for (localCategory in getCategoriesList()) {
+                            if (category.name().equals(localCategory.name, ignoreCase = true)) {
+                                resourceId = localCategory.iconId
+                                break
+                            }
+                        }
+                    }
+
+                    arrayList.add(
+                        Category(
+                            category.id(),
+                            category.name(),
+                            resourceId,
+                            icon = category.icon()
+                        )
+                    )
                 }
             }
-
-            arrayList.add(
-                Category(
-                    serviceCategory.id(),
-                    serviceCategory.name(),
-                    resourceId,
-                    icon = serviceCategory.icon()
-                )
-            )
-        }
         return arrayList
     }
+
+    companion object {
+        const val TAG: String = "GeneralViewModel"
+
+    }
+
 }

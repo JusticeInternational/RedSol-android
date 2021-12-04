@@ -34,6 +34,14 @@ class GraphQLController(private val apolloClient: ApolloClient) {
         }
     }
 
+    fun getCategories(): Observable<Response<GetCategoriesQuery.Data>> {
+        val query = GetCategoriesQuery()
+        return apolloClient.rxQuery(query) {
+            cacheHeaders(CacheHeaders.NONE)
+        }
+    }
+
+
     fun getOrganizationServicesAndCategories(id: String): Observable<Response<GetOrganizationServicesAndCategoriesQuery.Data>> {
         val query = GetOrganizationServicesAndCategoriesQuery(id)
         return apolloClient.rxQuery(query) {

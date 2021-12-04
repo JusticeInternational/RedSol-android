@@ -13,3 +13,11 @@ query getTotalCategoryAttentions($categoryId: ID!, $orgabizationId: ID!) {
 query getTotalServiceAttentions($serviceId: ID!, $orgabizationId: ID!) {
     totalAtentionService(id: $serviceId, orgID: $orgabizationId)
 }
+
+query getCategories {
+    Categories {
+        id
+        name
+        icon
+    }
+}
