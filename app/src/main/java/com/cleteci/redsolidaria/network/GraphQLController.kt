@@ -118,4 +118,23 @@ class GraphQLController(private val apolloClient: ApolloClient) {
             cacheHeaders(CacheHeaders.NONE)
         }
     }
+
+    fun createOrganization(request: OrganizationViewModel.CreateOrganizationRequest):
+            Single<Response<CreateOrganizationMutation.Data>> {
+        val mutation = CreateOrganizationMutation(
+            request.id,
+            request.name,
+            request.webPage,
+            request.phone,
+            request.ranking,
+            request.hourHand,
+            request.description,
+            request.servicesDesc,
+            request.iconName,
+            request.urlIcon
+        )
+        return apolloClient.rxMutate(mutation) {
+            cacheHeaders(CacheHeaders.NONE)
+        }
+    }
 }

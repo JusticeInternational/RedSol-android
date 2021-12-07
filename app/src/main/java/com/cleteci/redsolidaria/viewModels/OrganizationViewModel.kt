@@ -290,7 +290,26 @@ class OrganizationViewModel(private val graphQLController: GraphQLController) : 
         compositeDisposable.add(disposable)
 
     }
+    fun CreateOrganization(request: CreateOrganizationRequest) {
+        status.value = QueryStatus.NOTIFY_LOADING
+        val disposable =
+            graphQLController.createOrganization(request)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ response: Response<CreateOrganizationMutation.Data> ->
+                    if (response.data != null) {
+                        status.value = QueryStatus.NOTIFY_SUCCESS
+                    } else {
+                        status.value = QueryStatus.NOTIFY_FAILURE
+                    }
+                }, {
+                    status.value = QueryStatus.NOTIFY_FAILURE
+                    Log.d(TAG, it.message)
+                })
 
+        compositeDisposable.add(disposable)
+
+    }
     class CreateAttentionRequest(
         val serviceId: String = "",
         val categoryId: String = "",
@@ -307,6 +326,19 @@ class OrganizationViewModel(private val graphQLController: GraphQLController) : 
         val isGeneric: Boolean
     )
 
+    class CreateOrganizationRequest(
+        val id: String = "",
+        val name: String = "",
+        val phone: String ="",
+        val webPage: String ="",
+        val ranking: String ="",
+        val hourHand: String = "",
+        val description: String = "",
+        val servicesDesc: String = "",
+        val iconName: String ="",
+        val urlIcon: String = ""
+
+    )
     private fun getCategoryIconByIconString(name: String): Int {
         return when (name) {
             "food" -> R.drawable.ic_food

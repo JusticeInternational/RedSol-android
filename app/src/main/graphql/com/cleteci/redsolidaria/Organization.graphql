@@ -155,15 +155,15 @@ mutation updateOrganization($id: ID!, $name: String, $webPage: String, $phone: S
 
 mutation createOrganization(
     $id: ID!,
-    $name: String,
-    $webPage: String,
-    $phone: String,
-    $ranking: String,
-    $hourHand: String,
-    $description: String,
-    $servicesDesc: String,
-    $iconName: String,
-    $urlIcon: String){
+    $name: String!,
+    $webPage: String!,
+    $phone: String!,
+    $ranking: String!,
+    $hourHand: String!,
+    $description: String!,
+    $servicesDesc: String!,
+    $iconName: String!,
+    $urlIcon: String!){
 
     CreateOrganization(
         id: $id,
