@@ -177,7 +177,7 @@
     <string name="sex">Género</string>
     <string name="age">Edad</string>
     <string name="or">ó</string>
-    <string name="create_organization_success">Organización %1$s creada exitosament!</string>
+    <string name="create_organization_success">Organización %1$s creada exitosamente!</string>
 
     <string name="countries_prompt">Seleccione un país de origen</string>
     <string name="countries_hint">Seleccione un país</string>

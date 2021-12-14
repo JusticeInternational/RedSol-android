@@ -1,5 +1,7 @@
 package com.cleteci.redsolidaria.ui.fragments.createOrganization
 
+import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
@@ -12,18 +14,34 @@ import com.cleteci.redsolidaria.ui.base.BaseFragment
 import com.schibstedspain.leku.*
 import kotlinx.android.synthetic.main.fragment_create_organization.*
 import com.cleteci.redsolidaria.models.Category
+import com.cleteci.redsolidaria.ui.search.SearchItemsActivity.Companion.MAP_BUTTON_REQUEST_CODE
 import com.cleteci.redsolidaria.util.showAlert
 import com.cleteci.redsolidaria.viewModels.GeneralViewModel
+import com.cleteci.redsolidaria.viewModels.OrganizationViewModel
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import com.vmadalin.easypermissions.EasyPermissions
+import com.vmadalin.easypermissions.dialogs.SettingsDialog
 import kotlinx.android.synthetic.main.activity_organization_profile.*
 import kotlinx.android.synthetic.main.fragment_create_organization.btCancel
 import kotlinx.android.synthetic.main.fragment_create_organization.etName
+import kotlinx.android.synthetic.main.fragment_create_organization.etPhone
+import kotlinx.android.synthetic.main.fragment_scan_no_user.*
 import org.koin.android.viewmodel.ext.android.viewModel
+import java.util.UUID;
 
-class CreateOrganizationFragment : BaseFragment() {
+class CreateOrganizationFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
 
     private var categoryList: ArrayList<String> = ArrayList()
     private val generalVM by viewModel<GeneralViewModel>()
+    private val organizationVM by viewModel<OrganizationViewModel>()
+    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
+    companion object {
+        const val PERMISSION_LOCATION_REQUEST_CODE = 1
+        const val TAG: String = "CreateOrganizationFragment"
+        private const val MAP_BUTTON_REQUEST_CODE = 57
+    }
     fun newInstance(): CreateOrganizationFragment {
         return CreateOrganizationFragment()
     }
@@ -31,7 +49,8 @@ class CreateOrganizationFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
+        fusedLocationProviderClient =
+            LocationServices.getFusedLocationProviderClient(requireContext())
         generalVM.usedCategories.observe(this,
             androidx.lifecycle.Observer { usedCategories: ArrayList<Category> ->
                 loadDataSuccess(usedCategories)
@@ -51,6 +70,46 @@ class CreateOrganizationFragment : BaseFragment() {
         init()
     }
 
+    private fun hasLocationPermission() =
+        EasyPermissions.hasPermissions(
+            requireContext(),
+            Manifest.permission.ACCESS_FINE_LOCATION
+        )
+
+    private fun requestLocationPermission() {
+        EasyPermissions.requestPermissions(
+            this,
+            "This application cannot work without Location Permission.",
+            PERMISSION_LOCATION_REQUEST_CODE,
+            Manifest.permission.ACCESS_FINE_LOCATION
+        )
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
+    }
+
+    override fun onPermissionsDenied(requestCode: Int, perms: List<String>) {
+        if (EasyPermissions.somePermissionDenied(this, perms.first())) {
+            SettingsDialog.Builder(requireActivity()).build().show()
+        } else {
+            requestLocationPermission()
+        }
+    }
+
+    override fun onPermissionsGranted(requestCode: Int, perms: List<String>) {
+        Toast.makeText(
+            requireContext(),
+            "Permission Granted!",
+            Toast.LENGTH_SHORT
+        ).show()
+    }
+
     fun loadDataSuccess(list: List<Category>) {
         activity?.runOnUiThread {
             categoryList.clear()
@@ -59,7 +118,7 @@ class CreateOrganizationFragment : BaseFragment() {
             }
         }
     }
-
+@SuppressLint("MissingPermission")
     fun init() {
         btCancel.setOnClickListener {
             activity?.onBackPressed()
@@ -76,12 +135,20 @@ class CreateOrganizationFragment : BaseFragment() {
                 .show()
         }
         etLocation.setOnClickListener {
-            val locationPickerIntent = LocationPickerActivity.Builder()
-                .withLocation(41.4036299, 2.1743558)
-                .withGeolocApiKey(getString(R.string.google_maps_key))
-                .withSearchZone("es_ES")
-                .build(context!!)
-            startActivityForResult(locationPickerIntent, MAP_BUTTON_REQUEST_CODE)
+
+            if (hasLocationPermission()) {
+                fusedLocationProviderClient.lastLocation.addOnSuccessListener { location ->
+                    val locationPickerIntent = LocationPickerActivity.Builder()
+                        .withLocation(location.latitude, location.longitude)
+                        .withGeolocApiKey(getString(R.string.google_maps_key))
+                        .withSearchZone("es_ES")
+                        .build(requireContext())
+                    startActivityForResult(locationPickerIntent, MAP_BUTTON_REQUEST_CODE)
+                }
+            } else {
+                requestLocationPermission()
+            }
+
         }
 
         btCreate.setOnClickListener {
@@ -90,7 +157,21 @@ class CreateOrganizationFragment : BaseFragment() {
                     R.drawable.ic_check_green,
                     getString(R.string.create_organization_success, etName.text),
                     getString(R.string.ok))
-                //TODO: Llamar a la funcion de crear
+
+                organizationVM.CreateOrganization(
+                    OrganizationViewModel.CreateOrganizationRequest(
+                        UUID.randomUUID().toString(),
+                        etName.text.toString(),
+                        etPhone.text.toString(),
+                        etWeb.text.toString(),
+                        "",
+                        "",
+                        etDesc.text.toString(),
+                        "",
+                        "",
+                        ""
+                    ))
+              //  activity?.onBackPressed()
             }
         }
     }
@@ -123,11 +204,8 @@ class CreateOrganizationFragment : BaseFragment() {
         super.onResume()
         (activity as MainActivity).setTextToolbar(
             getString(R.string.create_organization),
-            activity!!.resources.getColor(R.color.colorWhite))
+            requireActivity().resources.getColor(R.color.colorWhite))
     }
 
-    companion object {
-        const val TAG: String = "CreateOrganizationFragment"
-        private const val MAP_BUTTON_REQUEST_CODE = 57
-    }
+
 }
