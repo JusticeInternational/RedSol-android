@@ -67,7 +67,7 @@ class SuggestServiceFragment : BaseFragment() {
         }
 
         etLocation.setOnClickListener {
-            if (locationResources.isLocationEnabled()) {
+            if (locationResources.isLocationEnabled(requireContext())) {
                 if (ActivityCompat.checkSelfPermission(
                         requireContext(),
                         Manifest.permission.ACCESS_FINE_LOCATION

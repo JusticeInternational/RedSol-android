@@ -92,7 +92,7 @@ class CreateServiceFragment : BaseFragment(), CreateServiceContract.View {
         btSend = rootView?.findViewById(R.id.btSend);
 
         etLocation!!.setOnClickListener {
-            if (locationResources.isLocationEnabled()) {
+            if (locationResources.isLocationEnabled(requireContext())) {
                 if (ActivityCompat.checkSelfPermission(
                         requireContext(),
                         Manifest.permission.ACCESS_FINE_LOCATION

@@ -95,7 +95,7 @@ class SearchItemsActivity : AppCompatActivity(), SearchItemsAdapter.OnItemClickL
         }
         tvLocation.text = getString(R.string.current_location_text)
         lyLocation!!.setOnClickListener {
-            if (locationResources.isLocationEnabled()) {
+            if (locationResources.isLocationEnabled(this)) {
                 if (ActivityCompat.checkSelfPermission(
                         this,
                         Manifest.permission.ACCESS_FINE_LOCATION

@@ -16,6 +16,12 @@ import android.os.Looper
 import android.provider.Settings
 import android.text.TextUtils
 import androidx.lifecycle.MutableLiveData
+import android.location.LocationManager
+import androidx.core.content.ContextCompat
+
+import androidx.core.content.ContextCompat.getSystemService
+import androidx.core.content.ContextCompat.getSystemService
+
 
 
 
@@ -28,6 +34,13 @@ class LocationResources(context: Context, val activity: Activity) : BaseFragment
     private var fusedLocationProviderClient: FusedLocationProviderClient =
         LocationServices.getFusedLocationProviderClient(context)
     val PERMISSION_LOCATION_REQUEST_CODE = 1
+
+    fun hasLocationPermission(): Boolean {
+        return EasyPermissions.hasPermissions(
+            context,
+            Manifest.permission.ACCESS_FINE_LOCATION
+        )
+    }
 
     fun requestLocationPermission() {
         EasyPermissions.requestPermissions(
@@ -79,28 +92,14 @@ class LocationResources(context: Context, val activity: Activity) : BaseFragment
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
     }
-
-    fun isLocationEnabled(): Boolean {
-        var locationMode = 0
-        val locationProviders: String
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            try {
-                locationMode = Settings.Secure.getInt(
-                    requireContext().getContentResolver(),
-                    Settings.Secure.LOCATION_MODE
-                )
-            } catch (e: Settings.SettingNotFoundException) {
-                e.printStackTrace()
-            }
-            locationMode != Settings.Secure.LOCATION_MODE_OFF
-        } else {
-            locationProviders = Settings.Secure.getString(
-                requireContext().getContentResolver(),
-                Settings.Secure.LOCATION_MODE
-            )
-            !TextUtils.isEmpty(locationProviders)
+    fun isLocationEnabled(context: Context): Boolean {
+        val manager = context?.getSystemService(Context.LOCATION_SERVICE) as LocationManager?
+        if (!manager!!.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            return false
         }
+        return true
     }
+
     override fun onPermissionsDenied(requestCode: Int, perms: List<String>) {
         if (EasyPermissions.somePermissionDenied(this, perms.first())) {
             SettingsDialog.Builder(requireActivity()).build().show()

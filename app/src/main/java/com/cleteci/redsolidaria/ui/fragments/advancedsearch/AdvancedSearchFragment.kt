@@ -126,7 +126,7 @@ class AdvancedSearchFragment : BaseFragment(), AdvancedSearchContract.View,
 
         lyLocation = rootView?.findViewById(R.id.lyLocation);
         lyLocation!!.setOnClickListener {
-            if (locationResources.isLocationEnabled()) {
+            if (locationResources.isLocationEnabled(requireContext())) {
                 if (ActivityCompat.checkSelfPermission(
                         requireContext(),
                         Manifest.permission.ACCESS_FINE_LOCATION
