@@ -31,16 +31,15 @@ import com.cleteci.redsolidaria.models.Category
 import com.cleteci.redsolidaria.ui.adapters.CategoriesAdapter
 import com.cleteci.redsolidaria.ui.base.BaseFragment
 import com.cleteci.redsolidaria.ui.fragments.resourcesResult.ResourcesResultFragment
+import com.cleteci.redsolidaria.util.LocationResources
+import com.cleteci.redsolidaria.util.showAlert
 import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
-import com.google.android.gms.maps.model.LatLng
 import com.schibstedspain.leku.*
 import javax.inject.Inject
 
 
 class AdvancedSearchFragment : BaseFragment(), AdvancedSearchContract.View,
     CategoriesAdapter.OnItemClickListener {
-
 
 
     private var mFusedLocationClient: FusedLocationProviderClient? = null
@@ -53,6 +52,7 @@ class AdvancedSearchFragment : BaseFragment(), AdvancedSearchContract.View,
     var searchView: SearchView? = null
     var mAdapter: CategoriesAdapter? = null
     private val listCategory = ArrayList<Category>()
+    private lateinit var locationResources: LocationResources
 
     @Inject
     lateinit var presenter: AdvancedSearchContract.Presenter
@@ -66,9 +66,22 @@ class AdvancedSearchFragment : BaseFragment(), AdvancedSearchContract.View,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         injectDependency()
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(activity!!)
+        locationResources = LocationResources(requireContext(), requireActivity())
+        locationResources.currentLocation.observe(this,
+            androidx.lifecycle.Observer { currentLocation: Location ->
+                val locationPickerIntent = LocationPickerActivity.Builder()
+                    .withLocation(currentLocation.latitude, currentLocation.longitude)
+                    .withGeolocApiKey(getString(R.string.google_maps_key))
+                    .withSearchZone("es_ES")
+                    .build(requireContext())
+                startActivityForResult(
+                    locationPickerIntent,
+                    MAP_BUTTON_REQUEST_CODE
+                )
+            })
     }
 
+    @SuppressLint("MissingPermission")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -80,7 +93,8 @@ class AdvancedSearchFragment : BaseFragment(), AdvancedSearchContract.View,
         lyContainer = rootView?.findViewById(R.id.lyContainer);
         searchView = rootView?.findViewById(R.id.searchView);
         searchView!!.setIconified(false)
-        var imm: InputMethodManager = context!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        var imm: InputMethodManager =
+            context!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         if (imm != null && view != null) {
             imm.showSoftInput(view, 0)
         }
@@ -112,16 +126,31 @@ class AdvancedSearchFragment : BaseFragment(), AdvancedSearchContract.View,
 
         lyLocation = rootView?.findViewById(R.id.lyLocation);
         lyLocation!!.setOnClickListener {
-            val locationPickerIntent = LocationPickerActivity.Builder()
-                .withLocation(25.7617,-80.1918)
-                .withGeolocApiKey(getString(R.string.google_maps_key))
-                .withSearchZone("US")
-                .build(context!!)
+            if (locationResources.isLocationEnabled()) {
+                if (ActivityCompat.checkSelfPermission(
+                        requireContext(),
+                        Manifest.permission.ACCESS_FINE_LOCATION
+                    ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                        requireContext(),
+                        Manifest.permission.ACCESS_COARSE_LOCATION
+                    ) != PackageManager.PERMISSION_GRANTED
+                ) {
+                    locationResources.requestLocationPermission()
 
-            startActivityForResult(locationPickerIntent, MAP_BUTTON_REQUEST_CODE)
+                } else {
+                    locationResources.loadLocation()
+                }
+            } else {
+                showAlert(
+                    requireContext(),
+                    R.drawable.ic_error,
+                    getString(R.string.location_on),
+                    getString(R.string.ok)
+                )
+            }
         }
         mListRecyclerView?.setLayoutManager(LinearLayoutManager(getActivity()))
-        mAdapter = CategoriesAdapter(activity?.applicationContext, listCategory, this, 2,  false)
+        mAdapter = CategoriesAdapter(activity?.applicationContext, listCategory, this, 2, false)
         mListRecyclerView?.setAdapter(mAdapter)
         return rootView
     }
@@ -289,9 +318,11 @@ class AdvancedSearchFragment : BaseFragment(), AdvancedSearchContract.View,
     override fun itemDetail(postId: Int) {
         activity!!.supportFragmentManager.beginTransaction()
             .addToBackStack(null)
-            .replace(R.id.container_fragment,
+            .replace(
+                R.id.container_fragment,
                 ResourcesResultFragment.newInstance(this.listCategory[postId], "asdf"),
-                ResourcesResultFragment.TAG)
+                ResourcesResultFragment.TAG
+            )
             .commit()
     }
 

@@ -182,6 +182,12 @@
     <string name="countries_prompt">Seleccione un país de origen</string>
     <string name="countries_hint">Seleccione un país</string>
 
+    <!--LocationServices-->
+
+    <string name="position_permissed">Esta aplicación no puede funcionar sin los permisos de localización.</string>
+    <string name="location_on">es necesario encender el GPS para poder continuar</string>
+
+
     <!--DETAIL SERVICE-->
     <string name="here">aquí</string>
     <string name="location">Ubicación</string>

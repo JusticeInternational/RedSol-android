@@ -7,6 +7,7 @@ import android.app.Dialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Address
+import android.location.Location
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -20,6 +21,9 @@ import com.cleteci.redsolidaria.di.module.FragmentModule
 import com.cleteci.redsolidaria.models.Organization
 import com.cleteci.redsolidaria.ui.activities.main.MainActivity
 import com.cleteci.redsolidaria.ui.base.BaseFragment
+import com.cleteci.redsolidaria.ui.fragments.createOrganization.CreateOrganizationFragment
+import com.cleteci.redsolidaria.util.LocationResources
+import com.cleteci.redsolidaria.util.showAlert
 import com.schibstedspain.leku.*
 import kotlinx.android.synthetic.main.fragment_my_profile_provider.*
 import javax.inject.Inject
@@ -43,6 +47,7 @@ class MyProfileProviderFragment : BaseFragment(), MyProfileProviderContract.View
 
     @Inject
     lateinit var presenter: MyProfileProviderContract.Presenter
+    private lateinit var locationResources: LocationResources
 
     private lateinit var rootView: View
 
@@ -53,6 +58,18 @@ class MyProfileProviderFragment : BaseFragment(), MyProfileProviderContract.View
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         injectDependency()
+        locationResources = LocationResources(requireContext(), requireActivity())
+        locationResources.currentLocation.observe(this,
+            androidx.lifecycle.Observer { currentLocation: Location ->
+                val locationPickerIntent = LocationPickerActivity.Builder()
+                    .withLocation(currentLocation.latitude, currentLocation.longitude)
+                    .withGeolocApiKey(getString(R.string.google_maps_key))
+                    .withSearchZone("es_ES")
+                    .build(requireContext())
+                startActivityForResult(locationPickerIntent,
+                    MAP_BUTTON_REQUEST_CODE
+                )
+            })
     }
 
     override fun onCreateView(
@@ -109,14 +126,28 @@ class MyProfileProviderFragment : BaseFragment(), MyProfileProviderContract.View
         btSend = rootView?.findViewById(R.id.btSend);
 
         etLocation!!.setOnClickListener {
-            val locationPickerIntent = LocationPickerActivity.Builder()
-                .withLocation(41.4036299, 2.1743558)
-                .withGeolocApiKey(getString(R.string.google_maps_key))
-                .withSearchZone("es_ES")
+            if (locationResources.isLocationEnabled()) {
+                if (ActivityCompat.checkSelfPermission(
+                        requireContext(),
+                        Manifest.permission.ACCESS_FINE_LOCATION
+                    ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                        requireContext(),
+                        Manifest.permission.ACCESS_COARSE_LOCATION
+                    ) != PackageManager.PERMISSION_GRANTED
+                ) {
+                    locationResources.requestLocationPermission()
 
-                .build(context!!)
-
-            startActivityForResult(locationPickerIntent, MAP_BUTTON_REQUEST_CODE)
+                } else {
+                    locationResources.loadLocation()
+                }
+            } else {
+                showAlert(
+                    requireContext(),
+                    R.drawable.ic_error,
+                    getString(R.string.location_on),
+                    getString(R.string.ok)
+                )
+            }
 
         }
 
