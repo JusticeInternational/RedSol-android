@@ -1,3 +1,0 @@
-mutation registerUser($email: String!, $name: String!, $lastName: String!, $password: String!) {
-    CreateUser(email: $email, name: $name, lastName: $lastName, password: $password)
-}

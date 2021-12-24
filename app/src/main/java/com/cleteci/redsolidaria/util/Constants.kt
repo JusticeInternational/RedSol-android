@@ -9,6 +9,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.text.Spanned
 import android.util.Patterns
+import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import android.widget.Button
@@ -132,7 +133,7 @@ fun CharSequence?.isValidEmail() = !isNullOrEmpty() && Patterns.EMAIL_ADDRESS.ma
 
 fun CharSequence?.isValidPhone() = !isNullOrEmpty() && Patterns.PHONE.matcher(this).matches()
 
-fun showAlert(context: Context, icon: Int, msg: String, buttonText: String) {
+fun showAlert(context: Context, icon: Int, msg: String, buttonText: String, dialogClickListener: DialogClickListener? = null) {
     val dialog = Dialog(context)
     dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
     dialog.window!!.setLayout(
@@ -149,9 +150,18 @@ fun showAlert(context: Context, icon: Int, msg: String, buttonText: String) {
     val yesBtn = dialog.findViewById(R.id.btCont) as Button
 
     yesBtn.text = buttonText
-    yesBtn.setOnClickListener {
-        dialog.dismiss()
+    if(dialogClickListener == null){
+        yesBtn.setOnClickListener {  dialog.dismiss() }
+    } else {
+        yesBtn.setOnClickListener{
+            dialog.dismiss()
+            dialogClickListener.onOkClick()
+        }
     }
 
     dialog.show()
+}
+
+interface DialogClickListener {
+    fun onOkClick()
 }

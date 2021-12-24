@@ -21,3 +21,12 @@ query getCategories {
         icon
     }
 }
+
+query getServiceCategories {
+    ServiceCategories {
+        id
+        name
+        icon
+        description
+    }
+}

@@ -123,7 +123,7 @@ object LocalDataForUITest {
         return null
     }
 
-    fun getOrganizationById(id: String): Organization? {
+    fun getOrganizationByIdTest(id: String): Organization? {
         for ( organization in getOrganizationsList() ) {
             if(organization.id == id)
                 return organization

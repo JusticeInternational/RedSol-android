@@ -5,7 +5,7 @@ import com.apollographql.apollo.ApolloCall
 import com.apollographql.apollo.api.Response
 import com.apollographql.apollo.exception.ApolloException
 import com.cleteci.redsolidaria.BaseApp
-import com.cleteci.redsolidaria.GetOrganizationInfoQuery
+import com.cleteci.redsolidaria.GetOrganizationByUserIdQuery
 import com.cleteci.redsolidaria.UpdateOrganizationMutation
 import com.cleteci.redsolidaria.data.LocalDataForUITest
 import com.cleteci.redsolidaria.models.Organization
@@ -32,8 +32,8 @@ class MyProfileProviderPresenter: MyProfileProviderContract.Presenter {
         view.init() // as default
     }
 
-    private fun deserializeResponse(org: GetOrganizationInfoQuery.User?): Organization? {
-        var organization = org?.ownerOf()
+    private fun deserializeResponse(org: GetOrganizationByUserIdQuery.User?): Organization? {
+        var organization = org?.ownerOf()?.fragments()?.organizationDetails()
         return if (organization != null) {
             Organization(
                 organization.id(),
@@ -59,9 +59,9 @@ class MyProfileProviderPresenter: MyProfileProviderContract.Presenter {
 
     override fun loadData() {
         BaseApp.apolloClient.query(
-            GetOrganizationInfoQuery.builder().id(BaseApp.sharedPreferences.userSaved.toString()).build()
-        ).enqueue(object : ApolloCall.Callback<GetOrganizationInfoQuery.Data>() {
-            override fun onResponse(response: Response<GetOrganizationInfoQuery.Data>) {
+            GetOrganizationByUserIdQuery.builder().id(BaseApp.sharedPreferences.userSaved.toString()).build()
+        ).enqueue(object : ApolloCall.Callback<GetOrganizationByUserIdQuery.Data>() {
+            override fun onResponse(response: Response<GetOrganizationByUserIdQuery.Data>) {
                 if (response.data() != null) {
                     val org = deserializeResponse(response.data()?.User()?.get(0))
                     if(org != null ) {

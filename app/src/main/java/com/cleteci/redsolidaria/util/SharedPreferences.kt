@@ -3,6 +3,8 @@ package com.cleteci.redsolidaria.util
 import android.content.Context
 import android.content.SharedPreferences
 import com.cleteci.redsolidaria.BaseApp
+import com.cleteci.redsolidaria.GetOrganizationByUserIdQuery
+import com.cleteci.redsolidaria.fragment.OrganizationDetails
 import com.cleteci.redsolidaria.models.Organization
 
 class SharedPreferences(context: Context) {
@@ -31,6 +33,10 @@ class SharedPreferences(context: Context) {
     var currentOrganizationId: String?
         get() = sharedPreferences.getString(CURRENT_ORG, null)
         set(value) = sharedPreferences.edit().putString(CURRENT_ORG, value).apply()
+
+    var currentOrganizationName: String?
+        get() = sharedPreferences.getString(Organization.Attribute.NAME.name, null)
+        set(value) = sharedPreferences.edit().putString(Organization.Attribute.NAME.name, value).apply()
 
     var token: String?
         get() = sharedPreferences.getString(TOKEN, null)
@@ -108,6 +114,19 @@ class SharedPreferences(context: Context) {
             editor.putString(Organization.Attribute.EMAIL.name, organization.user.email)
             editor.putString(Organization.Attribute.LAT.name, organization.lat.toString())
             editor.putString(Organization.Attribute.LNG.name, organization.lng.toString())
+            editor.commit()
+        }
+
+        fun putOrganizationAttributes(userEmail: String, organization: OrganizationDetails) {
+            val editor = getSharedPreferencesEditor()
+            editor.putString(Organization.Attribute.NAME.name, organization.name())
+            editor.putString(Organization.Attribute.SCHEDULE.name, organization.hourHand())
+            editor.putString(Organization.Attribute.LOCATION.name, organization.location()?.name())
+            editor.putString(Organization.Attribute.PAGE.name, organization.webPage())
+            editor.putString(Organization.Attribute.PHONE.name, organization.phone())
+            editor.putString(Organization.Attribute.EMAIL.name, userEmail)
+            editor.putString(Organization.Attribute.LAT.name, organization.location()?.lat().toString())
+            editor.putString(Organization.Attribute.LNG.name, organization.location()?.lng().toString())
             editor.commit()
         }
 

@@ -6,6 +6,7 @@ import com.apollographql.apollo.cache.CacheHeaders
 import com.apollographql.apollo.rx2.rxMutate
 import com.apollographql.apollo.rx2.rxQuery
 import com.cleteci.redsolidaria.*
+import com.cleteci.redsolidaria.type.UserGroup
 import com.cleteci.redsolidaria.viewModels.OrganizationViewModel
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -27,20 +28,33 @@ class GraphQLController(private val apolloClient: ApolloClient) {
         }
     }
 
-    fun getOrganization(id: String): Observable<Response<GetOrganizationInfoQuery.Data>> {
-        val query = GetOrganizationInfoQuery(id)
+    fun getOrganizationByUserId(userId: String): Observable<Response<GetOrganizationByUserIdQuery.Data>> {
+        val query = GetOrganizationByUserIdQuery(userId)
         return apolloClient.rxQuery(query) {
             cacheHeaders(CacheHeaders.NONE)
         }
     }
 
-    fun getCategories(): Observable<Response<GetCategoriesQuery.Data>> {
-        val query = GetCategoriesQuery()
+    fun getOrganizationById(organizationId: String): Observable<Response<GetOrganizationByIdQuery.Data>> {
+        val query = GetOrganizationByIdQuery(organizationId)
         return apolloClient.rxQuery(query) {
             cacheHeaders(CacheHeaders.NONE)
         }
     }
 
+    fun getServiceCategories(): Observable<Response<GetServiceCategoriesQuery.Data>> {
+        val query = GetServiceCategoriesQuery()
+        return apolloClient.rxQuery(query) {
+            cacheHeaders(CacheHeaders.NONE)
+        }
+    }
+
+    fun getServices(): Observable<Response<GetServicesQuery.Data>> {
+        val query = GetServicesQuery()
+        return apolloClient.rxQuery(query) {
+            cacheHeaders(CacheHeaders.NONE)
+        }
+    }
 
     fun getOrganizationServicesAndCategories(id: String): Observable<Response<GetOrganizationServicesAndCategoriesQuery.Data>> {
         val query = GetOrganizationServicesAndCategoriesQuery(id)
@@ -132,6 +146,28 @@ class GraphQLController(private val apolloClient: ApolloClient) {
             request.servicesDesc,
             request.iconName,
             request.urlIcon
+        )
+        return apolloClient.rxMutate(mutation) {
+            cacheHeaders(CacheHeaders.NONE)
+        }
+    }
+
+    fun associateOrganizationToUser(userId: String, organizationId: String):
+        Single<Response<AssociateOrganizationToUserMutation.Data>> {
+        val mutation = AssociateOrganizationToUserMutation(
+            userId,
+            organizationId
+        )
+        return apolloClient.rxMutate(mutation) {
+            cacheHeaders(CacheHeaders.NONE)
+        }
+    }
+
+    fun updateUserRoleToAdmin(userId: String):
+        Single<Response<UpdateUserRoleMutation.Data>> {
+        val mutation = UpdateUserRoleMutation(
+            userId,
+            UserGroup.ADMIN
         )
         return apolloClient.rxMutate(mutation) {
             cacheHeaders(CacheHeaders.NONE)

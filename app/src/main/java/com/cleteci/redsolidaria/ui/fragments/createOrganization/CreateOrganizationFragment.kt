@@ -27,14 +27,27 @@ import org.koin.android.viewmodel.ext.android.viewModel
 import java.util.UUID;
 
 import androidx.core.app.ActivityCompat
-
+import com.cleteci.redsolidaria.BaseApp
+import com.cleteci.redsolidaria.GetServiceCategoriesQuery
+import com.cleteci.redsolidaria.GetServicesQuery
+import com.cleteci.redsolidaria.ui.login.LoginActivity
+import com.cleteci.redsolidaria.util.DialogClickListener
+import com.cleteci.redsolidaria.util.showInfoDialog
+import com.cleteci.redsolidaria.viewModels.BaseViewModel
+import kotlinx.android.synthetic.main.activity_register.*
 
 class CreateOrganizationFragment : BaseFragment() {
 
     private var categoryList: ArrayList<String> = ArrayList()
+    private var serviceList: ArrayList<String> = ArrayList()
     private val generalVM by viewModel<GeneralViewModel>()
     private val organizationVM by viewModel<OrganizationViewModel>()
     private lateinit var locationResources: LocationResources
+    private val dialogClickListener: DialogClickListener = object : DialogClickListener {
+        override fun onOkClick() {
+
+        }
+    }
 
     companion object {
         const val TAG: String = "CreateOrganizationFragment"
@@ -47,10 +60,47 @@ class CreateOrganizationFragment : BaseFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        generalVM.usedCategories.observe(this,
-            androidx.lifecycle.Observer { usedCategories: ArrayList<Category> ->
-                loadDataSuccess(usedCategories)
+
+        generalVM.categories.observe(this,
+            androidx.lifecycle.Observer { categories: List<GetServiceCategoriesQuery.ServiceCategory> ->
+                loadDataSuccess(categories)
             })
+        generalVM.services.observe(this,
+            androidx.lifecycle.Observer { services: List<GetServicesQuery.Service> ->
+                loadServices(services)
+            })
+        organizationVM.status.observe(this, androidx.lifecycle.Observer { status: BaseViewModel.QueryStatus? ->
+            when (status) {
+                BaseViewModel.QueryStatus.NOTIFY_LOADING -> showLoading(true)
+                BaseViewModel.QueryStatus.NOTIFY_SUCCESS -> {
+                    showLoading(false)
+                    showAlert(
+                        requireContext(),
+                        R.drawable.ic_check_green,
+                        getString(R.string.create_organization_success, etName.text),
+                        getString(R.string.ok),
+                        object : DialogClickListener {
+                            override fun onOkClick() {
+                                BaseApp.sharedPreferences.logout()
+                                goToLogin()
+                                activity?.finish()
+                            }
+                        }
+                    )
+                }
+                BaseViewModel.QueryStatus.NOTIFY_FAILURE -> {
+                    showLoading(false)
+                    showAlert(requireContext(),
+                        R.drawable.ic_error,
+                        getString(R.string.error_creating_organization),
+                        getString(R.string.ok))
+                }
+                else -> {
+                    showLoading(false)
+                }
+            }
+        })
+
         locationResources = LocationResources(requireContext(), requireActivity())
         locationResources.currentLocation.observe(this,
             androidx.lifecycle.Observer { currentLocation: Location ->
@@ -61,7 +111,9 @@ class CreateOrganizationFragment : BaseFragment() {
                     .build(requireContext())
                 startActivityForResult(locationPickerIntent, MAP_BUTTON_REQUEST_CODE)
             })
-        generalVM.getUsedCategories()
+
+        generalVM.getServiceCategories()
+        generalVM.getServices()
     }
 
     override fun onCreateView(
@@ -74,11 +126,20 @@ class CreateOrganizationFragment : BaseFragment() {
         init()
     }
 
-    fun loadDataSuccess(list: List<Category>) {
+    fun loadDataSuccess(list: List<GetServiceCategoriesQuery.ServiceCategory>) {
         activity?.runOnUiThread {
             categoryList.clear()
             list.forEach {
-                categoryList.add(it.name)
+                categoryList.add(it.name())
+            }
+        }
+    }
+
+    private fun loadServices(services: List<GetServicesQuery.Service>) {
+        activity?.runOnUiThread {
+            serviceList.clear()
+            services.forEach {
+                it.name()?.let { name -> serviceList.add(name) }
             }
         }
     }
@@ -102,6 +163,23 @@ class CreateOrganizationFragment : BaseFragment() {
                 .create()
                 .show()
         }
+
+        selectService.setOnClickListener {
+            val adapter = ArrayAdapter<String>(
+                requireContext(),
+                android.R.layout.simple_spinner_dropdown_item,
+                serviceList
+            )
+            AlertDialog.Builder(requireContext())
+                .setTitle(getString(R.string.select_service_create))
+                .setAdapter(adapter) { dialog, which ->
+                    selectService.text = serviceList[which]
+                    dialog.dismiss()
+                }
+                .create()
+                .show()
+        }
+
         etLocation.setOnClickListener {
             if (locationResources.isLocationEnabled(requireContext())) {
                 if (ActivityCompat.checkSelfPermission(
@@ -129,30 +207,23 @@ class CreateOrganizationFragment : BaseFragment() {
 
         btCreate.setOnClickListener {
             if (isValidOrganizationData()) {
-                showAlert(
-                    requireContext(),
-                    R.drawable.ic_check_green,
-                    getString(R.string.create_organization_success, etName.text),
-                    getString(R.string.ok)
-                )
-
-                organizationVM.CreateOrganization(
+                organizationVM.createOrganization(
                     OrganizationViewModel.CreateOrganizationRequest(
-                        UUID.randomUUID().toString(),
-                        etName.text.toString(),
-                        etPhone.text.toString(),
-                        etWeb.text.toString(),
-                        "",
-                        "",
-                        etDesc.text.toString(),
-                        "",
-                        "",
-                        ""
+                        id = UUID.randomUUID().toString(),
+                        name = etName.text.toString(),
+                        phone = etPhone.text.toString(),
+                        webPage = etWeb.text.toString(),
+                        hourHand = etHour.text.toString(),
+                        description = etDesc.text.toString()
                     )
                 )
-                //  activity?.onBackPressed()
             }
         }
+    }
+
+    fun goToLogin() {
+        val intent = Intent(requireActivity(), LoginActivity::class.java)
+        startActivity(intent)
     }
 
     private fun isValidOrganizationData(): Boolean {

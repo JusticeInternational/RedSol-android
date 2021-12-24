@@ -153,8 +153,7 @@ class MainActivity : AppCompatActivity(), MainContract.View,
         }
 
         if (BaseApp.sharedPreferences.loginLater) {
-            val item: MenuItem = navView.menu.findItem(R.id.nav_create_organization)
-            if (item != null) item.isVisible = false
+            hideCreateOrganization()
             tvLoginLogout!!.setText(R.string.login)
             icLoginLogout.setImageDrawable(
                 AppCompatResources.getDrawable(
@@ -174,6 +173,7 @@ class MainActivity : AppCompatActivity(), MainContract.View,
 
         bottomNavView.menu.clear(); //clear old inflated items.
         if (BaseApp.sharedPreferences.isProviderService) {
+            hideCreateOrganization()
             bottomNavView.inflateMenu(R.menu.bottom_nav_menu_provider)
         } else {
             bottomNavView.inflateMenu(R.menu.bottom_nav_menu)
@@ -212,6 +212,11 @@ class MainActivity : AppCompatActivity(), MainContract.View,
 
         bottomNavView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
         switchTab(0)
+    }
+
+    private fun hideCreateOrganization() {
+        val item: MenuItem = navView.menu.findItem(R.id.nav_create_organization)
+        if (item != null) item.isVisible = false
     }
 
     override fun showHomeFragment() {
@@ -418,6 +423,7 @@ class MainActivity : AppCompatActivity(), MainContract.View,
             )
             .commit()
     }
+
     private fun openCreateOrganizationFragment() {
         supportFragmentManager.beginTransaction()
             .addToBackStack(null)
@@ -534,9 +540,11 @@ class MainActivity : AppCompatActivity(), MainContract.View,
     override fun showSuggestFragment() {
         openSuggestFragment()
     }
+
     override fun showCreateOrganizationFragment() {
         openCreateOrganizationFragment()
     }
+
     override fun showConfigFragment() {
         openConfigFragment()
     }
@@ -658,7 +666,6 @@ class MainActivity : AppCompatActivity(), MainContract.View,
             R.id.nav_create_organization -> {
                 presenter.onDrawerCreateOrganizationOption()
                 bottomNavView.visibility = View.GONE
-
             }
         }
         drawerLayout.closeDrawer(GravityCompat.START)

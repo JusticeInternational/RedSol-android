@@ -4,20 +4,20 @@ import android.content.res.Resources
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.apollographql.apollo.api.Response
-import com.cleteci.redsolidaria.BaseApp
-import com.cleteci.redsolidaria.GetCategoriesQuery
-import com.cleteci.redsolidaria.GetUsedCategoriesQuery
-import com.cleteci.redsolidaria.R
+import com.cleteci.redsolidaria.*
 import com.cleteci.redsolidaria.data.LocalDataForUITest.getCategoriesList
 import com.cleteci.redsolidaria.models.Category
+import com.cleteci.redsolidaria.models.Service
 import com.cleteci.redsolidaria.network.GraphQLController
+import com.cleteci.redsolidaria.viewModels.OrganizationViewModel.Companion.getCategoryIconByIconString
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 class GeneralViewModel(private val graphQLController: GraphQLController) : BaseViewModel() {
 
     val usedCategories = MutableLiveData<ArrayList<Category>>()
-    val categories = MutableLiveData<ArrayList<Category>>()
+    val categories = MutableLiveData<List<GetServiceCategoriesQuery.ServiceCategory>>()
+    val services = MutableLiveData<List<GetServicesQuery.Service>>()
 
     fun getUsedCategories() {
         status.value = QueryStatus.NOTIFY_LOADING
@@ -30,7 +30,7 @@ class GeneralViewModel(private val graphQLController: GraphQLController) : BaseV
                         response.data?.usedCategories().isNullOrEmpty()) {
                         ArrayList()
                     } else {
-                         deserializeResponse(response.data!!.usedCategories())
+                        deserializeResponse(response.data!!.usedCategories())
                     }.distinct() as ArrayList<Category>
                     status.value = QueryStatus.NOTIFY_SUCCESS
                 }, {
@@ -41,80 +41,134 @@ class GeneralViewModel(private val graphQLController: GraphQLController) : BaseV
 
     }
 
-    fun getCategories() {
+    fun getServiceCategories() {
         status.value = QueryStatus.NOTIFY_LOADING
         compositeDisposable.add(
-            graphQLController.getCategories()
+            graphQLController.getServiceCategories()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ response: Response<GetCategoriesQuery.Data> ->
+                .subscribe({ response: Response<GetServiceCategoriesQuery.Data> ->
                     categories.value = if (response.data == null ||
-                        response.data?.Categories().isNullOrEmpty()) {
+                        response.data?.ServiceCategories().isNullOrEmpty()) {
                         ArrayList()
                     } else {
-                        deserializeResponse(response.data!!.Categories())
-                    }.distinct() as ArrayList<Category>
+                        ArrayList(response.data!!.ServiceCategories().orEmpty())
+                    }.distinct()
                     status.value = QueryStatus.NOTIFY_SUCCESS
                 }, {
                     status.value = QueryStatus.NOTIFY_FAILURE
                     Log.d(TAG, it.message)
                 })
         )
+    }
 
+    fun getServices() {
+        status.value = QueryStatus.NOTIFY_LOADING
+        compositeDisposable.add(
+            graphQLController.getServices()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ response: Response<GetServicesQuery.Data> ->
+                    services.value = if (response.data == null ||
+                        response.data?.Services().isNullOrEmpty()) {
+                        ArrayList()
+                    } else {
+                        ArrayList(response.data!!.Services().orEmpty())
+                    }.distinct()
+                    status.value = QueryStatus.NOTIFY_SUCCESS
+                }, {
+                    status.value = QueryStatus.NOTIFY_FAILURE
+                    Log.d(TAG, it.message)
+                })
+        )
     }
 
     private fun deserializeResponse(categories: List<Any>?): java.util.ArrayList<Category> {
         val resources: Resources = BaseApp.instance.resources
         val arrayList = ArrayList<Category>()
-            for (category in categories!!) {
-                if (category is GetCategoriesQuery.Category ) {
-                    var resourceId = resources.getIdentifier(
-                        category.icon(), "drawable",
-                        BaseApp.instance.packageName)
+        for (category in categories!!) {
+            if (category is GetCategoriesQuery.Category) {
+                var resourceId = resources.getIdentifier(
+                    category.icon(), "drawable",
+                    BaseApp.instance.packageName)
 
-                    if (resourceId == 0) {
-                        resourceId =  R.drawable.ic_general_category
-                        for (localCategory in getCategoriesList()) {
-                            if (category.name().equals(localCategory.name, ignoreCase = true)) {
-                                resourceId = localCategory.iconId
-                                break
-                            }
+                if (resourceId == 0) {
+                    resourceId = R.drawable.ic_general_category
+                    for (localCategory in getCategoriesList()) {
+                        if (category.name().equals(localCategory.name, ignoreCase = true)) {
+                            resourceId = localCategory.iconId
+                            break
                         }
                     }
-
-                    arrayList.add(
-                        Category(
-                            category.id(),
-                            category.name(),
-                            resourceId,
-                            icon = category.icon()
-                        )
-                    )
-                } else if (category  is GetUsedCategoriesQuery.UsedCategory) {
-                    var resourceId = resources.getIdentifier(
-                        category.icon(), "drawable",
-                        BaseApp.instance.packageName)
-
-                    if (resourceId == 0) {
-                        resourceId =  R.drawable.ic_general_category
-                        for (localCategory in getCategoriesList()) {
-                            if (category.name().equals(localCategory.name, ignoreCase = true)) {
-                                resourceId = localCategory.iconId
-                                break
-                            }
-                        }
-                    }
-
-                    arrayList.add(
-                        Category(
-                            category.id(),
-                            category.name(),
-                            resourceId,
-                            icon = category.icon()
-                        )
-                    )
                 }
+
+                arrayList.add(
+                    Category(
+                        category.id(),
+                        category.name(),
+                        resourceId,
+                        icon = category.icon()
+                    )
+                )
+            } else if (category is GetUsedCategoriesQuery.UsedCategory) {
+                var resourceId = resources.getIdentifier(
+                    category.icon(), "drawable",
+                    BaseApp.instance.packageName)
+
+                if (resourceId == 0) {
+                    resourceId = R.drawable.ic_general_category
+                    for (localCategory in getCategoriesList()) {
+                        if (category.name().equals(localCategory.name, ignoreCase = true)) {
+                            resourceId = localCategory.iconId
+                            break
+                        }
+                    }
+                }
+
+                arrayList.add(
+                    Category(
+                        category.id(),
+                        category.name(),
+                        resourceId,
+                        icon = category.icon()
+                    )
+                )
             }
+        }
+        return arrayList
+    }
+
+    private fun deserializeServices(list: List<GetOrganizationServicesAndCategoriesQuery.User>?): ArrayList<Service> {
+        val arrayList = ArrayList<Service>()
+
+        val services =
+            if (!list.isNullOrEmpty()) list[0].ownerOf()?.services().orEmpty() else emptyList()
+        for (service in services) {
+            val serviceCategory = service.serviceCategory()
+            if (serviceCategory != null) {
+                val category = Category(
+                    serviceCategory.id(),
+                    serviceCategory.name(),
+                    getCategoryIconByIconString(serviceCategory.icon()),
+                    0,
+                    serviceCategory.description(),
+                    serviceCategory.icon()
+                )
+                arrayList.add(
+                    Service(
+                        service.id(),
+                        service.name()!!,
+                        category,
+                        "",
+                        serviceCategory.id(),
+                        "",
+                        "",
+                        service.description(),
+                        service.isGeneral ?: false
+                    )
+                )
+            }
+        }
         return arrayList
     }
 

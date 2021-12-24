@@ -101,6 +101,23 @@ query getServedUnregisteredCategory($id: ID, $orgID:ID!) {
     }
 }
 
+fragment organizationDetails on Organization {
+    id
+    name
+    phone
+    webPage
+    hourHand
+    description
+    servicesDesc
+    location {
+        name
+        lat
+        lng
+    }
+    plan {
+        name
+    }
+}
 
 query getOrganizationServicesAndCategories($id: ID!) {
     User(id: $id) {
@@ -128,22 +145,18 @@ query getOrganizationServicesAndCategories($id: ID!) {
     }
 }
 
-query getOrganizationInfo($id: ID!) {
+query getOrganizationByUserId($id: ID!) {
     User(id: $id) {
+        email
         ownerOf {
-            id
-            name
-            phone
-            webPage
-            description
-            servicesDesc
-            location {
-                name
-            }
-            plan {
-                name
-            }
+            ...organizationDetails
         }
+    }
+}
+
+query getOrganizationById($id: ID!) {
+    Organization(id: $id) {
+        ...organizationDetails
     }
 }
 
@@ -183,7 +196,7 @@ mutation createOrganization(
 
 
 mutation associateOrganizationToUser($userId: ID!, $organizationId: ID!) {
-    AssociateOrganizationToUser(userId: $userId,organizationId: $organizationId) {
+    AssociateOrganizationToUser(userId: $userId, organizationId: $organizationId) {
         id
         name
     }

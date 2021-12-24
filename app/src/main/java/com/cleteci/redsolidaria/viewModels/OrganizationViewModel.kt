@@ -2,14 +2,11 @@ package com.cleteci.redsolidaria.viewModels
 
 
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
-import com.apollographql.apollo.ApolloCall
 import com.apollographql.apollo.api.Response
-import com.apollographql.apollo.exception.ApolloException
 import com.cleteci.redsolidaria.*
 import com.cleteci.redsolidaria.data.LocalDataForUITest.getGeneralCategory
-import com.cleteci.redsolidaria.data.LocalDataForUITest.getOrganizationById
+import com.cleteci.redsolidaria.data.LocalDataForUITest.getOrganizationByIdTest
 import com.cleteci.redsolidaria.data.LocalDataForUITest.getOrganizationsList
 import com.cleteci.redsolidaria.models.Category
 import com.cleteci.redsolidaria.models.Organization
@@ -18,8 +15,6 @@ import com.cleteci.redsolidaria.network.GraphQLController
 import com.cleteci.redsolidaria.ui.search.OrganizationsCategorySearchAdapter.OrganizationCategory
 import com.cleteci.redsolidaria.util.SharedPreferences.Companion.getTestDataPreference
 import com.cleteci.redsolidaria.util.SharedPreferences.Companion.putOrganizationAttributes
-import com.cleteci.redsolidaria.util.isValidEmail
-import com.cleteci.redsolidaria.util.isValidPhone
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
@@ -31,15 +26,16 @@ class OrganizationViewModel(private val graphQLController: GraphQLController) : 
     val totalCategoryAttentions = MutableLiveData<Int>()
     val totalServiceAttentions = MutableLiveData<Int>()
 
-    fun getOrganization(id: String) {
+    fun getOrganizationByUserId(userId: String) {
         status.value = QueryStatus.NOTIFY_LOADING
         compositeDisposable.add(
-            graphQLController.getOrganization(id)
+            graphQLController.getOrganizationByUserId(userId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ response: Response<GetOrganizationInfoQuery.Data> ->
+                .subscribe({ response: Response<GetOrganizationByUserIdQuery.Data> ->
                     if (response.data == null || response.data?.User().isNullOrEmpty()
                         || response.data?.User()?.get(0)?.ownerOf() == null
+                        || response.data?.User()?.get(0)?.ownerOf()?.fragments()?.organizationDetails() == null
                     ) {
                         status.value = QueryStatus.ORGANIZATION_NOT_FOUND
 
@@ -51,8 +47,43 @@ class OrganizationViewModel(private val graphQLController: GraphQLController) : 
                         }
 
                     } else {
-                        BaseApp.sharedPreferences.currentOrganizationId =
-                            response.data?.User()?.get(0)?.ownerOf()?.id()
+                        val user = response.data!!.User()!![0]
+                        val organization = user?.ownerOf()?.fragments()?.organizationDetails()
+                        BaseApp.sharedPreferences.currentOrganizationId = organization!!.id()
+                        putOrganizationAttributes(user.email(), organization)
+                        status.value = QueryStatus.NOTIFY_SUCCESS
+                    }
+                }, {
+                    status.value = QueryStatus.NOTIFY_FAILURE
+                    Log.d(TAG, it.message)
+                })
+        )
+    }
+
+    fun getOrganizationById(organizationId: String) {
+        status.value = QueryStatus.NOTIFY_LOADING
+        compositeDisposable.add(
+            graphQLController.getOrganizationById(organizationId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ response: Response<GetOrganizationByIdQuery.Data> ->
+                    if (response.data == null || response.data?.Organization().isNullOrEmpty()
+                        || response.data?.Organization()?.get(0) == null
+                        || response.data?.Organization()?.get(0)?.fragments()?.organizationDetails() == null
+                    ) {
+                        status.value = QueryStatus.ORGANIZATION_NOT_FOUND
+
+                        if (getTestDataPreference()) {
+                            val organization =
+                                getOrganizationsList()[0]// Using test data
+                            BaseApp.sharedPreferences.currentOrganizationId = organization.id
+                            putOrganizationAttributes(organization)
+                        }
+
+                    } else {
+                        val organization = response.data!!.Organization()!![0].fragments().organizationDetails()
+                        BaseApp.sharedPreferences.currentOrganizationId = organization.id()
+                        putOrganizationAttributes("", organization)
                         status.value = QueryStatus.NOTIFY_SUCCESS
                     }
                 }, {
@@ -66,7 +97,7 @@ class OrganizationViewModel(private val graphQLController: GraphQLController) : 
         status.value = QueryStatus.NOTIFY_LOADING
 
         if (getTestDataPreference()) {
-            val organization = getOrganizationById("0")!!
+            val organization = getOrganizationByIdTest("0")!!
             val services = organization.servicesList!!
             val categories: ArrayList<Category> = ArrayList()
             for (service in services) {
@@ -139,8 +170,8 @@ class OrganizationViewModel(private val graphQLController: GraphQLController) : 
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ response: Response<GetTotalCategoryAttentionsQuery.Data> ->
-                    val total = response.data?.totalAtentionCategory()?: 0
-                    totalCategoryAttentions.value = if (total != 0 && total >= 4) total/4 else total
+                    val total = response.data?.totalAtentionCategory() ?: 0
+                    totalCategoryAttentions.value = if (total != 0 && total >= 4) total / 4 else total
                     status.value = QueryStatus.NOTIFY_SUCCESS
                 }, {
                     status.value = QueryStatus.NOTIFY_FAILURE
@@ -156,8 +187,8 @@ class OrganizationViewModel(private val graphQLController: GraphQLController) : 
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ response: Response<GetTotalServiceAttentionsQuery.Data> ->
-                    val total = response.data?.totalAtentionService()?: 0
-                    totalServiceAttentions.value = if (total != 0 && total >= 4) total/4 else total
+                    val total = response.data?.totalAtentionService() ?: 0
+                    totalServiceAttentions.value = if (total != 0 && total >= 4) total / 4 else total
                     status.value = QueryStatus.NOTIFY_SUCCESS
                 }, {
                     status.value = QueryStatus.NOTIFY_FAILURE
@@ -290,15 +321,16 @@ class OrganizationViewModel(private val graphQLController: GraphQLController) : 
         compositeDisposable.add(disposable)
 
     }
-    fun CreateOrganization(request: CreateOrganizationRequest) {
+
+    fun createOrganization(request: CreateOrganizationRequest) {
         status.value = QueryStatus.NOTIFY_LOADING
-        val disposable =
+        compositeDisposable.add(
             graphQLController.createOrganization(request)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ response: Response<CreateOrganizationMutation.Data> ->
                     if (response.data != null) {
-                        status.value = QueryStatus.NOTIFY_SUCCESS
+                        associateOrganizationToUser(request.id)
                     } else {
                         status.value = QueryStatus.NOTIFY_FAILURE
                     }
@@ -306,10 +338,57 @@ class OrganizationViewModel(private val graphQLController: GraphQLController) : 
                     status.value = QueryStatus.NOTIFY_FAILURE
                     Log.d(TAG, it.message)
                 })
-
-        compositeDisposable.add(disposable)
-
+        )
     }
+
+    private fun associateOrganizationToUser(organizationId: String) {
+        status.value = QueryStatus.NOTIFY_LOADING
+        val userId = BaseApp.sharedPreferences.userSaved
+        if (!userId.isNullOrEmpty()) {
+            compositeDisposable.add(
+                graphQLController.associateOrganizationToUser(userId, organizationId)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({ response: Response<AssociateOrganizationToUserMutation.Data> ->
+                        if (response.data != null) {
+                            updateUserRoleToAdmin()
+                        } else {
+                            status.value = QueryStatus.NOTIFY_FAILURE
+                        }
+                    }, {
+                        status.value = QueryStatus.NOTIFY_FAILURE
+                        Log.d(TAG, it.message)
+                    })
+            )
+        } else {
+            status.value = QueryStatus.NOTIFY_FAILURE
+        }
+    }
+
+    private fun updateUserRoleToAdmin() {
+        status.value = QueryStatus.NOTIFY_LOADING
+        val userId = BaseApp.sharedPreferences.userSaved
+        if (!userId.isNullOrEmpty()) {
+            compositeDisposable.add(
+                graphQLController.updateUserRoleToAdmin(userId)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({ response: Response<UpdateUserRoleMutation.Data> ->
+                        if (response.data != null) {
+                            status.value = QueryStatus.NOTIFY_SUCCESS
+                        } else {
+                            status.value = QueryStatus.NOTIFY_FAILURE
+                        }
+                    }, {
+                        status.value = QueryStatus.NOTIFY_FAILURE
+                        Log.d(TAG, it.message)
+                    })
+            )
+        } else {
+            status.value = QueryStatus.NOTIFY_FAILURE
+        }
+    }
+
     class CreateAttentionRequest(
         val serviceId: String = "",
         val categoryId: String = "",
@@ -329,29 +408,30 @@ class OrganizationViewModel(private val graphQLController: GraphQLController) : 
     class CreateOrganizationRequest(
         val id: String = "",
         val name: String = "",
-        val phone: String ="",
-        val webPage: String ="",
-        val ranking: String ="",
+        val phone: String = "",
+        val webPage: String = "",
+        val ranking: String = "",
         val hourHand: String = "",
         val description: String = "",
         val servicesDesc: String = "",
-        val iconName: String ="",
+        val iconName: String = "",
         val urlIcon: String = ""
 
     )
-    private fun getCategoryIconByIconString(name: String): Int {
-        return when (name) {
-            "food" -> R.drawable.ic_food
-            "cross" -> R.drawable.ic_cross
-            "transport" -> R.drawable.ic_transport
-            "education" -> R.drawable.ic_education
-            else -> R.drawable.ic_general_category
-        }
-    }
+
 
     companion object {
         const val TAG: String = "OrganizationViewModel"
 
+        fun getCategoryIconByIconString(name: String): Int {
+            return when (name) {
+                "food" -> R.drawable.ic_food
+                "cross" -> R.drawable.ic_cross
+                "transport" -> R.drawable.ic_transport
+                "education" -> R.drawable.ic_education
+                else -> R.drawable.ic_general_category
+            }
+        }
     }
 
 }

@@ -140,6 +140,7 @@
     <string name="welcome_success">Bienvenido %1$s, ya puedes iniciar sesión</string>
     <string name="go_to_login">Iniciar sesión</string>
     <string name="error_creating_user">Ups! Lo sentimos, ocurrió un error registrando nuevo usuario</string>
+    <string name="error_creating_organization">Ups! Lo sentimos, ocurrió un error registrando nueva organización</string>
     <string name="error_creating_user_email_exist">Ups! Lo sentimos, el email ya existe. Puede intentar con otro email, o reestablecer la contraseña</string>
     <string name="failed_register">Error, el email ya existe. Puede intentar con otro email, o reestablecer la contraseña</string>
     <string name="register_new_user">Registro nuevo usuario</string>
@@ -169,7 +170,7 @@
     <string name="origin_county">País de origen</string>
     <string name="lastName">Apellido</string>
     <string name="lastName_2">Apellido*</string>
-    <string name="organization_name">Nombre de la organización</string>
+    <string name="organization_name">Nombre de la organización*</string>
     <string name="from_red_solidaria_team">De parte del equipo de Red Solidaria nos gustaría conocer como ayudarte, puedes dejar aquí cualquier comentario, duda o sugerencia</string>
     <string name="web_site">Página web</string>
     <string name="email">Correo</string>
@@ -191,10 +192,12 @@
     <!--DETAIL SERVICE-->
     <string name="here">aquí</string>
     <string name="location">Ubicación</string>
+    <string name="location_mandatory">Ubicación*</string>
     <string name="phone">Teléfono</string>
     <string name="schedule">Horario</string>
     <string name="aditional_info">Información adicional</string>
     <string name="description">Descripción</string>
+    <string name="description_mandatory">Descripción*</string>
     <string name="services_desc">Descripción de Servicios</string>
     <string name="about_us">Acerca de la Organización</string>
     <string name="service_plan">Plan de servicio</string>
@@ -257,7 +260,8 @@
     <!--CATEGORIES-->
     <string name="resourses_categories">Categorías de nuestros recursos de apoyo</string>
     <string name="category">Categoría</string>
-    <string name="select_category_Create">Seleccione una Categoría</string>
+    <string name="select_category_create">Seleccione una categoría</string>
+    <string name="select_service_create">Seleccione un servicio</string>
 
     <string name="validate_with_code">Validar con código ID</string>
     <string name="to_scan">Para contabilizar el código de otro usuario a %1$s %2$s %3$s por usted, deberá escanear el código QR del usuario colocándolo centrado en el recuadro a continuación</string>

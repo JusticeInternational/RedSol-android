@@ -1,0 +1,18 @@
+mutation registerUser($email: String!, $name: String!, $lastName: String!, $password: String!) {
+    CreateUser(email: $email, name: $name, lastName: $lastName, password: $password)
+}
+
+mutation resetPassword($email: String!) {
+    passwordReset(email: $email)
+}
+
+mutation changePassword($password: String!, $token: String!) {
+    changeUserPassword(newPassword: $password, token: $token)
+}
+
+mutation updateUserRole($id: ID!, $role: UserGroup!) {
+    UpdateUser(id: $id, role: $role) {
+        id
+        name
+    }
+}
