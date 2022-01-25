@@ -42,7 +42,6 @@ class AdvancedSearchFragment : BaseFragment(), AdvancedSearchContract.View,
     CategoriesAdapter.OnItemClickListener {
 
 
-    private var mFusedLocationClient: FusedLocationProviderClient? = null
     protected var mLastLocation: Location? = null
     var mListRecyclerView: RecyclerView? = null
     var lyLocation: LinearLayout? = null
@@ -94,7 +93,7 @@ class AdvancedSearchFragment : BaseFragment(), AdvancedSearchContract.View,
         searchView = rootView?.findViewById(R.id.searchView);
         searchView!!.setIconified(false)
         var imm: InputMethodManager =
-            context!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         if (imm != null && view != null) {
             imm.showSoftInput(view, 0)
         }
@@ -198,12 +197,6 @@ class AdvancedSearchFragment : BaseFragment(), AdvancedSearchContract.View,
 
     public override fun onStart() {
         super.onStart()
-
-        if (!checkPermissions()) {
-            requestPermissions()
-        } else {
-            getLastLocation()
-        }
     }
 
     override fun loadDataSuccess(list: List<Category>) {
@@ -214,26 +207,7 @@ class AdvancedSearchFragment : BaseFragment(), AdvancedSearchContract.View,
         })
     }
 
-    /**
-     * Provides a simple way of getting a device's location and is well suited for
-     * applications that do not require a fine-grained location and that do not need location
-     * updates. Gets the best and most recent location currently available, which may be null
-     * in rare cases when a location is not available.
-     *
-     *
-     * Note: this method should be called after location permission has been granted.
-     */
-    @SuppressLint("MissingPermission")
-    private fun getLastLocation() {
 
-
-        mFusedLocationClient!!.lastLocation
-            .addOnCompleteListener(activity!!) { task ->
-                if (task.isSuccessful && task.result != null) {
-                    mLastLocation = task.result
-                }
-            }
-    }
 
 
     /**
@@ -241,7 +215,7 @@ class AdvancedSearchFragment : BaseFragment(), AdvancedSearchContract.View,
      */
     private fun checkPermissions(): Boolean {
         val permissionState = ActivityCompat.checkSelfPermission(
-            activity!!,
+            requireActivity(),
             Manifest.permission.ACCESS_COARSE_LOCATION
         )
         return permissionState == PackageManager.PERMISSION_GRANTED
@@ -249,7 +223,7 @@ class AdvancedSearchFragment : BaseFragment(), AdvancedSearchContract.View,
 
     private fun startLocationPermissionRequest() {
         ActivityCompat.requestPermissions(
-            activity!!,
+            requireActivity(),
             arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION),
             REQUEST_PERMISSIONS_REQUEST_CODE
         )
@@ -257,7 +231,7 @@ class AdvancedSearchFragment : BaseFragment(), AdvancedSearchContract.View,
 
     private fun requestPermissions() {
         val shouldProvideRationale = ActivityCompat.shouldShowRequestPermissionRationale(
-            activity!!,
+            requireActivity(),
             Manifest.permission.ACCESS_COARSE_LOCATION
         )
 
@@ -283,29 +257,7 @@ class AdvancedSearchFragment : BaseFragment(), AdvancedSearchContract.View,
         }
     }
 
-    /**
-     * Callback received when a permissions request has been completed.
-     */
-    override fun onRequestPermissionsResult(
-        requestCode: Int, permissions: Array<String>,
-        grantResults: IntArray
-    ) {
-        Log.i(TAG, "onRequestPermissionResult")
-        if (requestCode == REQUEST_PERMISSIONS_REQUEST_CODE) {
-            if (grantResults.size <= 0) {
-                // If user interaction was interrupted, the permission request is cancelled and you
-                // receive empty arrays.
-                Log.i(TAG, "User interaction was cancelled.")
-            } else if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Permission granted.
-                getLastLocation()
-            } else {
-                // Permission denied.
 
-
-            }
-        }
-    }
 
     private fun showSnackbar(
         mainTextStringId: Int, actionStringId: Int,
@@ -316,7 +268,7 @@ class AdvancedSearchFragment : BaseFragment(), AdvancedSearchContract.View,
     }
 
     override fun itemDetail(postId: Int) {
-        activity!!.supportFragmentManager.beginTransaction()
+        requireActivity().supportFragmentManager.beginTransaction()
             .addToBackStack(null)
             .replace(
                 R.id.container_fragment,
