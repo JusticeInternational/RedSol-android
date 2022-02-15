@@ -23,8 +23,8 @@ class ServicesSearchAdapter(private val context: Context?,
         val serviceSearch = list[position]
         holder.itemView.setOnClickListener { listener.onServiceSearchClicked(position) }
         holder.name.text = serviceSearch.service.name
-        holder.icon.setImageResource(serviceSearch.service.category.iconId)
-        holder.categoryName.text = serviceSearch.service.category.name
+        holder.icon.setImageResource(Integer.parseInt(serviceSearch.service.serviceCategory!!.icon()))
+        holder.categoryName.text = serviceSearch.service.serviceCategory!!.name()
         holder.organizationName.text = serviceSearch.organizationName
     }
 

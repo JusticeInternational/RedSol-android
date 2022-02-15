@@ -39,7 +39,7 @@ class InfoFragment : Fragment(), View.OnClickListener {
         if (BaseApp.sharedPreferences.isProviderService) {
             planLayout.visibility = View.VISIBLE
             btChangePlan.setOnClickListener {
-                Toast.makeText(context, "Mostrar cambiar plan", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, getString(R.string.in_build), Toast.LENGTH_LONG).show()
             }
         } else {
             planLayout.visibility = View.GONE

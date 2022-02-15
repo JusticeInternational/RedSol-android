@@ -52,7 +52,7 @@ class UserAccountViewModel(private val graphQLController: GraphQLController) : B
                         val user = getUser(token)
                         BaseApp.sharedPreferences.loginLater = false
                         BaseApp.sharedPreferences.isProviderService = user.role == "admin"
-                        BaseApp.sharedPreferences.userSaved = user.id
+                        BaseApp.sharedPreferences.userSaved = user.id+" "+user.name + " "+email
                         BaseApp.sharedPreferences.token = token
 
                         status.value = QueryStatus.NOTIFY_SUCCESS

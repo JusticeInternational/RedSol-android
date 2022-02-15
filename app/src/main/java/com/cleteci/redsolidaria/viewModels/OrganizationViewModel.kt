@@ -15,6 +15,7 @@ import com.cleteci.redsolidaria.network.GraphQLController
 import com.cleteci.redsolidaria.ui.search.OrganizationsCategorySearchAdapter.OrganizationCategory
 import com.cleteci.redsolidaria.util.SharedPreferences.Companion.getTestDataPreference
 import com.cleteci.redsolidaria.util.SharedPreferences.Companion.putOrganizationAttributes
+import com.cleteci.redsolidaria.util.getIcon
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
@@ -101,7 +102,9 @@ class OrganizationViewModel(private val graphQLController: GraphQLController) : 
             val services = organization.servicesList!!
             val categories: ArrayList<Category> = ArrayList()
             for (service in services) {
-                categories.add(service.category)
+                val ca =   Category(service.serviceCategory!!.id(),service.serviceCategory!!.name(),
+                    getIcon(service.serviceCategory!!.icon()),0,service.serviceCategory!!.description())
+                categories.add(ca)
             }
             organizationLists.value = Organization.OrganizationLists(services, categories)
             status.value = QueryStatus.NOTIFY_SUCCESS

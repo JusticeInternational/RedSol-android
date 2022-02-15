@@ -42,7 +42,7 @@ class ServicesFragment : Fragment() {
             etTest.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_test, 0, 0, 0)
             etVaccine.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_vaccine, 0, 0, 0)
             btShowServices.setOnClickListener {
-                Toast.makeText(context, "Mostrar servicios", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, getString(R.string.in_build), Toast.LENGTH_LONG).show()
             }
         } else {
             btShowServices.visibility = View.GONE

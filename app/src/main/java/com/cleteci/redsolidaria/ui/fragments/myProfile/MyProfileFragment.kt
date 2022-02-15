@@ -60,7 +60,7 @@ class MyProfileFragment : BaseFragment(), MyProfileContract.View {
         } else {
             ivQR.visibility = View.VISIBLE
             tvQR.visibility = View.VISIBLE
-            val id = "ID " + BaseApp.sharedPreferences.userSaved
+            val id =   BaseApp.sharedPreferences.userSaved
             tvQR.text = id
         }
 

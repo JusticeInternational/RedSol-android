@@ -78,7 +78,6 @@ class GeneralViewModel(private val graphQLController: GraphQLController) : BaseV
                     status.value = QueryStatus.NOTIFY_SUCCESS
                 }, {
                     status.value = QueryStatus.NOTIFY_FAILURE
-                    Log.d(TAG, it.message)
                 })
         )
     }

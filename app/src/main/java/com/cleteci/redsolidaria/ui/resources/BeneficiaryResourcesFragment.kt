@@ -1,9 +1,11 @@
 package com.cleteci.redsolidaria.ui.resources
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cleteci.redsolidaria.BaseApp
+import com.cleteci.redsolidaria.GetServicesQuery
 import com.cleteci.redsolidaria.R
 import com.cleteci.redsolidaria.models.Beneficiary
 import com.cleteci.redsolidaria.models.Resource
@@ -14,6 +16,8 @@ import com.cleteci.redsolidaria.ui.base.BaseFragment
 import com.cleteci.redsolidaria.util.showInfoDialog
 import com.cleteci.redsolidaria.viewModels.BaseViewModel
 import com.cleteci.redsolidaria.viewModels.BeneficiaryViewModel
+import com.cleteci.redsolidaria.viewModels.GeneralViewModel
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_my_resources.*
 import kotlinx.android.synthetic.main.fragment_my_resources.lyEmpty
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -30,19 +34,30 @@ class BeneficiaryResourcesFragment : BaseFragment(), ResourcesAdapter.OnResource
     private val listSaved = ArrayList<Resource>()
     private val listVolunteering = ArrayList<Resource>()
     private val listUsed = ArrayList<Resource>()
+    private val generalVM by viewModel<GeneralViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        beneficiaryVM.resourcesLists.observe(this,
-            androidx.lifecycle.Observer { resourcesLists: Beneficiary.ResourcesLists ->
-                loadDataSuccess(
-                    resourcesLists.pending,
-                    resourcesLists.saved,
-                    resourcesLists.volunteering,
-                    resourcesLists.used
-                )
+         generalVM.services.observe(this,
+             androidx.lifecycle.Observer { services: List<GetServicesQuery.Service> ->
+                 loadDataSuccess(
+                     services,
+                     services,
+                     services,
+                     services
+                 )
             })
+     //    beneficiaryVM.resourcesLists.observe(this,
+     //        androidx.lifecycle.Observer { resourcesLists: Beneficiary.ResourcesLists ->
+     //            Log.d("TAG77", "message "+resourcesLists)
+//
+     //            loadDataSuccess2(
+     //                resourcesLists.pending,
+     //                resourcesLists.saved,
+     //                resourcesLists.volunteering,
+     //                resourcesLists.used
+     //            )
+     //        })
         beneficiaryVM.status.observe(
             this,
             androidx.lifecycle.Observer { status: BaseViewModel.QueryStatus? ->
@@ -69,8 +84,12 @@ class BeneficiaryResourcesFragment : BaseFragment(), ResourcesAdapter.OnResource
                     }
                 }
             })
+        generalVM.getServices()
     }
-
+    private fun hideCreateOrganization() {
+        val item: MenuItem = navView.menu.findItem(R.id.nav_create_organization)
+        if (item != null) item.isVisible = false
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -80,7 +99,12 @@ class BeneficiaryResourcesFragment : BaseFragment(), ResourcesAdapter.OnResource
         super.onViewCreated(view, savedInstanceState)
         initView()
     }
+    override fun onResume() {
+        super.onResume()
+        Log.d("TAG66", "ACA    ACAA")
 
+        // put your code here...
+    }
     private fun initView() {
         if (BaseApp.sharedPreferences.loginLater) {
             mScrollView?.visibility = View.GONE
@@ -113,34 +137,73 @@ class BeneficiaryResourcesFragment : BaseFragment(), ResourcesAdapter.OnResource
 
         beneficiaryVM.getResources()
     }
-
-    fun loadDataSuccess(
+    fun loadDataSuccess2(
         pending: List<Service>,
         saved: List<Service>,
         volunteer: List<Service>,
         used: List<Service>
     ) {
+
+
         listPending.clear()
         pending.forEach {
             listPending.add(Resource(service = it))
         }
-        mAdapterPending.notifyDataSetChanged()
+        mAdapterSaved.notifyDataSetChanged()
 
         listSaved.clear()
         saved.forEach {
-            listSaved.add(Resource(service = it))
+              listSaved.add(Resource(service = it))
         }
         mAdapterSaved.notifyDataSetChanged()
 
         listUsed.clear()
         used.forEach {
-            listUsed.add(Resource(service = it))
+              listUsed.add(Resource(service = it))
         }
         mAdapterUsed.notifyDataSetChanged()
 
         listVolunteering.clear()
         volunteer.forEach {
-            listVolunteering.add(Resource(service = it))
+              listVolunteering.add(Resource(service = it))
+        }
+        mAdapterVolunteering.notifyDataSetChanged()
+
+        setupLabels()
+    }
+    fun loadDataSuccess(
+        pending: List<GetServicesQuery.Service>,
+        saved: List<GetServicesQuery.Service>,
+        volunteer: List<GetServicesQuery.Service>,
+        used: List<GetServicesQuery.Service>
+    ) {
+
+        listPending.clear()
+        pending.forEach {
+            val service =
+                Service(
+                    it.id(), it.name(), null, "", "", "", "",
+                    it.description(), false, it.serviceCategory()
+                )
+            listPending.add(Resource(service = service))
+        }
+        mAdapterPending.notifyDataSetChanged()
+
+        listSaved.clear()
+        saved.forEach {
+          //  listSaved.add(Resource(service = it))
+        }
+        mAdapterSaved.notifyDataSetChanged()
+
+        listUsed.clear()
+        used.forEach {
+          //  listUsed.add(Resource(service = it))
+        }
+        mAdapterUsed.notifyDataSetChanged()
+
+        listVolunteering.clear()
+        volunteer.forEach {
+         //   listVolunteering.add(Resource(service = it))
         }
         mAdapterVolunteering.notifyDataSetChanged()
 

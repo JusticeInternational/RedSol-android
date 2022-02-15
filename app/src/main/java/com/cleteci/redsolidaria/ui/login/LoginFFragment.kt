@@ -7,6 +7,7 @@ import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import com.cleteci.redsolidaria.BaseApp
 import com.cleteci.redsolidaria.R
@@ -103,11 +104,15 @@ class LoginFFragment : BaseFragment() {
 
     private fun initView() {
         btFacebook!!.setOnClickListener {
-            (activity as LoginActivity).loginFacebook()
+           // (activity as LoginActivity).loginFacebook()
+            Toast.makeText(context,getString(R.string.in_build), Toast.LENGTH_LONG).show()
+
         }
 
         btGoogle!!.setOnClickListener {
-            (activity as LoginActivity).signInGoogle()
+            //(activity as LoginActivity).signInGoogle()
+            Toast.makeText(context,getString(R.string.in_build), Toast.LENGTH_LONG).show()
+
         }
         etPass.setOnEditorActionListener(TextView.OnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {

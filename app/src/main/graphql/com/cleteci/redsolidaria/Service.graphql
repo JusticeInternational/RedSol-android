@@ -3,5 +3,31 @@ query getServices {
         id
         name
         description
+        isGeneral
+        organization {
+            id
+            name
+            phone
+            webPage
+            hourHand
+            description
+            servicesDesc
+            location {
+                name
+                lat
+                lng
+            }
+            plan {
+                name
+            }
+        }
+        serviceCategory{
+            id
+            name
+            icon
+            description
+        }
+        createdAt
+        updatedAt
     }
 }

@@ -35,10 +35,10 @@ class ContributeFragment : Fragment() {
 
     private fun setupUI() {
         etDonate.setOnClickListener {
-            Toast.makeText(context," click Donate", Toast.LENGTH_LONG).show()
+            Toast.makeText(context,getString(R.string.in_build), Toast.LENGTH_LONG).show()
         }
         etVoluntary.setOnClickListener {
-            Toast.makeText(context," click Voluntary", Toast.LENGTH_LONG).show()
+            Toast.makeText(context,getString(R.string.in_build), Toast.LENGTH_LONG).show()
         }
     }
 

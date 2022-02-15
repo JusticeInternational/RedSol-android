@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.*
 import com.cleteci.redsolidaria.R
@@ -67,6 +68,7 @@ class CreateOrganizationFragment : BaseFragment() {
             })
         generalVM.services.observe(this,
             androidx.lifecycle.Observer { services: List<GetServicesQuery.Service> ->
+
                 loadServices(services)
             })
         organizationVM.status.observe(this, androidx.lifecycle.Observer { status: BaseViewModel.QueryStatus? ->

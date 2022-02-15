@@ -201,7 +201,7 @@ class SearchFragment : BaseFragment(),
             .inflate(R.layout.item_marker, null)
 
         val imgMarker: ImageView = viewMarker.findViewById(R.id.imgOrganization)
-        imgMarker.setImageResource(service.category.iconId)
+        imgMarker.setImageResource(service.category!!.iconId)
         val bmp: Bitmap = createDrawableFromView(requireContext(), viewMarker)
         mMap.setInfoWindowAdapter(CustomInfoWindowGoogleMap(activity!!))
 
@@ -209,8 +209,10 @@ class SearchFragment : BaseFragment(),
             .position(latLng)
             .title(service.name)
             .icon(BitmapDescriptorFactory.fromBitmap(bmp)))
-        marker.tag = CustomInfoWindowGoogleMap.MarkerInfo(
-            service.name, organization.name, organization.id, service.category.iconId)
+        marker.tag = service.name?.let {
+            CustomInfoWindowGoogleMap.MarkerInfo(
+                it, organization.name, organization.id, service.category.iconId)
+        }
     }
 
     private fun createDrawableFromView(context: Context, view: View): Bitmap {
@@ -268,7 +270,7 @@ class SearchFragment : BaseFragment(),
                     listServices.add(
                         ServicesSearchAdapter.ServiceSearch(service, organization.id, organization.name))
                     space += 0.05
-                } else if (service.category.id == categoryId) {
+                } else if (service.category!!.id == categoryId) {
                     createMarker(service, organization, LatLng(organization.lat + space, organization.lng))
                     listServices.add(
                         ServicesSearchAdapter.ServiceSearch(service, organization.id, organization.name))

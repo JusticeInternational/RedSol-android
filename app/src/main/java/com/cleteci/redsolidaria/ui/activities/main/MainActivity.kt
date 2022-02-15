@@ -6,6 +6,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.Button
 import android.widget.ImageView
@@ -106,7 +107,12 @@ class MainActivity : AppCompatActivity(), MainContract.View,
             .build()
         activityComponent.inject(this)
     }
+    override fun onResume() {
+        super.onResume()
+        Log.d("TAG11111", "ACA    ACAA")
 
+        // put your code here...
+    }
     override fun init() {
         CalligraphyConfig.initDefault(
             CalligraphyConfig.Builder()
@@ -521,6 +527,7 @@ class MainActivity : AppCompatActivity(), MainContract.View,
     }
 
     override fun onBackPressed() {
+        bottomNavView.visibility = View.VISIBLE
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START)
         } else {

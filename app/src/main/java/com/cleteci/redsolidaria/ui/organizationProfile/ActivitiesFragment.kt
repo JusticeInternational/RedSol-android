@@ -42,7 +42,7 @@ class ActivitiesFragment : Fragment() {
         if (BaseApp.sharedPreferences.isProviderService) {
             btPublish.visibility = View.VISIBLE
             btPublish.setOnClickListener {
-                Toast.makeText(context, "Mostra Publicar Post", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, getString(R.string.in_build), Toast.LENGTH_LONG).show()
             }
         } else {
             btPublish.visibility = View.GONE
