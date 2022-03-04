@@ -107,7 +107,8 @@ class GeneralViewModel(private val graphQLController: GraphQLController) : BaseV
                     getCategoryIconByIconString(serviceCategory.icon()),
                     0,
                     serviceCategory.description(),
-                    serviceCategory.icon()
+                    serviceCategory.icon(),
+                    service.organization()?.id() ?: ""
                 )
                 arrayList.add(
                     Service(
@@ -119,7 +120,9 @@ class GeneralViewModel(private val graphQLController: GraphQLController) : BaseV
                         "",
                         "",
                         service.description(),
-                        service.isGeneral ?: false
+                        service.isGeneral ?: false,
+                        serviceCategory,
+                        service.organization()?.id() ?: ""
                     )
                 )
             }

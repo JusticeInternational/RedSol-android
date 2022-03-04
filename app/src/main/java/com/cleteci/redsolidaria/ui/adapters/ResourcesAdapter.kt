@@ -1,6 +1,5 @@
 package com.cleteci.redsolidaria.ui.adapters
 
-
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -10,15 +9,15 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.cleteci.redsolidaria.BaseApp
 import com.cleteci.redsolidaria.R
 import com.cleteci.redsolidaria.models.Resource
 import com.cleteci.redsolidaria.util.getCategoryIconByIconString
 
-
 class ResourcesAdapter(private val context: Context,
                        private val list: ArrayList<Resource>,
                        private val listener: OnResourceClickListener,
-                       private val isScan: Boolean): RecyclerView.Adapter<ResourcesAdapter.ListViewHolder>() {
+                       private val isScan: Boolean) : RecyclerView.Adapter<ResourcesAdapter.ListViewHolder>() {
 
     override fun getItemCount(): Int {
         return list.size
@@ -42,7 +41,7 @@ class ResourcesAdapter(private val context: Context,
             resource.category != null -> {
                 type = Resource.Type.CATEGORY
                 val category = resource.category!!
-                holder.name.text =  category.name
+                holder.name.text = category.name
                 holder.icon.setImageResource(getCategoryIconByIconString(category.icon))
                 holder.categoryName.text = category.name
                 holder.description.visibility = GONE
@@ -54,7 +53,11 @@ class ResourcesAdapter(private val context: Context,
         }
 
         holder.itemView.setOnClickListener {
-            listener.resourceDetail(position, type)
+            if (BaseApp.sharedPreferences.isProviderService) {
+                listener.resourceDetail(position, type)
+            } else {
+                listener.resourceOrganizationProfile(resource, type)
+            }
         }
 
         if (isScan) {
@@ -95,6 +98,8 @@ class ResourcesAdapter(private val context: Context,
         fun resourceScan(position: Int, type: Resource.Type)
 
         fun resourceScanNoUser(position: Int, type: Resource.Type)
+
+        fun resourceOrganizationProfile(resource: Resource, type: Resource.Type)
     }
 
 }

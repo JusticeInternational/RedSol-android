@@ -1,6 +1,5 @@
 package com.cleteci.redsolidaria.ui.resources
 
-
 import android.os.Bundle
 import android.view.*
 import android.view.View.GONE
@@ -49,7 +48,7 @@ class ResourcesOfferedFragment : BaseFragment(), ResourcesAdapter.OnResourceClic
                 loadDataSuccess(organizationLists.offeredCategories,
                     organizationLists.offeredServices
                 )
-        })
+            })
         organizationVM.status.observe(this, androidx.lifecycle.Observer { status: BaseViewModel.QueryStatus? ->
             when (status) {
                 BaseViewModel.QueryStatus.NOTIFY_LOADING -> showLoading(true)
@@ -78,8 +77,8 @@ class ResourcesOfferedFragment : BaseFragment(), ResourcesAdapter.OnResourceClic
     }
 
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View = inflater.inflate(R.layout.fragment_resources_offered, container, false)
 
 
@@ -96,48 +95,48 @@ class ResourcesOfferedFragment : BaseFragment(), ResourcesAdapter.OnResourceClic
             lyEmpty.visibility = VISIBLE
             scrollView.visibility = GONE
         }
-        
+
         initView()
     }
 
     fun loadDataSuccess(categories: List<Category>, services: List<Service>) {
-         if (categories.isNullOrEmpty() && services.isNullOrEmpty()) {
-             lyEmpty.visibility = VISIBLE
-             scrollView.visibility = GONE
-         } else {
-             lyEmpty.visibility = GONE
-             scrollView.visibility = VISIBLE
+        if (categories.isNullOrEmpty() && services.isNullOrEmpty()) {
+            lyEmpty.visibility = VISIBLE
+            scrollView.visibility = GONE
+        } else {
+            lyEmpty.visibility = GONE
+            scrollView.visibility = VISIBLE
 
-             activity?.runOnUiThread {
-                 listCategories.clear()
-                 categories.forEach {
-                     listCategories.add(Resource(category = it))
-                 }
-                 mCategoriesAdapter.notifyDataSetChanged()
+            activity?.runOnUiThread {
+                listCategories.clear()
+                categories.forEach {
+                    listCategories.add(Resource(category = it))
+                }
+                mCategoriesAdapter.notifyDataSetChanged()
 
-                 listServices.clear()
-                 services.forEach {
-                     listServices.add(Resource(service = it))
-                 }
-                 mServicesAdapter.notifyDataSetChanged()
+                listServices.clear()
+                services.forEach {
+                    listServices.add(Resource(service = it))
+                }
+                mServicesAdapter.notifyDataSetChanged()
 
-                 setupLabels()
-             }
-         }
+                setupLabels()
+            }
+        }
     }
 
     private fun initView() {
         val activity = activity as MainActivity
         if (isFromScan) {
             activity.setTextToolbar(
-                    getText(R.string.count_resources).toString(),
-                    activity.resources.getColor(R.color.colorWhite)
+                getText(R.string.count_resources).toString(),
+                activity.resources.getColor(R.color.colorWhite)
             )
             fab.visibility = GONE
         } else {
             activity.setTextToolbar(
-                    getText(R.string.my_resources).toString(),
-                    activity.resources.getColor(R.color.colorWhite)
+                getText(R.string.my_resources).toString(),
+                activity.resources.getColor(R.color.colorWhite)
             )
             fab.setOnClickListener {
                 activity.openCreateServiceFragment()
@@ -154,8 +153,8 @@ class ResourcesOfferedFragment : BaseFragment(), ResourcesAdapter.OnResourceClic
 
     private fun injectDependency() {
         val aboutComponent = DaggerFragmentComponent.builder()
-                .fragmentModule(FragmentModule())
-                .build()
+            .fragmentModule(FragmentModule())
+            .build()
 
         aboutComponent.inject(this)
     }
@@ -203,16 +202,9 @@ class ResourcesOfferedFragment : BaseFragment(), ResourcesAdapter.OnResourceClic
         }
     }
 
+    override fun resourceOrganizationProfile(resource: Resource, type: Resource.Type) {
 
-//    override fun scanNoUserCategory(position: Int) {
-//        (activity as MainActivity).openScanNoUserFragment(null, listCategories[position].id, listCategories[position].name, false)
-//    }
-
-//    override fun scanNoUserResource(postId: String, name: String, isGeneric: Boolean) {
-//        (activity as MainActivity).openScanNoUserFragment(postId, null, name, isGeneric)
-//
-//    }
-
+    }
 
     companion object {
         const val TAG: String = "ResourcesProviderFragment"
