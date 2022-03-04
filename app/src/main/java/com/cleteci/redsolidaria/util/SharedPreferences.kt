@@ -30,6 +30,10 @@ class SharedPreferences(context: Context) {
         get() = sharedPreferences.getString(USER_SAVED, null)
         set(value) = sharedPreferences.edit().putString(USER_SAVED, value).apply()
 
+    var userInfoToDisplay: String?
+        get() = sharedPreferences.getString(USER_INFO_TO_DISPLAY, null)
+        set(value) = sharedPreferences.edit().putString(USER_INFO_TO_DISPLAY, value).apply()
+
     var currentOrganizationId: String?
         get() = sharedPreferences.getString(CURRENT_ORG, null)
         set(value) = sharedPreferences.edit().putString(CURRENT_ORG, value).apply()
@@ -45,6 +49,7 @@ class SharedPreferences(context: Context) {
     fun logout() {
         loginLater = false
         userSaved = null
+        userInfoToDisplay = null
     }
 
     companion object {
@@ -52,6 +57,7 @@ class SharedPreferences(context: Context) {
         private const val SHARED_NAME = "shared_first_time"
         private const val LOGIN_LATER = "shared_login_later"
         private const val USER_SAVED = "shared_user_saved"
+        private const val USER_INFO_TO_DISPLAY = "shared_user_info_to_display"
         private const val TYPE_USER = "shared_user_type"
         private const val TOKEN = "token"
         const val SHARED_PREFERENCES_FILE_NAME = "com.cleteci.redsolidaria.SHARED_PREFERENCES_FILE"

@@ -12,5 +12,5 @@
         android:layout_height="@dimen/height_icon_marker"
         android:layout_marginTop="8dp"
         android:layout_gravity="center_horizontal"
-        app:srcCompat="@drawable/ic_test"/>
+        app:srcCompat="@drawable/ic_0100_110_covid_tests"/>
 </FrameLayout>

@@ -15,7 +15,7 @@ import com.cleteci.redsolidaria.network.GraphQLController
 import com.cleteci.redsolidaria.ui.search.OrganizationsCategorySearchAdapter.OrganizationCategory
 import com.cleteci.redsolidaria.util.SharedPreferences.Companion.getTestDataPreference
 import com.cleteci.redsolidaria.util.SharedPreferences.Companion.putOrganizationAttributes
-import com.cleteci.redsolidaria.util.getIcon
+import com.cleteci.redsolidaria.util.getCategoryIconByIconString
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
@@ -103,7 +103,7 @@ class OrganizationViewModel(private val graphQLController: GraphQLController) : 
             val categories: ArrayList<Category> = ArrayList()
             for (service in services) {
                 val ca =   Category(service.serviceCategory!!.id(),service.serviceCategory!!.name(),
-                    getIcon(service.serviceCategory!!.icon()),0,service.serviceCategory!!.description())
+                    com.cleteci.redsolidaria.util.getCategoryIconByIconString(service.serviceCategory!!.icon()),0,service.serviceCategory!!.description())
                 categories.add(ca)
             }
             organizationLists.value = Organization.OrganizationLists(services, categories)
@@ -425,16 +425,6 @@ class OrganizationViewModel(private val graphQLController: GraphQLController) : 
 
     companion object {
         const val TAG: String = "OrganizationViewModel"
-
-        fun getCategoryIconByIconString(name: String): Int {
-            return when (name) {
-                "food" -> R.drawable.ic_food
-                "cross" -> R.drawable.ic_cross
-                "transport" -> R.drawable.ic_transport
-                "education" -> R.drawable.ic_education
-                else -> R.drawable.ic_general_category
-            }
-        }
     }
 
 }

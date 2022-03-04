@@ -12,7 +12,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.cleteci.redsolidaria.R
 import com.cleteci.redsolidaria.models.Resource
-import com.cleteci.redsolidaria.util.getIcon
+import com.cleteci.redsolidaria.util.getCategoryIconByIconString
 
 
 class ResourcesAdapter(private val context: Context,
@@ -31,17 +31,20 @@ class ResourcesAdapter(private val context: Context,
         when {
             resource.service != null -> {
                 type = Resource.Type.SERVICE
-                holder.name.text = resource.service.name
-                holder.icon.setImageResource(getIcon(resource.service.serviceCategory!!.icon()))
-                holder.categoryName.text = resource.service.serviceCategory!!.name()
+                val service = resource.service!!
+                val category = service.category!!
+                holder.name.text = service.name
+                holder.icon.setImageResource(getCategoryIconByIconString(category.icon))
+                holder.categoryName.text = category.name
                 holder.description.visibility = VISIBLE
-                holder.description.text = resource.service.serviceCategory!!.description()
+                holder.description.text = category.description
             }
             resource.category != null -> {
                 type = Resource.Type.CATEGORY
-                holder.name.text =  resource.service!!.serviceCategory!!.name()
-                holder.icon.setImageResource(getIcon(resource.service.serviceCategory!!.icon()))
-                holder.categoryName.text = resource.category.name
+                val category = resource.category!!
+                holder.name.text =  category.name
+                holder.icon.setImageResource(getCategoryIconByIconString(category.icon))
+                holder.categoryName.text = category.name
                 holder.description.visibility = GONE
             }
             else -> {

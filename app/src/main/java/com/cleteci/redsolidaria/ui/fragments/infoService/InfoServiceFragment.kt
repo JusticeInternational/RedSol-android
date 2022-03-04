@@ -82,7 +82,7 @@ class InfoServiceFragment : BaseFragment() {
         super.onResume()
         (activity as MainActivity).setTextToolbar(
             getText(R.string.info_services).toString(),
-            activity!!.resources.getColor(R.color.colorWhite)
+            requireActivity().resources.getColor(R.color.colorWhite)
         )
     }
 

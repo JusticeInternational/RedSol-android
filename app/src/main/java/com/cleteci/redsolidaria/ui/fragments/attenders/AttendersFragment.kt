@@ -46,8 +46,8 @@ class AttendersFragment : BaseFragment() , AttendersContract.View  {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (arguments != null) {
-            resourceId = arguments!!.getString("resourceId", "")
-            resourceType = arguments!!.getString("resourceType", "")
+            resourceId = requireArguments().getString("resourceId", "")
+            resourceType = requireArguments().getString("resourceType", "")
         }
         injectDependency()
     }
@@ -121,7 +121,7 @@ class AttendersFragment : BaseFragment() , AttendersContract.View  {
 
     override fun onResume() {
         super.onResume()
-        (activity as MainActivity).setTextToolbar(getText(R.string.attenders).toString(),activity!!.resources.getColor(R.color.colorWhite))
+        (activity as MainActivity).setTextToolbar(getText(R.string.attenders).toString(),requireActivity().resources.getColor(R.color.colorWhite))
 
     }
 

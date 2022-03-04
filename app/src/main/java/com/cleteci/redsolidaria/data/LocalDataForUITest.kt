@@ -160,7 +160,7 @@ object LocalDataForUITest {
         list.add(Category("3","Comida", R.drawable.ic_food))
         list.add(Category("4","Transporte", R.drawable.ic_transport))
         list.add(Category("5","Legal", R.drawable.ic_legal))
-        list.add(Category("6","Laboratorio", R.drawable.ic_test))
+        list.add(Category("6","Laboratorio", R.drawable.ic_0100_110_covid_tests))
         return list
     }
 

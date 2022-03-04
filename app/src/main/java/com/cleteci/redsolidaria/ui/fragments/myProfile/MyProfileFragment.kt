@@ -26,8 +26,8 @@ class MyProfileFragment : BaseFragment(), MyProfileContract.View {
     }
 
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View = inflater.inflate(R.layout.fragment_my_profile, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -52,7 +52,7 @@ class MyProfileFragment : BaseFragment(), MyProfileContract.View {
     override fun init() {}
 
     private fun initView() {
-        (activity as MainActivity).setTextToolbar(getString(R.string.my_profile), activity!!.resources.getColor(R.color.colorWhite))
+        (activity as MainActivity).setTextToolbar(getString(R.string.my_profile), requireActivity().resources.getColor(R.color.colorWhite))
         if (BaseApp.sharedPreferences.loginLater) {
             showDialog()
             ivQR.visibility = View.GONE
@@ -60,19 +60,14 @@ class MyProfileFragment : BaseFragment(), MyProfileContract.View {
         } else {
             ivQR.visibility = View.VISIBLE
             tvQR.visibility = View.VISIBLE
-            val id =   BaseApp.sharedPreferences.userSaved
-            tvQR.text = id
+            tvQR.text = BaseApp.sharedPreferences.userInfoToDisplay
         }
 
         presenter.getQR()
     }
 
-    companion object {
-        val TAG: String = "MyProfileFragment"
-    }
-
     private fun showDialog() {
-        val dialog = Dialog(activity!!)
+        val dialog = Dialog(requireActivity())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.window!!.setLayout(
                 WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -80,7 +75,6 @@ class MyProfileFragment : BaseFragment(), MyProfileContract.View {
         )
         dialog.setCancelable(false)
         dialog.setContentView(R.layout.comp_alert_go_to_login)
-        // val body = dialog .findViewById(R.id.body) as TextView
 
         val yesBtn = dialog.findViewById(R.id.btLogin) as Button
 
@@ -88,7 +82,6 @@ class MyProfileFragment : BaseFragment(), MyProfileContract.View {
 
         yesBtn.setOnClickListener {
             (activity as MainActivity).goToLogin()
-            //activity?.finish()
             dialog.dismiss()
         }
 
@@ -103,4 +96,9 @@ class MyProfileFragment : BaseFragment(), MyProfileContract.View {
     override fun showQR(bitmap: Bitmap) {
         ivQR?.setImageBitmap(bitmap)
     }
+
+    companion object {
+        const val TAG: String = "MyProfileFragment"
+    }
+
 }

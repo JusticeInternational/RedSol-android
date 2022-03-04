@@ -39,7 +39,7 @@ class BeneficiaryResourcesFragment : BaseFragment(), ResourcesAdapter.OnResource
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
          generalVM.services.observe(this,
-             androidx.lifecycle.Observer { services: List<GetServicesQuery.Service> ->
+             androidx.lifecycle.Observer { services: List<Service> ->
                  loadDataSuccess(
                      services,
                      services,
@@ -116,7 +116,7 @@ class BeneficiaryResourcesFragment : BaseFragment(), ResourcesAdapter.OnResource
 
         (activity as MainActivity).setTextToolbar(
             getString(R.string.my_resources),
-            activity!!.resources.getColor(R.color.colorWhite)
+            requireActivity().resources.getColor(R.color.colorWhite)
         )
 
         rvPending.layoutManager = LinearLayoutManager(requireContext())
@@ -143,8 +143,6 @@ class BeneficiaryResourcesFragment : BaseFragment(), ResourcesAdapter.OnResource
         volunteer: List<Service>,
         used: List<Service>
     ) {
-
-
         listPending.clear()
         pending.forEach {
             listPending.add(Resource(service = it))
@@ -172,20 +170,15 @@ class BeneficiaryResourcesFragment : BaseFragment(), ResourcesAdapter.OnResource
         setupLabels()
     }
     fun loadDataSuccess(
-        pending: List<GetServicesQuery.Service>,
-        saved: List<GetServicesQuery.Service>,
-        volunteer: List<GetServicesQuery.Service>,
-        used: List<GetServicesQuery.Service>
+        pending: List<Service>,
+        saved: List<Service>,
+        volunteer: List<Service>,
+        used: List<Service>
     ) {
 
         listPending.clear()
-        pending.forEach {
-            val service =
-                Service(
-                    it.id(), it.name(), null, "", "", "", "",
-                    it.description(), false, it.serviceCategory()
-                )
-            listPending.add(Resource(service = service))
+        pending.forEach { service: Service ->
+            listPending.add(Resource(service))
         }
         mAdapterPending.notifyDataSetChanged()
 

@@ -1,19 +1,32 @@
 package com.cleteci.redsolidaria.models
 
-import com.cleteci.redsolidaria.util.getIcon
-
-class Resource(val service: Service? = null, val category: Category? = null) {
-
-    val type: Type = when {
-        service != null -> Type.SERVICE
-        service!!.serviceCategory!= null -> Type.CATEGORY
-
-        else -> Type.OTHER
-    }
-    var id: String = service!!.serviceCategory?.id() ?: service?.id ?: ""
-    var name: String = service!!.serviceCategory?.name() ?: service?.name ?: ""
-    var iconId: Int = getIcon(service!!.serviceCategory!!.icon()) ?: service?.category!!.iconId ?: 0
+class Resource {
+    var service: Service? = null
+    var category: Category? =  null
+    var id: String = ""
+    var name: String =  ""
+    var iconId: Int = 0
+    var type: Type = Type.OTHER
 
     enum class Type { CATEGORY, SERVICE, OTHER }
 
+    constructor(service: Service) {
+        this.service = service
+        type = Type.SERVICE
+        val resource = service.category
+        if (resource != null) {
+            id = resource.id
+            name = resource.name
+            iconId = resource.iconId
+        }
+    }
+
+    constructor(category: Category) {
+        this.category = category
+        type = Type.CATEGORY
+        id = category.id
+        name = category.name
+        iconId = category.iconId
+
+    }
 }

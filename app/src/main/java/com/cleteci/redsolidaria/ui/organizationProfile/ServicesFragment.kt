@@ -39,7 +39,7 @@ class ServicesFragment : Fragment() {
             btShowServices.visibility = View.VISIBLE
             btNotifyInterest.visibility = View.GONE
             etHealth.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_cross, 0, 0, 0)
-            etTest.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_test, 0, 0, 0)
+            etTest.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_0100_110_covid_tests, 0, 0, 0)
             etVaccine.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_vaccine, 0, 0, 0)
             btShowServices.setOnClickListener {
                 Toast.makeText(context, getString(R.string.in_build), Toast.LENGTH_LONG).show()
@@ -59,7 +59,7 @@ class ServicesFragment : Fragment() {
                 if (isHealthSaved) R.drawable.ic_interested else R.drawable.ic_interested_green, 0
             )
             etTest.setCompoundDrawablesWithIntrinsicBounds(
-                R.drawable.ic_test, 0,
+                R.drawable.ic_0100_110_covid_tests, 0,
                 if (isTestSaved) R.drawable.ic_interested else R.drawable.ic_interested_green, 0
             )
             etVaccine.setCompoundDrawablesWithIntrinsicBounds(
@@ -76,7 +76,7 @@ class ServicesFragment : Fragment() {
             etTest.setOnClickListener {
                 val icon =
                     if (isTestSaved) R.drawable.ic_interested else R.drawable.ic_interested_green
-                etTest.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_test, 0, icon, 0)
+                etTest.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_0100_110_covid_tests, 0, icon, 0)
                 isTestSaved = !isTestSaved
             }
             etVaccine.setOnClickListener {

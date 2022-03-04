@@ -32,7 +32,7 @@ class BasicSearchFragment : BaseFragment(), CategoriesAdapter.OnItemClickListene
         super.onCreate(savedInstanceState)
 
         generalVM.usedCategories.observe(this,
-            androidx.lifecycle.Observer { usedCategories: ArrayList<Category> ->
+            androidx.lifecycle.Observer { usedCategories: List<Category> ->
                 loadDataSuccess(usedCategories)
             })
         generalVM.status.observe(this, androidx.lifecycle.Observer { status: BaseViewModel.QueryStatus? ->
@@ -73,7 +73,7 @@ class BasicSearchFragment : BaseFragment(), CategoriesAdapter.OnItemClickListene
         super.onResume()
         (activity as MainActivity).setTextToolbar(
             getText(R.string.search).toString(),
-            activity!!.resources.getColor(R.color.colorWhite)
+            requireActivity().resources.getColor(R.color.colorWhite)
         )
     }
 
@@ -133,7 +133,7 @@ class BasicSearchFragment : BaseFragment(), CategoriesAdapter.OnItemClickListene
     }
 
     override fun itemDetail(postId: Int) {
-        activity!!.supportFragmentManager.beginTransaction()
+        requireActivity().supportFragmentManager.beginTransaction()
             .addToBackStack(null)
             .replace(
                 R.id.container_fragment,

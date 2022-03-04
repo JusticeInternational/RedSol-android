@@ -31,6 +31,7 @@ import androidx.core.app.ActivityCompat
 import com.cleteci.redsolidaria.BaseApp
 import com.cleteci.redsolidaria.GetServiceCategoriesQuery
 import com.cleteci.redsolidaria.GetServicesQuery
+import com.cleteci.redsolidaria.models.Service
 import com.cleteci.redsolidaria.ui.login.LoginActivity
 import com.cleteci.redsolidaria.util.DialogClickListener
 import com.cleteci.redsolidaria.util.showInfoDialog
@@ -67,8 +68,7 @@ class CreateOrganizationFragment : BaseFragment() {
                 loadDataSuccess(categories)
             })
         generalVM.services.observe(this,
-            androidx.lifecycle.Observer { services: List<GetServicesQuery.Service> ->
-
+            androidx.lifecycle.Observer { services: List<Service> ->
                 loadServices(services)
             })
         organizationVM.status.observe(this, androidx.lifecycle.Observer { status: BaseViewModel.QueryStatus? ->
@@ -137,11 +137,11 @@ class CreateOrganizationFragment : BaseFragment() {
         }
     }
 
-    private fun loadServices(services: List<GetServicesQuery.Service>) {
+    private fun loadServices(services: List<Service>) {
         activity?.runOnUiThread {
             serviceList.clear()
             services.forEach {
-                it.name()?.let { name -> serviceList.add(name) }
+                it.name?.let { name -> serviceList.add(name) }
             }
         }
     }

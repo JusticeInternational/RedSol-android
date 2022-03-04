@@ -4,12 +4,10 @@ package com.cleteci.redsolidaria.viewModels
 import android.util.Base64
 import android.util.Log
 import com.apollographql.apollo.api.Response
-import com.cleteci.redsolidaria.BaseApp
-import com.cleteci.redsolidaria.GetTotalCategoryAttentionsQuery
-import com.cleteci.redsolidaria.LoginUserMutation
-import com.cleteci.redsolidaria.RegisterUserMutation
+import com.cleteci.redsolidaria.*
 import com.cleteci.redsolidaria.models.User
 import com.cleteci.redsolidaria.network.GraphQLController
+import com.facebook.FacebookSdk.getApplicationContext
 import com.google.gson.Gson
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -52,7 +50,9 @@ class UserAccountViewModel(private val graphQLController: GraphQLController) : B
                         val user = getUser(token)
                         BaseApp.sharedPreferences.loginLater = false
                         BaseApp.sharedPreferences.isProviderService = user.role == "admin"
-                        BaseApp.sharedPreferences.userSaved = user.id+" "+user.name + " "+email
+                        BaseApp.sharedPreferences.userSaved = user.id
+                        BaseApp.sharedPreferences.userInfoToDisplay = getApplicationContext()
+                            .getString(R.string.user_info_to_display, user.id, user.name, user.lastName?:"", email)
                         BaseApp.sharedPreferences.token = token
 
                         status.value = QueryStatus.NOTIFY_SUCCESS

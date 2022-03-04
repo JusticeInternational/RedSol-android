@@ -13,7 +13,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.cleteci.redsolidaria.R
 import com.cleteci.redsolidaria.models.Service
-import com.cleteci.redsolidaria.util.getIcon
+import com.cleteci.redsolidaria.util.getCategoryIconByIconString
 
 class ResourceAdapter(
         private val context: Context?,
@@ -31,7 +31,7 @@ class ResourceAdapter(
         val service = list[position]
 
         holder.title?.text = service.name
-        holder.body!!.setImageResource(getIcon(service.serviceCategory!!.icon()))
+        holder.body!!.setImageResource(getCategoryIconByIconString(service.serviceCategory!!.icon()))
         holder.tvLocation?.text = service.location
         holder.tvHourHand?.text = service.hourHand
         holder.rbGeneral?.rating = service.ranking.toFloat()

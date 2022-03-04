@@ -155,6 +155,9 @@
     <string name="enter_valid_email">Introduzca un correo válido</string>
     <string name="enter_valid_pass">Introduzca una contraseña válida</string>
 
+    <!--PROFILE-->
+    <string name="user_info_to_display">ID: %1$s\nNombre: %2$s %3$s\nCorreo electrónico:%4$s</string>
+
     <!--ORGANIZATIONS-->
     <string name="pending">Pendientes por usar</string>
     <string name="offered_resourses">Recursos ofrecidos</string>

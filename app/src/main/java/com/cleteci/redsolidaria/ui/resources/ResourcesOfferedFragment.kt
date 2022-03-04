@@ -169,9 +169,9 @@ class ResourcesOfferedFragment : BaseFragment(), ResourcesAdapter.OnResourceClic
         val activity = activity as MainActivity
         when (type) {
             Resource.Type.CATEGORY ->
-                activity.openInfoFragment(Resource(category = listCategories[position].category))
+                activity.openInfoFragment(Resource(category = listCategories[position].category!!))
             Resource.Type.SERVICE ->
-                activity.openInfoFragment(Resource(service = listServices[position].service))
+                activity.openInfoFragment(Resource(service = listServices[position].service!!))
         }
     }
 
