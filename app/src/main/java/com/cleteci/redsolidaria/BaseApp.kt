@@ -14,7 +14,8 @@ import com.cleteci.redsolidaria.util.Constants
 import com.cleteci.redsolidaria.util.SharedPreferences
 import com.facebook.FacebookSdk
 import com.facebook.appevents.AppEventsLogger
-import org.koin.android.ext.android.startKoin
+import org.koin.android.ext.koin.androidContext
+import org.koin.core.context.startKoin
 
 
 class BaseApp : Application() {
@@ -43,13 +44,16 @@ class BaseApp : Application() {
     }
 
     private fun startModules() {
-        startKoin(
-            this, listOf(
-                appModule,
-                controllersModule,
-                viewModelsModule
+        startKoin {
+            androidContext(this@BaseApp)
+            modules(
+                listOf(
+                    appModule,
+                    controllersModule,
+                    viewModelsModule
+                )
             )
-        )
+        }
     }
 
     companion object {

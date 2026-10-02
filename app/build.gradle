@@ -42,6 +42,12 @@ repositories {
 
 }
 
+configurations.all {
+    resolutionStrategy {
+        force 'com.android.volley:volley:1.2.1'
+    }
+}
+
 ext {
 
     retrofit_version = '2.6.+'
@@ -51,7 +57,7 @@ ext {
     glideVersion = '4.4.0'
     googleServices = '16.0.0'
     googleMapLibServices='0.9.4'
-    koinVersion = '1.0.2'
+    koinVersion = '2.2.3'
     okHttpVersion = '4.5.0'
 
 }
@@ -74,10 +80,9 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxkotlin:2.4.0"
 
     //Kotlin Injection
-    implementation "org.koin:koin-java:$koinVersion"
-    implementation "org.koin:koin-android:$koinVersion"
-    implementation "org.koin:koin-android-viewmodel:$koinVersion"
-    testImplementation "org.koin:koin-test:$koinVersion"
+    implementation "io.insert-koin:koin-android:$koinVersion"
+    implementation "io.insert-koin:koin-android-viewmodel:$koinVersion"
+    testImplementation "io.insert-koin:koin-test:$koinVersion"
 
     //OKHttp
     implementation "com.squareup.okhttp3:okhttp:$okHttpVersion"
@@ -127,7 +132,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics:17.2.0'
     implementation 'com.google.firebase:firebase-core:17.2.1'
     implementation 'com.google.firebase:firebase-auth:19.2.0'
-    implementation 'com.schibstedspain.android:leku:6.4.0'
+    implementation 'com.github.AdevintaSpain:Leku:6.4.0'
     /*implementation ('com.schibstedspain.android:leku:6.4.0') {
         exclude group: 'com.google.android.gms'
         exclude group: 'androidx.appcompat'
