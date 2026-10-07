@@ -11,14 +11,15 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.cleteci.redsolidaria.BaseApp
 import com.cleteci.redsolidaria.R
+import com.cleteci.redsolidaria.databinding.FragmentOrganizationInfoBinding
 import com.cleteci.redsolidaria.models.Organization
 import com.cleteci.redsolidaria.util.*
 import com.cleteci.redsolidaria.util.SharedPreferences.Companion.getOrganizationAttributes
-import kotlinx.android.synthetic.main.fragment_organization_info.*
-
 
 class InfoFragment : Fragment(), View.OnClickListener {
 
+    private var _binding: FragmentOrganizationInfoBinding? = null
+    private val binding get() = _binding!!
     private lateinit var attributes: HashMap<String, String?>
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,20 +32,27 @@ class InfoFragment : Fragment(), View.OnClickListener {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? =
-        inflater.inflate(R.layout.fragment_organization_info, container, false)
+    ): View {
+        _binding = FragmentOrganizationInfoBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         if (BaseApp.sharedPreferences.isProviderService) {
-            planLayout.visibility = View.VISIBLE
-            btChangePlan.setOnClickListener {
+            binding.planLayout.visibility = View.VISIBLE
+            binding.btChangePlan.setOnClickListener {
                 Toast.makeText(context, getString(R.string.in_build), Toast.LENGTH_LONG).show()
             }
         } else {
-            planLayout.visibility = View.GONE
+            binding.planLayout.visibility = View.GONE
         }
         setupAttributes()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun setupAttributes() {
@@ -74,8 +82,8 @@ class InfoFragment : Fragment(), View.OnClickListener {
                 }
             }
             if (label.isNotEmpty()) {
-                linearAttributes.addView(getTextView(key, label, attributes[key]!!, iconId))
-                linearAttributes.addView(getDivider())
+                binding.linearAttributes.addView(getTextView(key, label, attributes[key]!!, iconId))
+                binding.linearAttributes.addView(getDivider())
             }
         }
     }

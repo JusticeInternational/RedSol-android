@@ -9,11 +9,12 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.cleteci.redsolidaria.BaseApp
 import com.cleteci.redsolidaria.R
-import kotlinx.android.synthetic.main.fragment_organization_services.*
-
+import com.cleteci.redsolidaria.databinding.FragmentOrganizationServicesBinding
 
 class ServicesFragment : Fragment() {
 
+    private var _binding: FragmentOrganizationServicesBinding? = null
+    private val binding get() = _binding!!
     private var isHealthSaved = false
     private var isTestSaved = false
     private var isVaccineSaved = true
@@ -26,63 +27,70 @@ class ServicesFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? =
-        inflater.inflate(R.layout.fragment_organization_services, container, false)
+    ): View {
+        _binding = FragmentOrganizationServicesBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         setUpUI()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun setUpUI() {
         if (BaseApp.sharedPreferences.isProviderService) {
-            btShowServices.visibility = View.VISIBLE
-            btNotifyInterest.visibility = View.GONE
-            etHealth.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_cross, 0, 0, 0)
-            etTest.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_0100_110_covid_tests, 0, 0, 0)
-            etVaccine.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_vaccine, 0, 0, 0)
-            btShowServices.setOnClickListener {
+            binding.btShowServices.visibility = View.VISIBLE
+            binding.btNotifyInterest.visibility = View.GONE
+            binding.etHealth.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_cross, 0, 0, 0)
+            binding.etTest.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_0100_110_covid_tests, 0, 0, 0)
+            binding.etVaccine.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_vaccine, 0, 0, 0)
+            binding.btShowServices.setOnClickListener {
                 Toast.makeText(context, getString(R.string.in_build), Toast.LENGTH_LONG).show()
             }
         } else {
-            btShowServices.visibility = View.GONE
-            btNotifyInterest.visibility = View.VISIBLE
-            btNotifyInterest.setOnClickListener {
+            binding.btShowServices.visibility = View.GONE
+            binding.btNotifyInterest.visibility = View.VISIBLE
+            binding.btNotifyInterest.setOnClickListener {
                 Toast.makeText(
                     context,
                     "Notificación de interes ha sido enviada al proveedor de los servicios",
                     Toast.LENGTH_LONG
                 ).show()
             }
-            etHealth.setCompoundDrawablesWithIntrinsicBounds(
+            binding.etHealth.setCompoundDrawablesWithIntrinsicBounds(
                 R.drawable.ic_cross, 0,
                 if (isHealthSaved) R.drawable.ic_interested else R.drawable.ic_interested_green, 0
             )
-            etTest.setCompoundDrawablesWithIntrinsicBounds(
+            binding.etTest.setCompoundDrawablesWithIntrinsicBounds(
                 R.drawable.ic_0100_110_covid_tests, 0,
                 if (isTestSaved) R.drawable.ic_interested else R.drawable.ic_interested_green, 0
             )
-            etVaccine.setCompoundDrawablesWithIntrinsicBounds(
+            binding.etVaccine.setCompoundDrawablesWithIntrinsicBounds(
                 R.drawable.ic_vaccine, 0,
                 if (isVaccineSaved) R.drawable.ic_interested else R.drawable.ic_interested_green, 0
             )
 
-            etHealth.setOnClickListener {
+            binding.etHealth.setOnClickListener {
                 val icon =
                     if (isHealthSaved) R.drawable.ic_interested else R.drawable.ic_interested_green
-                etHealth.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_cross, 0, icon, 0)
+                binding.etHealth.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_cross, 0, icon, 0)
                 isHealthSaved = !isHealthSaved
             }
-            etTest.setOnClickListener {
+            binding.etTest.setOnClickListener {
                 val icon =
                     if (isTestSaved) R.drawable.ic_interested else R.drawable.ic_interested_green
-                etTest.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_0100_110_covid_tests, 0, icon, 0)
+                binding.etTest.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_0100_110_covid_tests, 0, icon, 0)
                 isTestSaved = !isTestSaved
             }
-            etVaccine.setOnClickListener {
+            binding.etVaccine.setOnClickListener {
                 val icon =
                     if (isVaccineSaved) R.drawable.ic_interested else R.drawable.ic_interested_green
-                etVaccine.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_vaccine, 0, icon, 0)
+                binding.etVaccine.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_vaccine, 0, icon, 0)
                 isVaccineSaved = !isVaccineSaved
             }
         }

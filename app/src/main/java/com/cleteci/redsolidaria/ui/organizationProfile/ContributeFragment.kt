@@ -9,13 +9,13 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.cleteci.redsolidaria.R
-import kotlinx.android.synthetic.main.fragment_organization_contribute.*
-
+import com.cleteci.redsolidaria.databinding.FragmentOrganizationContributeBinding
 
 class ContributeFragment : Fragment() {
 
+    private var _binding: FragmentOrganizationContributeBinding? = null
+    private val binding get() = _binding!!
     private lateinit var pageViewModel: PageViewModel
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,22 +24,28 @@ class ContributeFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_organization_contribute, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        _binding = FragmentOrganizationContributeBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         setupUI()
     }
 
     private fun setupUI() {
-        etDonate.setOnClickListener {
-            Toast.makeText(context,getString(R.string.in_build), Toast.LENGTH_LONG).show()
+        binding.etDonate.setOnClickListener {
+            Toast.makeText(context, getString(R.string.in_build), Toast.LENGTH_LONG).show()
         }
-        etVoluntary.setOnClickListener {
-            Toast.makeText(context,getString(R.string.in_build), Toast.LENGTH_LONG).show()
+        binding.etVoluntary.setOnClickListener {
+            Toast.makeText(context, getString(R.string.in_build), Toast.LENGTH_LONG).show()
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 

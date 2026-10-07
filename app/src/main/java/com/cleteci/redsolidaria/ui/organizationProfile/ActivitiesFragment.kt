@@ -10,14 +10,15 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cleteci.redsolidaria.BaseApp
 import com.cleteci.redsolidaria.R
+import com.cleteci.redsolidaria.databinding.FragmentOrganizationActivitiesBinding
 import com.cleteci.redsolidaria.models.Organization
 import com.cleteci.redsolidaria.models.Post
 import com.cleteci.redsolidaria.util.SharedPreferences.Companion.getStringObj
-import kotlinx.android.synthetic.main.fragment_organization_activities.*
-
 
 class ActivitiesFragment : Fragment() {
 
+    private var _binding: FragmentOrganizationActivitiesBinding? = null
+    private val binding get() = _binding!!
     private val postList: java.util.ArrayList<Post> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,29 +30,36 @@ class ActivitiesFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? =
-        inflater.inflate(R.layout.fragment_organization_activities, container, false)
+    ): View {
+        _binding = FragmentOrganizationActivitiesBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         setUpUI()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun setUpUI() {
         setupPostsList()
         if (BaseApp.sharedPreferences.isProviderService) {
-            btPublish.visibility = View.VISIBLE
-            btPublish.setOnClickListener {
+            binding.btPublish.visibility = View.VISIBLE
+            binding.btPublish.setOnClickListener {
                 Toast.makeText(context, getString(R.string.in_build), Toast.LENGTH_LONG).show()
             }
         } else {
-            btPublish.visibility = View.GONE
+            binding.btPublish.visibility = View.GONE
         }
     }
 
     private fun setupPostsList() {
-        postsRecyclerView.layoutManager = LinearLayoutManager(context)
-        postsRecyclerView.adapter = PostsAdapter(postList, requireContext())
+        binding.postsRecyclerView.layoutManager = LinearLayoutManager(context)
+        binding.postsRecyclerView.adapter = PostsAdapter(postList, requireContext())
     }
 
     //Temporal Function to see UI Changes
