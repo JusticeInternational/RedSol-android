@@ -25,7 +25,6 @@ import com.cleteci.redsolidaria.ui.fragments.createOrganization.CreateOrganizati
 import com.cleteci.redsolidaria.util.LocationResources
 import com.cleteci.redsolidaria.util.showAlert
 import com.schibstedspain.leku.*
-import kotlinx.android.synthetic.main.fragment_my_profile_provider.*
 import javax.inject.Inject
 
 
