@@ -24,7 +24,6 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.FacebookAuthProvider
-import kotlinx.android.synthetic.main.fragment_login.*
 import java.util.*
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper
@@ -177,7 +176,6 @@ class LoginActivity : AppCompatActivity(){
 
     fun loginEmailPass() {
         BaseApp.sharedPreferences.loginLater = false
-        etUser?.setText(etUser?.text.toString().trim())
         openMainActivity()
     }
 }

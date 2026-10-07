@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.*
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -42,6 +43,7 @@ import com.cleteci.redsolidaria.ui.fragments.createOrganization.CreateOrganizati
 
 import com.cleteci.redsolidaria.ui.fragments.users.AttendersFragment
 import com.cleteci.redsolidaria.ui.fragments.users.UsersFragment
+import com.cleteci.redsolidaria.databinding.ActivityMainBinding
 import com.cleteci.redsolidaria.ui.organizationProfile.OrganizationProfileActivity
 import com.cleteci.redsolidaria.ui.search.SearchFragment
 import com.cleteci.redsolidaria.ui.search.SearchItemsActivity
@@ -53,8 +55,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.app_bar_main.*
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper
 import javax.inject.Inject
@@ -64,6 +64,7 @@ class MainActivity : AppCompatActivity(), MainContract.View,
     NavigationView.OnNavigationItemSelectedListener,
     FragNavController.TransactionListener, FragNavController.RootFragmentListener {
 
+    private lateinit var binding: ActivityMainBinding
     @Inject
     lateinit var presenter: MainContract.Presenter
     lateinit var mGoogleSignInClient: GoogleSignInClient
@@ -83,7 +84,8 @@ class MainActivity : AppCompatActivity(), MainContract.View,
             startActivity(intent)
             finish()
         } else if (BaseApp.sharedPreferences.userSaved != null || BaseApp.sharedPreferences.loginLater) {
-            setContentView(R.layout.activity_main)
+            binding = ActivityMainBinding.inflate(layoutInflater)
+            setContentView(binding.root)
             injectDependency()
             fragmentHistory = FragmentHistory()
             mNavController = FragNavController.newBuilder(
@@ -121,7 +123,7 @@ class MainActivity : AppCompatActivity(), MainContract.View,
                 .build()
         )
 
-        setSupportActionBar(toolbar)
+        setSupportActionBar(binding.appBar.toolbar)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
@@ -130,17 +132,24 @@ class MainActivity : AppCompatActivity(), MainContract.View,
 
         val toggle = ActionBarDrawerToggle(
             this,
-            drawerLayout,
-            toolbar,
+            binding.drawerLayout,
+            binding.appBar.toolbar,
             R.string.navigation_drawer_open,
             R.string.navigation_drawer_close
         )
 
-        drawerLayout.addDrawerListener(toggle)
+        binding.drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
-        navView.setNavigationItemSelectedListener(this)
+        binding.navView.setNavigationItemSelectedListener(this)
 
-        lyLoginLogout!!.setOnClickListener {
+        val lyLoginLogout = binding.navView.getHeaderView(0)?.findViewById<LinearLayout>(R.id.lyLoginLogout)
+            ?: binding.navView.findViewById<LinearLayout>(R.id.lyLoginLogout)
+        val tvLoginLogout = binding.navView.getHeaderView(0)?.findViewById<TextView>(R.id.tvLoginLogout)
+            ?: binding.navView.findViewById<TextView>(R.id.tvLoginLogout)
+        val icLoginLogout = binding.navView.getHeaderView(0)?.findViewById<ImageView>(R.id.icLoginLogout)
+            ?: binding.navView.findViewById<ImageView>(R.id.icLoginLogout)
+
+        lyLoginLogout?.setOnClickListener {
             if (!BaseApp.sharedPreferences.loginLater) {
                 signOut()
                 goToLogin()
@@ -149,27 +158,27 @@ class MainActivity : AppCompatActivity(), MainContract.View,
                 goToLogin()
             }
         }
-        mapListButton.setOnClickListener {
+        binding.appBar.mapListButton.setOnClickListener {
             if (currentFragment != null && currentFragment is SearchFragment) {
                 (currentFragment as SearchFragment).onClickMapListButton(it as ImageView)
             }
         }
-        searchButton.setOnClickListener {
+        binding.appBar.searchButton.setOnClickListener {
             presenter.onNavSearchOption()
         }
 
         if (BaseApp.sharedPreferences.loginLater) {
             hideCreateOrganization()
-            tvLoginLogout!!.setText(R.string.login)
-            icLoginLogout.setImageDrawable(
+            tvLoginLogout?.setText(R.string.login)
+            icLoginLogout?.setImageDrawable(
                 AppCompatResources.getDrawable(
                     this,
                     R.drawable.ic_login_24
                 )
             )
         } else {
-            tvLoginLogout!!.setText(R.string.logout)
-            icLoginLogout.setImageDrawable(
+            tvLoginLogout?.setText(R.string.logout)
+            icLoginLogout?.setImageDrawable(
                 AppCompatResources.getDrawable(
                     this,
                     R.drawable.ic_logout_24
@@ -177,12 +186,12 @@ class MainActivity : AppCompatActivity(), MainContract.View,
             )
         }
 
-        bottomNavView.menu.clear(); //clear old inflated items.
+        binding.bottomNavView.menu.clear(); //clear old inflated items.
         if (BaseApp.sharedPreferences.isProviderService) {
             hideCreateOrganization()
-            bottomNavView.inflateMenu(R.menu.bottom_nav_menu_provider)
+            binding.bottomNavView.inflateMenu(R.menu.bottom_nav_menu_provider)
         } else {
-            bottomNavView.inflateMenu(R.menu.bottom_nav_menu)
+            binding.bottomNavView.inflateMenu(R.menu.bottom_nav_menu)
         }
 
         val onNavigationItemSelectedListener =
@@ -216,12 +225,12 @@ class MainActivity : AppCompatActivity(), MainContract.View,
                 false
             }
 
-        bottomNavView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
+        binding.bottomNavView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
         switchTab(0)
     }
 
     private fun hideCreateOrganization() {
-        val item: MenuItem = navView.menu.findItem(R.id.nav_create_organization)
+        val item: MenuItem = binding.navView.menu.findItem(R.id.nav_create_organization)
         if (item != null) item.isVisible = false
     }
 
@@ -234,7 +243,7 @@ class MainActivity : AppCompatActivity(), MainContract.View,
     }
 
     fun setSearchLabel(newLabel: String) {
-        searchLabel.text = newLabel
+        binding.appBar.searchLabel.text = newLabel
     }
 
     fun goToLogin() {
@@ -505,8 +514,8 @@ class MainActivity : AppCompatActivity(), MainContract.View,
     }
 
     override fun showMapFragment() {
-        searchButton.visibility = View.VISIBLE
-        appBarTitle.visibility = View.GONE
+        binding.appBar.searchButton.visibility = View.VISIBLE
+        binding.appBar.appBarTitle.visibility = View.GONE
         if (currentFragment == null || currentFragment !is SearchFragment) {
             currentFragment = SearchFragment()
         }
@@ -517,9 +526,9 @@ class MainActivity : AppCompatActivity(), MainContract.View,
     }
 
     override fun showResourcesFragment() {
-        searchButton.visibility = View.GONE
-        appBarTitle.visibility = View.VISIBLE
-        appBarTitle.text = getString(R.string.my_resources)
+        binding.appBar.searchButton.visibility = View.GONE
+        binding.appBar.appBarTitle.visibility = View.VISIBLE
+        binding.appBar.appBarTitle.text = getString(R.string.my_resources)
         supportFragmentManager.beginTransaction()
             .addToBackStack(null)
             .replace(R.id.container_fragment, BeneficiaryResourcesFragment(), BeneficiaryResourcesFragment.TAG)
@@ -527,9 +536,9 @@ class MainActivity : AppCompatActivity(), MainContract.View,
     }
 
     override fun onBackPressed() {
-        bottomNavView.visibility = View.VISIBLE
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START)
+        binding.bottomNavView.visibility = View.VISIBLE
+        if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            binding.drawerLayout.closeDrawer(GravityCompat.START)
         } else {
             super.onBackPressed()
         }
@@ -558,7 +567,7 @@ class MainActivity : AppCompatActivity(), MainContract.View,
 
     override fun showProfileFragment() {
         if (BaseApp.sharedPreferences.isProviderService) {
-            bottomNavView.visibility = View.VISIBLE
+            binding.bottomNavView.visibility = View.VISIBLE
             val organizationId = BaseApp.sharedPreferences.currentOrganizationId
             if (organizationId.isNullOrEmpty()) {
                 val toast = Toast.makeText(
@@ -572,7 +581,7 @@ class MainActivity : AppCompatActivity(), MainContract.View,
                 openOrganizationProfile(organizationId)
             }
         } else {
-            bottomNavView.visibility = View.GONE
+            binding.bottomNavView.visibility = View.GONE
             openProfileFragment()
         }
     }
@@ -582,17 +591,17 @@ class MainActivity : AppCompatActivity(), MainContract.View,
     }
 
     fun setTextToolbar(text: String, color: Int) {
-        searchButton.visibility = View.GONE
-        appBarTitle.visibility = View.VISIBLE
+        binding.appBar.searchButton.visibility = View.GONE
+        binding.appBar.appBarTitle.visibility = View.VISIBLE
 
-        toolbar.title = ""
-        appBarTitle.text = text
-        toolbar.setBackgroundColor(color)
+        binding.appBar.toolbar.title = ""
+        binding.appBar.appBarTitle.text = text
+        binding.appBar.toolbar.setBackgroundColor(color)
     }
 
     fun setSearchButton() {
-        searchButton.visibility = View.VISIBLE
-        appBarTitle.visibility = View.GONE
+        binding.appBar.searchButton.visibility = View.VISIBLE
+        binding.appBar.appBarTitle.visibility = View.GONE
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -653,29 +662,29 @@ class MainActivity : AppCompatActivity(), MainContract.View,
         when (item.itemId) {
             R.id.nav_home -> {
                 presenter.onDrawerHomeOption()
-                bottomNavView.visibility = View.VISIBLE
+                binding.bottomNavView.visibility = View.VISIBLE
             }
             R.id.nav_profile -> {
                 presenter.onDrawerProfileOption()
             }
             R.id.nav_gallery -> {
                 presenter.onDrawerConfigOption()
-                bottomNavView.visibility = View.GONE
+                binding.bottomNavView.visibility = View.GONE
             }
             R.id.nav_slideshow -> {
                 presenter.onDrawerContactOption()
-                bottomNavView.visibility = View.GONE
+                binding.bottomNavView.visibility = View.GONE
             }
             R.id.nav_tools -> {
                 presenter.onDrawerSuggestOption()
-                bottomNavView.visibility = View.GONE
+                binding.bottomNavView.visibility = View.GONE
             }
             R.id.nav_create_organization -> {
                 presenter.onDrawerCreateOrganizationOption()
-                bottomNavView.visibility = View.GONE
+                binding.bottomNavView.visibility = View.GONE
             }
         }
-        drawerLayout.closeDrawer(GravityCompat.START)
+        binding.drawerLayout.closeDrawer(GravityCompat.START)
         return true
     }
 

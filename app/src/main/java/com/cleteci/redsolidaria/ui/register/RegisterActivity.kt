@@ -15,32 +15,30 @@ import android.view.Window
 import android.view.WindowManager
 import android.widget.*
 import com.cleteci.redsolidaria.BaseApp
+import com.cleteci.redsolidaria.databinding.ActivityRegisterBinding
 import com.cleteci.redsolidaria.ui.login.LoginActivity
 import com.cleteci.redsolidaria.util.Constants.Companion.DEFAULT_PASSWORD_LENGTH
 import com.cleteci.redsolidaria.util.showInfoDialog
 import com.cleteci.redsolidaria.viewModels.BaseViewModel
 import com.cleteci.redsolidaria.viewModels.UserAccountViewModel
-import kotlinx.android.synthetic.main.activity_register.*
-import kotlinx.android.synthetic.main.activity_register.btSend
-import kotlinx.android.synthetic.main.activity_register.etEmail
-import kotlinx.android.synthetic.main.activity_register.etLastName
-import kotlinx.android.synthetic.main.activity_register.etName
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class RegisterActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityRegisterBinding
     private val userAccountVM by viewModel<UserAccountViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_register)
+        binding = ActivityRegisterBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         userAccountVM.status.observe(this, androidx.lifecycle.Observer { status: BaseViewModel.QueryStatus? ->
             when (status) {
                 BaseViewModel.QueryStatus.NOTIFY_LOADING -> showLoading(true)
                 BaseViewModel.QueryStatus.NOTIFY_SUCCESS -> {
                     showLoading(false)
-                    val userName = etName.text.toString() + " " + etLastName.text.toString()
+                    val userName = binding.etName.text.toString() + " " + binding.etLastName.text.toString()
                     showAlert(R.drawable.ic_check_green,
                         getString(R.string.welcome_success, userName),
                         getString(R.string.go_to_login))
@@ -82,18 +80,18 @@ class RegisterActivity : AppCompatActivity() {
                 .build()
         )
 
-        setSupportActionBar(toolbar)
+        setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
-        btSend.setOnClickListener {
+        binding.btSend.setOnClickListener {
             validateRegister(
-                cbTerms.isChecked,
-                cbPolicies.isChecked,
-                etName.text.toString(),
-                etLastName.text.toString(),
-                etEmail.text.toString(),
-                etPass.text.toString()
+                binding.cbTerms.isChecked,
+                binding.cbPolicies.isChecked,
+                binding.etName.text.toString(),
+                binding.etLastName.text.toString(),
+                binding.etEmail.text.toString(),
+                binding.etPass.text.toString()
             )
         }
     }
@@ -116,7 +114,7 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun showLoading(show: Boolean) {
-        progressBar?.visibility = if (show) View.VISIBLE else View.GONE
+        binding.progressBar.visibility = if (show) View.VISIBLE else View.GONE
     }
 
     private fun showAlert(icon: Int, msg: String, buttonText: String) {

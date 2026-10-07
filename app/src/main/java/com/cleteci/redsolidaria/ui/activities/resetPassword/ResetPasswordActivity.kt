@@ -22,6 +22,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import androidx.appcompat.widget.Toolbar
+import com.cleteci.redsolidaria.databinding.ActivityResetPasswordBinding
 import com.cleteci.redsolidaria.ui.login.LoginActivity
 
 
@@ -30,7 +31,7 @@ import com.cleteci.redsolidaria.ui.login.LoginActivity
  */
 class ResetPasswordActivity : AppCompatActivity(), ResetPasswordContract.View {
 
-
+    private lateinit var binding: ActivityResetPasswordBinding
     var lyEmail: RelativeLayout? = null
 
     var lyVerify: RelativeLayout? = null
@@ -49,7 +50,8 @@ class ResetPasswordActivity : AppCompatActivity(), ResetPasswordContract.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_reset_password)
+        binding = ActivityResetPasswordBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         injectDependency()
 
         presenter.attach(this)
@@ -73,23 +75,23 @@ class ResetPasswordActivity : AppCompatActivity(), ResetPasswordContract.View {
                 .build()
         )
 
-        var toolbar: Toolbar = findViewById(R.id.toolbar)
+        var toolbar: Toolbar = binding.toolbar
         setSupportActionBar(toolbar)
         getSupportActionBar()?.setDisplayHomeAsUpEnabled(true)
         getSupportActionBar()?.setDisplayShowHomeEnabled(true)
 
 
-        lyEmail = findViewById(R.id.lyEmail)
+        lyEmail = binding.lyEmail
 
-        lyVerify = findViewById(R.id.lyRegisterSuccess)
+        lyVerify = binding.lyRegisterSuccess
 
-        etEmail = findViewById(R.id.etEmail)
+        etEmail = binding.etEmail
 
-        btSend = findViewById(R.id.btSend)
+        btSend = binding.btSend
 
-        btCancel = findViewById(R.id.btCancel)
+        btCancel = binding.btCancel
 
-        btLogin = findViewById(R.id.btLogin)
+        btLogin = binding.btLogin
 
 
 

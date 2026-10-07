@@ -15,15 +15,15 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cleteci.redsolidaria.R
 import com.cleteci.redsolidaria.data.LocalDataForUITest.getCategoriesList
+import com.cleteci.redsolidaria.databinding.ActivitySearchBinding
 import com.cleteci.redsolidaria.ui.fragments.createOrganization.CreateOrganizationFragment
 import com.cleteci.redsolidaria.util.LocationResources
 import com.cleteci.redsolidaria.util.showAlert
 import com.schibstedspain.leku.*
-import kotlinx.android.synthetic.main.activity_search.*
-
 
 class SearchItemsActivity : AppCompatActivity(), SearchItemsAdapter.OnItemClickListener {
 
+    private lateinit var binding: ActivitySearchBinding
     private var suggestionsList: ArrayList<SearchItemsAdapter.SearchItem> = ArrayList()
     private lateinit var adapter: SearchItemsAdapter
     private var latitude: Double = 0.0
@@ -32,7 +32,8 @@ class SearchItemsActivity : AppCompatActivity(), SearchItemsAdapter.OnItemClickL
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_search)
+        binding = ActivitySearchBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         buildSuggestionsList()
         setUpUI()
         locationResources = LocationResources(this, this)
@@ -51,23 +52,23 @@ class SearchItemsActivity : AppCompatActivity(), SearchItemsAdapter.OnItemClickL
     }
 
     private fun setUpUI() {
-        categoriesList.addItemDecoration(
+        binding.categoriesList.addItemDecoration(
             DividerItemDecoration(
                 this,
                 DividerItemDecoration.VERTICAL
             )
         )
-        categoriesList.layoutManager = LinearLayoutManager(this)
+        binding.categoriesList.layoutManager = LinearLayoutManager(this)
         adapter = SearchItemsAdapter(this, suggestionsList, this)
-        categoriesList?.adapter = adapter
-        searchViewCategoryOrText.isIconified = false
-        searchViewCategoryOrText.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        binding.categoriesList.adapter = adapter
+        binding.searchViewCategoryOrText.isIconified = false
+        binding.searchViewCategoryOrText.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 val intent = Intent()
                 intent.putExtra(ID_QUERY, query)
                 intent.putExtra(
                     ID_LOCATION_TEXT,
-                    tvLocation.text.toString().replace(getString(R.string.near_to), "")
+                    binding.tvLocation.text.toString().replace(getString(R.string.near_to), "")
                 )
                 intent.putExtra(ID_LOCATION_LAT, latitude)
                 intent.putExtra(ID_LOCATION_LNG, longitude)
@@ -81,20 +82,20 @@ class SearchItemsActivity : AppCompatActivity(), SearchItemsAdapter.OnItemClickL
                 return false
             }
         })
-        searchViewCategoryOrText.setOnSearchClickListener {
+        binding.searchViewCategoryOrText.setOnSearchClickListener {
             val intent = Intent()
             intent.putExtra(ID_QUERY, "")
             intent.putExtra(
                 ID_LOCATION_TEXT,
-                tvLocation.text.toString().replace(getString(R.string.near_to), "")
+                binding.tvLocation.text.toString().replace(getString(R.string.near_to), "")
             )
             intent.putExtra(ID_LOCATION_LAT, latitude)
             intent.putExtra(ID_LOCATION_LNG, longitude)
             setResult(RESULT_OK, intent)
             finish()
         }
-        tvLocation.text = getString(R.string.current_location_text)
-        lyLocation!!.setOnClickListener {
+        binding.tvLocation.text = getString(R.string.current_location_text)
+        binding.lyLocation.setOnClickListener {
             if (locationResources.isLocationEnabled(this)) {
                 if (ActivityCompat.checkSelfPermission(
                         this,
@@ -148,7 +149,7 @@ class SearchItemsActivity : AppCompatActivity(), SearchItemsAdapter.OnItemClickL
         intent.putExtra(ID_QUERY, text)
         intent.putExtra(
             ID_LOCATION_TEXT,
-            tvLocation.text.toString().replace(getString(R.string.near_to), "")
+            binding.tvLocation.text.toString().replace(getString(R.string.near_to), "")
         )
         intent.putExtra(ID_LOCATION_LAT, latitude)
         intent.putExtra(ID_LOCATION_LNG, longitude)
@@ -164,7 +165,7 @@ class SearchItemsActivity : AppCompatActivity(), SearchItemsAdapter.OnItemClickL
                 longitude = data.getDoubleExtra(LONGITUDE, 0.0)
                 val address = data.getStringExtra(LOCATION_ADDRESS)
                 val text = getString(R.string.near_to_location, address)
-                tvLocation.text = text
+                binding.tvLocation.text = text
 
                 val fullAddress = data.getParcelableExtra<Address>(ADDRESS)
             }

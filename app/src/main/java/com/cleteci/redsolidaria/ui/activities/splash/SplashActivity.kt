@@ -22,6 +22,7 @@ import android.widget.Button
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.afollestad.viewpagerdots.DotsIndicator
+import com.cleteci.redsolidaria.databinding.ActivitySplashBinding
 import com.cleteci.redsolidaria.ui.login.LoginActivity
 
 
@@ -30,7 +31,7 @@ import com.cleteci.redsolidaria.ui.login.LoginActivity
  */
 class SplashActivity : AppCompatActivity(), SplashContract.View {
 
-    /// var mListener: OnFragmentInteractionListener? = null
+    private lateinit var binding: ActivitySplashBinding
     var dots: DotsIndicator? = null
 
     var btNext: Button? = null
@@ -46,7 +47,8 @@ class SplashActivity : AppCompatActivity(), SplashContract.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_splash)
+        binding = ActivitySplashBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         injectDependency()
 
         presenter.attach(this)
@@ -70,13 +72,13 @@ class SplashActivity : AppCompatActivity(), SplashContract.View {
                 .build()
         )
 
-        viewPager = findViewById(R.id.viewPager)
-        btNext = findViewById(R.id.btNext)
+        viewPager = binding.viewPager
+        btNext = binding.btNext
 
         myViewPagerAdapter = MyViewPagerAdapter()
         viewPager!!.setAdapter(myViewPagerAdapter)
         viewPager!!.addOnPageChangeListener(viewPagerPageChangeListener)
-        dots = findViewById(R.id.dots)
+        dots = binding.dots
 
         dots!!.attachViewPager(viewPager)
 
