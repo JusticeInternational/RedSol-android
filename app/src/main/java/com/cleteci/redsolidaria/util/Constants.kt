@@ -23,7 +23,10 @@ import kotlin.collections.ArrayList
 
 class Constants {
     companion object {
-        const val BASE_URL = "http://redsol.eastus.cloudapp.azure.com/backend/graphql"
+        // Backend Local (10.0.2.2 para emulador Android; 192.168.1.5 para dispositivo físico)
+        const val BASE_URL = "http://10.0.2.2:4000/graphql"
+        const val BASE_URL_REMOTE = "http://redsol.eastus.cloudapp.azure.com/backend/graphql"
+        const val BASE_URL_DEVICE_WIFI = "http://192.168.1.5:4000/graphql"
         const val ORGANIZATION_EMAIL = "redsol.app@gmail.com"
         const val ORGANIZATION_PHONE = "0123456789"
         const val SLASH = "/"
