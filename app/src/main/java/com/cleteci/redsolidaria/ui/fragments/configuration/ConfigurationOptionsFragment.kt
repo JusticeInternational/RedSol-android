@@ -11,24 +11,20 @@ import com.cleteci.redsolidaria.R
 import com.cleteci.redsolidaria.data.LocalDataForUITest
 
 import com.cleteci.redsolidaria.databinding.FragmentConfigurationBinding
-import com.cleteci.redsolidaria.di.component.DaggerFragmentComponent
-import com.cleteci.redsolidaria.di.module.FragmentModule
 import com.cleteci.redsolidaria.ui.activities.main.MainActivity
 import com.cleteci.redsolidaria.ui.base.BaseFragment
 import com.cleteci.redsolidaria.util.SharedPreferences
 import com.cleteci.redsolidaria.util.SharedPreferences.Companion.getTestDataPreference
 import com.cleteci.redsolidaria.util.SharedPreferences.Companion.putTestDataPreference
 import com.cleteci.redsolidaria.util.SharedPreferences.Companion.removeOrganizationSharedPreferences
-import javax.inject.Inject
-
+import org.koin.android.ext.android.inject
 
 class ConfigurationFragment : BaseFragment(), ConfigurationContract.View {
 
     private var _binding: FragmentConfigurationBinding? = null
     private val binding get() = _binding!!
 
-    @Inject
-    lateinit var presenter: ConfigurationContract.Presenter
+    private val presenter: ConfigurationContract.Presenter by inject()
 
     fun newInstance(): ConfigurationFragment {
         return ConfigurationFragment()
@@ -36,7 +32,6 @@ class ConfigurationFragment : BaseFragment(), ConfigurationContract.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        injectDependency()
     }
 
     override fun onCreateView(
@@ -58,14 +53,6 @@ class ConfigurationFragment : BaseFragment(), ConfigurationContract.View {
         super.onDestroyView()
         presenter.unsubscribe()
         _binding = null
-    }
-
-    private fun injectDependency() {
-        val aboutComponent = DaggerFragmentComponent.builder()
-            .fragmentModule(FragmentModule())
-            .build()
-
-        aboutComponent.inject(this)
     }
 
     override fun init() {

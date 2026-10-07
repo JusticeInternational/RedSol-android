@@ -1,30 +1,22 @@
 package com.cleteci.redsolidaria.ui.activities.splash
 
-
-import android.os.Bundle
-
-import androidx.appcompat.app.AppCompatActivity
-import com.cleteci.redsolidaria.R
-import com.cleteci.redsolidaria.di.component.DaggerActivityComponent
-
-import com.cleteci.redsolidaria.di.module.ActivityModule
-import uk.co.chrisjenx.calligraphy.CalligraphyConfig
-
-import javax.inject.Inject
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper
-
 import android.content.Context
 import android.content.Intent
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.afollestad.viewpagerdots.DotsIndicator
+import com.cleteci.redsolidaria.R
 import com.cleteci.redsolidaria.databinding.ActivitySplashBinding
 import com.cleteci.redsolidaria.ui.login.LoginActivity
-
+import org.koin.android.ext.android.inject
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper
 
 /**
  * Created by ogulcan on 07/02/2018.
@@ -41,25 +33,14 @@ class SplashActivity : AppCompatActivity(), SplashContract.View {
     private var layouts: IntArray? =
         intArrayOf(R.layout.fragment_splash_1, R.layout.fragment_splash_2, R.layout.fragment_splash_3);
 
-
-    @Inject
-    lateinit var presenter: SplashContract.Presenter
+    private val presenter: SplashContract.Presenter by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        injectDependency()
 
         presenter.attach(this)
-    }
-
-    private fun injectDependency() {
-        val activityComponent = DaggerActivityComponent.builder()
-            .activityModule(ActivityModule(this))
-            .build()
-
-        activityComponent.inject(this)
     }
 
 

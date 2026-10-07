@@ -25,8 +25,6 @@ import androidx.recyclerview.widget.RecyclerView
 
 import com.cleteci.redsolidaria.R
 
-import com.cleteci.redsolidaria.di.component.DaggerFragmentComponent
-import com.cleteci.redsolidaria.di.module.FragmentModule
 import com.cleteci.redsolidaria.models.Category
 import com.cleteci.redsolidaria.ui.adapters.CategoriesAdapter
 import com.cleteci.redsolidaria.ui.base.BaseFragment
@@ -35,8 +33,7 @@ import com.cleteci.redsolidaria.util.LocationResources
 import com.cleteci.redsolidaria.util.showAlert
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.schibstedspain.leku.*
-import javax.inject.Inject
-
+import org.koin.android.ext.android.inject
 
 class AdvancedSearchFragment : BaseFragment(), AdvancedSearchContract.View,
     CategoriesAdapter.OnItemClickListener {
@@ -53,8 +50,7 @@ class AdvancedSearchFragment : BaseFragment(), AdvancedSearchContract.View,
     private val listCategory = ArrayList<Category>()
     private lateinit var locationResources: LocationResources
 
-    @Inject
-    lateinit var presenter: AdvancedSearchContract.Presenter
+    private val presenter: AdvancedSearchContract.Presenter by inject()
 
     private lateinit var rootView: View
 
@@ -64,7 +60,6 @@ class AdvancedSearchFragment : BaseFragment(), AdvancedSearchContract.View,
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        injectDependency()
         locationResources = LocationResources(requireContext(), requireActivity())
         locationResources.currentLocation.observe(this,
             androidx.lifecycle.Observer { currentLocation: Location ->
@@ -174,15 +169,6 @@ class AdvancedSearchFragment : BaseFragment(), AdvancedSearchContract.View,
             presenter.search(query)
         }
 
-    }
-
-
-    private fun injectDependency() {
-        val aboutComponent = DaggerFragmentComponent.builder()
-            .fragmentModule(FragmentModule())
-            .build()
-
-        aboutComponent.inject(this)
     }
 
     override fun init() {

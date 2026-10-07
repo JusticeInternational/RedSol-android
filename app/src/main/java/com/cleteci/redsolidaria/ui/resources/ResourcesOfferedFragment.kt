@@ -8,8 +8,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.cleteci.redsolidaria.BaseApp
 import com.cleteci.redsolidaria.R
 import com.cleteci.redsolidaria.databinding.FragmentResourcesOfferedBinding
-import com.cleteci.redsolidaria.di.component.DaggerFragmentComponent
-import com.cleteci.redsolidaria.di.module.FragmentModule
 import com.cleteci.redsolidaria.models.Category
 import com.cleteci.redsolidaria.models.Organization
 import com.cleteci.redsolidaria.models.Resource
@@ -39,8 +37,6 @@ class ResourcesOfferedFragment : BaseFragment(), ResourcesAdapter.OnResourceClic
         super.onCreate(savedInstanceState)
 
         isFromScan = arguments?.getBoolean(IS_FROM_SCAN) ?: false
-
-        injectDependency()
 
         mCategoriesAdapter = ResourcesAdapter(requireContext(), listCategories, this, isFromScan)
         mServicesAdapter = ResourcesAdapter(requireContext(), listServices, this, isFromScan)
@@ -158,14 +154,6 @@ class ResourcesOfferedFragment : BaseFragment(), ResourcesAdapter.OnResourceClic
 
         binding.rvMyCategories.adapter = mCategoriesAdapter
         binding.rvCategories.adapter = mServicesAdapter
-    }
-
-    private fun injectDependency() {
-        val aboutComponent = DaggerFragmentComponent.builder()
-            .fragmentModule(FragmentModule())
-            .build()
-
-        aboutComponent.inject(this)
     }
 
     private fun setupLabels() {

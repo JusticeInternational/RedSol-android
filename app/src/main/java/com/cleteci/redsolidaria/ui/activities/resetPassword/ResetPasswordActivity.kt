@@ -1,29 +1,20 @@
 package com.cleteci.redsolidaria.ui.activities.resetPassword
 
-import android.os.Bundle
-
-
-import androidx.appcompat.app.AppCompatActivity
-
-import com.cleteci.redsolidaria.R
-import com.cleteci.redsolidaria.di.component.DaggerActivityComponent
-
-import com.cleteci.redsolidaria.di.module.ActivityModule
-
-import uk.co.chrisjenx.calligraphy.CalligraphyConfig
-
-import javax.inject.Inject
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper
-
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import com.cleteci.redsolidaria.R
 import com.cleteci.redsolidaria.databinding.ActivityResetPasswordBinding
 import com.cleteci.redsolidaria.ui.login.LoginActivity
+import org.koin.android.ext.android.inject
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper
 
 
 /**
@@ -44,25 +35,14 @@ class ResetPasswordActivity : AppCompatActivity(), ResetPasswordContract.View {
 
     var btLogin: Button? = null
 
-
-    @Inject
-    lateinit var presenter: ResetPasswordContract.Presenter
+    private val presenter: ResetPasswordContract.Presenter by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityResetPasswordBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        injectDependency()
 
         presenter.attach(this)
-    }
-
-    private fun injectDependency() {
-        val activityComponent = DaggerActivityComponent.builder()
-            .activityModule(ActivityModule(this))
-            .build()
-
-        activityComponent.inject(this)
     }
 
 

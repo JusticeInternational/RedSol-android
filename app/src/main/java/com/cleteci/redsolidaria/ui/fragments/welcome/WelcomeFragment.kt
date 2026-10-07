@@ -9,13 +9,10 @@ import android.widget.Button
 import android.widget.TextView
 import com.cleteci.redsolidaria.BaseApp
 import com.cleteci.redsolidaria.R
-import com.cleteci.redsolidaria.di.component.DaggerFragmentComponent
-import com.cleteci.redsolidaria.di.module.FragmentModule
 import com.cleteci.redsolidaria.ui.login.LoginActivity
 import com.cleteci.redsolidaria.ui.activities.main.MainActivity
 import com.cleteci.redsolidaria.ui.base.BaseFragment
-
-import javax.inject.Inject
+import org.koin.android.ext.android.inject
 
 class WelcomeFragment : BaseFragment(), WelcomeContract.View {
 
@@ -23,9 +20,7 @@ class WelcomeFragment : BaseFragment(), WelcomeContract.View {
     var btLogin: Button? = null
     var btContinue: Button? = null
 
-
-    @Inject
-    lateinit var presenter: WelcomeContract.Presenter
+    private val presenter: WelcomeContract.Presenter by inject()
 
     private lateinit var rootView: View
 
@@ -35,7 +30,6 @@ class WelcomeFragment : BaseFragment(), WelcomeContract.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        injectDependency()
     }
 
     override fun onCreateView(
@@ -93,15 +87,6 @@ class WelcomeFragment : BaseFragment(), WelcomeContract.View {
     override fun onDestroyView() {
         super.onDestroyView()
         presenter.unsubscribe()
-    }
-
-
-    private fun injectDependency() {
-        val aboutComponent = DaggerFragmentComponent.builder()
-            .fragmentModule(FragmentModule())
-            .build()
-
-        aboutComponent.inject(this)
     }
 
     override fun init() {

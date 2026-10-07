@@ -13,16 +13,13 @@ import com.cleteci.redsolidaria.BaseApp
 
 import com.cleteci.redsolidaria.R
 
-import com.cleteci.redsolidaria.di.component.DaggerFragmentComponent
-import com.cleteci.redsolidaria.di.module.FragmentModule
 import com.cleteci.redsolidaria.ui.activities.main.MainActivity
 import com.cleteci.redsolidaria.ui.base.BaseFragment
 import com.google.zxing.ResultPoint
 import com.google.zxing.client.android.BeepManager
 import com.journeyapps.barcodescanner.*
 import com.rey.material.widget.ProgressView
-import javax.inject.Inject
-
+import org.koin.android.ext.android.inject
 
 class ScanCodeFragment : BaseFragment(), ScanCodeContract.View {
 
@@ -40,10 +37,7 @@ class ScanCodeFragment : BaseFragment(), ScanCodeContract.View {
     var btSend: Button? = null
     var zxing_status_view: TextView? = null
 
-
-
-    @Inject
-    lateinit var presenter: ScanCodeContract.Presenter
+    private val presenter: ScanCodeContract.Presenter by inject()
 
     private lateinit var rootView: View
 
@@ -69,7 +63,6 @@ class ScanCodeFragment : BaseFragment(), ScanCodeContract.View {
             isGeneric = arguments!!.getBoolean("isGeneric")
 
         }
-        injectDependency()
     }
 
     override fun onCreateView(
@@ -178,15 +171,6 @@ class ScanCodeFragment : BaseFragment(), ScanCodeContract.View {
     override fun onDestroyView() {
         super.onDestroyView()
         presenter.unsubscribe()
-    }
-
-
-    private fun injectDependency() {
-        val aboutComponent = DaggerFragmentComponent.builder()
-            .fragmentModule(FragmentModule())
-            .build()
-
-        aboutComponent.inject(this)
     }
 
     override fun init() {

@@ -4,11 +4,9 @@ import android.app.Application
 import android.content.Context
 import com.apollographql.apollo.ApolloClient
 
-import com.cleteci.redsolidaria.di.component.ApplicationComponent
-import com.cleteci.redsolidaria.di.component.DaggerApplicationComponent
-import com.cleteci.redsolidaria.di.module.ApplicationModule
 import com.cleteci.redsolidaria.di.modules.appModule
 import com.cleteci.redsolidaria.di.modules.controllersModule
+import com.cleteci.redsolidaria.di.modules.presentersModule
 import com.cleteci.redsolidaria.di.modules.viewModelsModule
 import com.cleteci.redsolidaria.util.Constants
 import com.cleteci.redsolidaria.util.SharedPreferences
@@ -20,14 +18,10 @@ import org.koin.core.context.startKoin
 
 class BaseApp : Application() {
 
-
-    lateinit var component: ApplicationComponent
-
     override fun onCreate() {
         super.onCreate()
 
         instance = this
-        setup()
 
         apolloClient = ApolloClient.builder().serverUrl(Constants.BASE_URL).build()
         FacebookSdk.sdkInitialize(applicationContext);
@@ -37,12 +31,6 @@ class BaseApp : Application() {
         startModules()
     }
 
-    private fun setup() {
-        component = DaggerApplicationComponent.builder()
-            .applicationModule(ApplicationModule(this)).build()
-        component.inject(this)
-    }
-
     private fun startModules() {
         startKoin {
             androidContext(this@BaseApp)
@@ -50,6 +38,7 @@ class BaseApp : Application() {
                 listOf(
                     appModule,
                     controllersModule,
+                    presentersModule,
                     viewModelsModule
                 )
             )

@@ -8,13 +8,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 import com.cleteci.redsolidaria.R
-
-import com.cleteci.redsolidaria.di.component.DaggerFragmentComponent
-import com.cleteci.redsolidaria.di.module.FragmentModule
 import com.cleteci.redsolidaria.models.Category
 
 import com.cleteci.redsolidaria.ui.adapters.CategoriesAdapter
-import javax.inject.Inject
 import android.widget.TextView
 import android.text.Spannable
 import android.text.SpannableStringBuilder
@@ -26,11 +22,9 @@ import android.view.MotionEvent
 import com.cleteci.redsolidaria.ui.activities.main.MainActivity
 import android.view.View.OnTouchListener
 import com.cleteci.redsolidaria.ui.base.BaseFragment
-
+import org.koin.android.ext.android.inject
 
 class ServiceDetailFragment : BaseFragment(), ServiceDetailContract.View, CategoriesAdapter.OnItemClickListener {
-
-
 
     var mListRecyclerView: RecyclerView? = null
     var mAdapter: CategoriesAdapter? = null
@@ -43,9 +37,7 @@ class ServiceDetailFragment : BaseFragment(), ServiceDetailContract.View, Catego
     var btVerify: Button? = null
     var btTake: Button? = null
 
-
-    @Inject
-    lateinit var presenter: ServiceDetailContract.Presenter
+    private val presenter: ServiceDetailContract.Presenter by inject()
 
     private lateinit var rootView: View
 
@@ -55,7 +47,6 @@ class ServiceDetailFragment : BaseFragment(), ServiceDetailContract.View, Catego
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        injectDependency()
     }
 
     override fun onCreateView(
@@ -196,16 +187,6 @@ class ServiceDetailFragment : BaseFragment(), ServiceDetailContract.View, Catego
         super.onDestroyView()
         presenter.unsubscribe()
     }
-
-
-    private fun injectDependency() {
-        val aboutComponent = DaggerFragmentComponent.builder()
-            .fragmentModule(FragmentModule())
-            .build()
-
-        aboutComponent.inject(this)
-    }
-
 
     private fun initView() {
         //presenter.loadMessage()

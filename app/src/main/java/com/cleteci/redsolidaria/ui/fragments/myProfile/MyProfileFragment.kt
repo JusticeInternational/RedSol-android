@@ -8,24 +8,19 @@ import android.widget.Button
 import com.cleteci.redsolidaria.BaseApp
 import com.cleteci.redsolidaria.R
 import com.cleteci.redsolidaria.databinding.FragmentMyProfileBinding
-import com.cleteci.redsolidaria.di.component.DaggerFragmentComponent
-import com.cleteci.redsolidaria.di.module.FragmentModule
 import com.cleteci.redsolidaria.ui.activities.main.MainActivity
 import com.cleteci.redsolidaria.ui.base.BaseFragment
-import javax.inject.Inject
-
+import org.koin.android.ext.android.inject
 
 class MyProfileFragment : BaseFragment(), MyProfileContract.View {
 
     private var _binding: FragmentMyProfileBinding? = null
     private val binding get() = _binding!!
 
-    @Inject
-    lateinit var presenter: MyProfileContract.Presenter
+    private val presenter: MyProfileContract.Presenter by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        injectDependency()
     }
 
     override fun onCreateView(
@@ -47,13 +42,6 @@ class MyProfileFragment : BaseFragment(), MyProfileContract.View {
         super.onDestroyView()
         presenter.unsubscribe()
         _binding = null
-    }
-
-    private fun injectDependency() {
-        val aboutComponent = DaggerFragmentComponent.builder()
-                .fragmentModule(FragmentModule())
-                .build()
-        aboutComponent.inject(this)
     }
 
     override fun init() {}

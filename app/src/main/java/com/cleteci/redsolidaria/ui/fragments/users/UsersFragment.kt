@@ -9,17 +9,13 @@ import com.cleteci.redsolidaria.BaseApp
 
 import com.cleteci.redsolidaria.R
 
-import com.cleteci.redsolidaria.di.component.DaggerFragmentComponent
-import com.cleteci.redsolidaria.di.module.FragmentModule
 import com.cleteci.redsolidaria.ui.activities.main.MainActivity
 import com.cleteci.redsolidaria.ui.base.BaseFragment
-import javax.inject.Inject
-
+import org.koin.android.ext.android.inject
 
 class UsersFragment : BaseFragment() , UsersContract.View  {
 
-
-    @Inject lateinit var presenter: UsersContract.Presenter
+    private val presenter: UsersContract.Presenter by inject()
 
     private lateinit var rootView: View
 
@@ -29,7 +25,6 @@ class UsersFragment : BaseFragment() , UsersContract.View  {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        injectDependency()
     }
 
     override fun onCreateView(
@@ -50,14 +45,6 @@ class UsersFragment : BaseFragment() , UsersContract.View  {
     override fun onDestroyView() {
         super.onDestroyView()
         presenter.unsubscribe()
-    }
-
-    private fun injectDependency() {
-        val aboutComponent = DaggerFragmentComponent.builder()
-            .fragmentModule(FragmentModule())
-            .build()
-
-        aboutComponent.inject(this)
     }
     override fun init() {
 

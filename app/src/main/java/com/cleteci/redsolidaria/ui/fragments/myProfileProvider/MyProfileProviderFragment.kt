@@ -16,8 +16,6 @@ import android.widget.*
 import androidx.core.app.ActivityCompat
 
 import com.cleteci.redsolidaria.R
-import com.cleteci.redsolidaria.di.component.DaggerFragmentComponent
-import com.cleteci.redsolidaria.di.module.FragmentModule
 import com.cleteci.redsolidaria.models.Organization
 import com.cleteci.redsolidaria.ui.activities.main.MainActivity
 import com.cleteci.redsolidaria.ui.base.BaseFragment
@@ -25,8 +23,7 @@ import com.cleteci.redsolidaria.ui.fragments.createOrganization.CreateOrganizati
 import com.cleteci.redsolidaria.util.LocationResources
 import com.cleteci.redsolidaria.util.showAlert
 import com.schibstedspain.leku.*
-import javax.inject.Inject
-
+import org.koin.android.ext.android.inject
 
 class MyProfileProviderFragment : BaseFragment(), MyProfileProviderContract.View {
 
@@ -43,9 +40,7 @@ class MyProfileProviderFragment : BaseFragment(), MyProfileProviderContract.View
     var tvPlan: TextView? = null
     var ivImageProfile: ImageView? = null
 
-
-    @Inject
-    lateinit var presenter: MyProfileProviderContract.Presenter
+    private val presenter: MyProfileProviderContract.Presenter by inject()
     private lateinit var locationResources: LocationResources
 
     private lateinit var rootView: View
@@ -56,7 +51,6 @@ class MyProfileProviderFragment : BaseFragment(), MyProfileProviderContract.View
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        injectDependency()
         locationResources = LocationResources(requireContext(), requireActivity())
         locationResources.currentLocation.observe(this,
             androidx.lifecycle.Observer { currentLocation: Location ->
@@ -180,15 +174,6 @@ class MyProfileProviderFragment : BaseFragment(), MyProfileProviderContract.View
     override fun onDestroyView() {
         super.onDestroyView()
         presenter.unsubscribe()
-    }
-
-
-    private fun injectDependency() {
-        val aboutComponent = DaggerFragmentComponent.builder()
-            .fragmentModule(FragmentModule())
-            .build()
-
-        aboutComponent.inject(this)
     }
 
     override fun init() {

@@ -16,8 +16,6 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import com.cleteci.redsolidaria.R
-import com.cleteci.redsolidaria.di.component.DaggerFragmentComponent
-import com.cleteci.redsolidaria.di.module.FragmentModule
 import com.cleteci.redsolidaria.ui.activities.main.MainActivity
 import com.cleteci.redsolidaria.ui.base.BaseFragment
 import com.cleteci.redsolidaria.ui.fragments.createOrganization.CreateOrganizationFragment
@@ -27,7 +25,7 @@ import com.cleteci.redsolidaria.util.showAlert
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.schibstedspain.leku.*
-import javax.inject.Inject
+import org.koin.android.ext.android.inject
 
 class CreateServiceFragment : BaseFragment(), CreateServiceContract.View {
 
@@ -41,9 +39,7 @@ class CreateServiceFragment : BaseFragment(), CreateServiceContract.View {
 
     var etSchedule: EditText? = null
 
-
-    @Inject
-    lateinit var presenter: CreateServiceContract.Presenter
+    private val presenter: CreateServiceContract.Presenter by inject()
 
     private lateinit var rootView: View
     private lateinit var locationResources: LocationResources
@@ -54,7 +50,6 @@ class CreateServiceFragment : BaseFragment(), CreateServiceContract.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        injectDependency()
         locationResources = LocationResources(requireContext(), requireActivity())
         locationResources.currentLocation.observe(this,
             androidx.lifecycle.Observer { currentLocation: Location ->
@@ -142,15 +137,6 @@ class CreateServiceFragment : BaseFragment(), CreateServiceContract.View {
     override fun onDestroyView() {
         super.onDestroyView()
         presenter.unsubscribe()
-    }
-
-
-    private fun injectDependency() {
-        val aboutComponent = DaggerFragmentComponent.builder()
-            .fragmentModule(FragmentModule())
-            .build()
-
-        aboutComponent.inject(this)
     }
 
     override fun init() {

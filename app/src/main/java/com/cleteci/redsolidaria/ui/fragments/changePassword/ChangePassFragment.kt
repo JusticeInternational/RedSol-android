@@ -12,15 +12,12 @@ import com.cleteci.redsolidaria.BaseApp
 
 import com.cleteci.redsolidaria.R
 
-import com.cleteci.redsolidaria.di.component.DaggerFragmentComponent
-import com.cleteci.redsolidaria.di.module.FragmentModule
 import com.cleteci.redsolidaria.ui.activities.main.MainActivity
 import com.cleteci.redsolidaria.ui.base.BaseFragment
-import javax.inject.Inject
 import com.ybs.passwordstrengthmeter.PasswordStrength
 import android.widget.Toast
 import com.google.android.material.textfield.TextInputEditText
-
+import org.koin.android.ext.android.inject
 
 class ChangePassFragment : BaseFragment(), ChangePassContract.View, TextWatcher {
 
@@ -28,7 +25,7 @@ class ChangePassFragment : BaseFragment(), ChangePassContract.View, TextWatcher 
     var etPass : TextInputEditText?=null
     var btSave: Button? = null
 
-    @Inject lateinit var presenter: ChangePassContract.Presenter
+    private val presenter: ChangePassContract.Presenter by inject()
 
     private lateinit var rootView: View
 
@@ -38,7 +35,6 @@ class ChangePassFragment : BaseFragment(), ChangePassContract.View, TextWatcher 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        injectDependency()
     }
 
     override fun onCreateView(
@@ -80,16 +76,6 @@ class ChangePassFragment : BaseFragment(), ChangePassContract.View, TextWatcher 
 
     override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
         updatePasswordStrengthView(p0.toString());
-    }
-
-
-
-    private fun injectDependency() {
-        val aboutComponent = DaggerFragmentComponent.builder()
-                .fragmentModule(FragmentModule())
-                .build()
-
-        aboutComponent.inject(this)
     }
 
     override fun init() {

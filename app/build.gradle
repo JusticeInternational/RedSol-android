@@ -58,7 +58,6 @@ ext {
     retrofit_version = '2.6.+'
     rxjava2_version = '2.1.1'
     rxandroid_version = '2.0.0-RC1'
-    dagger2_version = '2.24'
     glideVersion = '4.4.0'
     googleServices = '16.0.0'
     googleMapLibServices='0.9.4'
@@ -94,16 +93,7 @@ dependencies {
     implementation "com.squareup.okhttp3:logging-interceptor:$okHttpVersion"
     implementation "com.squareup.okhttp3:okhttp-urlconnection:$okHttpVersion"
 
-    // dependency injection
-    implementation "com.google.dagger:dagger:$dagger2_version"
-    implementation "com.google.dagger:dagger-android:$dagger2_version"
-    implementation "com.google.dagger:dagger-android-support:$dagger2_version"
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-    kapt "com.google.dagger:dagger-compiler:$dagger2_version"
-    kapt "com.google.dagger:dagger-android-processor:$dagger2_version"
-    annotationProcessor "com.google.dagger:dagger-compiler:$dagger2_version"
-    compileOnly 'javax.annotation:jsr250-api:1.0'
-    implementation 'javax.inject:javax.inject:1'
     implementation 'com.vmadalin:easypermissions-ktx:1.0.0'
 
     implementation 'com.google.android.material:material:1.3.0'

@@ -6,8 +6,6 @@ import android.view.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.cleteci.redsolidaria.R
-import com.cleteci.redsolidaria.di.component.DaggerFragmentComponent
-import com.cleteci.redsolidaria.di.module.FragmentModule
 import com.cleteci.redsolidaria.models.Resource
 import com.cleteci.redsolidaria.models.User
 import com.cleteci.redsolidaria.ui.activities.main.MainActivity
@@ -15,8 +13,7 @@ import com.cleteci.redsolidaria.ui.adapters.UserAdapter
 import com.cleteci.redsolidaria.ui.base.BaseFragment
 import com.cleteci.redsolidaria.ui.fragments.users.AttendersFragment
 import com.cleteci.redsolidaria.ui.fragments.users.AttendersListContract
-import javax.inject.Inject
-
+import org.koin.android.ext.android.inject
 
 class AttendersListFragment : BaseFragment(), AttendersListContract.View {
 
@@ -27,8 +24,7 @@ class AttendersListFragment : BaseFragment(), AttendersListContract.View {
     private val listUsers = ArrayList<User>()
     var usersAdapter: UserAdapter? = null
 
-    @Inject
-    lateinit var presenter: AttendersListContract.Presenter
+    private val presenter: AttendersListContract.Presenter by inject()
 
     private lateinit var rootView: View
 
@@ -51,7 +47,6 @@ class AttendersListFragment : BaseFragment(), AttendersListContract.View {
             resourceId = arguments!!.getString("resourceId", "")
             resourceType = arguments!!.getString("resourceType", "")
         }
-        injectDependency()
     }
 
     override fun onCreateView(
@@ -94,14 +89,6 @@ class AttendersListFragment : BaseFragment(), AttendersListContract.View {
     override fun onDestroyView() {
         super.onDestroyView()
         presenter.unsubscribe()
-    }
-
-    private fun injectDependency() {
-        val aboutComponent = DaggerFragmentComponent.builder()
-            .fragmentModule(FragmentModule())
-            .build()
-
-        aboutComponent.inject(this)
     }
 
     override fun init() {

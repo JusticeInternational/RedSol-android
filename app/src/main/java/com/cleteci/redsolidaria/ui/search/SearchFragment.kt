@@ -22,8 +22,6 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cleteci.redsolidaria.R
 import com.cleteci.redsolidaria.data.LocalDataForUITest.getOrganizationsList
-import com.cleteci.redsolidaria.di.component.DaggerFragmentComponent
-import com.cleteci.redsolidaria.di.module.FragmentModule
 import com.cleteci.redsolidaria.models.Category
 import com.cleteci.redsolidaria.models.Organization
 import com.cleteci.redsolidaria.models.Service
@@ -45,8 +43,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapsInitializer
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.*
-import javax.inject.Inject
-
+import org.koin.android.ext.android.inject
 
 class SearchFragment : BaseFragment(),
     SearchContract.View, OnMapReadyCallback, CategoriesSearchAdapter.OnItemClickListener,
@@ -54,8 +51,7 @@ class SearchFragment : BaseFragment(),
 
     private var _binding: FragmentMapBinding? = null
     private val binding get() = _binding!!
-    @Inject
-    lateinit var presenter: SearchContract.Presenter
+    private val presenter: SearchContract.Presenter by inject()
     private lateinit var mMap: GoogleMap
     private var mAdapter: CategoriesSearchAdapter? = null
     private var mAdapterServices: ServicesSearchAdapter? = null
@@ -65,7 +61,6 @@ class SearchFragment : BaseFragment(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        injectDependency()
         activity!!.supportFragmentManager.beginTransaction()
             .replace(R.id.advancedContainer, AdvancedSearchFragment().newInstance())
             .commit()
@@ -124,14 +119,6 @@ class SearchFragment : BaseFragment(),
         super.onDestroyView()
         presenter.unsubscribe()
         _binding = null
-    }
-
-    private fun injectDependency() {
-        val aboutComponent = DaggerFragmentComponent.builder()
-            .fragmentModule(FragmentModule())
-            .build()
-
-        aboutComponent.inject(this)
     }
 
     override fun onResume() {

@@ -11,20 +11,16 @@ import com.cleteci.redsolidaria.BaseApp
 
 import com.cleteci.redsolidaria.R
 
-import com.cleteci.redsolidaria.di.component.DaggerFragmentComponent
-import com.cleteci.redsolidaria.di.module.FragmentModule
 import com.cleteci.redsolidaria.models.Resource
 import com.cleteci.redsolidaria.ui.activities.main.MainActivity
 import com.cleteci.redsolidaria.ui.base.BaseFragment
 import com.cleteci.redsolidaria.ui.fragments.attendersList.AttendersListFragment
 import com.google.android.material.tabs.TabLayout
-import javax.inject.Inject
-
+import org.koin.android.ext.android.inject
 
 class AttendersFragment : BaseFragment() , AttendersContract.View  {
 
-
-    @Inject lateinit var presenter: AttendersContract.Presenter
+    private val presenter: AttendersContract.Presenter by inject()
      var mSectionsPagerAdapter:SectionsPagerAdapter? = null
     var resourceId: String = ""
     var resourceType: String = ""
@@ -49,7 +45,6 @@ class AttendersFragment : BaseFragment() , AttendersContract.View  {
             resourceId = requireArguments().getString("resourceId", "")
             resourceType = requireArguments().getString("resourceType", "")
         }
-        injectDependency()
     }
 
     override fun onCreateView(
@@ -83,13 +78,6 @@ class AttendersFragment : BaseFragment() , AttendersContract.View  {
         presenter.unsubscribe()
     }
 
-    private fun injectDependency() {
-        val aboutComponent = DaggerFragmentComponent.builder()
-            .fragmentModule(FragmentModule())
-            .build()
-
-        aboutComponent.inject(this)
-    }
     override fun init() {
 
     }

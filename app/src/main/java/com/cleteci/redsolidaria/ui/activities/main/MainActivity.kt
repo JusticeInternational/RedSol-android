@@ -20,8 +20,6 @@ import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import com.cleteci.redsolidaria.BaseApp
 import com.cleteci.redsolidaria.R
-import com.cleteci.redsolidaria.di.component.DaggerActivityComponent
-import com.cleteci.redsolidaria.di.module.ActivityModule
 import com.cleteci.redsolidaria.models.Resource
 import com.cleteci.redsolidaria.ui.login.LoginActivity
 import com.cleteci.redsolidaria.ui.activities.splash.SplashActivity
@@ -55,9 +53,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
+import org.koin.android.ext.android.inject
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper
-import javax.inject.Inject
 
 
 class MainActivity : AppCompatActivity(), MainContract.View,
@@ -65,8 +63,7 @@ class MainActivity : AppCompatActivity(), MainContract.View,
     FragNavController.TransactionListener, FragNavController.RootFragmentListener {
 
     private lateinit var binding: ActivityMainBinding
-    @Inject
-    lateinit var presenter: MainContract.Presenter
+    private val presenter: MainContract.Presenter by inject()
     lateinit var mGoogleSignInClient: GoogleSignInClient
     lateinit var mGoogleSignInOptions: GoogleSignInOptions
     private var mNavController: FragNavController? = null
@@ -86,7 +83,6 @@ class MainActivity : AppCompatActivity(), MainContract.View,
         } else if (BaseApp.sharedPreferences.userSaved != null || BaseApp.sharedPreferences.loginLater) {
             binding = ActivityMainBinding.inflate(layoutInflater)
             setContentView(binding.root)
-            injectDependency()
             fragmentHistory = FragmentHistory()
             mNavController = FragNavController.newBuilder(
                 savedInstanceState,
@@ -101,13 +97,6 @@ class MainActivity : AppCompatActivity(), MainContract.View,
             finish()
         }
         configureGoogleSignIn()
-    }
-
-    private fun injectDependency() {
-        val activityComponent = DaggerActivityComponent.builder()
-            .activityModule(ActivityModule(this))
-            .build()
-        activityComponent.inject(this)
     }
     override fun onResume() {
         super.onResume()
