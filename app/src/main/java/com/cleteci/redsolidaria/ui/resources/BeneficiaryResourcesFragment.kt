@@ -5,6 +5,7 @@ import android.view.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cleteci.redsolidaria.BaseApp
 import com.cleteci.redsolidaria.R
+import com.cleteci.redsolidaria.databinding.FragmentMyResourcesBinding
 import com.cleteci.redsolidaria.models.Resource
 import com.cleteci.redsolidaria.models.Service
 import com.cleteci.redsolidaria.ui.activities.main.MainActivity
@@ -14,13 +15,13 @@ import com.cleteci.redsolidaria.util.showInfoDialog
 import com.cleteci.redsolidaria.viewModels.BaseViewModel
 import com.cleteci.redsolidaria.viewModels.BeneficiaryViewModel
 import com.cleteci.redsolidaria.viewModels.GeneralViewModel
-import kotlinx.android.synthetic.main.fragment_my_resources.*
-import kotlinx.android.synthetic.main.fragment_my_resources.lyEmpty
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
 class BeneficiaryResourcesFragment : BaseFragment(), ResourcesAdapter.OnResourceClickListener {
 
+    private var _binding: FragmentMyResourcesBinding? = null
+    private val binding get() = _binding!!
     private val beneficiaryVM by viewModel<BeneficiaryViewModel>()
     private lateinit var mAdapterPending: ResourcesAdapter
     private lateinit var mAdapterSaved: ResourcesAdapter
@@ -77,20 +78,28 @@ class BeneficiaryResourcesFragment : BaseFragment(), ResourcesAdapter.OnResource
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View = inflater.inflate(R.layout.fragment_my_resources, container, false)
+    ): View {
+        _binding = FragmentMyResourcesBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     private fun initView() {
         if (BaseApp.sharedPreferences.loginLater) {
-            mScrollView?.visibility = View.GONE
-            lyEmpty?.visibility = View.VISIBLE
+            binding.mScrollView.visibility = View.GONE
+            binding.lyEmpty.visibility = View.VISIBLE
         } else {
-            mScrollView?.visibility = View.VISIBLE
-            lyEmpty?.visibility = View.GONE
+            binding.mScrollView.visibility = View.VISIBLE
+            binding.lyEmpty.visibility = View.GONE
         }
 
         (activity as MainActivity).setTextToolbar(
@@ -98,21 +107,21 @@ class BeneficiaryResourcesFragment : BaseFragment(), ResourcesAdapter.OnResource
             requireActivity().resources.getColor(R.color.colorWhite)
         )
 
-        rvPending.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvPending.layoutManager = LinearLayoutManager(requireContext())
         mAdapterPending = ResourcesAdapter(requireContext(), listPending, this, false)
-        rvPending.adapter = mAdapterPending
+        binding.rvPending.adapter = mAdapterPending
 
-        rvSaved.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvSaved.layoutManager = LinearLayoutManager(requireContext())
         mAdapterSaved = ResourcesAdapter(requireContext(), listSaved, this, false)
-        rvSaved.adapter = mAdapterSaved
+        binding.rvSaved.adapter = mAdapterSaved
 
-        rvUsed.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvUsed.layoutManager = LinearLayoutManager(requireContext())
         mAdapterUsed = ResourcesAdapter(requireContext(), listUsed, this, false)
-        rvUsed.adapter = mAdapterUsed
+        binding.rvUsed.adapter = mAdapterUsed
 
-        rvVolunteering.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvVolunteering.layoutManager = LinearLayoutManager(requireContext())
         mAdapterVolunteering = ResourcesAdapter(requireContext(), listVolunteering, this, false)
-        rvVolunteering.adapter = mAdapterVolunteering
+        binding.rvVolunteering.adapter = mAdapterVolunteering
     }
 
     fun loadDataSuccess(
@@ -149,10 +158,10 @@ class BeneficiaryResourcesFragment : BaseFragment(), ResourcesAdapter.OnResource
     }
 
     private fun setupLabels() {
-        tvPending?.visibility = if (listPending.isEmpty()) View.GONE else View.VISIBLE
-        tvSaved?.visibility = if (listSaved.isEmpty()) View.GONE else View.VISIBLE
-        tvUsed?.visibility = if (listUsed.isEmpty()) View.GONE else View.VISIBLE
-        tvVolunteering?.visibility = if (listVolunteering.isEmpty()) View.GONE else View.VISIBLE
+        binding.tvPending.visibility = if (listPending.isEmpty()) View.GONE else View.VISIBLE
+        binding.tvSaved.visibility = if (listSaved.isEmpty()) View.GONE else View.VISIBLE
+        binding.tvUsed.visibility = if (listUsed.isEmpty()) View.GONE else View.VISIBLE
+        binding.tvVolunteering.visibility = if (listVolunteering.isEmpty()) View.GONE else View.VISIBLE
     }
 
     override fun resourceOrganizationProfile(resource: Resource, type: Resource.Type) {
