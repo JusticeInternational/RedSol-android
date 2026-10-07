@@ -13,6 +13,7 @@ import android.util.Log
 import android.view.*
 import androidx.core.app.ActivityCompat
 import com.cleteci.redsolidaria.R
+import com.cleteci.redsolidaria.databinding.FragmentSuggestServiceBinding
 import com.cleteci.redsolidaria.ui.activities.main.MainActivity
 import com.cleteci.redsolidaria.ui.base.BaseFragment
 import com.cleteci.redsolidaria.ui.fragments.createOrganization.CreateOrganizationFragment
@@ -23,9 +24,10 @@ import com.cleteci.redsolidaria.util.showAlert
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.schibstedspain.leku.*
-import kotlinx.android.synthetic.main.fragment_suggest_service.*
 
 class SuggestServiceFragment : BaseFragment() {
+    private var _binding: FragmentSuggestServiceBinding? = null
+    private val binding get() = _binding!!
     private lateinit var locationResources: LocationResources
 
     fun newInstance(): SuggestServiceFragment {
@@ -52,21 +54,28 @@ class SuggestServiceFragment : BaseFragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.fragment_suggest_service, container, false)
-
+    ): View {
+        _binding = FragmentSuggestServiceBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         init()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     @SuppressLint("MissingPermission")
     fun init() {
-        btCancel.setOnClickListener {
+        binding.btCancel.setOnClickListener {
             activity?.onBackPressed()
         }
 
-        etLocation.setOnClickListener {
+        binding.etLocation.setOnClickListener {
             if (locationResources.isLocationEnabled(requireContext())) {
                 if (ActivityCompat.checkSelfPermission(
                         requireContext(),
@@ -91,16 +100,16 @@ class SuggestServiceFragment : BaseFragment() {
             }
         }
 
-        btSend.setOnClickListener {
+        binding.btSend.setOnClickListener {
             if (isValidOrganizationData()) {
                 val body = Html.fromHtml(
                     getString(
                         R.string.suggest_organization_body,
-                        etName.text.toString(),
-                        etWeb.text.toString(),
-                        etLocation.text.toString(),
-                        if (etPhone.text.isNullOrEmpty()) "N/A" else etPhone.text.toString(),
-                        etDesc.text.toString()
+                        binding.etName.text.toString(),
+                        binding.etWeb.text.toString(),
+                        binding.etLocation.text.toString(),
+                        if (binding.etPhone.text.isNullOrEmpty()) "N/A" else binding.etPhone.text.toString(),
+                        binding.etDesc.text.toString()
                     )
                 )
                 openEmailClient(
@@ -114,16 +123,16 @@ class SuggestServiceFragment : BaseFragment() {
     }
 
     private fun isValidOrganizationData(): Boolean {
-        if (etName.text.isNullOrEmpty()) {
+        if (binding.etName.text.isNullOrEmpty()) {
             showError(getString(R.string.enter_valid_name))
-        } else if (etWeb.text.isNullOrEmpty() || !android.util.Patterns.WEB_URL.matcher(
-                etWeb.text.toString().trim()
+        } else if (binding.etWeb.text.isNullOrEmpty() || !android.util.Patterns.WEB_URL.matcher(
+                binding.etWeb.text.toString().trim()
             ).matches()
         ) {
             showError(getString(R.string.enter_valid_web_page))
-        } else if (etLocation.text.isNullOrEmpty()) {
+        } else if (binding.etLocation.text.isNullOrEmpty()) {
             showError(getString(R.string.enter_valid_location))
-        } else if (etDesc.text.isNullOrEmpty()) {
+        } else if (binding.etDesc.text.isNullOrEmpty()) {
             showError(getString(R.string.enter_some_description))
         } else {
             return true
@@ -132,6 +141,7 @@ class SuggestServiceFragment : BaseFragment() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK && data != null) {
             if (requestCode == MAP_BUTTON_REQUEST_CODE) {
                 val latitude = data.getDoubleExtra(LATITUDE, 0.0)
@@ -141,7 +151,7 @@ class SuggestServiceFragment : BaseFragment() {
                 val address = data.getStringExtra(LOCATION_ADDRESS)
                 Log.d("ADDRESS****", address.toString())
 
-                etLocation?.setText(address);
+                binding.etLocation.setText(address)
 
                 val fullAddress = data.getParcelableExtra<Address>(ADDRESS)
                 if (fullAddress != null) {
