@@ -11,17 +11,19 @@ import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import com.cleteci.redsolidaria.BaseApp
 import com.cleteci.redsolidaria.R
+import com.cleteci.redsolidaria.databinding.FragmentLoginBinding
 import com.cleteci.redsolidaria.ui.base.BaseFragment
 import com.cleteci.redsolidaria.util.showInfoDialog
 import com.cleteci.redsolidaria.viewModels.BaseViewModel.QueryStatus
 import com.cleteci.redsolidaria.viewModels.OrganizationViewModel
 import com.cleteci.redsolidaria.viewModels.UserAccountViewModel
-import kotlinx.android.synthetic.main.fragment_login.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
 class LoginFFragment : BaseFragment() {
 
+    private var _binding: FragmentLoginBinding? = null
+    private val binding get() = _binding!!
     private val userAccountVM by viewModel<UserAccountViewModel>()
     private val organizationVM by viewModel<OrganizationViewModel>()
 
@@ -96,42 +98,50 @@ class LoginFFragment : BaseFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.fragment_login, container, false)
+    ): View {
+        _binding = FragmentLoginBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     private fun initView() {
-        btFacebook!!.setOnClickListener {
+        binding.btFacebook.setOnClickListener {
            // (activity as LoginActivity).loginFacebook()
             Toast.makeText(context,getString(R.string.in_build), Toast.LENGTH_LONG).show()
 
         }
 
-        btGoogle!!.setOnClickListener {
+        binding.btGoogle.setOnClickListener {
             //(activity as LoginActivity).signInGoogle()
             Toast.makeText(context,getString(R.string.in_build), Toast.LENGTH_LONG).show()
 
         }
-        etPass.setOnEditorActionListener(TextView.OnEditorActionListener { _, actionId, _ ->
+        binding.etPass.setOnEditorActionListener(TextView.OnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 activity?.let { hideSoftKeyboard(it) }
-                validateEmailPass(etUser!!.text.toString(), etPass!!.text.toString())
+                validateEmailPass(binding.etUser.text.toString(), binding.etPass.text.toString())
                 return@OnEditorActionListener true
             }
             false
         })
-        btLogin!!.setOnClickListener {
-            validateEmailPass(etUser!!.text.toString(), etPass!!.text.toString())
+        binding.btLogin.setOnClickListener {
+            validateEmailPass(binding.etUser.text.toString(), binding.etPass.text.toString())
         }
 
-        tvRegister!!.setOnClickListener {
+        binding.tvRegister.setOnClickListener {
             (activity as LoginActivity).openRegisterActivity()
         }
 
-        tvResetPass!!.setOnClickListener {
+        binding.tvResetPass.setOnClickListener {
             (activity as LoginActivity).openResetActivity()
         }
     }
