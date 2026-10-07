@@ -6,18 +6,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.cleteci.redsolidaria.R
+import com.cleteci.redsolidaria.databinding.FragmentInfoServiceBinding
 import com.cleteci.redsolidaria.models.Resource
 import com.cleteci.redsolidaria.ui.activities.main.MainActivity
 import com.cleteci.redsolidaria.ui.base.BaseFragment
 import com.cleteci.redsolidaria.util.showInfoDialog
 import com.cleteci.redsolidaria.viewModels.BaseViewModel
 import com.cleteci.redsolidaria.viewModels.OrganizationViewModel
-import kotlinx.android.synthetic.main.fragment_info_service.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
 class InfoServiceFragment : BaseFragment() {
 
+    private var _binding: FragmentInfoServiceBinding? = null
+    private val binding get() = _binding!!
     private val organizationVM by viewModel<OrganizationViewModel>()
     private lateinit var resourceId: String
     private lateinit var resourceName: String
@@ -71,11 +73,19 @@ class InfoServiceFragment : BaseFragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.fragment_info_service, container, false)
+    ): View {
+        _binding = FragmentInfoServiceBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onResume() {
@@ -87,21 +97,21 @@ class InfoServiceFragment : BaseFragment() {
     }
 
     private fun initView() {
-        imgIconResource.setImageResource(resourceIconId)
-        tvName.text = resourceName
+        binding.imgIconResource.setImageResource(resourceIconId)
+        binding.tvName.text = resourceName
         if (resourceType == Resource.Type.CATEGORY) {
             organizationVM.getTotalCategoryAttentions(resourceId)
         } else if (resourceType == Resource.Type.SERVICE) {
             organizationVM.getTotalServiceAttentions(resourceId)
         }
 
-        btAttend?.setOnClickListener {
+        binding.btAttend.setOnClickListener {
             (activity as MainActivity).openAttendFragment(resourceId, resourceType)
         }
     }
 
     fun loadDataSuccess(total: Int) {
-        activity?.runOnUiThread { totalServed.text = total.toString() }
+        activity?.runOnUiThread { binding.totalServed.text = total.toString() }
     }
 
     companion object {

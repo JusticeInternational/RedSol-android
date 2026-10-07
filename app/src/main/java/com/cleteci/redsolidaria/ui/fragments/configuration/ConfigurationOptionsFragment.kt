@@ -10,6 +10,7 @@ import com.cleteci.redsolidaria.BaseApp
 import com.cleteci.redsolidaria.R
 import com.cleteci.redsolidaria.data.LocalDataForUITest
 
+import com.cleteci.redsolidaria.databinding.FragmentConfigurationBinding
 import com.cleteci.redsolidaria.di.component.DaggerFragmentComponent
 import com.cleteci.redsolidaria.di.module.FragmentModule
 import com.cleteci.redsolidaria.ui.activities.main.MainActivity
@@ -18,11 +19,13 @@ import com.cleteci.redsolidaria.util.SharedPreferences
 import com.cleteci.redsolidaria.util.SharedPreferences.Companion.getTestDataPreference
 import com.cleteci.redsolidaria.util.SharedPreferences.Companion.putTestDataPreference
 import com.cleteci.redsolidaria.util.SharedPreferences.Companion.removeOrganizationSharedPreferences
-import kotlinx.android.synthetic.main.fragment_configuration.*
 import javax.inject.Inject
 
 
 class ConfigurationFragment : BaseFragment(), ConfigurationContract.View {
+
+    private var _binding: FragmentConfigurationBinding? = null
+    private val binding get() = _binding!!
 
     @Inject
     lateinit var presenter: ConfigurationContract.Presenter
@@ -39,7 +42,10 @@ class ConfigurationFragment : BaseFragment(), ConfigurationContract.View {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.fragment_configuration, container, false)
+    ): View {
+        _binding = FragmentConfigurationBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -51,6 +57,7 @@ class ConfigurationFragment : BaseFragment(), ConfigurationContract.View {
     override fun onDestroyView() {
         super.onDestroyView()
         presenter.unsubscribe()
+        _binding = null
     }
 
     private fun injectDependency() {
@@ -66,13 +73,13 @@ class ConfigurationFragment : BaseFragment(), ConfigurationContract.View {
     }
 
     private fun initView() {
-        swTestData.isChecked = getTestDataPreference()
-        tvChangePassword.setOnClickListener {
+        binding.swTestData.isChecked = getTestDataPreference()
+        binding.tvChangePassword.setOnClickListener {
             (activity as MainActivity).showChangePassFragment()
         }
-        swTestData.setOnCheckedChangeListener { _, isChecked ->
+        binding.swTestData.setOnCheckedChangeListener { _, isChecked ->
             putTestDataPreference(isChecked)
-            swTestData.isChecked = isChecked
+            binding.swTestData.isChecked = isChecked
             if (isChecked) {
                 val organization = LocalDataForUITest.getOrganizationsList()[0]// Using test data
                 BaseApp.sharedPreferences.currentOrganizationId = organization.id
