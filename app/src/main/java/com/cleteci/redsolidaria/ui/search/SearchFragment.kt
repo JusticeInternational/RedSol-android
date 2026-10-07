@@ -37,6 +37,7 @@ import com.cleteci.redsolidaria.ui.search.SearchItemsActivity.Companion.ID_LOCAT
 import com.cleteci.redsolidaria.ui.search.SearchItemsActivity.Companion.ID_LOCATION_TEXT
 import com.cleteci.redsolidaria.ui.search.SearchItemsActivity.Companion.ID_QUERY
 import com.cleteci.redsolidaria.ui.search.SearchItemsActivity.Companion.SEARCH_REQUEST_CODE
+import com.cleteci.redsolidaria.databinding.FragmentMapBinding
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GooglePlayServicesUtil
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -44,7 +45,6 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapsInitializer
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.*
-import kotlinx.android.synthetic.main.fragment_map.*
 import javax.inject.Inject
 
 
@@ -52,6 +52,8 @@ class SearchFragment : BaseFragment(),
     SearchContract.View, OnMapReadyCallback, CategoriesSearchAdapter.OnItemClickListener,
     GoogleMap.OnInfoWindowClickListener, ServicesSearchAdapter.OnItemClickListener {
 
+    private var _binding: FragmentMapBinding? = null
+    private val binding get() = _binding!!
     @Inject
     lateinit var presenter: SearchContract.Presenter
     private lateinit var mMap: GoogleMap
@@ -69,31 +71,31 @@ class SearchFragment : BaseFragment(),
             .commit()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.fragment_map, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        _binding = FragmentMapBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         presenter.attach(this)
         presenter.subscribe()
 
-        rvCategories.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false);
+        binding.rvCategories.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false);
         mAdapter = CategoriesSearchAdapter(requireContext(), listCategory, this)
-        rvCategories.adapter = mAdapter
+        binding.rvCategories.adapter = mAdapter
 
-        rvServices.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
+        binding.rvServices.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
         mAdapterServices = ServicesSearchAdapter(requireContext(), listServices, this)
-        rvServices.adapter = mAdapterServices
+        binding.rvServices.adapter = mAdapterServices
 
         MapsInitializer.initialize(activity)
 
-        mapView?.onCreate(savedInstanceState)
+        binding.mapView.onCreate(savedInstanceState)
         when (GooglePlayServicesUtil.isGooglePlayServicesAvailable(activity)) {
             ConnectionResult.SUCCESS -> {
-                mapView?.onCreate(savedInstanceState)
-                if (mapView != null) {
-                    mapView?.getMapAsync(this)
-                }
+                binding.mapView.onCreate(savedInstanceState)
+                binding.mapView.getMapAsync(this)
             }
             ConnectionResult.SERVICE_MISSING -> Toast.makeText(
                 context,
@@ -121,6 +123,7 @@ class SearchFragment : BaseFragment(),
     override fun onDestroyView() {
         super.onDestroyView()
         presenter.unsubscribe()
+        _binding = null
     }
 
     private fun injectDependency() {
@@ -133,24 +136,18 @@ class SearchFragment : BaseFragment(),
 
     override fun onResume() {
         super.onResume()
-        if (mapView != null) {
-            mapView?.onResume()
-        }
+        binding.mapView.onResume()
         (activity as MainActivity).setSearchButton()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        if (mapView != null) {
-            mapView?.onDestroy()
-        }
+        _binding?.mapView?.onDestroy()
     }
 
     override fun onLowMemory() {
         super.onLowMemory()
-        if (mapView != null) {
-            mapView?.onLowMemory()
-        }
+        binding.mapView.onLowMemory()
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -167,7 +164,7 @@ class SearchFragment : BaseFragment(),
                 USER_LOCATION_ACCESS_PERMISSION_STRING
             ) == PackageManager.PERMISSION_GRANTED) {
             mMap.isMyLocationEnabled = true
-            val locationButton = (mapView.findViewById<View>("1".toInt()).parent as View).findViewById<View>("2".toInt())
+            val locationButton = (binding.mapView.findViewById<View>("1".toInt()).parent as View).findViewById<View>("2".toInt())
             val rlp: RelativeLayout.LayoutParams = locationButton.layoutParams as RelativeLayout.LayoutParams
             rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0)
             rlp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE)
@@ -284,13 +281,13 @@ class SearchFragment : BaseFragment(),
     override fun init() {}
     fun onClickMapListButton(icon: ImageView) {
          if (currentViewType == MAP_VIEW) {
-             mapView.visibility = View.GONE
-             rvServices.visibility = View.VISIBLE
+             binding.mapView.visibility = View.GONE
+             binding.rvServices.visibility = View.VISIBLE
              currentViewType = LIST_VIEW
              icon.setImageDrawable(AppCompatResources.getDrawable(requireContext(), R.drawable.ic_map))
         } else {
-             mapView.visibility = View.VISIBLE
-             rvServices.visibility = View.GONE
+             binding.mapView.visibility = View.VISIBLE
+             binding.rvServices.visibility = View.GONE
              currentViewType = MAP_VIEW
              icon.setImageDrawable(AppCompatResources.getDrawable(requireContext(), R.drawable.ic_list))
         }
