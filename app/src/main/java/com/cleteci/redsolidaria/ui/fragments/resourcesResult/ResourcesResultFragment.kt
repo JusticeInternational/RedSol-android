@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cleteci.redsolidaria.R
+import com.cleteci.redsolidaria.databinding.FragmentResoursesResultBinding
 import com.cleteci.redsolidaria.models.Category
 import com.cleteci.redsolidaria.ui.activities.main.MainActivity
 import com.cleteci.redsolidaria.ui.base.BaseFragment
@@ -15,13 +16,14 @@ import com.cleteci.redsolidaria.ui.search.OrganizationsCategorySearchAdapter.Org
 import com.cleteci.redsolidaria.util.showInfoDialog
 import com.cleteci.redsolidaria.viewModels.BaseViewModel
 import com.cleteci.redsolidaria.viewModels.OrganizationViewModel
-import kotlinx.android.synthetic.main.fragment_resourses_result.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
 class ResourcesResultFragment : BaseFragment(),
     OrganizationsCategorySearchAdapter.OnItemClickListener {
 
+    private var _binding: FragmentResoursesResultBinding? = null
+    private val binding get() = _binding!!
     private val organizationVM by viewModel<OrganizationViewModel>()
     private lateinit var mAdapter: OrganizationsCategorySearchAdapter
     private lateinit var categoryId: String
@@ -70,20 +72,28 @@ class ResourcesResultFragment : BaseFragment(),
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View?  = inflater.inflate(R.layout.fragment_resourses_result, container, false)
+    ): View {
+        _binding = FragmentResoursesResultBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     private fun initView() {
-        imageView.setImageResource(categoryIconId)
-        rvCategories.layoutManager = LinearLayoutManager(activity)
+        binding.imageView.setImageResource(categoryIconId)
+        binding.rvCategories.layoutManager = LinearLayoutManager(activity)
         mAdapter = OrganizationsCategorySearchAdapter(requireContext(), organizationsCategoryList, this)
-        rvCategories.adapter = mAdapter;
-        tvResult?.visibility = View.GONE
-        rvCategories.visibility = View.GONE
+        binding.rvCategories.adapter = mAdapter
+        binding.tvResult.visibility = View.GONE
+        binding.rvCategories.visibility = View.GONE
         organizationVM.getOrganizationsByCategory(categoryId, keyWord, categoryIconId, categoryName)
     }
 
@@ -101,9 +111,9 @@ class ResourcesResultFragment : BaseFragment(),
             organizationsCategoryList.clear()
             organizationsCategoryList.addAll(list)
             if(organizationsCategoryList.isEmpty()) {
-                tvResult?.visibility = View.VISIBLE
+                binding.tvResult.visibility = View.VISIBLE
             } else {
-                rvCategories.visibility = View.VISIBLE
+                binding.rvCategories.visibility = View.VISIBLE
             }
 
             mAdapter.notifyDataSetChanged()
