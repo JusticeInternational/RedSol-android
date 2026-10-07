@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.GridLayoutManager
 import com.cleteci.redsolidaria.R
+import com.cleteci.redsolidaria.databinding.FragmentBasicSearchBinding
 import com.cleteci.redsolidaria.models.Category
 import com.cleteci.redsolidaria.ui.activities.main.MainActivity
 import com.cleteci.redsolidaria.ui.adapters.CategoriesAdapter
@@ -16,12 +17,13 @@ import com.cleteci.redsolidaria.ui.fragments.resourcesResult.ResourcesResultFrag
 import com.cleteci.redsolidaria.util.showInfoDialog
 import com.cleteci.redsolidaria.viewModels.BaseViewModel
 import com.cleteci.redsolidaria.viewModels.GeneralViewModel
-import kotlinx.android.synthetic.main.fragment_basic_search.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
 class BasicSearchFragment : BaseFragment(), CategoriesAdapter.OnItemClickListener {
 
+    private var _binding: FragmentBasicSearchBinding? = null
+    private val binding get() = _binding!!
     private val generalVM by viewModel<GeneralViewModel>()
     private var mAdapter: CategoriesAdapter? = null
     private var keyWord: String = ""
@@ -62,11 +64,19 @@ class BasicSearchFragment : BaseFragment(), CategoriesAdapter.OnItemClickListene
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View = inflater.inflate(R.layout.fragment_basic_search, container, false)
+    ): View {
+        _binding = FragmentBasicSearchBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onResume() {
@@ -80,28 +90,28 @@ class BasicSearchFragment : BaseFragment(), CategoriesAdapter.OnItemClickListene
     fun setSearchParameter(query: String) {
         if (query.isNotEmpty()) {
             keyWord = query
-            tvResult?.visibility = View.VISIBLE
+            binding.tvResult.visibility = View.VISIBLE
         }
     }
 
     fun cleanLayout() {
-        val query = searchView?.query.toString()
+        val query = binding.searchView.query.toString()
         if (query.isEmpty()) {
             keyWord = ""
-            tvResult?.visibility = View.GONE
+            binding.tvResult.visibility = View.GONE
         } else {
             keyWord = query
         }
     }
 
     private fun initView() {
-        recyclerView.layoutManager = GridLayoutManager(activity, 2);
+        binding.recyclerView.layoutManager = GridLayoutManager(activity, 2);
 
         mAdapter = CategoriesAdapter(activity?.applicationContext, listCategory, this, 1, false)
-        recyclerView.adapter = mAdapter
-        searchView.isIconified = false
+        binding.recyclerView.adapter = mAdapter
+        binding.searchView.isIconified = false
 
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 setSearchParameter(query)
                 return false
@@ -113,13 +123,13 @@ class BasicSearchFragment : BaseFragment(), CategoriesAdapter.OnItemClickListene
             }
         })
 
-        searchView.setOnCloseListener {
-            searchView?.setQuery("", false)
+        binding.searchView.setOnCloseListener {
+            binding.searchView.setQuery("", false)
             false
         }
 
-        searchView.clearFocus() // close the keyboard on load
-        tvResult.visibility = View.GONE
+        binding.searchView.clearFocus() // close the keyboard on load
+        binding.tvResult.visibility = View.GONE
 
         generalVM.getUsedCategories()
     }
