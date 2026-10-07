@@ -7,12 +7,13 @@ import android.view.View.VISIBLE
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cleteci.redsolidaria.BaseApp
 import com.cleteci.redsolidaria.R
+import com.cleteci.redsolidaria.databinding.FragmentResourcesOfferedBinding
 import com.cleteci.redsolidaria.di.component.DaggerFragmentComponent
 import com.cleteci.redsolidaria.di.module.FragmentModule
-import com.cleteci.redsolidaria.models.Service
 import com.cleteci.redsolidaria.models.Category
 import com.cleteci.redsolidaria.models.Organization
 import com.cleteci.redsolidaria.models.Resource
+import com.cleteci.redsolidaria.models.Service
 import com.cleteci.redsolidaria.ui.activities.main.MainActivity
 import com.cleteci.redsolidaria.ui.adapters.ResourcesAdapter
 import com.cleteci.redsolidaria.ui.base.BaseFragment
@@ -20,12 +21,13 @@ import com.cleteci.redsolidaria.ui.base.withArguments
 import com.cleteci.redsolidaria.util.showInfoDialog
 import com.cleteci.redsolidaria.viewModels.BaseViewModel
 import com.cleteci.redsolidaria.viewModels.OrganizationViewModel
-import kotlinx.android.synthetic.main.fragment_resources_offered.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
 class ResourcesOfferedFragment : BaseFragment(), ResourcesAdapter.OnResourceClickListener {
 
+    private var _binding: FragmentResourcesOfferedBinding? = null
+    private val binding get() = _binding!!
     private val organizationVM by viewModel<OrganizationViewModel>()
     private lateinit var mServicesAdapter: ResourcesAdapter
     private lateinit var mCategoriesAdapter: ResourcesAdapter
@@ -79,8 +81,10 @@ class ResourcesOfferedFragment : BaseFragment(), ResourcesAdapter.OnResourceClic
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View = inflater.inflate(R.layout.fragment_resources_offered, container, false)
-
+    ): View {
+        _binding = FragmentResourcesOfferedBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -88,24 +92,29 @@ class ResourcesOfferedFragment : BaseFragment(), ResourcesAdapter.OnResourceClic
         val organizationId = BaseApp.sharedPreferences.currentOrganizationId
         val userId = BaseApp.sharedPreferences.userSaved
         if (!userId.isNullOrEmpty() && !organizationId.isNullOrEmpty()) {
-            lyEmpty.visibility = GONE
-            scrollView.visibility = VISIBLE
+            binding.lyEmpty.visibility = GONE
+            binding.scrollView.visibility = VISIBLE
             organizationVM.getServicesAndCategories(userId)
         } else {
-            lyEmpty.visibility = VISIBLE
-            scrollView.visibility = GONE
+            binding.lyEmpty.visibility = VISIBLE
+            binding.scrollView.visibility = GONE
         }
 
         initView()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     fun loadDataSuccess(categories: List<Category>, services: List<Service>) {
         if (categories.isNullOrEmpty() && services.isNullOrEmpty()) {
-            lyEmpty.visibility = VISIBLE
-            scrollView.visibility = GONE
+            binding.lyEmpty.visibility = VISIBLE
+            binding.scrollView.visibility = GONE
         } else {
-            lyEmpty.visibility = GONE
-            scrollView.visibility = VISIBLE
+            binding.lyEmpty.visibility = GONE
+            binding.scrollView.visibility = VISIBLE
 
             activity?.runOnUiThread {
                 listCategories.clear()
@@ -132,23 +141,23 @@ class ResourcesOfferedFragment : BaseFragment(), ResourcesAdapter.OnResourceClic
                 getText(R.string.count_resources).toString(),
                 activity.resources.getColor(R.color.colorWhite)
             )
-            fab.visibility = GONE
+            binding.fab.visibility = GONE
         } else {
             activity.setTextToolbar(
                 getText(R.string.my_resources).toString(),
                 activity.resources.getColor(R.color.colorWhite)
             )
-            fab.setOnClickListener {
+            binding.fab.setOnClickListener {
                 activity.openCreateServiceFragment()
             }
-            fab.visibility = VISIBLE
+            binding.fab.visibility = VISIBLE
         }
 
-        rvMyCategories.layoutManager = LinearLayoutManager(activity)
-        rvCategories.layoutManager = LinearLayoutManager(activity)
+        binding.rvMyCategories.layoutManager = LinearLayoutManager(activity)
+        binding.rvCategories.layoutManager = LinearLayoutManager(activity)
 
-        rvMyCategories.adapter = mCategoriesAdapter
-        rvCategories.adapter = mServicesAdapter
+        binding.rvMyCategories.adapter = mCategoriesAdapter
+        binding.rvCategories.adapter = mServicesAdapter
     }
 
     private fun injectDependency() {
@@ -160,8 +169,8 @@ class ResourcesOfferedFragment : BaseFragment(), ResourcesAdapter.OnResourceClic
     }
 
     private fun setupLabels() {
-        tvLabelResources?.visibility = if (listServices.isEmpty()) GONE else VISIBLE
-        tvLabelCategories?.visibility = if (listCategories.isEmpty()) GONE else VISIBLE
+        binding.tvLabelResources.visibility = if (listServices.isEmpty()) GONE else VISIBLE
+        binding.tvLabelCategories.visibility = if (listCategories.isEmpty()) GONE else VISIBLE
     }
 
     override fun resourceDetail(position: Int, type: Resource.Type) {
