@@ -87,6 +87,7 @@ class LoginFFragment : BaseFragment() {
                     )
                     showLoading(false)
                 }
+                else -> {}
             }
         })
     }

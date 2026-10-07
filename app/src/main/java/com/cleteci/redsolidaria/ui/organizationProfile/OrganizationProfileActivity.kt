@@ -74,6 +74,7 @@ class OrganizationProfileActivity : AppCompatActivity() {
                             )
                             showLoading(false)
                         }
+                        else -> {}
                     }
                 })
                 organizationVM.getOrganizationById(organizationId)

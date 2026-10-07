@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:dist="http://schemas.android.com/apk/distribution"
-    package="com.cleteci.redsolidaria">
+    xmlns:dist="http://schemas.android.com/apk/distribution">
 
     <dist:module dist:instant="true" />
 
@@ -13,9 +12,14 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
-
-
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false" />
     <uses-feature
         android:name="android.hardware.location.network"
         android:required="false" />
@@ -82,6 +86,7 @@
 
         <activity
             android:name=".ui.activities.main.MainActivity"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -108,6 +113,7 @@
 
         <activity
             android:name="com.schibstedspain.leku.LocationPickerActivity"
+            android:exported="false"
             android:label="@string/leku_title_activity_location_picker"
             android:parentActivityName=".ui.activities.main.MainActivity"
             android:theme="@style/AppTheme.GoogleMap"

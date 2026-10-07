@@ -323,6 +323,25 @@ class SearchFragment : BaseFragment(),
         }
     }
 
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == USER_LOCATION_ACCESS_PERMISSION_REQUEST_ID) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (::mMap.isInitialized && ContextCompat.checkSelfPermission(
+                        requireContext(),
+                        USER_LOCATION_ACCESS_PERMISSION_STRING
+                    ) == PackageManager.PERMISSION_GRANTED
+                ) {
+                    mMap.isMyLocationEnabled = true
+                }
+            }
+        }
+    }
+
     companion object {
         const val TAG: String = "MapFragment"
         const val MAP_VIEW = 0

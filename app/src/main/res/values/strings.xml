@@ -332,4 +332,5 @@
     <string name="enter_valid_web_page">Introduzca una página web  válida</string>
     <string name="enter_valid_location">Introduzca una ubicación válida</string>
     <string name="enter_some_description">Introduzca alguna descripción</string>
+    <string name="camera_permission_required">Permiso de cámara requerido para escanear código QR</string>
 </resources>

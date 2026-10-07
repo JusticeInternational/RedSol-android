@@ -5,6 +5,7 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'com.apollographql.apollo'
 
 android {
+    namespace 'com.cleteci.redsolidaria'
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.cleteci.redsolidaria"
@@ -116,9 +117,9 @@ dependencies {
     implementation 'com.afollestad:viewpagerdots:1.0.0'
     implementation 'com.github.yesterselga:password-strength-checker-android:v1.0'
 
-    implementation("com.apollographql.apollo:apollo-runtime:2.2.0")
-    implementation("com.apollographql.apollo:apollo-coroutines-support:2.2.0")
-    implementation 'com.apollographql.apollo:apollo-rx2-support:2.2.0'
+    implementation("com.apollographql.apollo:apollo-runtime:2.5.14")
+    implementation("com.apollographql.apollo:apollo-coroutines-support:2.5.14")
+    implementation 'com.apollographql.apollo:apollo-rx2-support:2.5.14'
 
     //google
     implementation "com.google.android.gms:play-services-auth:$googleServices"
@@ -153,7 +154,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
     // just for testing
-    implementation("com.apollographql.apollo:apollo-runtime:2.2.0")
+    implementation("com.apollographql.apollo:apollo-runtime:2.5.14")
     compileOnly 'org.jetbrains:annotations:13.0'
     testCompileOnly 'org.jetbrains:annotations:13.0'
     implementation 'com.orhanobut:logger:2.2.0'

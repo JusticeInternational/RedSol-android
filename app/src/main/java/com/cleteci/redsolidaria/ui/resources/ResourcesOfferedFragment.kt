@@ -171,6 +171,7 @@ class ResourcesOfferedFragment : BaseFragment(), ResourcesAdapter.OnResourceClic
                 activity.openInfoFragment(Resource(category = listCategories[position].category!!))
             Resource.Type.SERVICE ->
                 activity.openInfoFragment(Resource(service = listServices[position].service!!))
+            else -> {}
         }
     }
 
@@ -185,6 +186,7 @@ class ResourcesOfferedFragment : BaseFragment(), ResourcesAdapter.OnResourceClic
                 val service = listServices[position].service!!
                 activity.showScanFragment(service.id, null, service.name, service.isGeneric)
             }
+            else -> {}
         }
     }
 
@@ -199,6 +201,7 @@ class ResourcesOfferedFragment : BaseFragment(), ResourcesAdapter.OnResourceClic
                 val service = listServices[position].service!!
                 activity.openScanNoUserFragment(service.id, null, service.name, service.isGeneric)
             }
+            else -> {}
         }
     }
 

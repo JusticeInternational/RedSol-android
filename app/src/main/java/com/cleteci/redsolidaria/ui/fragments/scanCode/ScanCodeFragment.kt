@@ -1,11 +1,14 @@
 package com.cleteci.redsolidaria.ui.fragments.scanCode
 
 
+import android.Manifest
 import android.app.Dialog
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.*
+import androidx.core.content.ContextCompat
 import com.cleteci.redsolidaria.BaseApp
 
 import com.cleteci.redsolidaria.R
@@ -129,14 +132,40 @@ class ScanCodeFragment : BaseFragment(), ScanCodeContract.View {
     }
 
     fun settingDecode() {
+        activity?.runOnUiThread {
+            if (ContextCompat.checkSelfPermission(
+                    requireContext(),
+                    Manifest.permission.CAMERA
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+                barcodeScannerView?.decodeSingle(callback)
+                capture = CaptureManager(activity, barcodeScannerView)
+            } else {
+                requestPermissions(
+                    arrayOf(Manifest.permission.CAMERA),
+                    CAMERA_PERMISSION_REQUEST_CODE
+                )
+            }
+        }
+    }
 
-        activity?.runOnUiThread(Runnable {
-            barcodeScannerView?.decodeSingle(callback)
-
-            capture = CaptureManager(activity, barcodeScannerView)
-        })
-
-
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == CAMERA_PERMISSION_REQUEST_CODE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                settingDecode()
+            } else {
+                Toast.makeText(
+                    context,
+                    getString(R.string.camera_permission_required),
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -170,6 +199,7 @@ class ScanCodeFragment : BaseFragment(), ScanCodeContract.View {
 
     companion object {
         val TAG: String = "ScanCodeFragment"
+        const val CAMERA_PERMISSION_REQUEST_CODE = 101
     }
 
     override fun onResume() {

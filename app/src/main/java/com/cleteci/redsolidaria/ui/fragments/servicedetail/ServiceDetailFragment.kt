@@ -80,9 +80,9 @@ class ServiceDetailFragment : BaseFragment(), ServiceDetailContract.View, Catego
             25,
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
-        var tvBeVoluntary: TextView = rootView?.findViewById(R.id.tvBeVoluntary);
+        var tvBeVoluntary: TextView? = rootView?.findViewById(R.id.tvBeVoluntary);
 
-        tvBeVoluntary.text = str
+        tvBeVoluntary?.text = str
 
         val str2 = SpannableStringBuilder(getString(R.string.to_contribute))
         str2.setSpan(
@@ -91,9 +91,9 @@ class ServiceDetailFragment : BaseFragment(), ServiceDetailContract.View, Catego
             20,
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
-        var tvToContribute: TextView = rootView?.findViewById(R.id.tvToContribute);
+        var tvToContribute: TextView? = rootView?.findViewById(R.id.tvToContribute);
 
-        tvToContribute.text = str2
+        tvToContribute?.text = str2
 
         val str3 = SpannableStringBuilder(getString(R.string.to_donate))
         str3.setSpan(
@@ -102,9 +102,9 @@ class ServiceDetailFragment : BaseFragment(), ServiceDetailContract.View, Catego
             11,
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
-        var tvDonate: TextView = rootView?.findViewById(R.id.tvDonate);
+        var tvDonate: TextView? = rootView?.findViewById(R.id.tvDonate);
 
-        tvDonate.text = str3
+        tvDonate?.text = str3
 
 
         val str4 = SpannableStringBuilder(getString(R.string.to_tell_experience))
@@ -114,9 +114,9 @@ class ServiceDetailFragment : BaseFragment(), ServiceDetailContract.View, Catego
             30,
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
-        var tvTellExperience: TextView = rootView?.findViewById(R.id.tvTellExperience);
+        var tvTellExperience: TextView? = rootView?.findViewById(R.id.tvTellExperience);
 
-        tvTellExperience.text = str4
+        tvTellExperience?.text = str4
 
         val str5 = SpannableStringBuilder(getString(R.string.to_help_to_verify))
         str5.setSpan(
@@ -125,9 +125,9 @@ class ServiceDetailFragment : BaseFragment(), ServiceDetailContract.View, Catego
             20,
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
-        var tvHelpVerify: TextView = rootView?.findViewById(R.id.tvHelpVerify);
+        var tvHelpVerify: TextView? = rootView?.findViewById(R.id.tvHelpVerify);
 
-        tvHelpVerify.text = str5
+        tvHelpVerify?.text = str5
 
 
         val str6 = SpannableStringBuilder(getString(R.string.to_get_profile))
@@ -137,9 +137,9 @@ class ServiceDetailFragment : BaseFragment(), ServiceDetailContract.View, Catego
             21,
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
-        var tvGetProfile: TextView = rootView?.findViewById(R.id.tvGetProfile)
+        var tvGetProfile: TextView? = rootView?.findViewById(R.id.tvGetProfile)
 
-        tvGetProfile.text = str6
+        tvGetProfile?.text = str6
 
         btSave = rootView?.findViewById(R.id.btSave)
         btVolunteer = rootView?.findViewById(R.id.btVolunteer)
