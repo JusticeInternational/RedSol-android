@@ -10,19 +10,19 @@ import androidx.appcompat.content.res.AppCompatResources
 import com.cleteci.redsolidaria.BaseApp.Companion.sharedPreferences
 import com.cleteci.redsolidaria.R
 import com.cleteci.redsolidaria.data.LocalDataForUITest.getOrganizationByIdTest
+import com.cleteci.redsolidaria.databinding.ActivityOrganizationProfileBinding
 import com.cleteci.redsolidaria.ui.base.withExtras
 import com.cleteci.redsolidaria.util.SharedPreferences.Companion.getTestDataPreference
 import com.cleteci.redsolidaria.util.showInfoDialog
 import com.cleteci.redsolidaria.viewModels.BaseViewModel
 import com.cleteci.redsolidaria.viewModels.OrganizationViewModel
 import com.google.android.material.tabs.TabLayout
-import kotlinx.android.synthetic.main.activity_organization_profile.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.util.*
 
-
 class OrganizationProfileActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityOrganizationProfileBinding
     private val organizationVM by viewModel<OrganizationViewModel>()
     private var sectionId: Int = 0
     private var isoOrganizationSaved = false
@@ -32,7 +32,8 @@ class OrganizationProfileActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_organization_profile)
+        binding = ActivityOrganizationProfileBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         with(intent.extras!!) {
             organizationId = getString(ORGANIZATION_ID, "")
@@ -86,15 +87,15 @@ class OrganizationProfileActivity : AppCompatActivity() {
         setupTabs()
 
         if (!organizationName.isNullOrEmpty()) {
-            name.text = organizationName
+            binding.name.text = organizationName
         }
 
         if (sharedPreferences.isProviderService) {
-            heartIcon.visibility = View.GONE
+            binding.heartIcon.visibility = View.GONE
         } else {
-            heartIcon.visibility = View.VISIBLE
-            heartIcon.setOnClickListener {
-                heartIcon.setImageDrawable(
+            binding.heartIcon.visibility = View.VISIBLE
+            binding.heartIcon.setOnClickListener {
+                binding.heartIcon.setImageDrawable(
                     AppCompatResources.getDrawable(
                         this,
                         if (isoOrganizationSaved) R.drawable.ic_heart_saved else R.drawable.ic_heart_unsaved
@@ -119,17 +120,17 @@ class OrganizationProfileActivity : AppCompatActivity() {
             adapter.addFragment(ServicesFragment(), "Services")
             adapter.addFragment(ActivitiesFragment(), "Activities")
             adapter.addFragment(ContributeFragment.newInstance(3), "Contribute")
-            viewPager.adapter = adapter
-            tabs.setupWithViewPager(viewPager)
-            tabs.tabMode = TabLayout.MODE_SCROLLABLE
-            val tab = tabs.getTabAt(sectionId)
+            binding.viewPager.adapter = adapter
+            binding.tabs.setupWithViewPager(binding.viewPager)
+            binding.tabs.tabMode = TabLayout.MODE_SCROLLABLE
+            val tab = binding.tabs.getTabAt(sectionId)
             Objects.requireNonNull<TabLayout.Tab>(tab).select()
         }
 
     }
 
     fun showLoading(show: Boolean) {
-        progressBar?.visibility = if(show) View.VISIBLE else View.GONE
+        binding.progressBar.visibility = if(show) View.VISIBLE else View.GONE
     }
 
     fun showError(msg: String) {

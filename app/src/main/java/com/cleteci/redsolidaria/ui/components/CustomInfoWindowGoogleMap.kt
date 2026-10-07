@@ -11,7 +11,6 @@ import androidx.appcompat.content.res.AppCompatResources
 import com.cleteci.redsolidaria.R
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.Marker
-import kotlinx.android.synthetic.main.activity_organization_profile.*
 
 
 class CustomInfoWindowGoogleMap(private val activity: Activity) : GoogleMap.InfoWindowAdapter {
