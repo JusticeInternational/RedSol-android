@@ -8,6 +8,7 @@ import android.view.*
 import android.widget.*
 import com.cleteci.redsolidaria.BaseApp
 import com.cleteci.redsolidaria.R
+import com.cleteci.redsolidaria.databinding.FragmentScanNoUserBinding
 import com.cleteci.redsolidaria.ui.activities.main.MainActivity
 import com.cleteci.redsolidaria.ui.base.BaseFragment
 import com.cleteci.redsolidaria.util.*
@@ -15,11 +16,12 @@ import com.cleteci.redsolidaria.util.Constants.Companion.DEFAULT_PASSWORD
 import com.cleteci.redsolidaria.viewModels.BaseViewModel
 import com.cleteci.redsolidaria.viewModels.OrganizationViewModel
 import com.cleteci.redsolidaria.viewModels.UserAccountViewModel
-import kotlinx.android.synthetic.main.fragment_scan_no_user.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class ScanNoUserFragment : BaseFragment() {
 
+    private var _binding: FragmentScanNoUserBinding? = null
+    private val binding get() = _binding!!
     private val organizationVM by viewModel<OrganizationViewModel>()
     private val userAccountVM by viewModel<UserAccountViewModel>()
     private var countriesList: ArrayList<String> = ArrayList()
@@ -36,14 +38,30 @@ class ScanNoUserFragment : BaseFragment() {
             name = bundle.getString(NAME, "")
             isGeneric = bundle.getBoolean(IS_GENERIC)
         }
+    }
 
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentScanNoUserBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initObservers()
+        initView()
+    }
+
+    private fun initObservers() {
         countriesList = getCountries()
-        userAccountVM.status.observe(this, androidx.lifecycle.Observer { status: BaseViewModel.QueryStatus? ->
+        userAccountVM.status.observe(viewLifecycleOwner, androidx.lifecycle.Observer { status: BaseViewModel.QueryStatus? ->
             when (status) {
                 BaseViewModel.QueryStatus.NOTIFY_LOADING -> showLoading(true)
                 BaseViewModel.QueryStatus.NOTIFY_SUCCESS -> {
                     showLoading(false)
-                    val userName = etName.text.toString() + " " + etLastName.text.toString()
+                    val userName = binding.etName.text.toString() + " " + binding.etLastName.text.toString()
                     showAlert(R.drawable.ic_check_green,
                         getString(R.string.no_user_create_account_success, userName))
                     activity?.onBackPressed()
@@ -62,18 +80,18 @@ class ScanNoUserFragment : BaseFragment() {
                 }
             }
         })
-        organizationVM.status.observe(this, androidx.lifecycle.Observer { status: BaseViewModel.QueryStatus? ->
+        organizationVM.status.observe(viewLifecycleOwner, androidx.lifecycle.Observer { status: BaseViewModel.QueryStatus? ->
             when (status) {
                 BaseViewModel.QueryStatus.NOTIFY_LOADING -> showLoading(true)
                 BaseViewModel.QueryStatus.NOTIFY_SUCCESS -> {
                     showLoading(false)
-                    val userName = etName.text.toString() + " " + etLastName.text.toString()
+                    val userName = binding.etName.text.toString() + " " + binding.etLastName.text.toString()
                     showAlert(R.drawable.ic_check_green,
                         getString(R.string.user_attention_success, userName))
                     userAccountVM.createUser(
-                        etName.text.toString(),
-                        etLastName.text.toString(),
-                        etEmail.text.toString(),
+                        binding.etName.text.toString(),
+                        binding.etLastName.text.toString(),
+                        binding.etEmail.text.toString(),
                         DEFAULT_PASSWORD)
                 }
                 BaseViewModel.QueryStatus.NOTIFY_FAILURE -> {
@@ -99,14 +117,9 @@ class ScanNoUserFragment : BaseFragment() {
         })
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View = inflater.inflate(R.layout.fragment_scan_no_user, container, false)
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        initView()
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onResume() {
@@ -115,56 +128,55 @@ class ScanNoUserFragment : BaseFragment() {
             getText(R.string.count_attention).toString(),
             activity!!.resources.getColor(R.color.colorWhite)
         )
-
     }
 
     private fun initView() {
-        selectCountry.setOnClickListener {
+        binding.selectCountry.setOnClickListener {
             val adapter = ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_dropdown_item, countriesList)
             AlertDialog.Builder(requireContext())
                 .setTitle(getString(R.string.countries_prompt))
                 .setAdapter(adapter) { dialog, which ->
-                    selectCountry.text = countriesList[which]
+                    binding.selectCountry.text = countriesList[which]
                     dialog.dismiss()
                 }
                 .create()
                 .show()
         }
 
-        etAge.filters = arrayOf<InputFilter>(MinMaxFilter(0, 130))
-        btSend.setOnClickListener {
+        binding.etAge.filters = arrayOf<InputFilter>(MinMaxFilter(0, 130))
+        binding.btSend.setOnClickListener {
             createUserAttention()
         }
 
-        btCancel?.setOnClickListener {
+        binding.btCancel.setOnClickListener {
             (activity as MainActivity).onBackPressed()
         }
     }
 
     private fun createUserAttention() {
         if (isUserDataValid(
-            etName.text.toString(),
-            etLastName.text.toString(),
-            etEmail.text.toString(),
-            etPhone.text.toString())) {
+            binding.etName.text.toString(),
+            binding.etLastName.text.toString(),
+            binding.etEmail.text.toString(),
+            binding.etPhone.text.toString())) {
 
-            val gender = if (genderFemale.isChecked) 1 else 2
-            val country = selectCountry.text.toString()
-            val age: Int? = if (etAge.text.toString().isNotEmpty()) etAge.text.toString().toInt() else null
+            val gender = if (binding.genderFemale.isChecked) 1 else 2
+            val country = binding.selectCountry.text.toString()
+            val age: Int? = if (binding.etAge.text.toString().isNotEmpty()) binding.etAge.text.toString().toInt() else null
 
             organizationVM.createUnregisteredUserAttention(
                 OrganizationViewModel.CreateAttentionRequest(
                     serviceId,
                     categoryId,
-                    etName.text.toString(),
-                    etLastName.text.toString(),
-                    etIdentification.text.toString(),
+                    binding.etName.text.toString(),
+                    binding.etLastName.text.toString(),
+                    binding.etIdentification.text.toString(),
                     gender,
                     country,
                     age?: 0,
-                    etPhone.text.toString(),
-                    etEmail.text.toString(),
-                    etAdditionalInformation.text.toString(),
+                    binding.etPhone.text.toString(),
+                    binding.etEmail.text.toString(),
+                    binding.etAdditionalInformation.text.toString(),
                     name,
                     isGeneric
                 ))
