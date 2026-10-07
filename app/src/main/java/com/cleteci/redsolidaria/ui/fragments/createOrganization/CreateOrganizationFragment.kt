@@ -10,36 +10,32 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.*
-import com.cleteci.redsolidaria.R
-import com.cleteci.redsolidaria.ui.activities.main.MainActivity
-import com.cleteci.redsolidaria.ui.base.BaseFragment
-import com.schibstedspain.leku.*
-import kotlinx.android.synthetic.main.fragment_create_organization.*
-import com.cleteci.redsolidaria.models.Category
-import com.cleteci.redsolidaria.util.LocationResources
-import com.cleteci.redsolidaria.util.showAlert
-import com.cleteci.redsolidaria.viewModels.GeneralViewModel
-import com.cleteci.redsolidaria.viewModels.OrganizationViewModel
-
-import kotlinx.android.synthetic.main.fragment_create_organization.btCancel
-import kotlinx.android.synthetic.main.fragment_create_organization.etName
-import kotlinx.android.synthetic.main.fragment_create_organization.etPhone
-import org.koin.android.viewmodel.ext.android.viewModel
-import java.util.UUID;
-
 import androidx.core.app.ActivityCompat
 import com.cleteci.redsolidaria.BaseApp
 import com.cleteci.redsolidaria.GetServiceCategoriesQuery
 import com.cleteci.redsolidaria.GetServicesQuery
+import com.cleteci.redsolidaria.R
+import com.cleteci.redsolidaria.databinding.FragmentCreateOrganizationBinding
+import com.cleteci.redsolidaria.models.Category
 import com.cleteci.redsolidaria.models.Service
+import com.cleteci.redsolidaria.ui.activities.main.MainActivity
+import com.cleteci.redsolidaria.ui.base.BaseFragment
 import com.cleteci.redsolidaria.ui.login.LoginActivity
 import com.cleteci.redsolidaria.util.DialogClickListener
+import com.cleteci.redsolidaria.util.LocationResources
+import com.cleteci.redsolidaria.util.showAlert
 import com.cleteci.redsolidaria.util.showInfoDialog
 import com.cleteci.redsolidaria.viewModels.BaseViewModel
-import kotlinx.android.synthetic.main.activity_register.*
+import com.cleteci.redsolidaria.viewModels.GeneralViewModel
+import com.cleteci.redsolidaria.viewModels.OrganizationViewModel
+import com.schibstedspain.leku.*
+import org.koin.android.viewmodel.ext.android.viewModel
+import java.util.UUID
 
 class CreateOrganizationFragment : BaseFragment() {
 
+    private var _binding: FragmentCreateOrganizationBinding? = null
+    private val binding get() = _binding!!
     private var categoryList: ArrayList<String> = ArrayList()
     private var serviceList: ArrayList<String> = ArrayList()
     private val generalVM by viewModel<GeneralViewModel>()
@@ -79,7 +75,7 @@ class CreateOrganizationFragment : BaseFragment() {
                     showAlert(
                         requireContext(),
                         R.drawable.ic_check_green,
-                        getString(R.string.create_organization_success, etName.text),
+                        getString(R.string.create_organization_success, binding.etName.text),
                         getString(R.string.ok),
                         object : DialogClickListener {
                             override fun onOkClick() {
@@ -121,11 +117,19 @@ class CreateOrganizationFragment : BaseFragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.fragment_create_organization, container, false)
+    ): View {
+        _binding = FragmentCreateOrganizationBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         init()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     fun loadDataSuccess(list: List<GetServiceCategoriesQuery.ServiceCategory>) {
@@ -147,10 +151,10 @@ class CreateOrganizationFragment : BaseFragment() {
     }
 
     fun init() {
-        btCancel.setOnClickListener {
+        binding.btCancel.setOnClickListener {
             activity?.onBackPressed()
         }
-        selectCategory.setOnClickListener {
+        binding.selectCategory.setOnClickListener {
             val adapter = ArrayAdapter<String>(
                 requireContext(),
                 android.R.layout.simple_spinner_dropdown_item,
@@ -159,14 +163,14 @@ class CreateOrganizationFragment : BaseFragment() {
             AlertDialog.Builder(requireContext())
                 .setTitle(getString(R.string.select_category))
                 .setAdapter(adapter) { dialog, which ->
-                    selectCategory.text = categoryList[which]
+                    binding.selectCategory.text = categoryList[which]
                     dialog.dismiss()
                 }
                 .create()
                 .show()
         }
 
-        selectService.setOnClickListener {
+        binding.selectService.setOnClickListener {
             val adapter = ArrayAdapter<String>(
                 requireContext(),
                 android.R.layout.simple_spinner_dropdown_item,
@@ -175,14 +179,14 @@ class CreateOrganizationFragment : BaseFragment() {
             AlertDialog.Builder(requireContext())
                 .setTitle(getString(R.string.select_service_create))
                 .setAdapter(adapter) { dialog, which ->
-                    selectService.text = serviceList[which]
+                    binding.selectService.text = serviceList[which]
                     dialog.dismiss()
                 }
                 .create()
                 .show()
         }
 
-        etLocation.setOnClickListener {
+        binding.etLocation.setOnClickListener {
             if (locationResources.isLocationEnabled(requireContext())) {
                 if (ActivityCompat.checkSelfPermission(
                         requireContext(),
@@ -207,16 +211,16 @@ class CreateOrganizationFragment : BaseFragment() {
             }
         }
 
-        btCreate.setOnClickListener {
+        binding.btCreate.setOnClickListener {
             if (isValidOrganizationData()) {
                 organizationVM.createOrganization(
                     OrganizationViewModel.CreateOrganizationRequest(
                         id = UUID.randomUUID().toString(),
-                        name = etName.text.toString(),
-                        phone = etPhone.text.toString(),
-                        webPage = etWeb.text.toString(),
-                        hourHand = etHour.text.toString(),
-                        description = etDesc.text.toString()
+                        name = binding.etName.text.toString(),
+                        phone = binding.etPhone.text.toString(),
+                        webPage = binding.etWeb.text.toString(),
+                        hourHand = binding.etHour.text.toString(),
+                        description = binding.etDesc.text.toString()
                     )
                 )
             }
@@ -229,16 +233,16 @@ class CreateOrganizationFragment : BaseFragment() {
     }
 
     private fun isValidOrganizationData(): Boolean {
-        if (etName.text.isNullOrEmpty()) {
+        if (binding.etName.text.isNullOrEmpty()) {
             showError(getString(R.string.enter_valid_name))
-        } else if (!etWeb.text.isNullOrEmpty() && !android.util.Patterns.WEB_URL.matcher(
-                etWeb.text.toString().trim()
+        } else if (!binding.etWeb.text.isNullOrEmpty() && !android.util.Patterns.WEB_URL.matcher(
+                binding.etWeb.text.toString().trim()
             ).matches()
         ) {
             showError(getString(R.string.enter_valid_web_page))
-        } else if (etLocation.text.isNullOrEmpty()) {
+        } else if (binding.etLocation.text.isNullOrEmpty()) {
             showError(getString(R.string.enter_valid_location))
-        } else if (etDesc.text.isNullOrEmpty()) {
+        } else if (binding.etDesc.text.isNullOrEmpty()) {
             showError(getString(R.string.enter_some_description))
         } else {
             return true
@@ -247,10 +251,11 @@ class CreateOrganizationFragment : BaseFragment() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK && data != null) {
             if (requestCode == MAP_BUTTON_REQUEST_CODE) {
                 val address = data.getStringExtra(LOCATION_ADDRESS)
-                etLocation?.text = address
+                binding.etLocation.text = address
             }
         }
     }
