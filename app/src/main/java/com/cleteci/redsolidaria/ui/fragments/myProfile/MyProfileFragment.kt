@@ -7,15 +7,18 @@ import android.view.*
 import android.widget.Button
 import com.cleteci.redsolidaria.BaseApp
 import com.cleteci.redsolidaria.R
+import com.cleteci.redsolidaria.databinding.FragmentMyProfileBinding
 import com.cleteci.redsolidaria.di.component.DaggerFragmentComponent
 import com.cleteci.redsolidaria.di.module.FragmentModule
 import com.cleteci.redsolidaria.ui.activities.main.MainActivity
 import com.cleteci.redsolidaria.ui.base.BaseFragment
-import kotlinx.android.synthetic.main.fragment_my_profile.*
 import javax.inject.Inject
 
 
 class MyProfileFragment : BaseFragment(), MyProfileContract.View {
+
+    private var _binding: FragmentMyProfileBinding? = null
+    private val binding get() = _binding!!
 
     @Inject
     lateinit var presenter: MyProfileContract.Presenter
@@ -28,7 +31,10 @@ class MyProfileFragment : BaseFragment(), MyProfileContract.View {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View = inflater.inflate(R.layout.fragment_my_profile, container, false)
+    ): View {
+        _binding = FragmentMyProfileBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -40,6 +46,7 @@ class MyProfileFragment : BaseFragment(), MyProfileContract.View {
     override fun onDestroyView() {
         super.onDestroyView()
         presenter.unsubscribe()
+        _binding = null
     }
 
     private fun injectDependency() {
@@ -55,12 +62,12 @@ class MyProfileFragment : BaseFragment(), MyProfileContract.View {
         (activity as MainActivity).setTextToolbar(getString(R.string.my_profile), requireActivity().resources.getColor(R.color.colorWhite))
         if (BaseApp.sharedPreferences.loginLater) {
             showDialog()
-            ivQR.visibility = View.GONE
-            tvQR.visibility = View.GONE
+            binding.ivQR.visibility = View.GONE
+            binding.tvQR.visibility = View.GONE
         } else {
-            ivQR.visibility = View.VISIBLE
-            tvQR.visibility = View.VISIBLE
-            tvQR.text = BaseApp.sharedPreferences.userInfoToDisplay
+            binding.ivQR.visibility = View.VISIBLE
+            binding.tvQR.visibility = View.VISIBLE
+            binding.tvQR.text = BaseApp.sharedPreferences.userInfoToDisplay
         }
 
         presenter.getQR()
@@ -94,7 +101,7 @@ class MyProfileFragment : BaseFragment(), MyProfileContract.View {
     }
 
     override fun showQR(bitmap: Bitmap) {
-        ivQR?.setImageBitmap(bitmap)
+        binding.ivQR.setImageBitmap(bitmap)
     }
 
     companion object {
