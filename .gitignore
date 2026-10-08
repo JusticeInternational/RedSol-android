@@ -32,8 +32,4 @@ app/src/main/res/xml/
 
 # Agent Rules & Documentation
 AGENTS.md
-PROJECT_KNOWLEDGE.md
-IMPROVEMENT_ROADMAP.md
-MIGRATION_AGP8_GUIDE.md
-TECHNICAL_DOCUMENTATION.html
-FUNCTIONAL_USER_DOCUMENTATION.html
+documentation/
