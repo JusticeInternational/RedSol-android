@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.cleteci.redsolidaria.R
 import com.cleteci.redsolidaria.models.Service
+import com.cleteci.redsolidaria.util.getCategoryIconByIconString
 
 class ServicesSearchAdapter(private val context: Context?,
                             private val list: MutableList<ServiceSearch>,
@@ -23,8 +24,17 @@ class ServicesSearchAdapter(private val context: Context?,
         val serviceSearch = list[position]
         holder.itemView.setOnClickListener { listener.onServiceSearchClicked(position) }
         holder.name.text = serviceSearch.service.name
-        holder.icon.setImageResource(Integer.parseInt(serviceSearch.service.serviceCategory!!.icon()))
-        holder.categoryName.text = serviceSearch.service.serviceCategory!!.name()
+        val category = serviceSearch.service.category
+        val sc = serviceSearch.service.serviceCategory
+        val categoryName = category?.name ?: sc?.name().orEmpty()
+        val iconRes = when {
+            category != null && category.iconId != 0 -> category.iconId
+            category != null && category.icon.isNotEmpty() -> getCategoryIconByIconString(category.icon)
+            sc != null -> getCategoryIconByIconString(sc.icon())
+            else -> R.drawable.ic_general_category
+        }
+        holder.icon.setImageResource(iconRes)
+        holder.categoryName.text = categoryName
         holder.organizationName.text = serviceSearch.organizationName
     }
 

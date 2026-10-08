@@ -78,16 +78,16 @@ class GraphQLController(private val apolloClient: ApolloClient) {
     }
 
     fun getTotalCategoryAttentions(categoryId: String): Observable<Response<GetTotalCategoryAttentionsQuery.Data>> {
-        val query = GetTotalCategoryAttentionsQuery(categoryId,
-            BaseApp.sharedPreferences.currentOrganizationId.toString())
+        val orgId = BaseApp.sharedPreferences.currentOrganizationId ?: ""
+        val query = GetTotalCategoryAttentionsQuery(categoryId, orgId)
         return apolloClient.rxQuery(query) {
             cacheHeaders(CacheHeaders.NONE)
         }
     }
 
     fun getTotalServiceAttentions(serviceId: String): Observable<Response<GetTotalServiceAttentionsQuery.Data>> {
-        val query = GetTotalServiceAttentionsQuery(serviceId,
-            BaseApp.sharedPreferences.currentOrganizationId.toString())
+        val orgId = BaseApp.sharedPreferences.currentOrganizationId ?: ""
+        val query = GetTotalServiceAttentionsQuery(serviceId, orgId)
         return apolloClient.rxQuery(query) {
             cacheHeaders(CacheHeaders.NONE)
         }
@@ -95,8 +95,9 @@ class GraphQLController(private val apolloClient: ApolloClient) {
 
     fun createAttentionCategory(request: OrganizationViewModel.CreateAttentionRequest):
         Single<Response<ProvideAtentionUnregisteredCategoryMutation.Data>> {
+        val orgId = BaseApp.sharedPreferences.currentOrganizationId ?: ""
         val mutation = ProvideAtentionUnregisteredCategoryMutation(
-            BaseApp.sharedPreferences.currentOrganizationId.toString(),
+            orgId,
             request.categoryId,
             request.name,
             request.lastName,
@@ -115,8 +116,9 @@ class GraphQLController(private val apolloClient: ApolloClient) {
 
     fun createAttentionService(request: OrganizationViewModel.CreateAttentionRequest):
         Single<Response<ProvideAtentionUnregisteredServiceMutation.Data>> {
+        val orgId = BaseApp.sharedPreferences.currentOrganizationId ?: ""
         val mutation = ProvideAtentionUnregisteredServiceMutation(
-            BaseApp.sharedPreferences.currentOrganizationId.toString(),
+            orgId,
             request.serviceId,
             request.name,
             request.lastName,

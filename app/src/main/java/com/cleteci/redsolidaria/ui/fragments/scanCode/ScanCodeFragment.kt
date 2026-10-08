@@ -1,6 +1,5 @@
 package com.cleteci.redsolidaria.ui.fragments.scanCode
 
-
 import android.Manifest
 import android.app.Dialog
 import android.content.pm.PackageManager
@@ -10,15 +9,12 @@ import android.view.*
 import android.widget.*
 import androidx.core.content.ContextCompat
 import com.cleteci.redsolidaria.BaseApp
-
 import com.cleteci.redsolidaria.R
-
 import com.cleteci.redsolidaria.ui.activities.main.MainActivity
 import com.cleteci.redsolidaria.ui.base.BaseFragment
 import com.google.zxing.ResultPoint
 import com.google.zxing.client.android.BeepManager
 import com.journeyapps.barcodescanner.*
-import com.rey.material.widget.ProgressView
 import org.koin.android.ext.android.inject
 
 class ScanCodeFragment : BaseFragment(), ScanCodeContract.View {
@@ -27,7 +23,6 @@ class ScanCodeFragment : BaseFragment(), ScanCodeContract.View {
     var catID: String? = null
     var name: String? = null
     var isGeneric: Boolean = false
-    var capture: CaptureManager? = null
     var barcodeScannerView: DecoratedBarcodeView? = null
     var beepManager: BeepManager? = null
     var viewFinder: ViewfinderView? = null
@@ -38,80 +33,71 @@ class ScanCodeFragment : BaseFragment(), ScanCodeContract.View {
     var zxing_status_view: TextView? = null
 
     private val presenter: ScanCodeContract.Presenter by inject()
-
     private lateinit var rootView: View
 
     fun newInstance(serviceID: String?, catId: String?, name: String?, isGeneric: Boolean): ScanCodeFragment {
-
         val fragment = ScanCodeFragment()
         val args = Bundle()
         args.putString("serviceID", serviceID)
         args.putString("catID", catId)
         args.putString("name", name)
         args.putBoolean("isGeneric", isGeneric)
-        fragment.setArguments(args)
+        fragment.arguments = args
         return fragment
-        return ScanCodeFragment()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (arguments != null) {
-            serviceID = arguments!!.getString("serviceID")
-            catID = arguments!!.getString("catID")
-            name = arguments!!.getString("name")
-            isGeneric = arguments!!.getBoolean("isGeneric")
-
+        arguments?.let {
+            serviceID = it.getString("serviceID")
+            catID = it.getString("catID")
+            name = it.getString("name")
+            isGeneric = it.getBoolean("isGeneric")
         }
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         rootView = inflater.inflate(R.layout.fragment_scan_code, container, false)
 
-        btSend = rootView?.findViewById(R.id.btSend);
-        zxing_status_view=rootView?.findViewById(R.id.zxing_status_view);
+        btSend = rootView.findViewById(R.id.btSend)
+        zxing_status_view = rootView.findViewById(R.id.zxing_status_view)
 
         btSend?.setOnClickListener {
-            Toast.makeText(activity!!, getString(R.string.progress), Toast.LENGTH_SHORT).show()
+            context?.let { ctx ->
+                Toast.makeText(ctx, getString(R.string.progress), Toast.LENGTH_SHORT).show()
+            }
         }
 
+        beepManager = BeepManager(activity).apply {
+            isBeepEnabled = false
+            isVibrateEnabled = true
+        }
 
-        beepManager = BeepManager(activity)
-
-        beepManager?.setBeepEnabled(false)
-        beepManager?.setVibrateEnabled(true)
-
-        //Initialize barcode scanner view
         barcodeScannerView = rootView.findViewById(R.id.zxing_barcode_scanner)
-
         lyOverView = rootView.findViewById(R.id.lyOverView)
-
         viewFinder = rootView.findViewById(R.id.zxing_viewfinder_view)
 
         callback = object : BarcodeCallback {
             override fun barcodeResult(result: BarcodeResult) {
-
+                val scannedText = result.text
+                if (scannedText.isNullOrBlank()) {
+                    return
+                }
 
                 beepManager?.playBeepSoundAndVibrate()
 
+                val sId = serviceID
+                val cId = catID
+                val rName = name.orEmpty()
 
-                if (serviceID != null) {
-
-
-                    presenter.countService(result.text, serviceID!!,name!!, isGeneric)
-
-
-                } else {
-
-
-                    presenter.countCategory(result.text, catID!!,name!!)
-
-
+                if (sId != null) {
+                    presenter.countService(scannedText, sId, rName, isGeneric)
+                } else if (cId != null) {
+                    presenter.countCategory(scannedText, cId, rName)
                 }
-
             }
 
             override fun possibleResultPoints(resultPoints: List<ResultPoint>) {
@@ -125,14 +111,13 @@ class ScanCodeFragment : BaseFragment(), ScanCodeContract.View {
     }
 
     fun settingDecode() {
-        activity?.runOnUiThread {
-            if (ContextCompat.checkSelfPermission(
-                    requireContext(),
-                    Manifest.permission.CAMERA
-                ) == PackageManager.PERMISSION_GRANTED
-            ) {
+        val act = activity ?: return
+        act.runOnUiThread {
+            if (!isAdded) return@runOnUiThread
+            val ctx = context ?: return@runOnUiThread
+            if (ContextCompat.checkSelfPermission(ctx, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                barcodeScannerView?.resume()
                 barcodeScannerView?.decodeSingle(callback)
-                capture = CaptureManager(activity, barcodeScannerView)
             } else {
                 requestPermissions(
                     arrayOf(Manifest.permission.CAMERA),
@@ -152,11 +137,13 @@ class ScanCodeFragment : BaseFragment(), ScanCodeContract.View {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 settingDecode()
             } else {
-                Toast.makeText(
-                    context,
-                    getString(R.string.camera_permission_required),
-                    Toast.LENGTH_LONG
-                ).show()
+                context?.let { ctx ->
+                    Toast.makeText(
+                        ctx,
+                        getString(R.string.camera_permission_required),
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
             }
         }
     }
@@ -170,6 +157,7 @@ class ScanCodeFragment : BaseFragment(), ScanCodeContract.View {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        barcodeScannerView?.pause()
         presenter.unsubscribe()
     }
 
@@ -178,110 +166,96 @@ class ScanCodeFragment : BaseFragment(), ScanCodeContract.View {
     }
 
     private fun initView() {
-        //presenter.loadMessage()
-    }
 
-    companion object {
-        val TAG: String = "ScanCodeFragment"
-        const val CAMERA_PERMISSION_REQUEST_CODE = 101
     }
 
     override fun onResume() {
         super.onResume()
-        capture?.onResume()
-        var title: String = ""
-        var pronoun: String = ""
-        var offered: String = ""
-        if (serviceID != null) {
-            pronoun=getString(R.string.the_2)
-            offered=getString(R.string.offered_2)
-            if (isGeneric) {
-                title =  ""+name?.toLowerCase()
-
-            } else {
-                title =  getString(R.string.service).toLowerCase() + " " + name
-
-            }
-
-        } else {
-            pronoun=getString(R.string.the_1)
-            offered=getString(R.string.offered_1)
-
-
-            title =  getString(R.string.category).toLowerCase() + " " + name
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+            barcodeScannerView?.resume()
         }
 
-        zxing_status_view?.text=String.format(BaseApp.instance.getResources().getString(R.string.to_scan),pronoun,title,offered )
+        val pronoun: String
+        val offered: String
+        val title: String
 
-        (activity as MainActivity).setTextToolbar(
-            getText(R.string.scan_qr).toString() + " "+title,
-            activity!!.resources.getColor(R.color.colorWhite)
+        if (serviceID != null) {
+            pronoun = getString(R.string.the_2)
+            offered = getString(R.string.offered_2)
+            title = if (isGeneric) {
+                name?.lowercase().orEmpty()
+            } else {
+                getString(R.string.service).lowercase() + " " + name.orEmpty()
+            }
+        } else {
+            pronoun = getString(R.string.the_1)
+            offered = getString(R.string.offered_1)
+            title = getString(R.string.category).lowercase() + " " + name.orEmpty()
+        }
+
+        zxing_status_view?.text = String.format(
+            BaseApp.instance.resources.getString(R.string.to_scan),
+            pronoun,
+            title,
+            offered
         )
 
-
+        (activity as? MainActivity)?.setTextToolbar(
+            getText(R.string.scan_qr).toString() + " " + title,
+            ContextCompat.getColor(requireContext(), R.color.colorWhite)
+        )
     }
 
     override fun onPause() {
         super.onPause()
-        capture?.onPause();
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        capture?.onDestroy();
-    }
-
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        capture?.onSaveInstanceState(outState)
+        barcodeScannerView?.pause()
     }
 
     override fun showErrorMsg(msg: String) {
-
-        activity?.runOnUiThread(Runnable {
-            showAlert(R.drawable.ic_error, msg)
-        })
-
-
+        activity?.runOnUiThread {
+            if (isAdded) {
+                showAlert(R.drawable.ic_error, msg)
+            }
+        }
     }
 
     override fun showSuccessMsg(msg: String) {
-
-        activity?.runOnUiThread(Runnable {
-            showAlert(R.drawable.ic_check_green, msg)
-        })
-
+        activity?.runOnUiThread {
+            if (isAdded) {
+                showAlert(R.drawable.ic_check_green, msg)
+            }
+        }
     }
 
     fun showAlert(icon: Int, msg: String) {
-        val dialog = Dialog(activity!!)
+        val act = activity ?: return
+        if (!isAdded || act.isFinishing) return
+
+        val dialog = Dialog(act)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.window!!.setLayout(
+        dialog.window?.setLayout(
             WindowManager.LayoutParams.FLAG_FULLSCREEN,
             WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN
         )
         dialog.setCancelable(false)
         dialog.setContentView(R.layout.comp_alert_succes_suggest_resource)
 
-        val ivIcon = dialog.findViewById(R.id.ivIcon) as ImageView
-
-        val tvAlertMsg = dialog.findViewById(R.id.tvAlertMsg) as TextView
-
+        val ivIcon = dialog.findViewById<ImageView>(R.id.ivIcon)
+        val tvAlertMsg = dialog.findViewById<TextView>(R.id.tvAlertMsg)
         ivIcon.setImageResource(icon)
-
         tvAlertMsg.text = msg
 
-        val yesBtn = dialog.findViewById(R.id.btCont) as Button
-
+        val yesBtn = dialog.findViewById<Button>(R.id.btCont)
         yesBtn.setOnClickListener {
             dialog.dismiss()
             settingDecode()
-
         }
 
         dialog.show()
     }
 
-
+    companion object {
+        const val TAG: String = "ScanCodeFragment"
+        const val CAMERA_PERMISSION_REQUEST_CODE = 101
+    }
 }

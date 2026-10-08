@@ -1,10 +1,11 @@
 package com.cleteci.redsolidaria.ui.fragments.infoService
 
-
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.content.ContextCompat
 import com.cleteci.redsolidaria.R
 import com.cleteci.redsolidaria.databinding.FragmentInfoServiceBinding
 import com.cleteci.redsolidaria.models.Resource
@@ -14,7 +15,6 @@ import com.cleteci.redsolidaria.util.showInfoDialog
 import com.cleteci.redsolidaria.viewModels.BaseViewModel
 import com.cleteci.redsolidaria.viewModels.OrganizationViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
-
 
 class InfoServiceFragment : BaseFragment() {
 
@@ -33,18 +33,17 @@ class InfoServiceFragment : BaseFragment() {
             resourceId = bundle.getString(RESOURCE_ID, "")
             resourceName = bundle.getString(NAME, "")
             resourceIconId = bundle.getInt(ICON_ID, 0)
-            resourceType = Resource.Type.valueOf(bundle.getString(TYPE, ""))
+            val typeStr = bundle.getString(TYPE, "")
+            resourceType = if (typeStr.isNotEmpty()) Resource.Type.valueOf(typeStr) else Resource.Type.CATEGORY
         }
 
-        organizationVM.totalCategoryAttentions.observe(this,
-            androidx.lifecycle.Observer { totalCategoryAttentions: Int ->
-                loadDataSuccess(totalCategoryAttentions)
-            })
-        organizationVM.totalServiceAttentions.observe(this,
-            androidx.lifecycle.Observer { totalServiceAttentions: Int ->
-                loadDataSuccess(totalServiceAttentions)
-            })
-        organizationVM.status.observe(this, androidx.lifecycle.Observer { status: BaseViewModel.QueryStatus? ->
+        organizationVM.totalCategoryAttentions.observe(this) { totalCategoryAttentions: Int ->
+            loadDataSuccess(totalCategoryAttentions)
+        }
+        organizationVM.totalServiceAttentions.observe(this) { totalServiceAttentions: Int ->
+            loadDataSuccess(totalServiceAttentions)
+        }
+        organizationVM.status.observe(this) { status: BaseViewModel.QueryStatus? ->
             when (status) {
                 BaseViewModel.QueryStatus.NOTIFY_LOADING -> showLoading(true)
                 BaseViewModel.QueryStatus.NOTIFY_SUCCESS -> {
@@ -67,7 +66,7 @@ class InfoServiceFragment : BaseFragment() {
                     showLoading(false)
                 }
             }
-        })
+        }
     }
 
     override fun onCreateView(
@@ -90,9 +89,9 @@ class InfoServiceFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        (activity as MainActivity).setTextToolbar(
+        (activity as? MainActivity)?.setTextToolbar(
             getText(R.string.info_services).toString(),
-            requireActivity().resources.getColor(R.color.colorWhite)
+            ContextCompat.getColor(requireContext(), R.color.colorWhite)
         )
     }
 
@@ -106,16 +105,25 @@ class InfoServiceFragment : BaseFragment() {
         }
 
         binding.btAttend.setOnClickListener {
-            (activity as MainActivity).openAttendFragment(resourceId, resourceType)
+            (activity as? MainActivity)?.openAttendFragment(resourceId, resourceType)
+        }
+
+        binding.btInterest.setOnClickListener {
+            context?.let { ctx ->
+                Toast.makeText(ctx, getString(R.string.in_build), Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
     fun loadDataSuccess(total: Int) {
-        activity?.runOnUiThread { binding.totalServed.text = total.toString() }
+        activity?.runOnUiThread {
+            if (_binding != null) {
+                binding.totalServed.text = total.toString()
+            }
+        }
     }
 
     companion object {
-
         const val TAG: String = "InfoServiceFragment"
         private const val RESOURCE_ID: String = "resource_id"
         private const val NAME: String = "name"
@@ -124,7 +132,7 @@ class InfoServiceFragment : BaseFragment() {
 
         fun newInstance(resource: Resource): InfoServiceFragment =
             InfoServiceFragment().apply {
-                this.arguments =  Bundle().apply {
+                this.arguments = Bundle().apply {
                     putString(RESOURCE_ID, resource.id)
                     putString(NAME, resource.name)
                     putInt(ICON_ID, resource.iconId)
@@ -132,5 +140,4 @@ class InfoServiceFragment : BaseFragment() {
                 }
             }
     }
-
 }

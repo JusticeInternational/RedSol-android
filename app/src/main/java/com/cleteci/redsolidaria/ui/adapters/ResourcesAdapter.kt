@@ -31,18 +31,28 @@ class ResourcesAdapter(private val context: Context,
             resource.service != null -> {
                 type = Resource.Type.SERVICE
                 val service = resource.service!!
-                val category = service.category!!
+                val category = service.category
                 holder.name.text = service.name
-                holder.icon.setImageResource(getCategoryIconByIconString(category.icon))
-                holder.categoryName.text = category.name
-                holder.description.visibility = VISIBLE
-                holder.description.text = category.description
+                val iconRes = if (category != null && category.iconId != 0) {
+                    category.iconId
+                } else {
+                    getCategoryIconByIconString(category?.icon.orEmpty())
+                }
+                holder.icon.setImageResource(iconRes)
+                holder.categoryName.text = category?.name ?: ""
+                holder.description.visibility = if (category?.description.isNullOrEmpty()) GONE else VISIBLE
+                holder.description.text = category?.description ?: ""
             }
             resource.category != null -> {
                 type = Resource.Type.CATEGORY
                 val category = resource.category!!
+                val iconRes = if (category.iconId != 0) {
+                    category.iconId
+                } else {
+                    getCategoryIconByIconString(category.icon)
+                }
                 holder.name.text = category.name
-                holder.icon.setImageResource(getCategoryIconByIconString(category.icon))
+                holder.icon.setImageResource(iconRes)
                 holder.categoryName.text = category.name
                 holder.description.visibility = GONE
             }

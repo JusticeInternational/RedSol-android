@@ -98,15 +98,27 @@ class OrganizationViewModel(private val graphQLController: GraphQLController) : 
         status.value = QueryStatus.NOTIFY_LOADING
 
         if (getTestDataPreference()) {
-            val organization = getOrganizationByIdTest("0")!!
-            val services = organization.servicesList!!
+            val organization = getOrganizationByIdTest("0") ?: getOrganizationsList().firstOrNull()
+            val services = organization?.servicesList ?: ArrayList()
             val categories: ArrayList<Category> = ArrayList()
             for (service in services) {
-                val ca =   Category(service.serviceCategory!!.id(),service.serviceCategory!!.name(),
-                    com.cleteci.redsolidaria.util.getCategoryIconByIconString(service.serviceCategory!!.icon()),0,service.serviceCategory!!.description())
-                categories.add(ca)
+                val ca = service.category ?: service.serviceCategory?.let { sc ->
+                    Category(
+                        sc.id(),
+                        sc.name(),
+                        com.cleteci.redsolidaria.util.getCategoryIconByIconString(sc.icon()),
+                        0,
+                        sc.description()
+                    )
+                }
+                if (ca != null) {
+                    categories.add(ca)
+                }
             }
-            organizationLists.value = Organization.OrganizationLists(services, categories)
+            organizationLists.value = Organization.OrganizationLists(
+                ArrayList(services),
+                ArrayList(categories.distinctBy { it.id })
+            )
             status.value = QueryStatus.NOTIFY_SUCCESS
         } else {
             compositeDisposable.add(
@@ -249,7 +261,7 @@ class OrganizationViewModel(private val graphQLController: GraphQLController) : 
                 arrayList.add(
                     Service(
                         service.id(),
-                        service.name()!!,
+                        service.name().orEmpty(),
                         getCategory(serviceCategory),
                         "",
                         serviceCategory.id(),
@@ -297,32 +309,33 @@ class OrganizationViewModel(private val graphQLController: GraphQLController) : 
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ response: Response<ProvideAtentionUnregisteredCategoryMutation.Data> ->
-                    if (response.data != null) {
+                    if (response.data != null && !response.hasErrors()) {
                         status.value = QueryStatus.NOTIFY_SUCCESS
                     } else {
+                        Log.e(TAG, "createAttentionCategory GraphQL error: ${response.errors?.joinToString("; ") { it.message }}")
                         status.value = QueryStatus.NOTIFY_FAILURE
                     }
                 }, {
                     status.value = QueryStatus.NOTIFY_FAILURE
-                    Log.d(TAG, it.message)
+                    Log.e(TAG, "createAttentionCategory network failure: ${it.message}", it)
                 })
         } else {
             graphQLController.createAttentionService(request)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ response: Response<ProvideAtentionUnregisteredServiceMutation.Data> ->
-                    if (response.data != null) {
+                    if (response.data != null && !response.hasErrors()) {
                         status.value = QueryStatus.NOTIFY_SUCCESS
                     } else {
+                        Log.e(TAG, "createAttentionService GraphQL error: ${response.errors?.joinToString("; ") { it.message }}")
                         status.value = QueryStatus.NOTIFY_FAILURE
                     }
                 }, {
                     status.value = QueryStatus.NOTIFY_FAILURE
-                    Log.d(TAG, it.message)
+                    Log.e(TAG, "createAttentionService network failure: ${it.message}", it)
                 })
         }
         compositeDisposable.add(disposable)
-
     }
 
     fun createOrganization(request: CreateOrganizationRequest) {

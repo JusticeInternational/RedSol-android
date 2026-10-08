@@ -9,6 +9,7 @@ import com.cleteci.redsolidaria.GetOrganizationByUserIdQuery
 import com.cleteci.redsolidaria.UpdateOrganizationMutation
 import com.cleteci.redsolidaria.data.LocalDataForUITest
 import com.cleteci.redsolidaria.models.Organization
+import com.cleteci.redsolidaria.models.User
 import io.reactivex.disposables.CompositeDisposable
 
 /**
@@ -35,9 +36,15 @@ class MyProfileProviderPresenter: MyProfileProviderContract.Presenter {
     private fun deserializeResponse(org: GetOrganizationByUserIdQuery.User?): Organization? {
         var organization = org?.ownerOf()?.fragments()?.organizationDetails()
         return if (organization != null) {
+            val user = LocalDataForUITest.getUserById(organization.id()) ?: User(
+                organization.id(),
+                organization.name().toString(),
+                "admin",
+                ""
+            )
             Organization(
                 organization.id(),
-                LocalDataForUITest.getUserById(organization.id())!!,
+                user,
                 organization.name().toString(),
                 0.0, 0.0,
                 "",
