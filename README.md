@@ -37,8 +37,7 @@
   * [OkHttp 4](https://square.github.io/okhttp/) con interceptores de logging y políticas de red controladas.
   * [RxJava 2 & RxAndroid](https://github.com/ReactiveX/RxAndroid) para flujos reactivos asíncronos.
 * **Inyección de Dependencias:**
-  * [Koin](https://insert-koin.io/) para ViewModels y controladores de red.
-  * [Dagger 2](https://dagger.dev/) para componentes de Activity y Presenters.
+  * [Koin](https://insert-koin.io/) como solución unificada de DI para ViewModels, Presenters, controladores de red y clientes Apollo (`appModule`, `controllersModule`, `presentersModule`, `viewModelsModule`).
 * **Interfaz de Usuario (UI):**
   * ViewBinding para acceso seguro a vistas XML.
   * Google Material Components.
@@ -57,8 +56,9 @@ app/src/main/
 ├── graphql/               # Esquemas y operaciones GraphQL (.graphql)
 │   └── com/cleteci/redsolidaria/
 ├── java/com/cleteci/redsolidaria/
-│   ├── BaseApp.kt         # Inicialización global (Koin, Dagger, Apollo, SharedPreferences)
-│   ├── di/                # Módulos de inyección Dagger 2 y Koin
+│   ├── BaseApp.kt         # Inicialización global (Koin, Apollo, SharedPreferences)
+│   ├── data/              # Proveedor de datos mock locales para pruebas UI
+│   ├── di/                # Módulos de inyección de Koin (app, controllers, presenters, viewModels)
 │   ├── models/            # Modelos de dominio (User, Organization, Service, Category, Resource)
 │   ├── network/           # Capa de red (GraphQLController, GraphQLFactory)
 │   ├── ui/                # Vistas y componentes de presentación
@@ -85,7 +85,7 @@ app/src/main/
   * `targetSdkVersion`: 28
 
 ### Configuración de Google Maps API Key
-Para que el selector de ubicación y los mapas funcionen correctamente, asegúrate de contar con una clave de Google Maps configurada en `app/src/main/res/values/strings.xml`:
+Para que el selector de ubicación y los mapas funcionen correctamente, se debe contar con una clave de Google Maps configurada en `app/src/main/res/values/strings.xml`:
 ```xml
 <string name="google_maps_key">TU_GOOGLE_MAPS_API_KEY</string>
 ```
@@ -108,16 +108,10 @@ Para que el selector de ubicación y los mapas funcionen correctamente, asegúra
   ```bash
   ./gradlew assembleDebug
   ```
-* **Ejecutar Pruebas Unitarias:**
+* **Limpiar el proyecto:**
   ```bash
-  ./gradlew test
+  ./gradlew clean
   ```
-
----
-
-## 🔒 Seguridad de Red
-
-La aplicación cuenta con una política de seguridad estricta en [`network_security_config.xml`](app/src/main/res/xml/network_security_config.xml), deshabilitando el tráfico en texto plano por defecto y permitiéndolo exclusivamente para el host del servidor backend (`redsol.eastus.cloudapp.azure.com`) y entornos de emulación local.
 
 ---
 
