@@ -11,9 +11,4 @@
         android:icon="@drawable/ic_scan"
         android:title="@string/scan_qr"/>
 
-    <item
-        android:id="@+id/navigation_users_providers"
-        android:icon="@drawable/ic_search"
-        android:title="@string/users"/>
-
 </menu>

@@ -10,6 +10,8 @@ import com.cleteci.redsolidaria.type.UserGroup
 import com.cleteci.redsolidaria.viewModels.OrganizationViewModel
 import io.reactivex.Observable
 import io.reactivex.Single
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody.Companion.toRequestBody
 
 class GraphQLController(private val apolloClient: ApolloClient) {
 
@@ -174,5 +176,78 @@ class GraphQLController(private val apolloClient: ApolloClient) {
         return apolloClient.rxMutate(mutation) {
             cacheHeaders(CacheHeaders.NONE)
         }
+    }
+
+    fun createServiceDirect(
+        name: String,
+        description: String,
+        isGeneral: Boolean,
+        organizationId: String,
+        serviceCategoryId: String,
+        callback: (success: Boolean, errorMessage: String?) -> Unit
+    ) {
+        val client = okhttp3.OkHttpClient.Builder()
+            .connectTimeout(15, java.util.concurrent.TimeUnit.SECONDS)
+            .readTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
+            .build()
+
+        val jsonBody = org.json.JSONObject().apply {
+            put(
+                "query",
+                "mutation CreateService(\$name: String!, \$description: String!, \$isGeneral: Boolean, \$organizationId: ID!, \$serviceCategoryId: ID!) { CreateService(name: \$name, description: \$description, isGeneral: \$isGeneral, organizationId: \$organizationId, serviceCategoryId: \$serviceCategoryId) { id name description } }"
+            )
+            val vars = org.json.JSONObject().apply {
+                put("name", name)
+                put("description", description)
+                put("isGeneral", isGeneral)
+                put("organizationId", organizationId)
+                put("serviceCategoryId", serviceCategoryId)
+            }
+            put("variables", vars)
+        }
+
+        val mediaType = "application/json; charset=utf-8".toMediaTypeOrNull()
+        val requestBody = jsonBody.toString().toRequestBody(mediaType)
+        val request = okhttp3.Request.Builder()
+            .url(com.cleteci.redsolidaria.util.Constants.BASE_URL)
+            .post(requestBody)
+            .build()
+
+        client.newCall(request).enqueue(object : okhttp3.Callback {
+            override fun onFailure(call: okhttp3.Call, e: java.io.IOException) {
+                android.util.Log.e("GraphQLController", "Failed to create service", e)
+                callback(false, e.message)
+            }
+
+            override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
+                response.use { res ->
+                    if (!res.isSuccessful) {
+                        callback(false, "Server error: ${res.code}")
+                        return
+                    }
+                    val bodyString = res.body?.string().orEmpty()
+                    try {
+                        val json = org.json.JSONObject(bodyString)
+                        if (json.has("errors")) {
+                            val errorsArray = json.getJSONArray("errors")
+                            val firstMsg = if (errorsArray.length() > 0) errorsArray.getJSONObject(0).optString("message") else "Unknown error"
+                            callback(false, firstMsg)
+                        } else if (json.has("data") && !json.isNull("data")) {
+                            val dataObj = json.getJSONObject("data")
+                            if (dataObj.has("CreateService") && !dataObj.isNull("CreateService")) {
+                                callback(true, null)
+                            } else {
+                                callback(false, "Failed to create service")
+                            }
+                        } else {
+                            callback(false, "Invalid response from server")
+                        }
+                    } catch (e: Exception) {
+                        android.util.Log.e("GraphQLController", "Failed to parse CreateService response", e)
+                        callback(false, e.message)
+                    }
+                }
+            }
+        })
     }
 }

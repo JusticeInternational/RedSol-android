@@ -93,16 +93,13 @@ class InfoServiceFragment : BaseFragment() {
             getText(R.string.info_services).toString(),
             ContextCompat.getColor(requireContext(), R.color.colorWhite)
         )
+        loadAttentions()
     }
 
     private fun initView() {
         binding.imgIconResource.setImageResource(resourceIconId)
         binding.tvName.text = resourceName
-        if (resourceType == Resource.Type.CATEGORY) {
-            organizationVM.getTotalCategoryAttentions(resourceId)
-        } else if (resourceType == Resource.Type.SERVICE) {
-            organizationVM.getTotalServiceAttentions(resourceId)
-        }
+        loadAttentions()
 
         binding.btAttend.setOnClickListener {
             (activity as? MainActivity)?.openAttendFragment(resourceId, resourceType)
@@ -112,6 +109,14 @@ class InfoServiceFragment : BaseFragment() {
             context?.let { ctx ->
                 Toast.makeText(ctx, getString(R.string.in_build), Toast.LENGTH_SHORT).show()
             }
+        }
+    }
+
+    private fun loadAttentions() {
+        if (resourceType == Resource.Type.CATEGORY) {
+            organizationVM.getTotalCategoryAttentions(resourceId)
+        } else if (resourceType == Resource.Type.SERVICE) {
+            organizationVM.getTotalServiceAttentions(resourceId)
         }
     }
 

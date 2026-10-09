@@ -16,9 +16,7 @@ class AttendersListPresenter : AttendersListContract.Presenter {
     private val subscriptions = CompositeDisposable()
     private lateinit var view: AttendersListContract.View
 
-    override fun subscribe() {
-
-    }
+    override fun subscribe() {}
 
     override fun unsubscribe() {
         subscriptions.clear()
@@ -26,7 +24,7 @@ class AttendersListPresenter : AttendersListContract.Presenter {
 
     override fun attach(view: AttendersListContract.View) {
         this.view = view
-        view.init() // as default
+        view.init()
     }
 
     override fun loadDataService(serviceId: String, type: Int) {
@@ -51,11 +49,12 @@ class AttendersListPresenter : AttendersListContract.Presenter {
                     val users = ArrayList<User>()
                     val usersList = response.data?.servedBeneficiariesService()
                     if (!usersList.isNullOrEmpty()) {
-                        for (i in 0 until usersList.size step 4) {
-                            val user = usersList[i]
-                            val name = user.name() ?: ""
-                            val email = user.email() ?: ""
-                            users.add(User("", name, "", "", email))
+                        for (user in usersList) {
+                            val id = user.id().orEmpty()
+                            val name = user.name().orEmpty()
+                            val lastName = user.lastName().orEmpty()
+                            val email = user.email().orEmpty()
+                            users.add(User(id = id, name = name, lastName = lastName, email = email, role = ""))
                         }
                     }
                     view.showUsers(users)
@@ -80,11 +79,12 @@ class AttendersListPresenter : AttendersListContract.Presenter {
                     val users = ArrayList<User>()
                     val usersList = response.data?.servedUnregisteredService()
                     if (!usersList.isNullOrEmpty()) {
-                        for (i in 0 until usersList.size step 4) {
-                            val user = usersList[i]
-                            val name = user.name() ?: ""
-                            val email = user.email() ?: ""
-                            users.add(User("", name, "", "", email))
+                        for (user in usersList) {
+                            val id = user.id().orEmpty()
+                            val name = user.name().orEmpty()
+                            val lastName = user.lastName().orEmpty()
+                            val email = user.email().orEmpty()
+                            users.add(User(id = id, name = name, lastName = lastName, email = email, role = ""))
                         }
                     }
                     view.showUsers(users)
@@ -120,11 +120,10 @@ class AttendersListPresenter : AttendersListContract.Presenter {
                     val users = ArrayList<User>()
                     val usersList = response.data?.servedBeneficiariesCategory()
                     if (!usersList.isNullOrEmpty()) {
-                        for (i in 0 until usersList.size step 4) {
-                            val user = usersList[i]
-                            val name = user.name() ?: ""
-                            val email = user.email() ?: ""
-                            users.add(User("", name, "", "", email))
+                        for (user in usersList) {
+                            val name = user.name().orEmpty()
+                            val email = user.email().orEmpty()
+                            users.add(User(id = "", name = name, lastName = "", email = email, role = ""))
                         }
                     }
                     view.showUsers(users)
@@ -149,11 +148,11 @@ class AttendersListPresenter : AttendersListContract.Presenter {
                     val users = ArrayList<User>()
                     val usersList = response.data?.servedUnregisteredCategory()
                     if (!usersList.isNullOrEmpty()) {
-                        for (i in 0 until usersList.size step 4) {
-                            val user = usersList[i]
-                            val name = user.name() ?: ""
-                            val email = user.email() ?: ""
-                            users.add(User("", name, "", "", email))
+                        for (user in usersList) {
+                            val name = user.name().orEmpty()
+                            val lastName = user.lastName().orEmpty()
+                            val email = user.email().orEmpty()
+                            users.add(User(id = "", name = name, lastName = lastName, email = email, role = ""))
                         }
                     }
                     view.showUsers(users)

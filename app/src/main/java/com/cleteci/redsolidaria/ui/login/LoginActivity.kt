@@ -120,8 +120,17 @@ class LoginActivity : AppCompatActivity(){
         val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
         firebaseAuth.signInWithCredential(credential).addOnCompleteListener {
             if (it.isSuccessful) {
+                val user = firebaseAuth.currentUser
+                val userId = user?.uid ?: acct.id ?: acct.email.orEmpty()
                 BaseApp.sharedPreferences.loginLater = false
-                BaseApp.sharedPreferences.userSaved = acct.displayName
+                BaseApp.sharedPreferences.userSaved = userId
+                BaseApp.sharedPreferences.userInfoToDisplay = getString(
+                    R.string.user_info_to_display,
+                    userId,
+                    acct.displayName.orEmpty(),
+                    "",
+                    acct.email.orEmpty()
+                )
                 BaseApp.sharedPreferences.isProviderService = false
                 openMainActivity()
             } else {
@@ -156,21 +165,25 @@ class LoginActivity : AppCompatActivity(){
         firebaseAuth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
                     val user = firebaseAuth.currentUser
+                    val userId = user?.uid.orEmpty()
                     BaseApp.sharedPreferences.loginLater = false
-                    BaseApp.sharedPreferences.userSaved = user!!.displayName
+                    BaseApp.sharedPreferences.userSaved = userId
+                    BaseApp.sharedPreferences.userInfoToDisplay = getString(
+                        R.string.user_info_to_display,
+                        userId,
+                        user?.displayName.orEmpty(),
+                        "",
+                        user?.email.orEmpty()
+                    )
                     BaseApp.sharedPreferences.isProviderService = false
                     openMainActivity()
                 } else {
-                    // If sign in fails, display a message to the user.
                     Toast.makeText(
                         baseContext, "Authentication failed.",
                         Toast.LENGTH_SHORT
                     ).show()
-
                 }
-
             }
     }
 

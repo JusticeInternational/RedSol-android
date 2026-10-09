@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.*
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cleteci.redsolidaria.BaseApp
 import com.cleteci.redsolidaria.R
@@ -20,7 +21,6 @@ import com.cleteci.redsolidaria.util.showInfoDialog
 import com.cleteci.redsolidaria.viewModels.BaseViewModel
 import com.cleteci.redsolidaria.viewModels.OrganizationViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
-
 
 class ResourcesOfferedFragment : BaseFragment(), ResourcesAdapter.OnResourceClickListener {
 
@@ -41,13 +41,16 @@ class ResourcesOfferedFragment : BaseFragment(), ResourcesAdapter.OnResourceClic
         mCategoriesAdapter = ResourcesAdapter(requireContext(), listCategories, this, isFromScan)
         mServicesAdapter = ResourcesAdapter(requireContext(), listServices, this, isFromScan)
 
-        organizationVM.organizationLists.observe(this,
-            androidx.lifecycle.Observer { organizationLists: Organization.OrganizationLists ->
-                loadDataSuccess(organizationLists.offeredCategories,
-                    organizationLists.offeredServices
-                )
-            })
-        organizationVM.status.observe(this, androidx.lifecycle.Observer { status: BaseViewModel.QueryStatus? ->
+        organizationVM.organizationLists.observe(this) { organizationLists: Organization.OrganizationLists ->
+            loadDataSuccess(
+                organizationLists.offeredCategories,
+                organizationLists.offeredServices
+            )
+        }
+        organizationVM.status.observe(this) { status: BaseViewModel.QueryStatus? ->
+            if (_binding != null) {
+                binding.swipeRefresh.isRefreshing = false
+            }
             when (status) {
                 BaseViewModel.QueryStatus.NOTIFY_LOADING -> showLoading(true)
                 BaseViewModel.QueryStatus.NOTIFY_SUCCESS -> {
@@ -70,8 +73,7 @@ class ResourcesOfferedFragment : BaseFragment(), ResourcesAdapter.OnResourceClic
                     showLoading(false)
                 }
             }
-        })
-
+        }
     }
 
     override fun onCreateView(
@@ -84,19 +86,25 @@ class ResourcesOfferedFragment : BaseFragment(), ResourcesAdapter.OnResourceClic
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val organizationId = BaseApp.sharedPreferences.currentOrganizationId
-        val userId = BaseApp.sharedPreferences.userSaved
-        if (!userId.isNullOrEmpty() && !organizationId.isNullOrEmpty()) {
-            binding.lyEmpty.visibility = GONE
-            binding.scrollView.visibility = VISIBLE
-            organizationVM.getServicesAndCategories(userId)
-        } else {
-            binding.lyEmpty.visibility = VISIBLE
-            binding.scrollView.visibility = GONE
-        }
-
         initView()
+        fetchData()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val activity = activity as? MainActivity
+        if (isFromScan) {
+            activity?.setTextToolbar(
+                getText(R.string.count_resources).toString(),
+                ContextCompat.getColor(requireContext(), R.color.colorWhite)
+            )
+        } else {
+            activity?.setTextToolbar(
+                getText(R.string.my_resources).toString(),
+                ContextCompat.getColor(requireContext(), R.color.colorWhite)
+            )
+        }
+        fetchData()
     }
 
     override fun onDestroyView() {
@@ -104,7 +112,24 @@ class ResourcesOfferedFragment : BaseFragment(), ResourcesAdapter.OnResourceClic
         _binding = null
     }
 
+    private fun fetchData() {
+        val organizationId = BaseApp.sharedPreferences.currentOrganizationId
+        val userId = BaseApp.sharedPreferences.userSaved
+        if (!userId.isNullOrEmpty() && !organizationId.isNullOrEmpty()) {
+            organizationVM.getServicesAndCategories(userId)
+        } else {
+            if (_binding != null) {
+                binding.swipeRefresh.isRefreshing = false
+                binding.lyEmpty.visibility = VISIBLE
+                binding.scrollView.visibility = GONE
+            }
+        }
+    }
+
     fun loadDataSuccess(categories: List<Category>, services: List<Service>) {
+        if (_binding == null) return
+        binding.swipeRefresh.isRefreshing = false
+
         if (categories.isNullOrEmpty() && services.isNullOrEmpty()) {
             binding.lyEmpty.visibility = VISIBLE
             binding.scrollView.visibility = GONE
@@ -131,22 +156,19 @@ class ResourcesOfferedFragment : BaseFragment(), ResourcesAdapter.OnResourceClic
     }
 
     private fun initView() {
-        val activity = activity as MainActivity
+        val activity = activity as? MainActivity
         if (isFromScan) {
-            activity.setTextToolbar(
-                getText(R.string.count_resources).toString(),
-                activity.resources.getColor(R.color.colorWhite)
-            )
             binding.fab.visibility = GONE
         } else {
-            activity.setTextToolbar(
-                getText(R.string.my_resources).toString(),
-                activity.resources.getColor(R.color.colorWhite)
-            )
             binding.fab.setOnClickListener {
-                activity.openCreateServiceFragment()
+                activity?.openCreateServiceFragment()
             }
             binding.fab.visibility = VISIBLE
+        }
+
+        binding.swipeRefresh.setColorSchemeResources(R.color.colorPrimary)
+        binding.swipeRefresh.setOnRefreshListener {
+            fetchData()
         }
 
         binding.rvMyCategories.layoutManager = LinearLayoutManager(activity)
@@ -157,6 +179,7 @@ class ResourcesOfferedFragment : BaseFragment(), ResourcesAdapter.OnResourceClic
     }
 
     private fun setupLabels() {
+        if (_binding == null) return
         binding.tvLabelResources.visibility = if (listServices.isEmpty()) GONE else VISIBLE
         binding.tvLabelCategories.visibility = if (listCategories.isEmpty()) GONE else VISIBLE
     }
@@ -202,9 +225,7 @@ class ResourcesOfferedFragment : BaseFragment(), ResourcesAdapter.OnResourceClic
         }
     }
 
-    override fun resourceOrganizationProfile(resource: Resource, type: Resource.Type) {
-
-    }
+    override fun resourceOrganizationProfile(resource: Resource, type: Resource.Type) {}
 
     companion object {
         const val TAG: String = "ResourcesProviderFragment"
@@ -216,5 +237,4 @@ class ResourcesOfferedFragment : BaseFragment(), ResourcesAdapter.OnResourceClic
             }
         }
     }
-
 }

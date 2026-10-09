@@ -1,67 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/relativeCategory"
-                android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:background="@color/colorWhite"
-                android:gravity="center_vertical">
-
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/relativeCategory"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="80dp"
+    android:background="@color/colorWhite"
+    android:gravity="center_vertical"
+    android:paddingVertical="10dp"
+    android:paddingHorizontal="15dp">
 
     <ImageView
-            android:id="@+id/imgOrganization"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/img_person" />
+        android:id="@+id/imgOrganization"
+        android:layout_width="54dp"
+        android:layout_height="54dp"
+        android:layout_centerVertical="true"
+        android:scaleType="fitCenter"
+        android:src="@drawable/img_person" />
 
     <LinearLayout
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/imgOrganization"
-            android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="14dp"
+        android:layout_toEndOf="@id/imgOrganization"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvOrganizationName"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="3dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/colorBlack"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <TextView
-                android:id="@+id/tvOrganizationName"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginBottom="2dp"
-                android:ellipsize="end"
-                android:maxLines="1"
-
-                android:singleLine="true"
-                android:textColor="@color/colorBlack"
-                android:textStyle="bold"/>
-        <TextView
-                android:id="@+id/tvEmail"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-
-                android:ellipsize="end"
-
-                android:maxLines="1"
-
-                android:singleLine="true"
-                android:textColor="@color/colorBlack"
-                />
+            android:id="@+id/tvEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/colorGrey"
+            android:textSize="14sp" />
 
     </LinearLayout>
 
-
     <View
-            android:id="@+id/viewLine"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_alignParentBottom="true"
-            android:background="@color/colorGrey" />
+        android:id="@+id/viewLine"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorGrey" />
 
 </RelativeLayout>

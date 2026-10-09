@@ -29,6 +29,13 @@ class ScanCodePresenter : ScanCodeContract.Presenter {
     }
 
     override fun countService(userid: String, serviceid: String, nameService: String, isGeneric: Boolean) {
+        val cleanUserId = userid.trim()
+        if (cleanUserId.isBlank()) {
+            Log.e(TAG, "Scanned user ID is blank")
+            view.showErrorMsg(BaseApp.instance.getString(R.string.invalid_user))
+            return
+        }
+
         val orgId = BaseApp.sharedPreferences.currentOrganizationId
         if (orgId.isNullOrBlank()) {
             Log.e(TAG, "No organization ID configured in SharedPreferences")
@@ -39,7 +46,7 @@ class ScanCodePresenter : ScanCodeContract.Presenter {
         BaseApp.apolloClient.mutate(
             ProvideAtentionServiceMutation.builder()
                 .orgID(orgId)
-                .userID(userid)
+                .userID(cleanUserId)
                 .serviceID(serviceid)
                 .build()
         ).enqueue(object : ApolloCall.Callback<ProvideAtentionServiceMutation.Data>() {
@@ -77,6 +84,13 @@ class ScanCodePresenter : ScanCodeContract.Presenter {
     }
 
     override fun countCategory(userid: String, categoriyid: String, namecat: String) {
+        val cleanUserId = userid.trim()
+        if (cleanUserId.isBlank()) {
+            Log.e(TAG, "Scanned user ID is blank")
+            view.showErrorMsg(BaseApp.instance.getString(R.string.invalid_user))
+            return
+        }
+
         val orgId = BaseApp.sharedPreferences.currentOrganizationId
         if (orgId.isNullOrBlank()) {
             Log.e(TAG, "No organization ID configured in SharedPreferences")
@@ -88,7 +102,7 @@ class ScanCodePresenter : ScanCodeContract.Presenter {
             ProvideAtentionCategoryMutation.builder()
                 .orgID(orgId)
                 .categoryID(categoriyid)
-                .userID(userid)
+                .userID(cleanUserId)
                 .build()
         ).enqueue(object : ApolloCall.Callback<ProvideAtentionCategoryMutation.Data>() {
             override fun onResponse(response: Response<ProvideAtentionCategoryMutation.Data>) {

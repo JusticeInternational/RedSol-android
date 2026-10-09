@@ -206,10 +206,6 @@ class MainActivity : AppCompatActivity(), MainContract.View,
                         presenter.onNavScanOption()
                         return@OnNavigationItemSelectedListener true
                     }
-                    R.id.navigation_users_providers -> {
-                        presenter.onNavUsersOption()
-                        return@OnNavigationItemSelectedListener true
-                    }
                 }
                 false
             }

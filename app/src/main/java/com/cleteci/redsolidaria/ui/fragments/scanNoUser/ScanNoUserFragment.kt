@@ -4,15 +4,21 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
 import android.text.InputFilter
+import android.util.Log
 import android.view.*
 import android.widget.*
+import androidx.core.content.ContextCompat
 import com.cleteci.redsolidaria.BaseApp
 import com.cleteci.redsolidaria.R
 import com.cleteci.redsolidaria.databinding.FragmentScanNoUserBinding
 import com.cleteci.redsolidaria.ui.activities.main.MainActivity
 import com.cleteci.redsolidaria.ui.base.BaseFragment
-import com.cleteci.redsolidaria.util.*
 import com.cleteci.redsolidaria.util.Constants.Companion.DEFAULT_PASSWORD
+import com.cleteci.redsolidaria.util.MinMaxFilter
+import com.cleteci.redsolidaria.util.getCountries
+import com.cleteci.redsolidaria.util.isValidEmail
+import com.cleteci.redsolidaria.util.isValidPhone
+import com.cleteci.redsolidaria.util.showInfoDialog
 import com.cleteci.redsolidaria.viewModels.BaseViewModel
 import com.cleteci.redsolidaria.viewModels.OrganizationViewModel
 import com.cleteci.redsolidaria.viewModels.UserAccountViewModel
@@ -36,7 +42,7 @@ class ScanNoUserFragment : BaseFragment() {
             serviceId = bundle.getString(SERVICE_ID, "")
             categoryId = bundle.getString(CATEGORY_ID, "")
             name = bundle.getString(NAME, "")
-            isGeneric = bundle.getBoolean(IS_GENERIC)
+            isGeneric = bundle.getBoolean(IS_GENERIC, false)
         }
     }
 
@@ -56,48 +62,58 @@ class ScanNoUserFragment : BaseFragment() {
 
     private fun initObservers() {
         countriesList = getCountries()
-        userAccountVM.status.observe(viewLifecycleOwner, androidx.lifecycle.Observer { status: BaseViewModel.QueryStatus? ->
+
+        userAccountVM.status.observe(viewLifecycleOwner) { status: BaseViewModel.QueryStatus? ->
             when (status) {
-                BaseViewModel.QueryStatus.NOTIFY_LOADING -> showLoading(true)
                 BaseViewModel.QueryStatus.NOTIFY_SUCCESS -> {
-                    showLoading(false)
-                    val userName = binding.etName.text.toString() + " " + binding.etLastName.text.toString()
-                    showAlert(R.drawable.ic_check_green,
-                        getString(R.string.no_user_create_account_success, userName))
-                    activity?.onBackPressed()
+                    val userName = binding.etName.text.toString().trim() + " " + binding.etLastName.text.toString().trim()
+                    context?.let { ctx ->
+                        Toast.makeText(
+                            ctx,
+                            getString(R.string.no_user_create_account_success, userName),
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                }
+                BaseViewModel.QueryStatus.EMAIL_ALREADY_REGISTERED -> {
+                    context?.let { ctx ->
+                        Toast.makeText(
+                            ctx,
+                            getString(R.string.email_exists),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
                 BaseViewModel.QueryStatus.NOTIFY_FAILURE -> {
-                    showLoading(false)
-                    activity?.onBackPressed()
+                    Log.w(TAG, "Account creation for unregistered user failed, but attention was recorded")
                 }
-                BaseViewModel.QueryStatus.NOTIFY_UNKNOWN_HOST_FAILURE -> {
-                    showLoading(false)
-                    activity?.onBackPressed()
-                }
-                else -> {
-                    showLoading(false)
-                    activity?.onBackPressed()
-                }
+                else -> {}
             }
-        })
-        organizationVM.status.observe(viewLifecycleOwner, androidx.lifecycle.Observer { status: BaseViewModel.QueryStatus? ->
+        }
+
+        organizationVM.status.observe(viewLifecycleOwner) { status: BaseViewModel.QueryStatus? ->
             when (status) {
                 BaseViewModel.QueryStatus.NOTIFY_LOADING -> showLoading(true)
                 BaseViewModel.QueryStatus.NOTIFY_SUCCESS -> {
                     showLoading(false)
-                    val userName = binding.etName.text.toString() + " " + binding.etLastName.text.toString()
-                    showAlert(R.drawable.ic_check_green,
-                        getString(R.string.user_attention_success, userName))
-                    userAccountVM.createUser(
-                        binding.etName.text.toString(),
-                        binding.etLastName.text.toString(),
-                        binding.etEmail.text.toString(),
-                        DEFAULT_PASSWORD)
+                    val userName = binding.etName.text.toString().trim() + " " + binding.etLastName.text.toString().trim()
+                    showAttentionSuccessDialog(
+                        getString(R.string.user_attention_success, userName)
+                    )
+
+                    val email = binding.etEmail.text.toString().trim()
+                    if (email.isNotEmpty() && email.isValidEmail()) {
+                        userAccountVM.createUser(
+                            binding.etName.text.toString().trim(),
+                            binding.etLastName.text.toString().trim(),
+                            email,
+                            DEFAULT_PASSWORD
+                        )
+                    }
                 }
                 BaseViewModel.QueryStatus.NOTIFY_FAILURE -> {
                     showError(getString(R.string.user_attention_error))
                     showLoading(false)
-                    activity?.onBackPressed()
                 }
                 BaseViewModel.QueryStatus.NOTIFY_UNKNOWN_HOST_FAILURE -> {
                     showInfoDialog(
@@ -106,15 +122,13 @@ class ScanNoUserFragment : BaseFragment() {
                         getString(R.string.error_unknown_host)
                     )
                     showLoading(false)
-                    activity?.onBackPressed()
                 }
                 else -> {
                     showError(getString(R.string.user_attention_error))
                     showLoading(false)
-                    activity?.onBackPressed()
                 }
             }
-        })
+        }
     }
 
     override fun onDestroyView() {
@@ -124,15 +138,15 @@ class ScanNoUserFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        (activity as MainActivity).setTextToolbar(
+        (activity as? MainActivity)?.setTextToolbar(
             getText(R.string.count_attention).toString(),
-            activity!!.resources.getColor(R.color.colorWhite)
+            ContextCompat.getColor(requireContext(), R.color.colorWhite)
         )
     }
 
     private fun initView() {
         binding.selectCountry.setOnClickListener {
-            val adapter = ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_dropdown_item, countriesList)
+            val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, countriesList)
             AlertDialog.Builder(requireContext())
                 .setTitle(getString(R.string.countries_prompt))
                 .setAdapter(adapter) { dialog, which ->
@@ -149,83 +163,100 @@ class ScanNoUserFragment : BaseFragment() {
         }
 
         binding.btCancel.setOnClickListener {
-            (activity as MainActivity).onBackPressed()
+            (activity as? MainActivity)?.onBackPressed()
         }
     }
 
     private fun createUserAttention() {
-        if (isUserDataValid(
-            binding.etName.text.toString(),
-            binding.etLastName.text.toString(),
-            binding.etEmail.text.toString(),
-            binding.etPhone.text.toString())) {
+        val nameInput = binding.etName.text.toString().trim()
+        val lastNameInput = binding.etLastName.text.toString().trim()
+        val emailInput = binding.etEmail.text.toString().trim()
+        val phoneInput = binding.etPhone.text.toString().trim()
+        val countryInput = binding.selectCountry.text.toString().trim()
 
+        if (isUserDataValid(nameInput, lastNameInput, emailInput, phoneInput, countryInput)) {
             val gender = if (binding.genderFemale.isChecked) 1 else 2
-            val country = binding.selectCountry.text.toString()
-            val age: Int? = if (binding.etAge.text.toString().isNotEmpty()) binding.etAge.text.toString().toInt() else null
+            val ageText = binding.etAge.text.toString().trim()
+            val age = if (ageText.isNotEmpty()) ageText.toIntOrNull() ?: 0 else 0
 
             organizationVM.createUnregisteredUserAttention(
                 OrganizationViewModel.CreateAttentionRequest(
                     serviceId,
                     categoryId,
-                    binding.etName.text.toString(),
-                    binding.etLastName.text.toString(),
-                    binding.etIdentification.text.toString(),
+                    nameInput,
+                    lastNameInput,
+                    binding.etIdentification.text.toString().trim(),
                     gender,
-                    country,
-                    age?: 0,
-                    binding.etPhone.text.toString(),
-                    binding.etEmail.text.toString(),
-                    binding.etAdditionalInformation.text.toString(),
+                    countryInput,
+                    age,
+                    phoneInput,
+                    emailInput,
+                    binding.etAdditionalInformation.text.toString().trim(),
                     name,
                     isGeneric
-                ))
+                )
+            )
         }
     }
 
-    private fun showAlert(icon: Int, msg: String) {
-        val dialog = Dialog(activity!!)
+    private fun showAttentionSuccessDialog(msg: String) {
+        val act = activity ?: return
+        if (!isAdded || act.isFinishing) return
+
+        val dialog = Dialog(act)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.window!!.setLayout(
+        dialog.window?.setLayout(
             WindowManager.LayoutParams.FLAG_FULLSCREEN,
             WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN
         )
         dialog.setCancelable(false)
         dialog.setContentView(R.layout.comp_alert_succes_suggest_resource)
 
-        val ivIcon = dialog.findViewById(R.id.ivIcon) as ImageView
-        val tvAlertMsg = dialog.findViewById(R.id.tvAlertMsg) as TextView
-        ivIcon.setImageResource(icon)
+        val ivIcon = dialog.findViewById<ImageView>(R.id.ivIcon)
+        val tvAlertMsg = dialog.findViewById<TextView>(R.id.tvAlertMsg)
+        ivIcon.setImageResource(R.drawable.ic_check_green)
         tvAlertMsg.text = msg
-        val yesBtn = dialog.findViewById(R.id.btCont) as Button
+        val yesBtn = dialog.findViewById<Button>(R.id.btCont)
 
         yesBtn.setOnClickListener {
             dialog.dismiss()
+            (activity as? MainActivity)?.onBackPressed()
         }
 
         dialog.show()
     }
 
-
-    private fun isUserDataValid(name: String?, lastName: String?, email: String?, phone: String?): Boolean {
-        if (name == null || name.isEmpty()) {
-            Toast.makeText(BaseApp.instance, BaseApp.instance.getString(R.string.invalid_name), Toast.LENGTH_LONG).show()
+    private fun isUserDataValid(
+        name: String,
+        lastName: String,
+        email: String,
+        phone: String,
+        country: String
+    ): Boolean {
+        val ctx = context ?: BaseApp.instance
+        if (name.isEmpty()) {
+            Toast.makeText(ctx, getString(R.string.invalid_name), Toast.LENGTH_LONG).show()
             return false
         }
 
-        if (lastName == null || lastName.isEmpty()) {
-            Toast.makeText(BaseApp.instance, BaseApp.instance.getString(R.string.invalid_lastname), Toast.LENGTH_LONG).show()
+        if (lastName.isEmpty()) {
+            Toast.makeText(ctx, getString(R.string.invalid_lastname), Toast.LENGTH_LONG).show()
             return false
         }
 
-        val trimEmail = email?.trim()
-        if (trimEmail == null || trimEmail.isEmpty() || !trimEmail.isValidEmail()) {
-            Toast.makeText(BaseApp.instance, BaseApp.instance.getString(R.string.invalid_email), Toast.LENGTH_LONG).show()
+        val defaultCountryHint = getString(R.string.countries_hint).trim()
+        if (country.isEmpty() || country.equals(defaultCountryHint, ignoreCase = true)) {
+            Toast.makeText(ctx, getString(R.string.countries_prompt), Toast.LENGTH_LONG).show()
             return false
         }
 
-        if (phone != null && phone.isNotEmpty() && !phone.isValidPhone()) {
-            Toast.makeText(BaseApp.instance, BaseApp.instance.getString(R.string.invalid_phone), Toast.LENGTH_LONG).show()
+        if (email.isEmpty() || !email.isValidEmail()) {
+            Toast.makeText(ctx, getString(R.string.invalid_email), Toast.LENGTH_LONG).show()
+            return false
+        }
+
+        if (phone.isNotEmpty() && !phone.isValidPhone()) {
+            Toast.makeText(ctx, getString(R.string.invalid_phone), Toast.LENGTH_LONG).show()
             return false
         }
 

@@ -2,9 +2,9 @@ package com.cleteci.redsolidaria.models
 
 class Resource {
     var service: Service? = null
-    var category: Category? =  null
+    var category: Category? = null
     var id: String = ""
-    var name: String =  ""
+    var name: String = ""
     var iconId: Int = 0
     var type: Type = Type.OTHER
 
@@ -13,11 +13,11 @@ class Resource {
     constructor(service: Service) {
         this.service = service
         type = Type.SERVICE
-        val resource = service.category
-        if (resource != null) {
-            id = resource.id
-            name = resource.name
-            iconId = resource.iconId
+        id = service.id
+        name = service.name.orEmpty()
+        val cat = service.category
+        if (cat != null) {
+            iconId = cat.iconId
         }
     }
 
@@ -27,6 +27,5 @@ class Resource {
         id = category.id
         name = category.name
         iconId = category.iconId
-
     }
 }

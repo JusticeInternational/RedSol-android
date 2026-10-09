@@ -8,48 +8,42 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.cleteci.redsolidaria.R
-import com.cleteci.redsolidaria.models.Service
 import com.cleteci.redsolidaria.models.User
 
-
 class UserAdapter(
-    private val context: Context?, private val list: MutableList<User>
+    private val context: Context?,
+    private val list: MutableList<User>
 ) : RecyclerView.Adapter<UserAdapter.ListViewHolder>() {
 
-
-
-    init {
-
-    }
-
-    override fun getItemCount(): Int {
-        return list.size
-    }
+    override fun getItemCount(): Int = list.size
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
-        var post = list[position]
+        val user = list[position]
 
-        holder!!.title?.text = post.name+ " "+post.lastName
-        holder!!.tvEmail?.text=post.email
+        val fullName = listOfNotNull(
+            user.name.takeIf { it.isNotBlank() },
+            user.lastName?.takeIf { it.isNotBlank() }
+        ).joinToString(" ")
 
+        holder.title?.text = if (fullName.isNotBlank()) fullName else "Beneficiario"
 
-        if (position==itemCount-1){
-            holder.viewLine?.visibility= View.GONE
-        }else{
-            holder.viewLine?.visibility= View.VISIBLE
+        if (!user.email.isNullOrBlank()) {
+            holder.tvEmail?.text = user.email
+            holder.tvEmail?.visibility = View.VISIBLE
+        } else {
+            holder.tvEmail?.visibility = View.GONE
         }
 
-
+        if (position == itemCount - 1) {
+            holder.viewLine?.visibility = View.GONE
+        } else {
+            holder.viewLine?.visibility = View.VISIBLE
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
-
-        val itemView: View
-
-        itemView = LayoutInflater.from(context).inflate(R.layout.item_user, parent, false)
-
-
-        return UserAdapter.ListViewHolder(itemView)
+        val itemView = LayoutInflater.from(context).inflate(R.layout.item_user, parent, false)
+        return ListViewHolder(itemView)
     }
 
     fun removeAt(position: Int) {
@@ -58,17 +52,9 @@ class UserAdapter(
     }
 
     class ListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var layout = itemView.findViewById<RelativeLayout>(R.id.relativeCategory)
-        val title: TextView? = itemView.findViewById<TextView>(R.id.tvOrganizationName)
-        val tvEmail: TextView? = itemView.findViewById<TextView>(R.id.tvEmail)
-
-
-        val viewLine = itemView.findViewById<View>(R.id.viewLine)
-
-        fun bind(item: Service) {
-
-        }
+        val layout: RelativeLayout? = itemView.findViewById(R.id.relativeCategory)
+        val title: TextView? = itemView.findViewById(R.id.tvOrganizationName)
+        val tvEmail: TextView? = itemView.findViewById(R.id.tvEmail)
+        val viewLine: View? = itemView.findViewById(R.id.viewLine)
     }
-
-
 }

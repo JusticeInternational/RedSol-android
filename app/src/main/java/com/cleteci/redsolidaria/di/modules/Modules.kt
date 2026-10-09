@@ -68,7 +68,7 @@ val presentersModule = module {
     factory<ChangePassContract.Presenter> { ChangePassPresenter() }
     factory<ScanCodeContract.Presenter> { ScanCodePresenter() }
     factory<MyProfileProviderContract.Presenter> { MyProfileProviderPresenter() }
-    factory<CreateServiceContract.Presenter> { CreateServicePresenter() }
+    factory<CreateServiceContract.Presenter> { CreateServicePresenter(get()) }
     factory<AttendersContract.Presenter> { AttendersPresenter() }
     factory<AttendersListContract.Presenter> { AttendersListPresenter() }
 }
